@@ -1,0 +1,222 @@
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  
+}
+
+.topnav a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.button {
+  background-color:white;
+  border-color:white;
+  color:black;
+}
+
+<!-- different card and body-->
+
+body {
+    background-color: #C2EDCE;
+}
+
+.product-image {
+    width: 15%
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 50px;
+  max-width: 800px;
+  border-radius: 10px;
+  margin: 10px;
+  text-align: center;
+  margin-top: 70px;
+  font-family: arial;
+  background-color: white;
+
+}
+
+.cardur {
+  //box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 15px 10px 7.5px 25px;
+  max-width: 800px;
+  margin: 10px;
+  text-align: center;
+  font-family: arial;
+  background-color:  #C2EDCE;
+  margin-top:10%;
+  margin-bottom: 20%;
+
+}
+
+.card1 {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 15px 10px 7.5px 25px;
+  max-width: 800px;
+  //width: 98%;
+  margin: 30px 0px 0px 10px;
+  text-align: left;
+  font-family: arial;
+  border-radius: 10px;
+  background-color: #53BAC1;
+
+}
+</style>
+
+
+
+<!-- Rating Part-->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Font Awesome Icon Library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial;
+  margin: 0 auto; /* Center website */
+  max-width: 700px; /* Max width */
+  padding: 20px;
+  background-color:#C2EDCE;
+}
+
+.heading {
+  font-size: 25px;
+  margin-right: 25px;
+}
+
+.fa {
+  font-size: 25px;
+}
+
+.checked {
+  color: orange;
+}
+
+/* Three column layout */
+.side {
+  float: left;
+  width: 15%;
+  margin-top:10px;
+}
+
+.middle {
+  margin-top:10px;
+  float: left;
+  width: 70%;
+}
+
+/* Place text to the right */
+.right {
+  text-align: right;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* The bar container */
+.bar-container {
+  width: 100%;
+  background-color: #f1f1f1;
+  text-align: center;
+  color: white;
+}
+
+/* Individual bars */
+.bar-5 {width: 60%; height: 18px; background-color: orange;}
+.bar-4 {width: 30%; height: 18px; background-color: orange;}
+.bar-3 {width: 10%; height: 18px; background-color: orange;}
+.bar-2 {width: 4%; height: 18px; background-color: orange;}
+.bar-1 {width: 15%; height: 18px; background-color: orange;}
+
+/* Responsive layout - make the columns stack on top of each other instead of next to each other */
+@media (max-width: 400px) {
+  .side, .middle {
+    width: 100%;
+  }
+  .right {
+    display: none;
+  }
+}
+
+
+
+
+header{
+  z-index: 100;
+  top:0;
+  left:0;
+  width: 100%;
+  background-color: #3A3A3A;
+  padding:10px 20px;
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+header .logo{
+  color:#FFF;
+}
+header .navlinks{
+  list-style: none;
+  display: flex;
+  position: relative;
+}
+header .navlinks li{
+  margin-left: 20px;
+}
+header .navlinks li a{
+  text-decoration: none;
+  color:#fff;
+}
+/*.Container{
+  width:850px;
+  background-color: #C2EDCE;
+  height: 900px;
+  padding:50px;
+  margin-left: -20%;
+}*/
+.otherRec{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 60px;
+}
+.productImage{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ccc;
+  margin-right: : 20px;
+}
+.productName{
+  margin-left: 30px;
+}
+.productCard{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+ 

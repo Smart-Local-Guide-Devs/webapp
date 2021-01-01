@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+    <script src="script.js"></script> 
+
+    {%load static%}
+    <link rel="stylesheet" type="text/css" href="{%static 'writeReview.css'%}">
+    
+    <!-- Bootstrap CSS-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    
+    <title>Review Submission</title>
+</head>
+
+<body>
+    <!-- nav bar -->
+    <header>
+       
+        <div  class="logo">LOGO</div>
+        <div class="menuToggle" onclick="toggle()" id="bars">
+            <i class="fa fa-bars"></i>
+        </div>
+        <ul class="menu">
+           <!-- <li ><a href="#main">HOME</a></li>
+            <li ><a href="#topApps">TOP SERVICES</a></li>
+            <li ><a href="#contributor">CONTRIBUTORS</a></li>
+            <li ><a href="#contact">CONTACT US</a></li>-->
+
+        </ul>
+    </header>
+    <!-- back arrow -->
+
+    <main> 
+        <!-- form -->
+        <div class="container">
+
+            <!-- form heading -->
+            <div class="boxed" style="color: #ffffff;">
+                Review Form
+            </div>
+
+            <div class="row gy-4">
+                <!-- left column -->
+                <div class="col">
+                    
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Product Name</span>
+                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                    </div>
+
+                    <div class="input-group">
+                        <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
+                        <option selected>Product Category...</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                        </select>
+                    </div>
+
+                    <div class="row" style="margin-top:20px; margin-bottom: 10px;">
+                        <div class="col-6" style="position: relative; left: 10px;">
+                            <h6>Rating</h6>
+                        </div>
+                        <div class="col-6">
+                            <div style="display: flex; justify-content: flex-end">
+                                <div class="txt-center">
+                                    <form>
+                                          <div class="rating">
+                                              <input id="star5" name="star" type="radio" value="5" class="radio-btn hide" />
+                                              <label for="star5" >☆</label>
+                                              <input id="star4" name="star" type="radio" value="4" class="radio-btn hide" />
+                                              <label for="star4" >☆</label>
+                                              <input id="star3" name="star" type="radio" value="3" class="radio-btn hide" />
+                                              <label for="star3" >☆</label>
+                                              <input id="star2" name="star" type="radio" value="2" class="radio-btn hide" />
+                                              <label for="star2" >☆</label>
+                                              <input id="star1" name="star" type="radio" value="1" class="radio-btn hide" />
+                                              <label for="star1" >☆</label>
+                                              <div class="clear"></div>
+                                          </div>
+                                      </form>
+                                  </div>
+                            </div>
+                        </div> 
+                        
+                    </div>
+                    
+                    <textarea class="form-control" rows="5" placeholder="How was your experience ... "></textarea>
+                </div>
+                <!-- right column -->
+                <div class="col">
+                    <div class="row gy-4">
+                        <div class="product_query" id="preferred_app">
+                            <div class="row">
+                                <div class="col-6">
+                                    <h6>Preferred Application</h6>
+                                </div>
+                                <div class="col-6">
+                                    <select class="form-select" aria-label="Default select example">
+                                        <option selected>Open this select menu</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product_query" id="query_1">
+                            <div class="row">
+                                <div class="col-6">
+                                    <h6>query_1</h6>
+                                </div>
+                                <div class="col-6">
+                                    <select class="form-select" aria-label="Default select example">
+                                        <option selected>Open this select menu</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product_query" id="query_2">
+                            <div class="row">
+                                <div class="col-6">
+                                    <h6>query_2</h6>
+                                </div>
+                                <div class="col-6">
+                                    <select class="form-select" aria-label="Default select example">
+                                        <option selected>Open this select menu</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product_query" id="query_3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <h6>query_3</h6>
+                                </div>
+                                <div class="col-6">
+                                    <select class="form-select" aria-label="Default select example">
+                                        <option selected>Open this select menu</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product_query" id="query_4">
+                            <div class="row">
+                                <div class="col-6">
+                                    <h6>query_4</h6>
+                                </div>
+                                <div class="col-6">
+                                    <select class="form-select" aria-label="Default select example">
+                                        <option selected>Open this select menu</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+            </div>
+            <!-- submit button -->
+            <div style="display: flex; margin-top: 20px;">
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <button class="btn btn-primary" type="button">Submit Review</button>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="container">
+            <!-- similar products -->
+            <h1>SIMILAR PRODUCT</h1>
+              <div class= "otherRec">
+   <div class="similar">
+    <p>SIMILAR SERVICES</p>
+     <div class="productCard">
+       <div class="productImage"></div>
+       <div class="productName">
+         <p>service name</p>
+       </div>
+     </div>
+     <div class="productCard">
+       <div class="productImage"></div>
+       <div class="productName">
+         <p>service name</p>
+       </div>
+     </div>
+     <div class="productCard">
+       <div class="productImage"></div>
+       <div class="productName">
+         <p>service name</p>
+       </div>
+     </div>
+
+   </div>
+   <div class="customer">
+     <p>CUSTOMER ALSO PREFER</p>
+     <div class="productCard">
+       <div class="productImage"></div>
+       <div class="productName">
+        <p>service Name</p>
+      </div>
+     </div>
+     <div class="productCard">
+       <div class="productImage"></div>
+       <div class="productName">
+         <p>service name</p>
+       </div>
+     </div>
+     <div class="productCard">
+       <div class="productImage"></div>
+       <div class="productName">
+         <p>service name</p>
+       </div>
+     </div>
+   </div>
+</div>
+
+
+        </div>
+    </main>
+</body>
+</html>

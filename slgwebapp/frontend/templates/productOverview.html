@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Product Overview</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Nav bar-->
+
+
+{%load static%}
+    <link rel="stylesheet" type="text/css" href="{%static 'overview.css'%}">
+
+<!-- Rating Part-->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Font Awesome Icon Library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+<body>
+  
+<header>
+    <div class="logo">LOGO</div>
+     <!--<div class="menuToggle" onclick="toggle()" id="bars">
+          <i class="fa fa-bars"></i>
+        </div>-->
+    <ul class="navlinks">
+      <!--<li ><a href="#main">HOME</a></li>
+      <li ><a href="#topApps">TOP SERVICES</a></li>
+      <li ><a href="#contributor">CONTRIBUTORS</a></li>
+      <li ><a href="#contact">CONTACT US</a></li>-->
+    </ul>
+  </header>
+
+<h2>   &nbsp; <</h2>
+<div class="Container">
+<div class="card">
+  <div class="col-md-3 mt-1">
+    <img class="img-fluid img-responsive rounded product-image" src="{{ icon_link }}" style="float:left">
+    <div>
+      <h1>{{ app_name }}</h1>
+      <div class="appDesc">     
+        <p>service Description</p>
+        </div>
+
+  </div>
+</div>
+
+</div>
+
+
+<div class = "cardur">
+<span class="heading">User Rating</span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star"></span>
+<p>{{ avg_rating }} average based on {{ ratings_count }} reviews.</p>
+<!-- <hr style="border:3px solid #f1f1f1"> -->
+
+<div class="row">
+  <div class="side">
+    <div>5 star</div>
+  </div>
+  <div class="middle">
+    <div class="bar-container">
+      <div class="bar-5"></div>
+    </div>
+  </div>
+  <div class="side right">
+    <div>150</div>
+  </div>
+  <div class="side">
+    <div>4 star</div>
+  </div>
+  <div class="middle">
+    <div class="bar-container">
+      <div class="bar-4"></div>
+    </div>
+  </div>
+  <div class="side right">
+    <div>63</div>
+  </div>
+  <div class="side">
+    <div>3 star</div>
+  </div>
+  <div class="middle">
+    <div class="bar-container">
+      <div class="bar-3"></div>
+    </div>
+  </div>
+  <div class="side right">
+    <div>15</div>
+  </div>
+  <div class="side">
+    <div>2 star</div>
+  </div>
+  <div class="middle">
+    <div class="bar-container">
+      <div class="bar-2"></div>
+    </div>
+  </div>
+  <div class="side right">
+    <div>6</div>
+  </div>
+  <div class="side">
+    <div>1 star</div>
+  </div>
+  <div class="middle">
+    <div class="bar-container">
+      <div class="bar-1"></div>
+    </div>
+  </div>
+  <div class="side right">
+    <div>20</div>
+  </div>
+</div>
+</div>
+<div class="card1">
+
+<span class="fa fa-star" style="float:right"></span>
+<span class="fa fa-star" style="float:right"></span>
+<span class="fa fa-star checked" style="float:right"></span>
+<span class="fa fa-star checked" style="float:right"></span>
+<span class="fa fa-star checked" style="float:right"></span>
+<h3> Review 1</h3>
+</div>
+<div class="card1">
+
+<span class="fa fa-star" style="float:right"></span>
+<span class="fa fa-star" style="float:right"></span>
+<span class="fa fa-star checked" style="float:right"></span>
+<span class="fa fa-star checked" style="float:right"></span>
+<span class="fa fa-star checked" style="float:right"></span>
+<h3> Review 2</h3>
+</div>
+<div class="card1">
+
+<span class="fa fa-star" style="float:right"></span>
+<span class="fa fa-star" style="float:right"></span>
+<span class="fa fa-star" style="float:right"></span>
+<span class="fa fa-star checked" style="float:right"></span>
+<span class="fa fa-star checked" style="float:right"></span>
+<h3> Review 3</h3>
+</div>
+<div class="card1">
+
+<span class="fa fa-star" style="float:right"></span>
+<span class="fa fa-star" style="float:right"></span>
+<span class="fa fa-star" style="float:right"></span>
+<span class="fa fa-star" style="float:right"></span>
+<span class="fa fa-star checked" style="float:right"></span>
+<h3> Review 4</h3>
+
+</div>
+<div class= "otherRec">
+   <div class="similar">
+    <p>SIMILAR SERVICES</p>
+     <div class="productCard">
+       <div class="productImage"></div>
+       <div class="productName">
+         <p>service name</p>
+       </div>
+     </div>
+     <div class="productCard">
+       <div class="productImage"></div>
+       <div class="productName">
+         <p>service name</p>
+       </div>
+     </div>
+     <div class="productCard">
+       <div class="productImage"></div>
+       <div class="productName">
+         <p>service name</p>
+       </div>
+     </div>
+
+   </div>
+   <div class="customer">
+     <p>CUSTOMER ALSO PREFER</p>
+     <div class="productCard">
+       <div class="productImage"></div>
+       <div class="productName">
+        <p>service Name</p>
+      </div>
+     </div>
+     <div class="productCard">
+       <div class="productImage"></div>
+       <div class="productName">
+         <p>service name</p>
+       </div>
+     </div>
+     <div class="productCard">
+       <div class="productImage"></div>
+       <div class="productName">
+         <p>service name</p>
+       </div>
+     </div>
+   </div>
+</div>
+</div>
+</body>
+</html>
