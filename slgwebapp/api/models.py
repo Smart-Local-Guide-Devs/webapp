@@ -15,3 +15,8 @@ class App(models.Model):
 	icon_link = models.URLField(blank=False)
 	header_link = models.URLField(blank=False)
 	release_date = models.DateField()
+
+class SiteReview(models.Model):
+	user_name = models.CharField(blank=False, max_length=64)
+	email_id = models.EmailField(max_length=64)
+	review = models.TextField()

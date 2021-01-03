@@ -1,19 +1,30 @@
-from django.db.models import fields
-from django.forms.models import model_to_dict
-from django.http import JsonResponse
-from .models import App
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework import status
+from .serializers import AppSerializer, SiteReviewSerializer
+from .models import App, SiteReview
 
 # Create your views here.
-def search(request):
-	app_name = request.GET['app_name']
-	app = App.objects.get(app_name=app_name)
-	return JsonResponse(model_to_dict(app))
 
-def best5(request):
-	genre = request.GET['genre']
-	apps = App.objects.filter(genre=genre).order_by('avg_rating')
-	res = {}
-	for i, app in enumerate(apps.values()[:5]):
-		res[i] = app
-	return JsonResponse(res)
+@api_view(['GET'])
+def search(request):
+	app_name = request.get['app_name']
+	apps = App.objects.filter(app_name__icontains=app_name)
+	serializer = AppSerializer(instance=apps, many=True)
+	return Response(data=serializer.data)
+
+@api_view(['GET'])
+def best_apps(request, count):
+	genre = request.get['genre']
+	apps = App.objects.filter(genre=genre).order_by('avg_rating')[:count]
+	serializer = AppSerializer(instance=apps, many=True)
+	return Response(data=serializer.data)
+	
+@api_view(['POST'])
+def site_review(request):
+	serializer = SiteReviewSerializer(data=request.data)
+	if serializer.is_valid():
+		serializer.save()
+		return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+	return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
