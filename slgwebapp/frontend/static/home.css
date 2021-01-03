@@ -44,8 +44,8 @@ header{
 	top:0;
 	left: 0;
 	width: 100%;
-	//padding: 20px 100px ;
-	z-index: 100;
+	padding: 20px,100px; 
+	z-index: 1000;
 	justify-content: space-between;
 	background-color: #3a3a3a;
 	display: flex;
@@ -74,11 +74,11 @@ header .menu li a{
 	font-family:  montserrat;
 }
 header .menu li a:hover{
-	color: #000;
+	color: #fff;
 	 font-family: montserrat;
 }
 header.sticky{
-	padding: 5px 100px;
+	//padding: 5px 100px;
 	background-color:#3a3a3a;
 }
 header.sticky .menu li a{
@@ -139,10 +139,12 @@ header.sticky .logo{
 
 .topApps{
     width:100%;
-    height: 100vh;
+    height: 200%;
     background-color: #fff;
 }
 .container{
+	
+    margin-bottom: 20%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -180,13 +182,17 @@ header.sticky .logo{
 
 @media(max-width:991px){
 	 header,header.sticky{
-    	padding: 10px 20px;
+    	//padding: 10px 20px;
     }
     header .menu{
     	display: none;
     }
 
+<<<<<<< HEAD
  header .menu.active{
+=======
+    header .menu.active{
+>>>>>>> d6902f2fdc5b9f0e5e636e261221271f02a7537b
     	width: 100%;
     	height: 100%;
     	position: fixed;
@@ -302,6 +308,7 @@ h1{
 	height: 100vh;
 	background-color: #C2EDCE
 }
+<<<<<<< HEAD
 
   .ContactUs{
   display: flex;
@@ -316,12 +323,42 @@ h1{
   align-items: center;
   justify-content: center;
   flex-direction: column;
+=======
+.split{
+	height: 100%;
+	width: 50%;
+	position: fixed;
+	top:0;
+	padding-top: 
+}
+>>>>>>> d6902f2fdc5b9f0e5e636e261221271f02a7537b
+
+      .ContactUs{
+  display: flex;
+  flex-direction: row;
+  padding-top: 15%;
+}
+<<<<<<< HEAD
+.aboutContent{
+  width: 50%;
+
+}
+=======
+.about{
+  width: 50%;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 
 }
 .aboutContent{
   width: 50%;
 
 }
+>>>>>>> d6902f2fdc5b9f0e5e636e261221271f02a7537b
 .formContact{
   width: 50%;
   text-align: center;

@@ -19,3 +19,4 @@ def search(request):
     host = request.META['HTTP_REFERER']
     response = requests.get(url=host+"api/search", params={'app_name': app_name})
     return render(request, 'productOverview.html', response.json())
+

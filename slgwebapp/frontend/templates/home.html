@@ -1,91 +1,74 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>HOME PAGE</title>
-	<link rel="stylesheet" type="text/css" href="home.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
-	<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <title>HOME PAGE</title>
+  <link rel="stylesheet" type="text/css" href="home.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+  <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+  <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
   {%load static%}
     <link rel="stylesheet" type="text/css" href="{%static 'home.css'%}">
 </head>
 
 <body>
-	<!--<header>
-		<div class="logo">LOGO</div>
-		 <div class="menuToggle" onclick="toggle()" id="bars">
-   	    	<i class="fa fa-bars"></i>
-   	    </div>
-		<ul class="navlinks">
-			<li ><a href="#main">HOME</a></li>
-			<li ><a href="#topApps">TOP SERVICES</a></li>
-			<li ><a href="#contributor">CONTRIBUTORS</a></li>
-			<li ><a href="#contact">CONTACT US</a></li>
-		</ul>
-	</header>-->
-	<header>
-   	   
-   	    <div  class="logo">LOGO</div>
-   	    <div class="menuToggle" onclick="toggle()" id="bars">
-   	    	<i class="fa fa-bars"></i>
-   	    </div>
-		<ul class="menu">
-			<li ><a href="#main">HOME</a></li>
-			<li ><a href="#topApps">TOP SERVICES</a></li>
-			<li ><a href="#contributor">CONTRIBUTORS</a></li>
-			<li ><a href="#contact">CONTACT US</a></li>
+  <!--<header>
+    <div class="logo">LOGO</div>
+     <div class="menuToggle" onclick="toggle()" id="bars">
+          <i class="fa fa-bars"></i>
+        </div>
+    <ul class="navlinks">
+      <li ><a href="#main">HOME</a></li>
+      <li ><a href="#topApps">TOP SERVICES</a></li>
+      <li ><a href="#contributor">CONTRIBUTORS</a></li>
+      <li ><a href="#contact">CONTACT US</a></li>
+    </ul>
+  </header>-->
+  <header>
+       
+        <div  class="logo">LOGO</div>
+             <div class="menuToggle" onclick="toggle()" id="bars">
+               <i class="fa fa-bars"></i>
+            </div>
+            
+       <ul class="menu">
+            <li ><a href="#main">HOME</a></li>
+      <!--<li ><a href="#topApps">TOP SERVICES</a></li>
+      <li ><a href="#contributor">CONTRIBUTORS</a></li>-->
+           <li ><a href="#main">LOGIN</a></li>
+           <li ><a href="#contact">CONTACT US</a></li>
 
-		</ul>
-	</header>
+      </ul>
+  </header>
     <section class="main" id="main">
 
-     	<div class="search">
-     		<div class="searchbar">
-				<form action="{% url 'front_search' %}" method="GET">
-					<input type="text" class="bar" placeholder="search" name="app_name">
-				</form>
-     		</div>
-     	</div>
-     	<!--<div class="footer">
-              <p class="head">ABOUT US</p>
-     		<div class="content">
-     		  
-     		   <div class="details">
-                  <p>Lorem psum dolor sit amet</p> 
-                  <p>Lorem psum dolor sit amet</p>
-                  <p>Lorem psum dolor sit amet</p>
-               </div>
-               <div class="details">
-                  <p>Lorem psum dolor sit amet</p> 
-                  <p>Lorem psum dolor sit amet</p>
-                  <p>Lorem psum dolor sit amet</p>
-               </div>
-               <div class="details">
-                  <p>Lorem psum dolor sit amet</p> 
-                  <p>Lorem psum dolor sit amet</p>
-                  <p>Lorem psum dolor sit amet</p>
-               </div>
-     		</div>
-     	</div>-->
+      <div class="search">
+        <div class="searchbar">
+        <form action="{% url 'front_search' %}" method="GET">
+          <input type="text" class="bar" placeholder="search" name="app_name">
+        </form>
+        </div>
+      </div>
+      
      </section>
      <section class="topApps" id="topApps">
      <div class="container">
-     	<div class="card">
-     		<div class="CardHeader">
-     		       <div>
+      <div class="card">
+        <div class="CardHeader">
+               <div>
                     <h1>TOP SERVICES</h1>
                        <hr class="line">
                     </div>
                     <div class="locationLogo">
-                         <p>SetLocation</p>
+                         <i class="fas fa-location-arrow"  style='font-size:24px'></i>
                     </div>
 
                </div>
                <div class="carousel" data-flickity='{ "groupCells": true }'>
                   <div class="carousel-cell">
-                  	<h2 class="serviceType">TRAVEL</h2>
+                    <h2 class="serviceType">TRAVEL</h2>
                           <hr>
                         <div class="cardService">
                               <div class="serviceImage">
@@ -120,27 +103,29 @@
               
            </div>
 
-     		
-     	
-     </div>	
-     </section>
-
-     <section class="topApps" id="contributor">
-     	<div class="container">
-     		<div class="card">
-     			<div class="CardHeaderCon">
-     				<div class="headCon">
-     					<h1>CONTRIBUTORS</h1>
-     					<hr class="line">
-     				</div>
-     			</div>
-     		</div>
-     	</div>
+        
+      
+     </div> 
+        <div class="container">
+        <div class="card">
+          <div class="CardHeaderCon">
+            <div class="headCon">
+              <h1>CONTRIBUTORS</h1>
+              <hr class="line">
+            </div>
+          </div>
+        </div>
+      </div>
      </section>
 
      <section class="contact" id="contact">
 
+<<<<<<< HEAD
      	  <div class="ContactUs">
+=======
+      
+      <div class="ContactUs">
+>>>>>>> d6902f2fdc5b9f0e5e636e261221271f02a7537b
        <div class="about left">
          <h1 style='color:black ;margin-bottom: 20px;'>ABOUT US</h1>
          <p class="aboutContent">Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet.
@@ -156,6 +141,10 @@
          </form>
        </div>
       </div>
+<<<<<<< HEAD
+=======
+     	
+>>>>>>> d6902f2fdc5b9f0e5e636e261221271f02a7537b
      </section>
 
     <script type="text/javascript">
