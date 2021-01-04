@@ -15,3 +15,6 @@ class App(models.Model):
 	icon_link = models.URLField(blank=False)
 	header_link = models.URLField(blank=False)
 	release_date = models.DateField()
+
+class ReviewFormInput(models.Model):
+	name = models.CharField(max_length=64)
