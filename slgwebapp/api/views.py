@@ -14,11 +14,13 @@ def search(request):
 	return Response(data=serializer.data)
 
 @api_view(['GET'])
-def best_apps(request, count):
-	genre = request.GET['genre']
-	apps = App.objects.filter(genre=genre).order_by('avg_rating')[:count]
-	serializer = AppSerializer(instance=apps, many=True)
-	return Response(data=serializer.data)
+def best_apps(request):
+	res = {}	
+	for genre_dict in App.objects.values('genre').distinct():
+		genre = genre_dict['genre']
+		apps = App.objects.filter(genre=genre).order_by('avg_rating')[:4]
+		res[genre] = AppSerializer(instance=apps, many=True).data
+	return Response(data=res)
 	
 @api_view(['POST'])
 def site_review(request):
