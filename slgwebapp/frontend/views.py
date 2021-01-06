@@ -21,7 +21,7 @@ def search(request):
     app_name = request.GET['app_name']
     domain = get_current_site(request=request).domain
     response = requests.get(url='http://'+domain+'/api/search', params={'app_name': app_name})
-    return render(request, 'productOverview.html', response.json()[0])
+    return render(request, 'searchResult.html', {'allResults':response.json()})
 
 def site_review(request):
     domain = get_current_site(request=request).domain

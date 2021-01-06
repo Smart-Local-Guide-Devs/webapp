@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Search results</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--Nav Bar-->
+         {%load static%}
+         <link rel="stylesheet" type="text/css" href="{%static 'searchResult.css'%}">
+    </head>
+    <body>
+        <header>
+            <div class="logo">LOGO</div>
+            <div class="menuToggle" onclick="toggle()" id="bars">
+                <i class="fa fa-bars">
+                </i>
+            </div>
+          <!--  <ul class="navlinks"> 
+                <li> <a href="#main"> HOME </a></li>
+                <li> <a href="#topApps"> TOP SERVICES </a></li>
+                <li> <a href="#contributor"> CONTRIBUTORS </a></li>
+                <li> <a href="#contact"> CONTACT US </a></li>
+            </ul> -->
+        </header>
+        <!--<h2> &nbsp; < </h2>-->
+        <div class="topnav">
+            <h3>Search result</h3>
+            <hr>
+        </div>
+        <div class="Container">
+            {%for result in allResults%}
+            <div class="card1">
+                <div class="side">
+                    <h3> {{result.genre}} </h3>
+                    <p><button>View Details</button></p>
+                </div>
+                <div class="app">
+                <div class="middle">
+                    <h4>{{result.app_name}}</h4>
+                    <p><button>Review</button></p>
+                </div>
+                <div class="right">
+                    <img class="dot" src="{{result.icon_link}}">
+                </div>
+                </div>
+            </div>
+            
+            {%endfor%}
+        </div>
+
+    </body>
+</html>
