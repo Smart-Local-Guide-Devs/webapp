@@ -1,150 +1,110 @@
+{%load static%}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <title>HOME PAGE</title>
-  <link rel="stylesheet" type="text/css" href="home.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src='https://kit.fontawesome.com/a076d05399.js'></script>
   <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
   <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-  {%load static%}
-    <link rel="stylesheet" type="text/css" href="{%static 'home.css'%}">
+  <link rel="stylesheet" type="text/css" href="{%static 'home.css'%}">
 </head>
 
 <body>
-  <!--<header>
-    <div class="logo">LOGO</div>
-     <div class="menuToggle" onclick="toggle()" id="bars">
-          <i class="fa fa-bars"></i>
-        </div>
-    <ul class="navlinks">
+
+  <header>
+    <div  class="logo">LOGO</div>
+    <div class="menuToggle" onclick="toggle()" id="bars">
+        <em class="fa fa-bars"></em>
+    </div>
+    <ul class="menu">
       <li ><a href="#main">HOME</a></li>
-      <li ><a href="#topApps">TOP SERVICES</a></li>
-      <li ><a href="#contributor">CONTRIBUTORS</a></li>
+      <li ><a href="/login">LOGIN</a></li>
       <li ><a href="#contact">CONTACT US</a></li>
     </ul>
-  </header>-->
-  <header>
-       
-        <div  class="logo">LOGO</div>
-             <div class="menuToggle" onclick="toggle()" id="bars">
-               <i class="fa fa-bars"></i>
-            </div>
-            
-       <ul class="menu">
-            <li ><a href="#main">HOME</a></li>
-      <!--<li ><a href="#topApps">TOP SERVICES</a></li>
-      <li ><a href="#contributor">CONTRIBUTORS</a></li>-->
-           <li ><a href="/login">LOGIN</a></li>
-           <li ><a href="#contact">CONTACT US</a></li>
-
-      </ul>
   </header>
-    <section class="main" id="main">
 
-      <div class="search">
-        <div class="searchbar">
-        <form action="{% url 'front_search' %}" method="GET">
-          <input type="text" class="bar" placeholder="search" name="app_name">
-        </form>
-        </div>
+  <section class="main" id="main">
+    <div class="search">
+      <div class="searchbar">
+      <form action="{% url 'front_search' %}" method="GET">
+        <input type="text" class="bar" placeholder="search" name="app_name">
+      </form>
       </div>
-      
-     </section>
-     <section class="topApps" id="topApps">
-     <div class="container">
+    </div>
+  </section>
+
+  <section class="topApps" id="topApps">
+    <div class="container">
       <div class="card">
         <div class="CardHeader">
-               <div>
-                    <h1>TOP SERVICES</h1>
-                       <hr class="line">
-                    </div>
-                    <div class="locationLogo">
-                         <i class="fas fa-location-arrow"  style='font-size:24px'></i>
-                    </div>
+          <div>
+            <h1>TOP SERVICES</h1>
+            <hr class="line">
+          </div>
+          <div class="locationLogo">
+            <em class="fas fa-location-arrow"  style='font-size:24px'></em>
+          </div>
+        </div>
 
-               </div>
-               <div class="carousel" data-flickity='{ "groupCells": true }'>
-                  <div class="carousel-cell">
-                    <h2 class="serviceType">TRAVEL AND LOCAL</h2>
-                          <hr>
-                        {%for app in response.TRAVEL_AND_LOCAL%}
-                        <div class="cardService">
-                              <img class="serviceImage" src="{{app.icon_link}}">
-                              <div class="serviceName top">
-                                   <p>{{app.app_name}}</p>
-                              </div>
-                         </div>
-                        {%endfor%}
-                  </div>
-                   <div class="carousel-cell">
-                    <h2 class="serviceType">FOOD AND DRINK</h2>
-                          <hr>
-                        {%for app in response.FOOD_AND_DRINK%}
-                        <div class="cardService">
-                              <img class="serviceImage" src="{{app.icon_link}}">
-                              <div class="serviceName top">
-                                   <p>{{app.app_name}}</p>
-                              </div>
-                         </div>
-                        {%endfor%}
-                  </div>
-                  <div class="carousel-cell">
-                    <h2 class="serviceType">MAPS AND NAVIGATION</h2>
-                          <hr>
-                        {%for app in response.MAPS_AND_NAVIGATION%}
-                        <div class="cardService">
-                              <img class="serviceImage" src="{{app.icon_link}}">
-                              <div class="serviceName top">
-                                   <p>{{app.app_name}}</p>
-                              </div>
-                         </div>
-                        {%endfor%}
-                  </div>
-                  
-  
+        <div class="carousel" data-flickity='{ "groupCells": true }'>
+
+          {% for genre, apps in best_apps.items %}
+          <div class="carousel-cell">
+            <h2 class="serviceType">{{ genre }}</h2>
+              <hr>
+
+              {% for app in apps %}
+              <div class="cardService">
+                <a href="{% url 'front_search' %}?app_name={{ app.app_name }}">
+                  <img class="serviceImage" src="{{ app.icon_link }}" alt="app icon">
+                </a>
+                <div class="serviceName top">
+                  <p>{{ app.app_name }}</p>
+                </div>
               </div>
-              
-           </div>
+              {% endfor %}
 
-        
-      
-     </div> 
-        <div class="container">
-        <div class="card">
-          <div class="CardHeaderCon">
-            <div class="headCon">
-              <h1>CONTRIBUTORS</h1>
-              <hr class="line">
-            </div>
+          </div>
+          {% endfor %}
+
+        </div>     
+      </div>
+    </div> 
+
+    <div class="container">
+      <div class="card">
+        <div class="CardHeaderCon">
+          <div class="headCon">
+            <h1>CONTRIBUTORS</h1>
+            <hr class="line">
           </div>
         </div>
       </div>
-     </section>
+    </div>
+  </section>
 
-     <section class="contact" id="contact">
-
-      
-      <div class="ContactUs">
-       <div class="about left">
-         <h1 style='color:black ;margin-bottom: 20px;'>ABOUT US</h1>
-         <p class="aboutContent">Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet.
-         Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet.</p>
-       </div>
-       <div class="formContact right">
-         <h1 style='color:black;margin-bottom: 20px '>CONTACT US</h1>
-         <form class="Form">
-           <input type="text" name="name" placeholder="name">
-           <input type="email" name="email" placeholder="email">
-           <textarea placeholder="message"></textarea>
-           <button class="formBtn" type="submit"> SUBMIT </button>
-         </form>
-       </div>
+  <section class="contact" id="contact">
+    <div class="ContactUs">
+      <div class="about left">
+        <h1 style='color:black ;margin-bottom: 20px;'>ABOUT US</h1>
+        <p class="aboutContent">Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet.
+        Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet.</p>
       </div>
-     	
-     </section>
+      <div class="formContact right">
+        <h1 style='color:black;margin-bottom: 20px '>CONTACT US</h1>
+        <form class="Form" action="{% url 'front_site_review' %}" id="site_review_form" method="POST">
+          {% csrf_token %}
+          <input type="text" name="user_name" placeholder="name">
+          <input type="email" name="email_id" placeholder="email">
+          <textarea placeholder="message" name="review" form="site_review_form"></textarea>
+          <button class="formBtn" type="submit"> SUBMIT </button>
+        </form>
+      </div>
+    </div>
+    
+    </section>
 
     <script type="text/javascript">
     window.addEventListener('scroll', function(){

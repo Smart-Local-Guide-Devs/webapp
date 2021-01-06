@@ -7,5 +7,5 @@ urlpatterns = [
 	path(route='review', view=views.review_form, name="review_form"),
 	path(route='login', view=views.login, name="login"),
 	path(route='search', view=views.search, name="front_search"),
-	
+	path(route='site_review', view=views.site_review, name='front_site_review'),
 ]

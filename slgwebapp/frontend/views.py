@@ -5,9 +5,8 @@ import requests
 # Create your views here.
 def index(request):
     domain=get_current_site(request=request).domain
-    response=requests.get(url='http://'+domain+'/api/best_apps').json()
-    return render(request,'home.html',{'response':response})
-	#return render(request,'home.html')
+    response = requests.get(url='http://'+domain+'/api/best_apps')
+    return render(request=request, template_name='home.html', context={'best_apps': response.json()})
 
 def product(request):
     return render(request,'productOverview.html')
@@ -23,4 +22,9 @@ def search(request):
     domain = get_current_site(request=request).domain
     response = requests.get(url='http://'+domain+'/api/search', params={'app_name': app_name})
     return render(request, 'productOverview.html', response.json()[0])
+
+def site_review(request):
+    domain = get_current_site(request=request).domain
+    response = requests.post(url='http://'+domain+'/api/site_review', data=request.POST)
+    return render(request=request, template_name='home.html', context={'review_form': response.json()})
 
