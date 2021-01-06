@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Login/SignUp</title>
+<link rel="stylesheet" type="text/css" href="signup.css">
+</head>
+
+<body bgcolor="#E6E6FA">
+
+<form name="regi" action=" " method="post">
+<h2>SignUp</h2>
+
+<label  for="r3" id="un">Username :</label>
+<input type="text" name="uname" id="r3"><br/>
+
+<label  for="r4" id="pwd">Password :</label>
+<input type="password" name="pass" id="r4"><br/>
+
+<label  for="r5" id="em">Email :</label>
+<input type="text" name="email" id="r5"><br/>
+
+<label  for="r6" id="mn">Mobile No :</label>
+<input type="text" name="mno" id="r6"><br/>
+
+<label for="r8" id="cy">City:</label>
+
+<select name="ct" id="r8">
+<option>Select</option>
+<option>Hyderabad</option>
+<option>Mumbai</option>
+<option>Ranchi</option>
+<option>Chandigarh</option>
+<option>Kolkata</option>
+<option>Warangal</option>
+<option>Guwahati</option>
+<option>Others</option>
+</select><br/><br/>
+
+<button type="submit" value="Submit" id="button">SignUp</button>
+<a href="login.html">Login</a>
+
+</form>
+
+<script type="text/javascript">
+function save(){
+var user = document.getElementById("user").value;
+var pwd = document.getElementById("pwd").value;
+alert("username"+user+"password"+pwd);
+}
+</script>
+
+</body>
+</html>
