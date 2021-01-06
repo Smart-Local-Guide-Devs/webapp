@@ -4,7 +4,10 @@ import requests
 
 # Create your views here.
 def index(request):
-	return render(request,'home.html')
+    domain=get_current_site(request=request).domain
+    response=requests.get(url='http://'+domain+'/api/best_apps').json()
+    return render(request,'home.html',{'response':response})
+	#return render(request,'home.html')
 
 def product(request):
     return render(request,'productOverview.html')

@@ -37,7 +37,7 @@
             <li ><a href="#main">HOME</a></li>
       <!--<li ><a href="#topApps">TOP SERVICES</a></li>
       <li ><a href="#contributor">CONTRIBUTORS</a></li>-->
-           <li ><a href="#main">LOGIN</a></li>
+           <li ><a href="/login">LOGIN</a></li>
            <li ><a href="#contact">CONTACT US</a></li>
 
       </ul>
@@ -68,35 +68,41 @@
                </div>
                <div class="carousel" data-flickity='{ "groupCells": true }'>
                   <div class="carousel-cell">
-                    <h2 class="serviceType">TRAVEL</h2>
+                    <h2 class="serviceType">TRAVEL AND LOCAL</h2>
                           <hr>
+                        {%for app in response.TRAVEL_AND_LOCAL%}
                         <div class="cardService">
-                              <div class="serviceImage">
-                                   <div></div>
-                              </div>
+                              <img class="serviceImage" src="{{app.icon_link}}">
                               <div class="serviceName top">
-                                   <p>application</p>
+                                   <p>{{app.app_name}}</p>
                               </div>
                          </div>
-                         <div class="cardService">
-                              <div class="serviceImage">
-                                   <div></div>
-                              </div>
-                              <div class="serviceName">
-                                   <p>application</p>
-                              </div>
-                         </div>
-                         <div class="cardService">
-                              <div class="serviceImage">
-                                   <div></div>
-                              </div>
-                              <div class="serviceName">
-                                   <p>application</p>
-                              </div>
-                         </div>
+                        {%endfor%}
                   </div>
-                  <div class="carousel-cell"></div>
-                  <div class="carousel-cell"></div>
+                   <div class="carousel-cell">
+                    <h2 class="serviceType">FOOD AND DRINK</h2>
+                          <hr>
+                        {%for app in response.FOOD_AND_DRINK%}
+                        <div class="cardService">
+                              <img class="serviceImage" src="{{app.icon_link}}">
+                              <div class="serviceName top">
+                                   <p>{{app.app_name}}</p>
+                              </div>
+                         </div>
+                        {%endfor%}
+                  </div>
+                  <div class="carousel-cell">
+                    <h2 class="serviceType">MAPS AND NAVIGATION</h2>
+                          <hr>
+                        {%for app in response.MAPS_AND_NAVIGATION%}
+                        <div class="cardService">
+                              <img class="serviceImage" src="{{app.icon_link}}">
+                              <div class="serviceName top">
+                                   <p>{{app.app_name}}</p>
+                              </div>
+                         </div>
+                        {%endfor%}
+                  </div>
                   
   
               </div>
