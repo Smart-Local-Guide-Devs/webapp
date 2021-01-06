@@ -14,6 +14,9 @@ def review_form(request):
 def login(request):
     return render(request,'login.html')   
 
+def signup(request):
+    return render(request,'signup.html')
+
 def search(request):
     app_name = request.GET["app_name"]
     host = request.META['HTTP_REFERER']
