@@ -280,10 +280,9 @@ h1{
 	width: 50%;
 	position: fixed;
 	top:0;
-	padding-top: 
 }
 
-      .ContactUs{
+.ContactUs{
   display: flex;
   flex-direction: row;
   padding-top: 15%;

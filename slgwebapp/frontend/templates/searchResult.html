@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <title>Search results</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,39 +11,30 @@
         <header>
             <div class="logo">LOGO</div>
             <div class="menuToggle" onclick="toggle()" id="bars">
-                <i class="fa fa-bars">
-                </i>
+                <em class="fa fa-bars"></em>
             </div>
-          <!--  <ul class="navlinks"> 
-                <li> <a href="#main"> HOME </a></li>
-                <li> <a href="#topApps"> TOP SERVICES </a></li>
-                <li> <a href="#contributor"> CONTRIBUTORS </a></li>
-                <li> <a href="#contact"> CONTACT US </a></li>
-            </ul> -->
         </header>
-        <!--<h2> &nbsp; < </h2>-->
         <div class="topnav">
             <h3>Search result</h3>
             <hr>
         </div>
         <div class="Container">
-            {%for result in allResults%}
+            {%for app in search_results%}
             <div class="card1">
                 <div class="side">
-                    <h3> {{result.genre}} </h3>
-                    <p><button>View Details</button></p>
+                    <h3> {{app.genre}} </h3>
+                    <a href="{% url 'front_get_app' %}?app_name={{ app.app_name }}"><button>View Details</button></a>
                 </div>
                 <div class="app">
-                <div class="middle">
-                    <h4>{{result.app_name}}</h4>
-                    <p><button>Review</button></p>
-                </div>
-                <div class="right">
-                    <img class="dot" src="{{result.icon_link}}">
-                </div>
+                    <div class="middle">
+                        <h4>{{app.app_name}}</h4>
+                        <a href="{% url 'front_app_review' %}?app_name={{ app.app_name }}"><button>Review</button></a>
+                    </div>
+                    <div class="right">
+                        <img class="dot" src="{{app.icon_link}}" alt="app icon">
+                    </div>
                 </div>
             </div>
-            
             {%endfor%}
         </div>
 

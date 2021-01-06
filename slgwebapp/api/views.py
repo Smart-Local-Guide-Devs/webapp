@@ -8,9 +8,16 @@ from .models import App
 
 @api_view(['GET'])
 def search(request):
-	app_name = request.GET['app_name']
-	apps = App.objects.filter(app_name__icontains=app_name)
+	search_query = request.GET['search_query']
+	apps = App.objects.filter(app_name__icontains=search_query)
 	serializer = AppSerializer(instance=apps, many=True)
+	return Response(data=serializer.data)
+
+@api_view(['GET'])
+def get_app(request):
+	app_name = request.GET['app_name']
+	app = App.objects.get(app_name=app_name)
+	serializer = AppSerializer(instance=app)
 	return Response(data=serializer.data)
 
 @api_view(['GET'])
