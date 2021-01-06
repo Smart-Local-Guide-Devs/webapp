@@ -28,7 +28,7 @@ class SiteReview(models.Model):
 	def __str__(self) -> str:
 		return self.review
 
-class Review(models.Model):
+class AppReview(models.Model):
 	app = models.ForeignKey(to=App, on_delete=models.CASCADE, null=False)
 	user = models.ForeignKey(to=User, on_delete=models.CASCADE, null=False)
 	review = models.TextField()

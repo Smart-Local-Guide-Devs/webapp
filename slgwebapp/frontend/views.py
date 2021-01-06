@@ -1,3 +1,4 @@
+from django.http.response import JsonResponse
 from django.shortcuts import render
 from django.contrib.sites.shortcuts import get_current_site
 import requests
@@ -26,9 +27,11 @@ def site_review(request):
     return render(request, 'home.html', {'review_form': response.json()})
 
 def app_review(request):
-    app_name = request.GET['app_name']
-    response = requests.get(url=get_api_route(request)+'/get_app', params={'app_name': app_name})
-    return render(request,'writeReview.html', {'app': response.json()})
+    if request.method == 'GET':
+        response = requests.get(url=get_api_route(request)+'/app_review')
+        return render(request, 'writeReview.html', {'genres_queries': response.json()})
+    # response = requests.post(url=get_api_route(request)+'/app_review', data=request.POST)
+    return JsonResponse(request.POST)
 
 def login(request):
     return render(request,'login.html')

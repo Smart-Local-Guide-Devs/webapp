@@ -3,10 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    
-    <script src="script.js"></script> 
-
     {%load static%}
     <link rel="stylesheet" type="text/css" href="{%static 'writeReview.css'%}">
     
@@ -40,7 +36,7 @@
 
             <!-- form heading -->
             <!-- adding form tag-->
-            <form action="/review_form_submission/" method="POST" class="review-form">
+            <form action="{% url 'front_app_review' %}" method="POST" class="review-form" id="app_review_form">
                 {% csrf_token %}
                     <!-- form heading -->
                     <div class="boxed" style="color: #ffffff;">
@@ -53,16 +49,16 @@
                         <!-- for width < 1200px up-down configuration & left-right configuration otherwise-->
                             
                             <div class="input-group mb-3">
-                                <span class="input-group-text" id="inputGroup-sizing-default">Product Name</span>
-                                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                <span class="input-group-text">App Name</span>
+                                <input type="text" class="form-control" name="app_name">
                             </div>
         
                             <div class="input-group">
-                                <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
-                                    <option selected>Product Category...</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                <span class="input-group-text">Product Category</span>
+                                <select class="form-select" form="app_review_form" name="genre">
+                                    {% for genre in genres_queries %}
+                                        <option>{{ genre }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
         
@@ -73,107 +69,46 @@
                                 <div class="col-6">
                                     <div style="display: flex; justify-content: flex-end">
                                         <div class="txt-center">
-                                            <form>
-                                                  <div class="rating">
-                                                      <input id="star5" name="star" type="radio" value="5" class="radio-btn hide" />
-                                                      <label for="star5" >☆</label>
-                                                      <input id="star4" name="star" type="radio" value="4" class="radio-btn hide" />
-                                                      <label for="star4" >☆</label>
-                                                      <input id="star3" name="star" type="radio" value="3" class="radio-btn hide" />
-                                                      <label for="star3" >☆</label>
-                                                      <input id="star2" name="star" type="radio" value="2" class="radio-btn hide" />
-                                                      <label for="star2" >☆</label>
-                                                      <input id="star1" name="star" type="radio" value="1" class="radio-btn hide" />
-                                                      <label for="star1" >☆</label>
-                                                      <div class="clear"></div>
-                                                  </div>
-                                              </form>
-                                          </div>
+                                            <div class="rating">
+                                                <input id="star5" name="stars" type="radio" value="5" class="radio-btn hide" form="app_review_form"/>
+                                                <label for="star5" >☆</label>
+                                                <input id="star4" name="stars" type="radio" value="4" class="radio-btn hide" form="app_review_form"/>
+                                                <label for="star4" >☆</label>
+                                                <input id="star3" name="stars" type="radio" value="3" class="radio-btn hide" form="app_review_form"/>
+                                                <label for="star3" >☆</label>
+                                                <input id="star2" name="stars" type="radio" value="2" class="radio-btn hide" form="app_review_form"/>
+                                                <label for="star2" >☆</label>
+                                                <input id="star1" name="stars" type="radio" value="1" class="radio-btn hide" form="app_review_form"/>
+                                                <label for="star1" >☆</label>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div> 
                                 
                             </div>
                             
-                            <textarea class="form-control" rows="5" placeholder="How was your experience ... "></textarea>
+                            <textarea form="app_review_form" name="app_review" class="form-control" rows="5" placeholder="How was your experience ... "></textarea>
                         </div>
                         <!-- right column / down column-->
                         <div class="col" >
                             <div class="row gy-4">
-                                <div class="product_query" id="preferred_app">
+                                {% for query, query_choices in genres_queries.TRAVEL_AND_LOCAL.items %}
+                                <div class="product_query">
                                     <div class="row">
                                         <div class="col-6">
-                                            <h6>Preferred Application</h6>
+                                            <h6>{{ query }}</h6>
                                         </div>
                                         <div class="col-6">
-                                            <select class="form-select" aria-label="Default select example">
-                                                <option selected>Open this select menu</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
+                                            <select class="form-select" form="app_review_form" name="{{ query }}">
+                                                {% for query_choice in query_choices %}
+                                                <option>{{ query_choice }}</option>
+                                                {% endfor %}
                                             </select>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="product_query" id="query_1">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <h6>query_1</h6>
-                                        </div>
-                                        <div class="col-6">
-                                            <select class="form-select" aria-label="Default select example">
-                                                <option selected>Open this select menu</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="product_query" id="query_2">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <h6>query_2</h6>
-                                        </div>
-                                        <div class="col-6">
-                                            <select class="form-select" aria-label="Default select example">
-                                                <option selected>Open this select menu</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="product_query" id="query_3">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <h6>query_3</h6>
-                                        </div>
-                                        <div class="col-6">
-                                            <select class="form-select" aria-label="Default select example">
-                                                <option selected>Open this select menu</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="product_query" id="query_4">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <h6>query_4</h6>
-                                        </div>
-                                        <div class="col-6">
-                                            <select class="form-select" aria-label="Default select example">
-                                                <option selected>Open this select menu</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
+                                {% endfor %}
                             </div>   
                         </div>
                          <!-- submit button -->
