@@ -3,7 +3,8 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Login/SignUp</title>
-<link rel="stylesheet" type="text/css" href="signup.css">
+{%load static%}
+<link rel="stylesheet" type="text/css" href="{%static 'signup.css'%}">
 </head>
 
 <body bgcolor="#E6E6FA">
@@ -38,7 +39,7 @@
 </select><br/><br/>
 
 <button type="submit" value="Submit" id="button">SignUp</button>
-<a href="login.html">Login</a>
+<a href="login">Login</a>
 
 </form>
 
