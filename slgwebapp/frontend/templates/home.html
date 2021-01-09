@@ -57,7 +57,7 @@
 
               {% for app in apps %}
               <div class="cardService">
-                <a href="{% url 'front_search' %}?app_name={{ app.app_name }}">
+                <a href="{% url 'front_get_app' %}?app_name={{ app.app_name }}">
                   <img class="serviceImage" src="{{ app.icon_link }}" alt="app icon">
                 </a>
                 <div class="serviceName top">
