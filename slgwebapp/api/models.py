@@ -15,3 +15,10 @@ class App(models.Model):
 	icon_link = models.URLField(blank=False)
 	header_link = models.URLField(blank=False)
 	release_date = models.DateField()
+
+
+class User(models.Model):
+	name = models.CharField(max_length=200, null=True)
+	phone = models.CharField(max_length=200, null=True)
+	email = models.CharField(max_length=200, null=True)
+		
