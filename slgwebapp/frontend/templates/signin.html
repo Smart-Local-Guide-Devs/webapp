@@ -13,8 +13,8 @@
 <body>
 
 <div id="container">
-<form action="login" method="post" id="flogin">
-
+<form action="login" method="POST" id="flogin">
+{% csrf_token %}
 <div class="border-box">
 <h2>Login</h2>
 <label for="uname" id="un">Username:</label>
@@ -23,7 +23,10 @@
 <label for="upass" id="ps">Password:</label>
 <input type="password" name="pass" placeholder="Enter Password" id="upass"><br/>
 
-<button type="submit" value="Login"  id="submit" onClick="alert('Login Successfully')">Login</button>
+<button type="submit" value="signin"  id="submit" >Login</button>
+{% for message in messages %}
+					<p id="messages">{{message}}</p>
+				{% endfor %}
 
 <a href="signup">SignUp</a>
 </div>
