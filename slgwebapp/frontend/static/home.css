@@ -1,63 +1,63 @@
 *{
-	padding:0;
-	margin:0;
-	font-family: 'Roboto';
+  padding:0;
+  margin:0;
+  font-family: 'Roboto';
 }
 
 .main{
     width:100%;
-    height: 100vh;
+    height: auto;
     background-color: #C2EDCE;
 }
 
 header{
-	position: fixed;
-	top:0;
-	left: 0;
-	width: 100%;
-	z-index: 1000;
-	justify-content: space-between;
-	background-color: #3a3a3a;
-	display: flex;
-	align-items: center;	
+  position: fixed;
+  top:0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  justify-content: space-between;
+  background-color: #3a3a3a;
+  display: flex;
+  align-items: center;  
 }
 header .logo{
-	color:rgb(240, 240, 240);
-	font-size: 30px;
-	font-family: Brandon Grotesque;
-	line-height: 35px;
+  color:rgb(240, 240, 240);
+  font-size: 30px;
+  font-family: Brandon Grotesque;
+  line-height: 35px;
 }
 header .menu {
-	display: flex;
-	position: relative;
+  display: flex;
+  position: relative;
 }
 header .menu li{
-	list-style: none;
-	margin-left: 30px;
+  list-style: none;
+  margin-left: 30px;
 }
 header .menu li a{
-	text-decoration: none;
-	color: rgb(240, 240, 240);
-	font-family:  montserrat;
+  text-decoration: none;
+  color: rgb(240, 240, 240);
+  font-family:  montserrat;
 }
 header .menu li a:hover{
-	color: rgb(0, 255, 255);
-	font-family: montserrat;
+  color: rgb(0, 255, 255);
+  font-family: montserrat;
 }
 header .sticky {
-	padding: 5px 100px;
-	background-color:#3a3a3a;
+  padding: 5px 100px;
+  background-color:#3a3a3a;
 }
 header.sticky .menu li a{
-	color:#fff;
-	font-family: montserrat;
+  color:#fff;
+  font-family: montserrat;
 }
 header.sticky .logo{
     color: #fff;
 }
 
 #bars{
-	display: none;
+  display: none;
 }
 
 .search{
@@ -68,41 +68,31 @@ header.sticky .logo{
 }
 
 .bar{
-	width:630px;
-	padding: 12px;
-	border-radius: 20px;
-	border:none;
-	outline: none;
-	font-size:18px;
-	box-shadow: 1px 1px 2px 2px #ccc;
-}
-
-.footer{
-   background-color: #53BAC1;
-   position: fixed;
-   left: 0;
-   bottom: 0;
-   width: 100%;
-   color: white;
-   text-align: center;
-
+  width:630px;
+  padding: 12px;
+  border-radius: 20px;
+  border:none;
+  outline: none;
+  font-size:18px;
+  box-shadow: 1px 1px 2px 2px #ccc;
+  margin-bottom: 100px;
 }
 
 .content{
-	padding: 20px;
-	color:#fff;
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	text-align: center;
+  padding: 20px;
+  color:#fff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  text-align: center;
 }
 
 .details{
-	margin-left: 90px;
+  margin-left: 90px;
 }
 
 .head{
-	padding-top: 20px;
+  padding-top: 20px;
 }
 
 .topApps{
@@ -112,43 +102,43 @@ header.sticky .logo{
 }
 
 .container{
-	
+  
     margin-bottom: 20%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	padding-top:60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top:60px;
 }
 
 .card{
-	
-	border:black;
-	width:75%;
+  
+  border:black;
+  width:75%;
 
-	height: 500px;
-	background-color: #C2EDCE;
+  height: 500px;
+  background-color: #C2EDCE;
 }
 
 .CardHeader{
-	background-color: #53BAC1;
-	padding: 20px;
-	display: flex;
-	justify-content: space-between;
+  background-color: #53BAC1;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .CardHeader h1{
-	font-size: 20px;
-	color:#fff;
-	padding-left:60px;
+  font-size: 20px;
+  color:#fff;
+  padding-left:60px;
 }
 
 .line{
-	color: #fff;
-	width:300px;
+  color: #fff;
+  width:300px;
 }
 
 .locationLogo{
-	color: #fff;
+  color: #fff;
 
 }
 
@@ -156,47 +146,63 @@ header.sticky .logo{
 
 @media(max-width:991px){
     header .menu{
-    	display: none;
+      display: none;
     }
 
     header .menu.active{
-    	width: 100%;
-    	height: 100%;
-    	position: fixed;
-    	top: 35px;
-    	right: 0;
-    	display: flex;
-    	justify-content: center;
-    	align-items: center;
-    	background-color: #3a3a3a;
-    	opacity: 1;
-    	flex-direction: column;
-    	transition: all 0.5s;
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      top: 35px;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #3a3a3a;
+      opacity: 1;
+      flex-direction: column;
+      transition: all 0.5s;
     }
    
     header .menu li a{
-    	font-size: 2.2em;
-    	line-height: 100px;
-    	color:white;
-    	font-family: montserrat;
+      font-size: 2.2em;
+      line-height: 100px;
+      color:white;
+      font-family: montserrat;
     }
     #bars{
-    	display: block;
-    	color:#fff;
+      display: block;
+      color:#fff;
     }
     .menuToggle{
 
-    	position: relative;
-    	font-size: 30px;
-    	color: #111;
+      position: relative;
+      font-size: 30px;
+      color: #111;
     }
     .menuToggle.active{
-    	background:url(close.png);
-    	height: 20px;
-    	width: 20px;
-    	font-size: 0px;
-    	background-position: center;
+      background:url(close.png);
+      height: 20px;
+      width: 20px;
+      font-size: 0px;
+      background-position: center;
+    }.ContactUs{
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
+   
+}
+.formContact{
+  width: 50%;
+  text-align: center;
+   margin-top: 100px;
+   margin-bottom: 100px;
+
+  }
+  .about{
+    width: 100%;
+  }
 }
 
 
@@ -209,10 +215,11 @@ header.sticky .logo{
 }
 
 .carousel-cell {
-  width: 30%;
+  width: 50%;
   height: 320px;
   margin-right: 50px;
   margin-left:50px;
+  margin-top: 50px;
   background:  #53BAC1;
   border-radius: 5px;
  
@@ -257,35 +264,31 @@ header.sticky .logo{
      font-size: 20px;
 }
 .CardHeaderCon{
-	align-items: center;
-	display: flex;
-	justify-content: center;
-	background-color: #53BAC1;
-	padding: 30px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  background-color: #53BAC1;
+  padding: 30px;
 }
 .headCon{
-	text-align: center;
+  text-align: center;
 }
 h1{
-	color: #fff;
+  color: #fff;
 
 }
 .contact{
-	width: 100%;
-	height: 100vh;
-	background-color: #C2EDCE
-}
-.split{
-	height: 100%;
-	width: 50%;
-	position: fixed;
-	top:0;
+  width: 100%;
+  height: auto;
+  background-color: #C2EDCE
 }
 
-.ContactUs{
+
+      .ContactUs{
   display: flex;
-  flex-direction: row;
-  padding-top: 15%;
+  
+  padding-top: 5%;
+  flex-wrap: wrap;
 }
 .about{
   width: 50%;
@@ -321,17 +324,30 @@ input{
   border-radius: 10px;
 }
 textarea{
-	width: 50%;
-	padding:10px;
+  width: 50%;
+  padding:10px;
   outline: none;
   border:none;
   border-radius: 10px;
 }
 .formBtn{
-	margin-top: 30px;
-	padding: 10px;
-	width:20%;
-	background-color: #53BAC1;
-	outline: none;
-	border:none;
+  margin-top: 30px;
+  padding: 10px;
+  width:20%;
+  background-color: #53BAC1;
+  outline: none;
+  border:none;
+}
+.foot{
+  width: 100%;
+  background-color:#111;
+
+  color:grey;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
