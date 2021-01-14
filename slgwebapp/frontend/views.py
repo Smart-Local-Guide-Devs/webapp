@@ -1,20 +1,26 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 import requests
-from django.contrib.auth.forms import UserCreationForm
-
+from .models import *
+from .forms import CreateUserForm
+from django.contrib import messages
+from django.contrib.auth import authenticate,login,logout
 
 
 # Create your views here.
 def signup(request):
-	form=UserCreationForm()
+	form=CreateUserForm()
 	if request.method == 'POST':
-		form = UserCreationForm(request.POST)
+		form = CreateUserForm(request.POST)
 		if form.is_valid():
 			form.save()
+			user = form.cleaned_data.get('username')
+			messages.success(request, 'Account was created for '+ user)
+			return redirect('signin')
 	context = {'form':form}
-	return render(request, 'signup.html',context)
-    #return render(request,'signup.html',context)
+	return render(request, 'signup.html', context)
+	
+    
 
 
 def index(request):
@@ -26,8 +32,17 @@ def product(request):
 def review_form(request):
     return render(request,'writeReview.html')    	
 
-def login(request):
-    return render(request,'login.html')   
+def signin(request):
+	if request.method == 'POST':
+		username=request.POST.get('username')
+		password=request.POST.get('password')
+		user = authenticate(request,username=username,password=password)
+		if user is not None:
+			login(request,user)
+			return redirect('index')
+	context = {}
+	return render(request, 'signin.html',context)		
+	
 
 
 
