@@ -55,9 +55,13 @@
         
                             <div class="input-group">
                                 <span class="input-group-text">Product Category</span>
-                                <select class="form-select" form="app_review_form" name="genre">
+                                <select class="form-select" onchange="gen(this.value);" id="select-it" form="app_review_form" name="genre">
                                     {% for genre in genres_queries %}
-                                        <option>{{ genre }}</option>
+                                     {% comment %} {% if forloop.first %} {% endcomment %}
+                                        {% comment %} <option selected = "selected" value="{{ genre }}"id="gen">{{ genre }}</option> {% endcomment %}
+                                     {% comment %} {% else %} {% endcomment %}
+                                       <option  value="{{ genre }}"id="{{ genre }}">{{ genre }}</option>
+                                    {% comment %} {% endif %} {% endcomment %}
                                     {% endfor %}
                                 </select>
                             </div>
@@ -93,21 +97,24 @@
                         <!-- right column / down column-->
                         <div class="col" >
                             <div class="row gy-4">
-                                {% for query, query_choices in genres_queries.TRAVEL_AND_LOCAL.items %}
-                                <div class="product_query">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <h6>{{ query }}</h6>
+                           {% for genre, query_choices in genres_queries.items %}
+                                    <div class="hide queryhide" id="{{genre}}_queries">
+                                    {% for query, choices in query_choices.items %}
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <h6>{{ query }}</h6>
+                                            </div>
+                                            <div class="col-6">
+                                                <select class="form-select" form="app_review_form" name="{{ query }}">
+                                                    {% for choice in choices %}
+                                                    <option>{{ choice }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
                                         </div>
-                                        <div class="col-6">
-                                            <select class="form-select" form="app_review_form" name="{{ query }}">
-                                                {% for query_choice in query_choices %}
-                                                <option>{{ query_choice }}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </div>
+                                         {% endfor %}
                                     </div>
-                                </div>
+                                   
                                 {% endfor %}
                             </div>   
                         </div>
@@ -177,5 +184,16 @@
             </div>
         </div>
     </main>
+    <script type="text/javascript">
+        function gen(genre) {
+            var s = document.getElementsByClassName("queryhide");
+            for(var i=0;i<s.length;i++)
+            {
+                s[i].style.display="none";
+            }
+          var elements = document.getElementById(genre+"_queries");
+          elements.style.display = "block";
+        }
+    </script>
 </body>
 </html>
