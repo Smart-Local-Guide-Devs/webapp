@@ -52,6 +52,7 @@ def app_review(request):
 	if(App.objects.filter(app_name=mutable['app_name']).count() != 0):
 		app = App.objects.get(app_name=mutable['app_name'])
 		mutable['app'] = app.pk
+		app_found = True
 
 	else:
 		app = mutable['app_name']
