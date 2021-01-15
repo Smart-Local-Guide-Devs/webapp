@@ -5,20 +5,23 @@ from .models import *
 from .forms import CreateUserForm
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
-
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def signup(request):
-	form=CreateUserForm()
-	if request.method == 'POST':
-		form = CreateUserForm(request.POST)
-		if form.is_valid():
-			form.save()
-			user = form.cleaned_data.get('username')
-			messages.success(request, 'Account was created for '+ user)
-			return redirect('signin')
-	context = {'form':form}
-	return render(request, 'signup.html', context)
+	if request.user.is_authenticated:
+		return redirect ('index')
+	else:	
+		form=CreateUserForm()
+		if request.method == 'POST':
+			form = CreateUserForm(request.POST)
+			if form.is_valid():
+				form.save()
+				user = form.cleaned_data.get('username')
+				messages.success(request, 'Account was created for '+ user)
+				return redirect('signin')
+		context = {'form':form}
+		return render(request, 'signup.html', context)
 	
     
 
@@ -26,24 +29,29 @@ def signup(request):
 def index(request):
 	return render(request,'home.html')
 
+
 def product(request):
     return render(request,'productOverview.html')
 
+login_required(login_url='login')
 def review_form(request):
     return render(request,'writeReview.html')    	
 
 def signin(request):
-	if request.method == 'POST':
-		username=request.POST.get('user')
-		password=request.POST.get('pass')
-		user = authenticate(request,username=username,password=password)
-		if user is not None:
-			login(request,user)
-			return redirect('index')
-		else:
-			messages.info(request, 'Username or Password is Incorrect')	
-	context = {}
-	return render(request, 'signin.html',context)		
+	if request.user.is_authenticated:
+		return redirect ('index')
+	else:	
+		if request.method == 'POST':
+			username=request.POST.get('user')
+			password=request.POST.get('pass')
+			user = authenticate(request,username=username,password=password)
+			if user is not None:
+				login(request,user)
+				return redirect('index')
+			else:
+				messages.info(request, 'Username or Password is Incorrect')	
+		context = {}
+		return render(request, 'signin.html',context)		
 	
 
 
@@ -53,3 +61,8 @@ def search(request):
     host = request.META['HTTP_REFERER']
     response = requests.get(url=host+"api/search", params={'app_name': app_name})
     return render(request, 'productOverview.html', response.json())
+
+
+def logoutUser(request):
+	logout(request)
+	return redirect('signin')    

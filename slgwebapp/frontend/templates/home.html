@@ -9,6 +9,13 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
   {%load static%}
+  <style>
+  .hello-msg{
+    font-size: 18px;
+    color: #fff;
+    margin-right: 20px;
+  }
+</style>
     <link rel="stylesheet" type="text/css" href="{%static 'home.css'%}">
 </head>
 
@@ -32,6 +39,8 @@
    	    	<i class="fa fa-bars"></i>
    	    </div>
 		<ul class="menu">
+      <span class="hello-msg">Hello, {{request.user}}</span>
+  <span ><a  class="hello-msg" href="{% url 'logout' %}">Logout</a></span>
 			<li ><a href="#main">HOME</a></li>
 			<li ><a href="#topApps">TOP SERVICES</a></li>
 			<li ><a href="#contributor">CONTRIBUTORS</a></li>
