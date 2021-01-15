@@ -2,6 +2,13 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
+
+
+<!-- for Sign in/up with Google -->
+<meta name="google-signin-client_id" content="client_id.apps.googleusercontent.com">
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+
+
 <title>Login/SignUp</title>
 {%load static%}
 <link rel="stylesheet" type="text/css" href="{%static 'signup.css'%}">
@@ -51,9 +58,19 @@
 <button type="submit" value="Submit" id="button">SignUp</button>
 <a href="signin">Login</a>
 
+<!-- for Sign in/up with Google -->
+<div class="g-signin2" data-onsuccess="onSignIn"></div>
+<!-- Sign out a user -->
+<a href="#" onclick="signOut();">Sign out</a>
+<!-- You can enable users to sign out of your app without signing out of Google by adding a sign-out button or link to your site. -->
+
+
 </form>
+
+
+
 <script>
-						/* Because i didnt set placeholder values in forms.py they will be set here using vanilla Javascript
+		/* Because i didnt set placeholder values in forms.py they will be set here using vanilla Javascript
 		//We start indexing at one because CSRF_token is considered and input field 
 		 */
 
@@ -79,6 +96,28 @@ var pwd = document.getElementById("pwd").value;
 alert("username"+user+"password"+pwd);
 }
 </script>-->
+
+<!-- for sign in/up with Google -->
+<script>
+	function onSignIn(googleUser) {
+	var profile = googleUser.getBasicProfile();
+	console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+	console.log('Name: ' + profile.getName());
+	console.log('Image URL: ' + profile.getImageUrl());
+	console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+	}
+</script>
+<!-- Sign out a user -->
+<script>
+	// To create a sign-out link, attach a function that calls the GoogleAuth.signOut() method to the link's onclick event.
+	function signOut() {
+		var auth2 = gapi.auth2.getAuthInstance();
+		auth2.signOut().then(function () {
+		console.log('User signed out.');
+		});
+	}
+</script>
+
 
 </body>
 </html>
