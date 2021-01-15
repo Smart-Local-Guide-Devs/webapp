@@ -30,7 +30,10 @@ class SiteReview(models.Model):
 
 class AppReview(models.Model):
 	app = models.ForeignKey(to=App, on_delete=models.CASCADE, null=False)
-	user = models.ForeignKey(to=User, on_delete=models.CASCADE, null=False)
+	#user = models.ForeignKey(to=User, on_delete=models.CASCADE, null=False)
 	review = models.TextField()
 	stars = models.IntegerField(choices=[(i,i) for i in range(1,6)])
-	props = models.TextField(blank=True)
+	genre = models.CharField(max_length=100, default='base')
+
+
+# anonymous user review model

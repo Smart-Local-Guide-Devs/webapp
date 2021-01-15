@@ -47,13 +47,16 @@ def app_review(request):
 			res[genre] = {f'{genre[:5]}_query_{i}': [f'{genre[:5]}_query_{i}_choice_{j}' for j in range(4)] for i in range(4)}
 		return Response(data=res)
 
-	app = App.objects.get(app_name=request.data['app_name'])
-	request.data.pop('app_name')
-	request.data['app'] = app.pk
-	user = User.objects.get(username=request.data['user_name'])
-	request.data.pop('user_name')
-	request.data['user'] = user.pk
-	serializer = AppReviewSerializer(data=request.data)
+	mutable = request.data.copy()
+	app = App.objects.get(app_name=mutable['app_name'])
+	mutable.pop('app_name')
+	mutable['app'] = app.pk # if the app is not in the database? Same with the user
+	review = mutable['app_review']
+	mutable.pop('app_review')
+	mutable['review'] = review
+	for i in range(4):
+		mutable.pop(f'TRAVE_query_{i}')
+	serializer = AppReviewSerializer(data=mutable)
 	if serializer.is_valid():
 		serializer.save()
 		return Response(data=serializer.data, status=status.HTTP_201_CREATED)

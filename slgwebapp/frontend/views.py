@@ -27,11 +27,12 @@ def site_review(request):
     return render(request, 'home.html', {'review_form': response.json()})
 
 def app_review(request):
-    if request.method == 'GET':
-        response = requests.get(url=get_api_route(request)+'/app_review')
-        return render(request, 'writeReview.html', {'genres_queries': response.json()})
-    # response = requests.post(url=get_api_route(request)+'/app_review', data=request.POST)
-    return JsonResponse(request.POST)
+    if request.method == 'POST':
+        response = requests.post(url=get_api_route(request)+'/app_review', data=request.POST)
+        if(response.status_code == 400):
+            print(response.text)    
+    response = requests.get(url=get_api_route(request)+'/app_review')
+    return render(request, 'writeReview.html', {'genres_queries': response.json()})
 
 def login(request):
     return render(request,'login.html')
