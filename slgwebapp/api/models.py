@@ -36,4 +36,12 @@ class AppReview(models.Model):
 	genre = models.CharField(max_length=100, default='base')
 
 
+# anonymous app review model
+class NewAppReview(models.Model):
+	app = models.CharField(max_length=100)
+	#user
+	review = models.TextField()
+	stars = models.IntegerField(choices=[(i,i) for i in range(1,6)])
+	genre = models.CharField(max_length=100, default='base')
+
 # anonymous user review model
