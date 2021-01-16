@@ -95,12 +95,7 @@
 							</div>
 							{{form.phone}}
 						</div>
-						<div class="input-group mb-2">
-							<div class="input-group-append">
-								<span class="input-group-text"><i class="fas fa-key"></i></span>
-							</div>
-							{{form.city}}
-						</div>
+						
 						<div class="input-group mb-2">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-key"></i></span>
@@ -114,10 +109,20 @@
 							{{form.password2}}
 						</div>
 
+						<div class="input-group mb-2">
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="fas fa-city"></i></span>
+							</div>
+							{{form.city}}
+						</div>
 
 
 				   		<div class="d-flex justify-content-center mt-3 login_container">
 				 			<input class="btn login_btn" type="submit" value="Register Account">
+				   		</div>
+
+						<div class="d-flex justify-content-center mt-3 login_container">
+							<button type="button" class="btn btn-success" href="#" >Sign-Up with Google</button>
 				   		</div>
 
 					</form>
