@@ -33,7 +33,7 @@ def index(request):
 def product(request):
     return render(request,'productOverview.html')
 
-login_required(login_url='login')
+login_required(login_url='signin')
 def review_form(request):
     return render(request,'writeReview.html')    	
 
