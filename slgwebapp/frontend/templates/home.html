@@ -42,15 +42,30 @@
    	    	<i class="fa fa-bars"></i>
    	    </div>
 		<ul class="menu">
-      <span class="hello-msg">Hello, {{request.user}}</span>
-  <span ><a  class="hello-msg" href="{% url 'logout' %}">Logout</a></span>
-			<li ><a href="#main">HOME</a></li>
+      
+			 
+               {% if user.is_authenticated %}
+               <span class="hello-msg">Hello, {{request.user}}</span>
+               
+               <li ><a href="#main">HOME</a></li>
 			<li ><a href="#topApps">TOP SERVICES</a></li>
 			<li ><a href="#contributor">CONTRIBUTORS</a></li>
-			<li ><a href="#contact">CONTACT US</a></li>
-      <li ><a href="{% url 'signin' %}">LOGIN</a></li>
-      <li ><a href="{% url 'signup' %}">SIGN UP</a></li>
-
+			<li ><a href="#contact">CONTACT US</a></li>  
+               <li><a  class="hello-msg" href="{% url 'logout' %}">Logout</a></li>
+               
+              
+                 {% else %}
+               <li ><a href="#main">HOME</a></li>
+			<li ><a href="#topApps">TOP SERVICES</a></li>
+			<li ><a href="#contributor">CONTRIBUTORS</a></li>
+			<li ><a href="#contact">CONTACT US</a></li>  
+               
+               <li ><a href="{% url 'signin' %}">LOGIN</a></li>
+               <li ><a href="{% url 'signup' %}">SIGN UP</a></li>
+                 {% endif %}
+               
+               
+               
 		</ul>
 
 	</header>

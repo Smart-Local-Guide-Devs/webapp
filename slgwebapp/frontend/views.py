@@ -65,4 +65,4 @@ def search(request):
 
 def logoutUser(request):
 	logout(request)
-	return redirect('signin')    
+	return redirect('index')    
