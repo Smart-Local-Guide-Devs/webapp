@@ -26,13 +26,27 @@
   </header>
 
   <section class="main" id="main">
-    <div class="search">
-      <div class="searchbar">
-      <form action="{% url 'front_search' %}" method="GET">
-        <input type="text" class="bar" placeholder="search" name="search_query">
-      </form>
-      </div>
-    </div>
+    <div class="searchWrapper">
+        <div class="searchBox">
+           <div  class="dropdown">
+            <div class="default_options">All</div>
+            <ul>
+              <li >Travel and Local</li>
+              <li>Food and restraunts</li>
+              <li >Maps and navigaton</li> 
+              <li>bla bla </li> 
+            </ul>
+            <i  onclick="filter()"class="fa fa-caret-square-o-down"></i> 
+           </div>
+            <div class="searchField">
+            <form action="{% url 'front_search' %}" method="GET">
+              <input type="text" placeholder="Search" name="search_query">
+           </form>
+             <i class="fa fa-search"></i>
+           </div>
+         </div>
+
+        </div>
   </section>
 
   <section class="topApps" id="topApps">
@@ -246,7 +260,20 @@
     	menuToggle.classList.toggle("active");
     	menu.classList.toggle("active");
     }
+    
 
+    function filter(){
+      const arrowToggle=document.querySelector('.dropdown ul');
+      arrowToggle.classList.toggle("activeFilter");
+
+    }
+    
+   $(document).ready(function(){
+      $(".dropdown ul li").click(function(){
+           var text= ($(this).text());
+           $('.default_options').text(text);
+      })
+   })
     
   </script>
   
