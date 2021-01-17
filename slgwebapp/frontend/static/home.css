@@ -115,7 +115,8 @@ header.sticky .logo{
   border:black;
   width:75%;
 
-  height: 500px;
+  height: auto;
+  min-height:600px;
   background-color: #C2EDCE;
 }
 
@@ -191,6 +192,7 @@ header.sticky .logo{
       align-items: center;
       justify-content: center;
     }
+  
    
 }
 .formContact{
@@ -210,13 +212,15 @@ header.sticky .logo{
 
 .carousel {
   background:#C2EDCE;
-  margin-top:60px;
+  margin-top:80px;
   
 }
 
 .carousel-cell {
   width: 50%;
-  height: 320px;
+  height: auto;
+  min-height: 320px;
+  max-height:400px;
   margin-right: 50px;
   margin-left:50px;
   margin-top: 50px;
@@ -350,4 +354,60 @@ textarea{
   
   padding-top: 20px;
   padding-bottom: 20px;
+}
+
+
+.userCard{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+.users hr{
+  width:80%;
+}
+
+.userinfo{
+  margin:30px 10px;
+}
+.userinfo2{
+  margin:10px 10px;
+  color:black;
+}
+.userinfo3{
+  margin:5px 20px;
+  font-size:15px;
+  color:black;
+}
+.topCard {
+  font-size:  18px;
+}
+.topCard h1{
+  font-size: 35px;
+  color: black;
+}
+.userImg{
+     width: 50px;
+     height: 50px;
+     border-radius: 50%;
+     background-color: #fff;
+
+}
+.userImg2{
+     width: 40px;
+     height: 40px;
+     border-radius: 50%;
+     background-color: #fff;
+}
+.userImg3{
+      width: 30px;
+     height: 30px;
+     border-radius: 50%;
+     background-color: #fff;
+}
+.name{
+  width: 250px;
+}
+.usercell{
+  min-height: 380px;
 }
