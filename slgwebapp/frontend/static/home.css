@@ -260,6 +260,14 @@ header.sticky .logo{
       align-items: center;
       justify-content: center;
     }
+    .counterContent{
+      flex-direction: column;
+    }
+    .box{
+      border-bottom: #fff solid ;
+      
+     }
+
   
    
 }
@@ -478,4 +486,36 @@ textarea{
 }
 .usercell{
   min-height: 380px;
+}
+
+.counterup{
+  background-color: #3A3A3A;
+  min-height: 25vh; 
+  width:100%;
+  
+}
+
+.counterup .counterContent{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 0px;
+}
+
+.counterContent .box{
+  width:200px;
+ 
+  padding: 10px;
+  margin: 40px;
+  color:#fff;
+  line-height: 30px;
+}
+.icon{
+  font-size:40px;
+}
+.counter{
+  font-size: 38px;
+  margin: 20px;
 }
