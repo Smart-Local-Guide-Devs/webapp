@@ -3,6 +3,11 @@
     
 <head>
 	<title>Login</title>
+	<meta name="google-signin-scope" content="profile email">
+      <meta name="google-signin-client_id" content="MY_CLIENT_ID_ON_GOOGLE_DEV.apps.googleusercontent.com">
+      <!-- To integrate Google Sign-in -->
+      <script src="https://apis.google.com/js/api.js"></script>
+      <script src="https://apis.google.com/js/platform.js" async defer></script>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
@@ -109,22 +114,24 @@
 							{{form.password2}}
 						</div>
 
-						<div class="input-group mb-2">
-							<div class="input-group-append">
-								<span class="input-group-text"><i class="fas fa-city"></i></span>
-							</div>
-							{{form.city}}
-						</div>
-
 
 				   		<div class="d-flex justify-content-center mt-3 login_container">
 				 			<input class="btn login_btn" type="submit" value="Register Account">
 				   		</div>
 
 						<div class="d-flex justify-content-center mt-3 login_container">
-							<button type="button" class="btn btn-success" href="#" >Sign-Up with Google</button>
-				   		</div>
+							<div class="row">
+							<div class="col-md-3">
+								<a class="btn btn-outline-dark" href="{% url "social:begin" "google-oauth2" %}" role="button" style="text-transform:none">
+								<img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+								Sign-Up with Google
+								</a>
+							</div>
+							</div>
 
+
+						   </div>
+						{% comment %} <a href = "{% url "social:begin" "google-oauth2" %}">google</a>  {% endcomment %}
 					</form>
 				</div>
 				<!--<label for="r8" id="cy">City:</label>
@@ -147,14 +154,13 @@
 				<div class="mt-4">
 					<div class="d-flex justify-content-center links">
 						Already have an account? <a href="{% url 'signin' %}" class="ml-2">Login</a>
+						
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<!-- for Sign in/up with Google -->
-<div class="g-signin2" data-onsuccess="onSignIn"></div>
 <!-- Sign out a user -->
 <a href="#" onclick="signOut();">Sign out</a>
 <!-- You can enable users to sign out of your app without signing out of Google by adding a sign-out button or link to your site. -->
@@ -171,7 +177,6 @@
 		form_fields[3].placeholder='Phone..';
 		form_fields[4].placeholder='Enter password...';
 		form_fields[5].placeholder='Re-enter Password...';
-		form_fields[6].placeholder='Location...';
 
 
 		for (var field in form_fields){	
@@ -187,26 +192,6 @@ alert("username"+user+"password"+pwd);
 }
 </script>-->
 
-<!-- for sign in/up with Google -->
-<script>
-	function onSignIn(googleUser) {
-	var profile = googleUser.getBasicProfile();
-	console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-	console.log('Name: ' + profile.getName());
-	console.log('Image URL: ' + profile.getImageUrl());
-	console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-	}
-</script>
-<!-- Sign out a user -->
-<script>
-	// To create a sign-out link, attach a function that calls the GoogleAuth.signOut() method to the link's onclick event.
-	function signOut() {
-		var auth2 = gapi.auth2.getAuthInstance();
-		auth2.signOut().then(function () {
-		console.log('User signed out.');
-		});
-	}
-</script>
 </body>
 </html>
 
