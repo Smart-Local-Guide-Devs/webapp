@@ -1,8 +1,9 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
-from .serializers import AppSerializer, SiteReviewSerializer
-from .models import App
+from .serializers import AppSerializer
+from django.contrib.auth.models import User
+from .models import App,Review
 
 # Create your views here.
 
@@ -11,7 +12,7 @@ def search(request):
 	search_query = request.GET['search_query']
 	apps = App.objects.filter(app_name__icontains=search_query)
 	serializer = AppSerializer(instance=apps, many=True)
-	return Response(data=serializer.data)
+	return Response(data=serializer.data )
 
 @api_view(['GET'])
 def get_app(request):
@@ -37,3 +38,9 @@ def site_review(request):
 		return Response(data=serializer.data, status=status.HTTP_201_CREATED)
 	return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view()
+def counter(request):
+	count_apps=App.objects.all().count()
+	count_users=User.objects.all().count()
+	count_reviews=Review.objects.all().count()
+	return Response({'apps':count_apps, 'users':count_users, 'reviews':count_reviews})
