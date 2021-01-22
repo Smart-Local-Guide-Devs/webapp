@@ -29,6 +29,14 @@ def best_apps(request):
 		apps = App.objects.filter(genre=genre).order_by('avg_rating')[:4]
 		res[genre] = AppSerializer(instance=apps, many=True).data
 	return Response(data=res)
+
+@api_view(['GET'])
+def top_contributors(request):
+	contri = {}
+	for user in User.objects.values('user'):
+		username = User.objects.filter(user=user).order_by('reviews_given')
+		conrti[username] = AppSerializer(instance=username).data
+	return Response(data=contri)
 	
 @api_view(['POST'])
 def site_review(request):
