@@ -34,8 +34,8 @@ def best_apps(request):
 def top_contributors(request):
 	contri = {}
 	for user in User.objects.values('user'):
-		username = User.objects.filter(user=user).order_by('reviews_given')
-		conrti[username] = UserSerializer(instance=username).data
+		username = User.objects.order_by('reviews_given')
+		conrti[username] = AppSerializer(instance=username,many=true).data
 	return Response(data=contri)
 	
 @api_view(['POST'])
