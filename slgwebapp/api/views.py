@@ -1,9 +1,9 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
-from .serializers import AppSerializer
+from .serializers import AppSerializer,SlgUserSerializer
 from django.contrib.auth.models import User
-from .models import App,Review
+from .models import App,Review,SlgUser
 
 # Create your views here.
 
@@ -30,13 +30,12 @@ def best_apps(request):
 		res[genre] = AppSerializer(instance=apps, many=True).data
 	return Response(data=res)
 
-@api_view(['GET'])
+@api_view()
 def top_contributors(request):
-	contri = {}
-	for user in User.objects.values('user'):
-		username = User.objects.order_by('reviews_given')
-		conrti[username] = AppSerializer(instance=username,many=true).data
-	return Response(data=contri)
+	
+	user=SlgUser.objects.all().order_by('-up_vote_count');
+	serializer=SlgUserSerializer(instance=user,many=True)
+	return Response(data=serializer.data)
 	
 @api_view(['POST'])
 def site_review(request):

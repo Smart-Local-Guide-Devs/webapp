@@ -136,13 +136,14 @@
               <div class="carousel-cell usercell">
                     <!--<h2 class="serviceType">TRAVEL</h2>
                           <hr>-->
+                  {%for user in users%}
                    <div class="userCard topCard">
-                     <h1 class="userinfo">1.</h1>
-                     <img  class="userImg userinfo"src="">
-                     <p class="userinfo name">NAME HERE PLEASE give us your name</p>
-                     <p class="userinfo">250 pts</p>
+                     <h1 class="userinfo">{{forloop.counter}}</h1>
+                     <img  class="userImg userinfo"src="{{user.user_img_link}}">
+                     <p class="userinfo name">{{user.user_name}}</p>
+                     <p class="userinfo">{{user.up_vote_count}} pts</p>
                    </div>
-                    <div class="userCard topCard">
+                    <!--<div class="userCard topCard">
                      <h1 class="userinfo">2.</h1>
                      <img  class="userImg userinfo"src="">
                      <p class="userinfo name">NAME HERE</p>
@@ -153,7 +154,8 @@
                      <img  class="userImg userinfo "src="">
                      <p class="userinfo name">NAME HERE</p>
                      <p class="userinfo">250 pts</p>
-                   </div>
+                   </div>-->
+                   {%endfor%}
               </div>
 
                   <div class="carousel-cell usercell">

@@ -37,7 +37,7 @@ class Review(models.Model):
 
 class SlgUser(models.Model):
     app_id = models.ForeignKey(to=App, on_delete=models.CASCADE, null=False, max_length=128)
-    user_name=user_name = models.CharField(default='Anonymous User' ,max_length=64)
+    user_name = models.CharField(default='Anonymous User' ,max_length=64)
     user_img_link = models.URLField()
     content=  models.TextField()
     up_vote_count = models.PositiveIntegerField()

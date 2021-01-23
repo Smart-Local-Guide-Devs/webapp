@@ -8,9 +8,10 @@ def get_api_route(request):
 
 # Create your views here.
 def index(request):
+    top_users=requests.get(url=get_api_route(request)+'/top_contributors')
     count=requests.get(url=get_api_route(request)+'/count')
     response = requests.get(url=get_api_route(request)+'/best_apps')
-    return render(request, 'home.html', {'best_apps': response.json(),'counter':count.json()})
+    return render(request, 'home.html', {'best_apps': response.json(),'counter':count.json(),'users':top_users.json()})
 
 def search(request):
     search_query = request.GET['search_query']
@@ -34,4 +35,4 @@ def app_review(request):
 def login(request):
     return render(request,'login.html')
 
-    
+
