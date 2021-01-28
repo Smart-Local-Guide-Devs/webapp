@@ -17,9 +17,13 @@ def search(request):
 @api_view(['GET'])
 def get_app(request):
 	app_name = request.GET['app_name']
+
 	app = App.objects.get(app_name=app_name)
+	app_id=app.id;
+	app_review=PlayStoreReview.objects.filter(app=app_id)
+	reviewSerializer=PlayStoreReviewSerializer(app_review,many=True)
 	serializer = AppSerializer(app)
-	return Response(data=serializer.data)
+	return Response({'review':reviewSerializer.data,'apps':serializer.data})
 
 @api_view(['GET'])
 def best_apps(request):
