@@ -3,15 +3,15 @@ from django.contrib.sites.shortcuts import get_current_site
 import requests
 
 def get_api_route(request):
-    domain=get_current_site(request=request).domain
+    domain = get_current_site(request=request).domain
     return 'http://'+ domain+'/api'
 
 # Create your views here.
 def index(request):
-    top_users=requests.get(url=get_api_route(request)+'/top_contributors')
-    count=requests.get(url=get_api_route(request)+'/count')
-    response = requests.get(url=get_api_route(request)+'/best_apps')
-    return render(request, 'home.html', {'best_apps': response.json(),'counter':count.json(),'users':top_users.json()})
+    top_users = requests.get(url=get_api_route(request)+'/top_users')
+    counter = requests.get(url=get_api_route(request)+'/counter')
+    best_apps = requests.get(url=get_api_route(request)+'/best_apps')
+    return render(request, 'home.html', {'best_apps': best_apps.json(), 'counter': counter.json(), 'users': top_users.json()})
 
 def search(request):
     search_query = request.GET['search_query']

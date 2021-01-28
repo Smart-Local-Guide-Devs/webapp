@@ -1,9 +1,9 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
-from .serializers import AppSerializer,SlgUserSerializer
+from .serializers import AppSerializer, PlayStoreReviewSerializer
 from django.contrib.auth.models import User
-from .models import App,Review,SlgUser
+from .models import App, Review, PlayStoreReview
 
 # Create your views here.
 
@@ -11,35 +11,34 @@ from .models import App,Review,SlgUser
 def search(request):
 	search_query = request.GET['search_query']
 	apps = App.objects.filter(app_name__icontains=search_query)
-	serializer = AppSerializer(instance=apps, many=True)
+	serializer = AppSerializer(apps, many=True)
 	return Response(data=serializer.data )
 
 @api_view(['GET'])
 def get_app(request):
 	app_name = request.GET['app_name']
 	app = App.objects.get(app_name=app_name)
-	serializer = AppSerializer(instance=app)
+	serializer = AppSerializer(app)
 	return Response(data=serializer.data)
 
 @api_view(['GET'])
 def best_apps(request):
 	res = {}	
-	for genre_dict in App.objects.values('genre').distinct():
-		genre = genre_dict['genre']
-		apps = App.objects.filter(genre=genre).order_by('avg_rating')[:4]
-		res[genre] = AppSerializer(instance=apps, many=True).data
+	for genre_dict in App.objects.values('play_store_genre').distinct():
+		genre = genre_dict['play_store_genre']
+		apps = App.objects.filter(play_store_genre=genre).order_by('avg_rating')[:4]
+		res[genre] = AppSerializer(apps, many=True).data
 	return Response(data=res)
 
 @api_view()
-def top_contributors(request):
-	
-	user=SlgUser.objects.all().order_by('-up_vote_count');
-	serializer=SlgUserSerializer(instance=user,many=True)
+def top_users(request):
+	user = PlayStoreReview.objects.order_by('-up_vote_count')[:10]
+	serializer = PlayStoreReviewSerializer(user, many=True)
 	return Response(data=serializer.data)
 	
 @api_view(['POST'])
-def site_review(request):
-	serializer = SiteReviewSerializer(data=request.data)
+def slg_site_review(request):
+	serializer = PlayStoreReviewSerializer(data=request.data)
 	if serializer.is_valid():
 		serializer.save()
 		return Response(data=serializer.data, status=status.HTTP_201_CREATED)
@@ -47,7 +46,7 @@ def site_review(request):
 
 @api_view()
 def counter(request):
-	count_apps=App.objects.all().count()
-	count_users=User.objects.all().count()
-	count_reviews=Review.objects.all().count()
-	return Response({'apps':count_apps, 'users':count_users, 'reviews':count_reviews})
+	count_apps = App.objects.count()
+	count_users = PlayStoreReview.objects.values('user_name').distinct()
+	count_reviews = PlayStoreReview.objects.count()
+	return Response({'apps': count_apps, 'users': count_users, 'reviews': count_reviews})

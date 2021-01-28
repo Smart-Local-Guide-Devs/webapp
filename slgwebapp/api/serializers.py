@@ -1,18 +1,18 @@
 from django.db.models import fields
 from rest_framework import serializers
-from .models import App, SiteReview,SlgUser
+from .models import App, SlgSiteReview, PlayStoreReview
 
 class AppSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = App
 		fields = '__all__'
 
-class SiteReviewSerializer(serializers.ModelSerializer):
+class SlgSiteReviewSerializer(serializers.ModelSerializer):
 	class Meta:
-		model = SiteReview
+		model = SlgSiteReview
 		fields = '__all__'
 
-class SlgUserSerializer(serializers.ModelSerializer):
+class PlayStoreReviewSerializer(serializers.ModelSerializer):
 	class Meta:
-		model=SlgUser
+		model = PlayStoreReview
 		fields= '__all__'
