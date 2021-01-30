@@ -91,8 +91,3 @@ class Review(models.Model):
 
 	def __str__(self) -> str:
 		return self.content
-
-class User(models.Model):
-	name = models.CharField(max_length=200, null=True)
-	phone = models.CharField(max_length=200, null=True)
-	email = models.CharField(max_length=200, null=True)
