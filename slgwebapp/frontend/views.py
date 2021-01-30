@@ -20,8 +20,14 @@ def search(request):
 
 def get_app(request):
     app_name = request.GET['app_name']
-    response = requests.get(url=get_api_route(request)+'/get_app', params={'app_name': app_name})
-    return render(request, 'appPage.html', {'app': response.json()})
+    response = requests.get(url=get_api_route(request)+'/get_app', params={'app_name': app_name}).json()
+    ratings_count = response['ratings_count']
+    histogram = {'1_star_percent': response['one_stars']*100/ratings_count,
+                 '2_star_percent': response['two_stars']*100/ratings_count,
+                 '3_star_percent': response['three_stars']*100/ratings_count,
+                 '4_star_percent': response['four_stars']*100/ratings_count,
+                 '5_star_percent': response['five_stars']*100/ratings_count,}
+    return render(request, 'appPage.html', {'app': response, 'histogram': histogram})
 
 def site_review(request):
     response = requests.post(url=get_api_route(request)+'/site_review', data=request.POST)

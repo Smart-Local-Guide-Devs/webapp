@@ -38,7 +38,7 @@
     <div>
       <h1>{{ app.app_name }}</h1>
       <div class="appDesc">     
-        <p>service Description</p>
+        <p>{{ app.app_summary }}</p>
         </div>
 
   </div>
@@ -62,55 +62,55 @@
   </div>
   <div class="middle">
     <div class="bar-container">
-      <div class="bar-5"></div>
+      <div class="bar-5" style="width: {{ histogram.5_star_percent }}%;"></div>
     </div>
   </div>
   <div class="side right">
-    <div>150</div>
+    <div>{{ app.five_stars }}</div>
   </div>
   <div class="side">
     <div>4 star</div>
   </div>
   <div class="middle">
     <div class="bar-container">
-      <div class="bar-4"></div>
+      <div class="bar-4" style="width: {{ histogram.4_star_percent }}%;"></div>
     </div>
   </div>
   <div class="side right">
-    <div>63</div>
+    <div>{{ app.four_stars }}</div>
   </div>
   <div class="side">
     <div>3 star</div>
   </div>
   <div class="middle">
     <div class="bar-container">
-      <div class="bar-3"></div>
+      <div class="bar-3" style="width: {{ histogram.3_star_percent }}%;"></div>
     </div>
   </div>
   <div class="side right">
-    <div>15</div>
+    <div>{{ app.three_stars }}</div>
   </div>
   <div class="side">
     <div>2 star</div>
   </div>
   <div class="middle">
     <div class="bar-container">
-      <div class="bar-2"></div>
+      <div class="bar-2" style="width: {{ histogram.2_star_percent }}%;"></div>
     </div>
   </div>
   <div class="side right">
-    <div>6</div>
+    <div>{{ app.two_stars }}</div>
   </div>
   <div class="side">
     <div>1 star</div>
   </div>
   <div class="middle">
     <div class="bar-container">
-      <div class="bar-1"></div>
+      <div class="bar-1" style="width: {{ histogram.1_star_percent }}%;"></div>
     </div>
   </div>
   <div class="side right">
-    <div>20</div>
+    <div>{{ app.one_stars }}</div>
   </div>
 </div>
 </div>

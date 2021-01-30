@@ -30,7 +30,7 @@ def best_apps(request):
 		res[genre] = AppSerializer(apps, many=True).data
 	return Response(data=res)
 
-@api_view()
+@api_view(['GET'])
 def top_users(request):
 	user = PlayStoreReview.objects.order_by('-up_vote_count')[:10]
 	serializer = PlayStoreReviewSerializer(user, many=True)
@@ -44,9 +44,9 @@ def slg_site_review(request):
 		return Response(data=serializer.data, status=status.HTTP_201_CREATED)
 	return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view()
+@api_view(['GET'])
 def counter(request):
 	count_apps = App.objects.count()
-	count_users = PlayStoreReview.objects.values('user_name').distinct()
+	count_users = PlayStoreReview.objects.values('user_name').distinct().count()
 	count_reviews = PlayStoreReview.objects.count()
 	return Response({'apps': count_apps, 'users': count_users, 'reviews': count_reviews})
