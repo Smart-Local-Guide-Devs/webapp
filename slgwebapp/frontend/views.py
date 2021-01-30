@@ -21,13 +21,13 @@ def search(request):
 def get_app(request):
     app_name = request.GET['app_name']
     response = requests.get(url=get_api_route(request)+'/get_app', params={'app_name': app_name}).json()
-    ratings_count = response['ratings_count']
-    histogram = {'1_star_percent': response['one_stars']*100/ratings_count,
-                 '2_star_percent': response['two_stars']*100/ratings_count,
-                 '3_star_percent': response['three_stars']*100/ratings_count,
-                 '4_star_percent': response['four_stars']*100/ratings_count,
-                 '5_star_percent': response['five_stars']*100/ratings_count,}
-    return render(request, 'appPage.html', {'app': response, 'histogram': histogram})
+    ratings_count = response['app']['ratings_count']
+    histogram = {'1_star_percent': response['app']['one_stars']*100/ratings_count,
+                 '2_star_percent': response['app']['two_stars']*100/ratings_count,
+                 '3_star_percent': response['app']['three_stars']*100/ratings_count,
+                 '4_star_percent': response['app']['four_stars']*100/ratings_count,
+                 '5_star_percent': response['app']['five_stars']*100/ratings_count,}
+    return render(request, 'appPage.html', {'app': response['app'], 'histogram': histogram, 'reviews': response['reviews']})
 
 def site_review(request):
     response = requests.post(url=get_api_route(request)+'/site_review', data=request.POST)

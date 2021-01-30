@@ -22,7 +22,7 @@
             {%for app in search_results%}
             <div class="card1">
                 <div class="side">
-                    <h3> {{app.genre}} </h3>
+                    <h3> {{app.play_store_genre}} </h3>
                     <a href="{% url 'front_get_app' %}?app_name={{ app.app_name }}"><button>View Details</button></a>
                 </div>
                 <div class="app">
