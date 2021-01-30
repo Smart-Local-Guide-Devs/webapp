@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <title>Product Overview</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -85,7 +85,7 @@
     </ul>
   </header>
 
-<h2>   &nbsp; <</h2>
+<h2>   &nbsp; </h2>
 <div class="Container">
 <div class="card">
   <div class="col-md-3 mt-1">
@@ -106,46 +106,38 @@
 
 <div class = "cardur">
 <span class="heading">User Rating</span>
-{%if app.avg_rating == 5%}
+{% if app.avg_rating >= 4.5 %}
 <span class="fa fa-star checked"></span>
 <span class="fa fa-star checked"></span>
 <span class="fa fa-star checked"></span>
 <span class="fa fa-star checked"></span>
 <span class="fa fa-star checked"></span>
-{% elif  app.avg_rating <= 5 and app.avg_rating >= 4 %}
+{% elif app.avg_rating >= 3.5 %}
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star"></span>
+{% elif app.avg_rating >= 2.5 %}
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star"></span>
+<span class="fa fa-star"></span>
+{% elif app.avg_rating >= 1.5 %}
    <span class="fa fa-star checked"></span>
 <span class="fa fa-star checked"></span>
-<span class="fa fa-star checked"></span>
-<span class="fa fa-star checked"></span>
-<span class="fa fa-star"></span>
-
-{% elif  app.avg_rating <= 4 and app.avg_rating >= 3 %}
-<span class="fa fa-star checked"></span>
-<span class="fa fa-star checked"></span>
-<span class="fa fa-star checked"></span>
-<span class="fa fa-star"></span>
-<span class="fa fa-star"></span>
-
-{% elif  app.avg_rating <= 3 and app.avg_rating >= 2 %}
-   <span class="fa fa-star checked"></span>
-<span class="fa fa-star checked"></span>
 <span class="fa fa-star"></span>
 <span class="fa fa-star"></span>
 <span class="fa fa-star"></span>
-
-{% elif  app.avg_rating <= 2 and app.avg_rating >= 1 %}
+{% else %}
    <span class="fa fa-star checked"></span>
 <span class="fa fa-star "></span>
 <span class="fa fa-star"></span>
 <span class="fa fa-star"></span>
 <span class="fa fa-star"></span>
-{%endif%}
+{% endif %}
 
-<!--<span class="fa fa-star checked"></span>
-<span class="fa fa-star checked"></span>
-<span class="fa fa-star checked"></span>
-<span class="fa fa-star checked"></span>
-<span class="fa fa-star"></span>-->
 <p>{{ app.avg_rating }} average based on {{ app.ratings_count }} reviews.</p>
 
 <div class="row">
@@ -253,6 +245,7 @@
       <div class="review content">
              {{review.content}}
       </div>
+      <span class="fa fa-thumbs-up">{{ review.up_vote_count }}</span>
     </div>
   </div>
 {%endfor%}

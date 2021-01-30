@@ -17,7 +17,7 @@ def search(request):
 def get_app(request):
 	app_name = request.GET['app_name']
 	app = App.objects.get(app_name=app_name)
-	app_review=PlayStoreReview.objects.filter(app=app)
+	app_review = PlayStoreReview.objects.filter(app=app)
 	reviews = PlayStoreReviewSerializer(app_review,many=True)
 	serializer = AppSerializer(app)
 	return Response({'reviews':reviews.data,'app':serializer.data})
@@ -33,7 +33,7 @@ def best_apps(request):
 
 @api_view(['GET'])
 def top_users(request):
-	users = PlayStoreReview.objects.order_by('-up_vote_count')[:10]
+	users = PlayStoreReview.objects.order_by('-up_vote_count')[:25]
 	users = PlayStoreReviewSerializer(users, many=True)
 	return Response(users.data)
 	
