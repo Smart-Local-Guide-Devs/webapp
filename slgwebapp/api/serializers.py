@@ -6,7 +6,6 @@ class AppSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = App
 		fields = '__all__'
-
 class SlgSiteReviewSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = SlgSiteReview

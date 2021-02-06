@@ -1,6 +1,5 @@
 from django.forms.models import model_to_dict
 from django.http import JsonResponse
-
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 import requests
@@ -16,14 +15,26 @@ from .serializers import AppSerializer, PlayStoreReviewSerializer
 from django.contrib.auth.models import User
 from .models import App, Review, PlayStoreReview
 
+
 # Create your views here.
 
 @api_view(['GET'])
 def search(request):
 	search_query = request.GET['search_query']
-	apps = App.objects.filter(app_name__icontains=search_query)
-	serializer = AppSerializer(apps, many=True)
-	return Response(data=serializer.data )
+	genre = request.GET.get('genre')
+	installs = request.GET.get('installs')
+	rating = request.GET.get('rating')
+	apps = App.objects.filter(app_name__icontains=search_query)	
+	if genre!='' and genre is not None:
+		apps = apps.filter(play_store_genre__icontains = genre)
+	if installs!='' and installs is not None:
+		apps = apps.filter(min_installs__gte = installs)
+	if rating!='' and rating is not None:
+		apps = apps.filter(avg_rating__gte = rating)
+	apps = AppSerializer(apps, many=True)
+	return Response(apps.data)	
+
+
 
 @api_view(['GET'])
 def get_app(request):
@@ -71,13 +82,6 @@ def signin(request):
 def logoutUser(request):
 	logout(request)
 	return redirect('index') 				
-
-
-def search(request):
-    app_name = request.GET["app_name"]
-    host = request.META['HTTP_REFERER']
-    response = requests.get(url=host+"api/search", params={'app_name': app_name})
-    return render(request, 'productOverview.html', response.json())
 
 
 def product(request):

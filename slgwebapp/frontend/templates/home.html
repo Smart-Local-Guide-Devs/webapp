@@ -7,7 +7,7 @@
   <script src='https://kit.fontawesome.com/a076d05399.js'></script>
   <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
   <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
- 
+
   <link rel="stylesheet" type="text/css" href="{%static 'home.css'%}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
@@ -61,6 +61,19 @@
             <div class="searchField">
             <form action="{% url 'front_search' %}" method="GET">
               <input type="text" placeholder="Search" name="search_query">
+              <label for="genre" class="form-label">Genre</label>
+                  <select class="form-select" id="genre" name = "genre" >
+                  <option value="">All</option>
+                  <option>Food & Drink</option>
+                  <option>Maps & Navigation</option>
+                  <option>Travel & Local</option>
+                  <option>Shopping</option>
+                  <option>Weather</option>
+                  <option>Auto & Vehicles</option>
+              </select>
+              <input type="number" placeholder="Average Rating" class = "vIntegerField" min = "0" max = "5" name="rating" step=".1">
+              <input type="number" placeholder="Minimum Installs" class = "vIntegerField" name="installs">
+              <button type="submit" class="btn btn-primary">Search</button>
            </form>
              <i class="fa fa-search"></i>
            </div>
@@ -130,6 +143,7 @@
                   <p>{{ app.app_name }}</p>
                 </div>
               </div>
+              
               {% endfor %}
 
           </div>
@@ -315,7 +329,6 @@
     function filter(){
       const arrowToggle=document.querySelector('.dropdown ul');
       arrowToggle.classList.toggle("activeFilter");
-
     }
     
    $(document).ready(function(){

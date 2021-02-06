@@ -1,12 +1,7 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.shortcuts import render
 from django.contrib.sites.shortcuts import get_current_site
 import requests
-from .models import *
-from .forms import CreateUserForm
-from django.contrib import messages
-from django.contrib.auth import authenticate,login,logout
-from django.contrib.auth.decorators import login_required
+from api.models import App
 
 def get_api_route(request):
     domain = get_current_site(request=request).domain
@@ -21,13 +16,23 @@ def index(request):
 
 def search(request):
     search_query = request.GET['search_query']
-    response = requests.get(url=get_api_route(request)+'/search', params={'search_query': search_query})
-    return render(request, 'searchResult.html', {'search_results': response.json()})
+    genre = request.GET.get('genre')
+    installs = request.GET.get('installs')
+    rating = request.GET.get('rating')
+    response = requests.get(url=get_api_route(request)+'/search', params={'search_query': search_query , 'genre': genre , 'installs':installs , 'rating': rating})
+    search_results = response.json()
+    return render(request, 'searchResult.html', {'search_results':search_results})
 
 def get_app(request):
     app_name = request.GET['app_name']
-    response = requests.get(url=get_api_route(request)+'/get_app', params={'app_name': app_name})
-    return render(request, 'appPage.html', {'app': response.json()})
+    response = requests.get(url=get_api_route(request)+'/get_app', params={'app_name': app_name}).json()
+    ratings_count = response['app']['ratings_count']
+    histogram = {'1_star_percent': response['app']['one_stars']*100/ratings_count,
+                 '2_star_percent': response['app']['two_stars']*100/ratings_count,
+                 '3_star_percent': response['app']['three_stars']*100/ratings_count,
+                 '4_star_percent': response['app']['four_stars']*100/ratings_count,
+                 '5_star_percent': response['app']['five_stars']*100/ratings_count,}
+    return render(request, 'appPage.html', {'app': response['app'], 'histogram': histogram, 'reviews': response['reviews']})
 
 def site_review(request):
     response = requests.post(url=get_api_route(request)+'/site_review', data=request.POST)
@@ -40,5 +45,3 @@ def app_review(request):
 
 def login(request):
     return render(request,'login.html')
-
-
