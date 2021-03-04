@@ -1,53 +1,47 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.shortcuts import render
+from django.contrib.sites.shortcuts import get_current_site
 import requests
-from .models import *
-from .forms import CreateUserForm
-from django.contrib import messages
-from django.contrib.auth import authenticate,login,logout
+from api.models import App
 
+def get_api_route(request):
+    domain = get_current_site(request=request).domain
+    return 'http://'+ domain+'/api'
 
 # Create your views here.
-def signup(request):
-	form=CreateUserForm()
-	if request.method == 'POST':
-		form = CreateUserForm(request.POST)
-		if form.is_valid():
-			form.save()
-			user = form.cleaned_data.get('username')
-			messages.success(request, 'Account was created for '+ user)
-			return redirect('signin')
-	context = {'form':form}
-	return render(request, 'signup.html', context)
-	
-    
-
-
 def index(request):
-	return render(request,'home.html')
-
-def product(request):
-    return render(request,'productOverview.html')
-
-def review_form(request):
-    return render(request,'writeReview.html')    	
-
-def signin(request):
-	if request.method == 'POST':
-		username=request.POST.get('username')
-		password=request.POST.get('password')
-		user = authenticate(request,username=username,password=password)
-		if user is not None:
-			login(request,user)
-			return redirect('index')
-	context = {}
-	return render(request, 'signin.html',context)		
-	
-
-
+    top_users = requests.get(url=get_api_route(request)+'/top_users')
+    counter = requests.get(url=get_api_route(request)+'/counter')
+    best_apps = requests.get(url=get_api_route(request)+'/best_apps')
+    return render(request, 'home.html', {'best_apps': best_apps.json(), 'counter': counter.json(), 'users': top_users.json()})
 
 def search(request):
-    app_name = request.GET["app_name"]
-    host = request.META['HTTP_REFERER']
-    response = requests.get(url=host+"api/search", params={'app_name': app_name})
-    return render(request, 'productOverview.html', response.json())
+    search_query = request.GET['search_query']
+    genre = request.GET.get('genre')
+    installs = request.GET.get('installs')
+    rating = request.GET.get('rating')
+    response = requests.get(url=get_api_route(request)+'/search', params={'search_query': search_query , 'genre': genre , 'installs':installs , 'rating': rating})
+    search_results = response.json()
+    return render(request, 'searchResult.html', {'search_results':search_results})
+
+def get_app(request):
+    app_name = request.GET['app_name']
+    response = requests.get(url=get_api_route(request)+'/get_app', params={'app_name': app_name}).json()
+    ratings_count = response['app']['ratings_count']
+    histogram = {'1_star_percent': response['app']['one_stars']*100/ratings_count,
+                 '2_star_percent': response['app']['two_stars']*100/ratings_count,
+                 '3_star_percent': response['app']['three_stars']*100/ratings_count,
+                 '4_star_percent': response['app']['four_stars']*100/ratings_count,
+                 '5_star_percent': response['app']['five_stars']*100/ratings_count,}
+    return render(request, 'appPage.html', {'app': response['app'], 'histogram': histogram, 'reviews': response['reviews']})
+
+def site_review(request):
+    response = requests.post(url=get_api_route(request)+'/site_review', data=request.POST)
+    return render(request, 'home.html', {'review_form': response.json()})
+
+def app_review(request):
+    app_name = request.GET['app_name']
+    response = requests.get(url=get_api_route(request)+'/get_app', params={'app_name': app_name})
+    return render(request,'writeReview.html', {'app': response.json()})
+
+def login(request):
+    return render(request,'login.html')

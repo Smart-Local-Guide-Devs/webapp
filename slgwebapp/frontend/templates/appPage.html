@@ -7,7 +7,7 @@
 
 
 {%load static%}
-    <link rel="stylesheet" type="text/css" href="{%static 'overview.css'%}">
+    <link rel="stylesheet" type="text/css" href="{%static 'appPage.css'%}">
 
 <!-- Rating Part-->
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,14 +34,11 @@
 <div class="Container">
 <div class="card">
   <div class="col-md-3 mt-1">
-    <img class="img-fluid img-responsive rounded product-image" src="{{ icon_link }}" style="float:left">
+    <img class="img-fluid img-responsive rounded product-image" src="{{app.icon_link}}" style="float:left" alt="app icon">
     <div>
-      <h1>{{ app_name }}</h1>
-      <div class="appDesc">
-        <h4>Service Description</h4>
-        <p>{{serv_desp}}</p>
-        <h4>App Summary</h4>
-        <p>{{summary}}</p>
+      <h1>{{ app.app_name }}</h1>
+      <div class="appDesc">     
+        <p>service Description</p>
         </div>
 
   </div>
@@ -57,8 +54,7 @@
 <span class="fa fa-star checked"></span>
 <span class="fa fa-star checked"></span>
 <span class="fa fa-star"></span>
-<p>{{ avg_rating }} average based on {{ ratings_count }} reviews.</p>
-<!-- <hr style="border:3px solid #f1f1f1"> -->
+<p>{{ app.avg_rating }} average based on {{ app.ratings_count }} reviews.</p>
 
 <div class="row">
   <div class="side">

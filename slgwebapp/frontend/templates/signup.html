@@ -1,37 +1,140 @@
 <!DOCTYPE html>
 <html>
+    
 <head>
-<meta charset="ISO-8859-1">
-<title>Login/SignUp</title>
-{%load static%}
-<link rel="stylesheet" type="text/css" href="{%static 'signup.css'%}">
+	<title>Login</title>
+	<meta name="google-signin-scope" content="profile email">
+      <meta name="google-signin-client_id" content="MY_CLIENT_ID_ON_GOOGLE_DEV.apps.googleusercontent.com">
+      <!-- To integrate Google Sign-in -->
+      <script src="https://apis.google.com/js/api.js"></script>
+      <script src="https://apis.google.com/js/platform.js" async defer></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+
+	<style>
+		body,
+		html {
+			margin: 0;
+			padding: 0;
+			height: 100%;
+			background: #7abecc !important;
+		}
+		.user_card {
+			width: 350px;
+			margin-top: auto;
+			margin-bottom: auto;
+			background: #74cfbf;
+			position: relative;
+			display: flex;
+			justify-content: center;
+			flex-direction: column;
+			padding: 10px;
+			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			-webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			-moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			border-radius: 5px;
+
+		}
+
+		.form_container {
+			margin-top: 20px;
+		}
+
+		#form-title{
+			color: #fff;
+		}
+		.login_btn {
+			width: 100%;
+			background: #33ccff !important;
+			color: white !important;
+		}
+		.login_btn:focus {
+			box-shadow: none !important;
+			outline: 0px !important;
+		}
+		.login_container {
+			padding: 0 2rem;
+		}
+		.input-group-text {
+			background: #f7ba5b !important;
+			color: white !important;
+			border: 0 !important;
+			border-radius: 0.25rem 0 0 0.25rem !important;
+		}
+		.input_user,
+		.input_pass:focus {
+			box-shadow: none !important;
+			outline: 0px !important;
+		}
+
+	</style>
+
 </head>
+<body>
+	<div class="container h-100">
+		<div class="d-flex justify-content-center h-100">
+			<div class="user_card">
+				<div class="d-flex justify-content-center">
+					<h3 id="form-title">REGISTER ACCOUNT</h3>
+				</div>
+				<div class="d-flex justify-content-center form_container">
 
-<body bgcolor="#E6E6FA">
+					<form method="POST" action="">
+						{% csrf_token %}
+						<div class="input-group mb-3">
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="fas fa-user"></i></span>
+							</div>
+							{{form.username}}
+						</div>
+						<div class="input-group mb-2">
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="fas fa-envelope-square"></i></span>
+							</div>
+							{{form.email}}
+						</div>
+						<div class="input-group mb-2">
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="fas fa-phone-square"></i></span>
+							</div>
+							{{form.phone}}
+						</div>
+						
+						<div class="input-group mb-2">
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="fas fa-key"></i></span>
+							</div>
+							{{form.password1}}
+						</div>
+						<div class="input-group mb-2">
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="fas fa-key"></i></span>
+							</div>
+							{{form.password2}}
+						</div>
 
-<form name="regi" action=" " method="post">
-	{% csrf_token %}
 
-<h2>SignUp</h2>
+				   		<div class="d-flex justify-content-center mt-3 login_container">
+				 			<input class="btn login_btn" type="submit" value="Register Account">
+				   		</div>
 
-<label  for="r3" id="un">Username :</label>
-{{form.username}}<br/>
-
-<label  for="r5" id="em">Email :</label>
-{{form.email}}<br/>
-
-<label  for="r6" id="mn">Mobile No :</label>
-{{form.phone}}<br/>
-
-<label  for="r4" id="pwd">Password :</label>
-{{form.password1}}<br/>
+						<div class="d-flex justify-content-center mt-3 login_container">
+							<div class="row">
+							<div class="col-md-3">
+								<a class="btn btn-outline-dark" href="{% url "social:begin" "google-oauth2" %}" role="button" style="text-transform:none">
+								<img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+								Sign-Up with Google
+								</a>
+							</div>
+							</div>
 
 
-<label  for="r9" id="repwd">Re-enter Password :</label>
-{{form.password2}}<br/>
-
-
-<label for="r8" id="cy">City:</label>
+						   </div>
+						{% comment %} <a href = "{% url "social:begin" "google-oauth2" %}">google</a>  {% endcomment %}
+					</form>
+				</div>
+				<!--<label for="r8" id="cy">City:</label>
 
 <select name="ct" id="r8">
 <option>Select</option>
@@ -44,6 +147,7 @@
 <option>Warangal</option>
 <option>Guwahati</option>
 <option>Others</option>
+<<<<<<< HEAD
 </select><br/><br/>
 
 {{form.errors}}
@@ -57,6 +161,29 @@
 <script>
 						/* Because i didnt set placeholder values in forms.py they will be set here using vanilla Javascript
 		//We start indexing at one because CSRF_token is considered and input field
+=======
+</select><br/><br/>-->
+
+				{{form.errors}}
+				
+				<div class="mt-4">
+					<div class="d-flex justify-content-center links">
+						Already have an account? <a href="{% url 'signin' %}" class="ml-2">Login</a>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<!-- Sign out a user -->
+<a href="#" onclick="signOut();">Sign out</a>
+<!-- You can enable users to sign out of your app without signing out of Google by adding a sign-out button or link to your site. -->
+
+	<script>
+		/* Because i didnt set placeholder values in forms.py they will be set here using vanilla Javascript
+		//We start indexing at one because CSRF_token is considered and input field 
+>>>>>>> 58e9b72d9ca023eac8edc392c48858b65f5dbbe2
 		 */
 
 		//Query All input fields
@@ -66,7 +193,6 @@
 		form_fields[3].placeholder='Phone..';
 		form_fields[4].placeholder='Enter password...';
 		form_fields[5].placeholder='Re-enter Password...';
-		form_fields[6].placeholder='Location...';
 
 
 		for (var field in form_fields){
@@ -84,3 +210,23 @@ alert("username"+user+"password"+pwd);
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
