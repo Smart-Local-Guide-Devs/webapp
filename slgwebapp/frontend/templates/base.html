@@ -1,11 +1,15 @@
+
 {%load static%}
 <!DOCTYPE html>
 <html>
 <head>
 	<title></title>
-     <link rel="stylesheet" type="text/css" href="{%static 'navbar.css'%}">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <link rel="stylesheet" type="text/css" href="{%static 'navbar.css'%}">
+    <link rel="stylesheet" type="text/css" href="{%static 'footer.css'%}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
 	{%block headtag%}
      
 	{%endblock%}
@@ -46,6 +50,28 @@
   </section>
     {%block content%}
     {%endblock%}
+    <section>
+    <footer id="mu-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mu-footer-area">
+                        <div class="mu-footer-social">
+                            <a href="#"><span class="fa fa-facebook"></span></a>
+                            <a href="#"><span class="fa fa-twitter"></span></a>
+                            <a href="#"><span class="fa fa-google-plus"></span></a>
+                            <a href="#"><span class="fa fa-linkedin"></span></a>
+                            <a href="#"><span class="fa fa-youtube"></span></a>
+                        </div>
+                        <div class="mu-footer-copyright">
+                            <p>&copy; Copyright <a rel="nofollow" href="#">smartlocalguide.io</a>. All right reserved.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    </section>
     <script type="text/javascript">
      window.addEventListener('scroll', function(){
       const header=document.querySelector('header');
