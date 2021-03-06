@@ -1,1 +1,1 @@
-web: gunicorn slgwebapp.wsgi
+web: gunicorn slgwebapp/slgwebapp.wsgi
