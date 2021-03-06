@@ -11,19 +11,25 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+import dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+# load file with environment varibles 
+dotenv_file = os.path.join(BASE_DIR, ".env")
+if os.path.isfile(dotenv_file):
+    dotenv.load_dotenv(dotenv_file)
+    # SECURITY WARNING: don't run with debug turned on in production!
+    DEBUG = True
+else:
+    DEBUG = False
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '+b)20jmm*+zdvr@@)a7q&4d8)u^e$tydhhk!72=tsh!6db)85u'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
 ALLOWED_HOSTS = []
 
@@ -78,8 +84,12 @@ WSGI_APPLICATION = 'slgwebapp.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ['HEROKU_POSTGRES_DB_NAME'],
+        'USER': os.environ['HEROKU_POSTGRES_DB_USER'],
+        'PASSWORD': os.environ['HEROKU_POSTGRES_DB_PWD'],
+        'HOST': os.environ['HEROKU_POSTGRES_DB_HOST'],
+        'PORT': '5432',
     }
 }
 

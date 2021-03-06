@@ -151,6 +151,7 @@ body {
 .bar-3 {width: 10%; height: 18px; background-color: orange;}
 .bar-2 {width: 4%; height: 18px; background-color: orange;}
 .bar-1 {width: 15%; height: 18px; background-color: orange;}
+.bar {width: 100%; height: 18px; background-color: orange;}
 
 /* Responsive layout - make the columns stack on top of each other instead of next to each other */
 @media (max-width: 400px) {
@@ -160,10 +161,23 @@ body {
   .right {
     display: none;
   }
+  .col-md-3{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  
 }
 
 
+.userImg{
+     width: 50px;
+     height: 50px;
+     border-radius: 50%;
+     background-color: #fff;
 
+}
 
 header{
   z-index: 100;
@@ -204,13 +218,7 @@ header .navlinks li a{
   justify-content: space-between;
   margin-top: 60px;
 }
-.productImage{
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: #ccc;
-  margin-right: : 20px;
-}
+
 .productName{
   margin-left: 30px;
 }
@@ -220,3 +228,12 @@ header .navlinks li a{
   align-items: center;
 }
  
+.productImage{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ccc;
+  margin-right: : 20px;
+}
+
+
