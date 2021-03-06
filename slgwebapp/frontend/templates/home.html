@@ -1,43 +1,68 @@
+{%extends 'base.html'%}
 {%load static%}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>HOME PAGE</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ {%block headtag%}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src='https://kit.fontawesome.com/a076d05399.js'></script>
   <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
   <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="{%static 'home.css'%}">
-</head>
-
-<body>
-
-  <header>
-    <div  class="logo">LOGO</div>
-    <div class="menuToggle" onclick="toggle()" id="bars">
-        <em class="fa fa-bars"></em>
-    </div>
-    <ul class="menu">
-      <li ><a href="#main">HOME</a></li>
-      <li ><a href="/login">LOGIN</a></li>
-      <li ><a href="#contact">CONTACT US</a></li>
-    </ul>
-  </header>
-
+    <link rel="stylesheet" type="text/css" href="{%static 'home.css'%}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Counter-Up/1.0.0/jquery.counterup.min.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+ {%endblock%}
+{%block content%}
   <section class="main" id="main">
-    <div class="search">
-      <div class="searchbar">
-      <form action="{% url 'front_search' %}" method="GET">
-        <input type="text" class="bar" placeholder="search" name="search_query">
-      </form>
-      </div>
-    </div>
-  </section>
+    <div class="searchWrapper">
+        <div class="searchBox">
+         
+            <div class="searchField">
+            <form action="{% url 'front_search' %}" method="GET">
+              <input type="text" placeholder="Search" name="search_query">
+           </form>
+             <i class="fa fa-search"></i>
+           </div>
+         </div>
 
+    </div>
+        
+  </section>
+     <div class="counterup">
+          <div class="counterContent">
+            <div class="box">
+              <div class="icon">
+                <i class="fab fa-google-play"></i>
+              </div>
+
+              <div class="counter">{{counter.apps}}</div>
+              <div class="textDes">No. of Apps Reviewed</div>
+            </div>
+             <div class="box">
+              <div class="icon">
+                <i class="fa fa-users"></i>
+              </div>
+              <div class="counter">{{counter.users}}</div>
+              <div class="textDes">No. of Users</div>
+            </div>
+             <div class="box">
+              <div class="icon">
+                <i class="fa fa-eye"></i>
+              </div>
+              <div class="counter">10346</div>
+              <div class="textDes">No. of Views</div>
+            </div>
+             <div class="box">
+              <div class="icon">
+                <i class="fa fa-star"></i>
+              </div>
+              <div class="counter">{{counter.reviews}}</div>
+              <div class="textDes">No. of Reviews</div>
+            </div>
+          </div>
+        </div>
   <section class="topApps" id="topApps">
     <div class="container">
-      <div class="card">
+      <div class="card ">
         <div class="CardHeader">
           <div>
             <h1>TOP SERVICES</h1>
@@ -51,7 +76,7 @@
         <div class="carousel" data-flickity='{ "groupCells": true }'>
 
           {% for genre, apps in best_apps.items %}
-          <div class="carousel-cell">
+          <div class="carousel-cell ">
             <h2 class="serviceType">{{ genre }}</h2>
               <hr>
 
@@ -80,10 +105,130 @@
             <h1>CONTRIBUTORS</h1>
             <hr class="line">
           </div>
+
         </div>
+         <div class="carousel" data-flickity='{ "groupCells": true }'>
+              <div class="carousel-cell usercell">
+                    <!--<h2 class="serviceType">TRAVEL</h2>
+                          <hr>-->
+                  {%for user in users%}
+                   <div class="userCard topCard">
+                     <h1 class="userinfo">{{forloop.counter}}</h1>
+                     <img  class="userImg userinfo"src="{{user.user_img_link}}">
+                     <p class="userinfo name">{{user.user_name}}</p>
+                     <p class="userinfo">{{user.up_vote_count}} pts</p>
+                   </div>
+                    <!--<div class="userCard topCard">
+                     <h1 class="userinfo">2.</h1>
+                     <img  class="userImg userinfo"src="">
+                     <p class="userinfo name">NAME HERE</p>
+                     <p class="userinfo">250 pts</p>
+                   </div>
+                    <div class="userCard topCard">
+                     <h1 class="userinfo">3.</h1>
+                     <img  class="userImg userinfo "src="">
+                     <p class="userinfo name">NAME HERE</p>
+                     <p class="userinfo">250 pts</p>
+                   </div>-->
+                   {%endfor%}
+              </div>
+
+                  <div class="carousel-cell usercell">
+                    <div class="userCard ">
+                     <h1 class="userinfo2">1.</h1>
+                     <img  class="userImg2 userinfo2"src="">
+                     <p class="userinfo2 name">NAME HERE PLEASE give us your name</p>
+                     <p class="userinfo2">250 pts</p>
+                   </div>
+                    <div class="userCard ">
+                     <h1 class="userinfo2">1.</h1>
+                     <img  class="userImg2 userinfo2"src="">
+                     <p class="userinfo2 name">NAME HERE PLEASE give us your name</p>
+                     <p class="userinfo2">250 pts</p>
+                   </div>
+                   <div class="userCard ">
+                     <h1 class="userinfo2">1.</h1>
+                     <img  class="userImg2 userinfo2"src="">
+                     <p class="userinfo2 name">NAME HERE PLEASE </p>
+                     <p class="userinfo2">250 pts</p>
+                   </div>
+                   <div class="userCard ">
+                     <h1 class="userinfo2">1.</h1>
+                     <img  class="userImg2 userinfo2"src="">
+                     <p class="userinfo2 name">NAME HERE PLEASE give us your name</p>
+                     <p class="userinfo2">250 pts</p>
+                   </div><div class="userCard ">
+                     <h1 class="userinfo2">1.</h1>
+                     <img  class="userImg2 userinfo2"src="">
+                     <p class="userinfo2 name">NAME HERE PLEASE give us your name</p>
+                     <p class="userinfo2">250 pts</p>
+                   </div><div class="userCard ">
+                     <h1 class="userinfo2">1.</h1>
+                     <img  class="userImg2 userinfo2"src="">
+                     <p class="userinfo2 name">NAME HERE PLEASE give us your name</p>
+                     <p class="userinfo2">250 pts</p>
+                   </div>
+                  </div>
+                  <div class="carousel-cell usercell">
+                      <div class="userCard  ">
+                        <h1 class="userinfo3">1.</h1>
+                        <img  class="userImg3 userinfo3"src="">
+                        <p class="userinfo3 name">NAME HERE PLEASE give us your </p>
+                        <p class="userinfo3">250 pts</p>
+                     </div>
+                     <div class="userCard ">
+                        <h1 class="userinfo3">1.</h1>
+                        <img  class="userImg3 userinfo3"src="">
+                        <p class="userinfo3 name">NAME HERE PLEASE give us your </p>
+                        <p class="userinfo3">250 pts</p>
+                     </div>
+                      <div class="userCard ">
+                        <h1 class="userinfo3">1.</h1>
+                        <img  class="userImg3 userinfo3"src="">
+                        <p class="userinfo3 name">NAME HERE PLEASE give us your </p>
+                        <p class="userinfo3">250 pts</p>
+                     </div>
+                      <div class="userCard ">
+                        <h1 class="userinfo3">1.</h1>
+                        <img  class="userImg3 userinfo3"src="">
+                        <p class="userinfo3 name">NAME HERE PLEASE give us your </p>
+                        <p class="userinfo3">250 pts</p>
+                     </div>
+                      <div class="userCard ">
+                        <h1 class="userinfo3">1.</h1>
+                        <img  class="userImg3 userinfo3"src="">
+                        <p class="userinfo3 name">NAME HERE PLEASE give us your </p>
+                        <p class="userinfo3">250 pts</p>
+                     </div>
+                      <div class="userCard ">
+                        <h1 class="userinfo3">1.</h1>
+                        <img  class="userImg3 userinfo3"src="">
+                        <p class="userinfo3 name">NAME HERE PLEASE give us your </p>
+                        <p class="userinfo3">250 pts</p>
+                     </div>
+                      <div class="userCard ">
+                        <h1 class="userinfo3">1.</h1>
+                        <img  class="userImg3 userinfo3"src="">
+                        <p class="userinfo3 name">NAME HERE PLEASE give us your </p>
+                        <p class="userinfo3">250 pts</p>
+                     </div>
+                      <div class="userCard ">
+                        <h1 class="userinfo3">1.</h1>
+                        <img  class="userImg3 userinfo3"src="">
+                        <p class="userinfo3 name">NAME HERE PLEASE give us your </p>
+                        <p class="userinfo3">250 pts</p>
+                     </div>
+
+                    
+                  </div>
+                  
+  
+              </div>
       </div>
     </div>
   </section>
+
+ 
 
   <section class="contact" id="contact">
     <div class="ContactUs">
@@ -103,7 +248,13 @@
         </form>
       </div>
     </div>
+
+
     
+    </section>
+      <section class="foot">
+      
+      <p>copyright - all rights reserved</p>
     </section>
 
     <script type="text/javascript">
@@ -113,14 +264,33 @@
     });
 
     function toggle(){
-    	const menuToggle=document.querySelector('.menuToggle');
-    	const menu=document.querySelector('.menu');
-    	menuToggle.classList.toggle("active");
-    	menu.classList.toggle("active");
+      const menuToggle=document.querySelector('.menuToggle');
+      const menu=document.querySelector('.menu');
+      menuToggle.classList.toggle("active");
+      menu.classList.toggle("active");
     }
+    
 
+    function filter(){
+      const arrowToggle=document.querySelector('.dropdown ul');
+      arrowToggle.classList.toggle("activeFilter");
+
+    }
+    
+   $(document).ready(function(){
+      $(".dropdown ul li").click(function(){
+           var text= ($(this).text());
+           $('.default_options').text(text);
+      })
+   })
+
+    $(document).ready(function(){
+    $(".counter").counterUp({
+      delay:10,
+      time:1000
+
+    });
+  });
     
   </script>
-  
-</body>
-</html>
+ {%endblock%} 
