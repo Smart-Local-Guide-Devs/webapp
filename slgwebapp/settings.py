@@ -31,7 +31,7 @@ else:
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['smart-local-guide.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
