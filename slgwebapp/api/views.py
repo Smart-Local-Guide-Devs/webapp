@@ -2,8 +2,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 from rest_framework import status
-from .serializers import AppSerializer, PlayStoreReviewSerializer
-from .models import App, PlayStoreReview
+from .serializers import *
+from .models import App, PlayStoreReview, Genre, ReviewQuery
 
 # Create your views here.
 
@@ -50,10 +50,26 @@ def slg_site_review(request):
 def app_review(request):
 	if (request.method == 'GET'):
 		res = {}	
-		for genre_dict in App.objects.values('genre').distinct():
-			genre = genre_dict['genre']
-			res[genre] = {f'{genre[:5]}_query_{i}': [f'{genre[:5]}_query_{i}_choice_{j}' for j in range(4)] for i in range(4)}
+		# for genre_dict in App.objects.values('play_store_genre').distinct():
+		# 	genre = genre_dict['play_store_genre']
+		# 	res[genre] = {f'{genre[:5]}_query_{i}': [f'{genre[:5]}_query_{i}_choice_{j}' for j in range(4)] for i in range(4)}
+		# return Response(data=res)
+
+		for genre_obj in Genre.objects.all():
+			genre_dict = PlayStoreGenreSerializer(genre_obj).data
+			temp = {}
+			for i in range(1, 5):	
+				pk = genre_dict[f'query_{i}']
+				query_dict = ReviewQuerySerializer(ReviewQuery.objects.get(pk=pk)).data
+				obj_list = []
+				for j in range(1, 5):
+					pk = query_dict[f'option_{j}']
+					option_dict = QueryOptionSerializer(QueryOption.objects.get(pk=pk)).data
+					obj_list.append(option_dict['option'])
+				temp[f'{query_dict["query"]}'] = obj_list
+			res[genre_dict['genre_name']] = temp
 		return Response(data=res)
+
 
 	mutable = request.data.copy()
 	app_found = False
@@ -85,6 +101,7 @@ def app_review(request):
 		serializer.save()
 		return Response(data=serializer.data, status=status.HTTP_201_CREATED)
 	return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 @api_view(['GET'])
 def counter(request):
 	count_apps = App.objects.count()
