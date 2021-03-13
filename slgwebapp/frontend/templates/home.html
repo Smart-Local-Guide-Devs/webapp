@@ -46,24 +46,13 @@
   </header>
 
   <section class="main" id="main">
-    <div class="searchWrapper">
-        <div class="searchBox">
-           <div  class="dropdown">
-            <div class="default_options">All</div>
-            <ul>
-              <li >Travel and Local</li>
-              <li>Food and restraunts</li>
-              <li >Maps and navigaton</li> 
-              <li>bla bla </li> 
-            </ul>
-            <i  onclick="filter()"class="fa fa-caret-square-o-down"></i> 
-           </div>
-            <div class="searchField">
-            <form action="{% url 'front_search' %}" method="GET">
-              <input type="text" placeholder="Search" name="search_query">
-              <label for="genre" class="form-label">Genre</label>
-                  <select class="form-select" id="genre" name = "genre" >
-                  <option value="">All</option>
+       
+          <div class="searchField">
+            <form class="formFields" action="{% url 'front_search' %}" method="GET">
+              <input class="field Box" type="text" placeholder="Search" name="search_query">
+              <!--<label for="genre " class="form-label Box">Genre</label>-->
+              <select class="form-select BoxGenre Box " id="genre" name = "genre" >
+                  <option value="">select genre</option>
                   <option>Food & Drink</option>
                   <option>Maps & Navigation</option>
                   <option>Travel & Local</option>
@@ -71,15 +60,20 @@
                   <option>Weather</option>
                   <option>Auto & Vehicles</option>
               </select>
-              <input type="number" placeholder="Average Rating" class = "vIntegerField" min = "0" max = "5" name="rating" step=".1">
-              <input type="number" placeholder="Minimum Installs" class = "vIntegerField" name="installs">
-              <button type="submit" class="btn btn-primary">Search</button>
-           </form>
-             <i class="fa fa-search"></i>
-           </div>
-         </div>
+              <div class="choose">
+              <input class="filter Box Box1" type="number" placeholder="Average Rating" class = "vIntegerField" min = "0" max = "5" name="rating" step=".1">
 
-        </div>
+              <input class="filter Box" type="number" placeholder="Minimum Installs" class = "vIntegerField" name="installs">
+              </div>
+            
+              <button class="search" type="submit" class="btn btn-primary"> <i class="fa fa-search"></i>
+                <div class="searchbar"> search</div>
+              </button>
+              
+             
+           </form>
+            
+          </div>
   </section>
      <div class="counterup">
           <div class="counterContent">
