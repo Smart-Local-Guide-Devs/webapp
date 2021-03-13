@@ -1,22 +1,33 @@
 from rest_framework import serializers
-from .models import App, SiteReview, AppReview, NewAppReview
+from .models import App, SlgSiteReview, PlayStoreReview, Genre, ReviewQuery, QueryOption
 
 class AppSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = App
 		fields = '__all__'
 
-class SiteReviewSerializer(serializers.ModelSerializer):
+class SlgSiteReviewSerializer(serializers.ModelSerializer):
 	class Meta:
-		model = SiteReview
+		model = SlgSiteReview
 		fields = '__all__'
 
-class AppReviewSerializer(serializers.ModelSerializer):
+class PlayStoreReviewSerializer(serializers.ModelSerializer):
 	class Meta:
-		model = AppReview
-		fields = '__all__'
+		model = PlayStoreReview
+		fields= '__all__'
 
-class NewAppReviewSerializer(serializers.ModelSerializer):
+
+class PlayStoreGenreSerializer(serializers.ModelSerializer):
 	class Meta:
-		model = NewAppReview
-		fields = '__all__'
+		model = Genre
+		fields= '__all__'
+
+class ReviewQuerySerializer(serializers.ModelSerializer):
+	class Meta:
+		model = ReviewQuery
+		fields= '__all__'
+
+class QueryOptionSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = QueryOption
+		fields= '__all__'
