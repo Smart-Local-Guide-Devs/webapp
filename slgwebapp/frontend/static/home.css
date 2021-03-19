@@ -12,9 +12,12 @@
 }
 
 
+.a{
+  text-decoration: none;
+}
 
 .searchWrapper{
-  //position:   absolute; 
+  /* position:   absolute;  */
   padding-top:150px;
   display: flex;
   justify-content: center;
@@ -241,8 +244,9 @@
      margin-right:30px;
 }
 .serviceName{
-     margin-top: 10px;
+     margin-top: 10px;     
 }
+
 .top{
      font-size:20px;
 }
@@ -277,7 +281,7 @@ h1{
 }
 
 
-      .ContactUs{
+.ContactUs{
   display: flex;
   
   padding-top: 5%;

@@ -145,3 +145,12 @@ header .navlinks li a{
   text-decoration: none;
   color:#fff;
 }
+@media screen and (max-width: 1200px) {
+  .Container, .card1 , .app  {
+    width: 100%; 
+  }
+
+@media screen and (max-width: 600px) {
+   .right , .dot  {
+      width: 100%; 
+    }
