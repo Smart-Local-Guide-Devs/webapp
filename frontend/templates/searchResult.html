@@ -18,6 +18,7 @@
             <h3>Search result</h3>
             <hr>
         </div>
+
         <div class="Container">
             {%for app in search_results%}
             <div class="card1">
@@ -34,6 +35,10 @@
                         <img class="dot" src="{{app.icon_link}}" alt="app icon">
                     </div>
                 </div>
+            </div>
+            {% empty %}
+            <div>
+                Could Not Find What you are looking for!!
             </div>
             {%endfor%}
         </div>

@@ -1,52 +1,51 @@
-
-    *{
-    padding: 0;
-    margin:0;
-
-}
-body{
-    background-color: #C2EDCE;
-}
-
-.form{
-    margin-top:7%;
-    width: 300px;
-    height: 400px;
-    background-color: #3a3a3a;
+/* Login form css */
+    body{
+    margin: 0px;
+    padding: 0px;
+    text-align:center;
+    width: 100%;
+    background-color: #e6e6fae8;
     }
-.container{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    
 
-}
-.header{
-    width: 100%;
-    background-color: #53BAC1;
-    text-align: center;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-.formBody{
-    width: 100%;
-    text-align: center;
-    margin-top: 60px;
-}
-.formInput{
-    width: 75%;
-    padding: 10px;
-    margin:20px;
-    border-radius: 10px;
-    outline: none;
+    input[type=text], input[type=password]{
+    width:20%;
+    padding:7px 10px;
+    margin: 10px 0;
+    display:inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    }
+
+    button{
+    background-color:#4CAF50;
+    width: 10%;
+    padding: 9px 5px;
+    margin:10px 0px 0px 35px;
+    cursor:pointer;
     border:none;
-}
-button{
-    width:25%;
-    background-color: #53BAC1;
-    padding: 10px;
-    outline: none;
-    border: none;
-    border-radius: 10px;
-}
+    color:#ffffff;
+    font-size: 15px;
+    font-weight: bold;
+    }
+
+    button:hover{
+    opacity:0.8;
+    }
+
+    #un,#ps{
+    font-family:'Lato', sans-serif;
+    color: gray;
+    }
+
+
+    #container{
+        position: absolute;
+        top:0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        width:600;
+        height: 300px;
+        text-align: center;
+    }
