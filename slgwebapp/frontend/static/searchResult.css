@@ -1,5 +1,4 @@
 .topnav {
-   // overflow: hidden;
     background-color: #53BAC1;
     width:100%;
     margin-top: 30px;
@@ -24,8 +23,8 @@ hr{
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   padding: 15px ;
   
-  height:140px;
-  margin: 30px 10px 10px 10px;
+  height: 8%;
+  margin: 10px 10px 10px 10px;
   text-align: left;
   font-family: arial;
   background-color:  #C2EDCE;
@@ -80,21 +79,26 @@ body {
   float: center;
   width: 40%;
   margin-top:-10px;
+  padding: 10px;
  
 }
 
 .app{
+  padding: 10px;
+  /* float: right; */
   display: flex;
-  flex-direction:row;
-
+  flex:auto;
+  flex-direction: row;
+  margin-left: 8em;
+  /* margin-right: -8em; */
 }
 .middle {
-    margin-top:-10px;
-    float: right;
-    width: 50%;
-    margin-right: 60px;
+  margin-top:-10px;
+  float: right;
+  width: 50%;
+  margin-right: 60px;
 
-  }
+}
 
 /* Place text to the right */
 /*.right {
@@ -104,7 +108,6 @@ body {
 .dot {
     height: 65px;
     width: 65px;
-    float: center;
     background-color: #bbb;
     border-radius: 50%;
     display: inline-block;
@@ -142,3 +145,12 @@ header .navlinks li a{
   text-decoration: none;
   color:#fff;
 }
+@media screen and (max-width: 1200px) {
+  .Container, .card1 , .app  {
+    width: 100%; 
+  }
+
+@media screen and (max-width: 600px) {
+   .right , .dot  {
+      width: 100%; 
+    }
