@@ -76,10 +76,8 @@ class Review(models.Model):
 	user = models.ForeignKey(to=User, on_delete=models.CASCADE)
 	content = models.TextField()
 	rating = models.IntegerField(choices=[(i,i) for i in range(1,6)])
-	general_query_1 = models.ForeignKey(to=ReviewQuery, on_delete=models.PROTECT, related_name='general_query_1')
-	general_choice_1 = models.ForeignKey(to=QueryOption, on_delete=models.PROTECT, related_name='general_choice_1')
-	general_query_2 = models.ForeignKey(to=ReviewQuery, on_delete=models.PROTECT, related_name='general_query_2')
-	general_choice_2 = models.ForeignKey(to=QueryOption, on_delete=models.PROTECT, related_name='general_choice_2')
+	genre = models.ForeignKey(to=Genre, on_delete=models.PROTECT,related_name='genre')
+
 	genre_query_1 = models.ForeignKey(to=ReviewQuery, on_delete=models.PROTECT, related_name='genre_query_1')
 	genre_choice_1 = models.ForeignKey(to=QueryOption, on_delete=models.PROTECT, related_name='genre_choice_1')
 	genre_query_2 = models.ForeignKey(to=ReviewQuery, on_delete=models.PROTECT, related_name='genre_query_2')

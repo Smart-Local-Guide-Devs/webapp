@@ -95,6 +95,7 @@
                             <textarea form="app_review_form" name="app_review" class="form-control" rows="5" placeholder="How was your experience ... "></textarea>
                         </div>
                         <!-- right column / down column-->
+                        <!-- how is the form submitting values?-->
                         <div class="col gy-5" >
                             <div class="row gy-4">
                            {% for genre, query_choices in genres_queries.items %}
@@ -191,8 +192,8 @@
             {
                 s[i].style.display="none";
             }
-          var elements = document.getElementById(genre+"_queries");
-          elements.style.display = "block";
+            var elements = document.getElementById(genre+"_queries");
+            elements.style.display = "block";
         }
     </script>
 </body>

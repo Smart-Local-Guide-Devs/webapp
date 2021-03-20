@@ -49,58 +49,26 @@ def slg_site_review(request):
 @api_view(['GET', 'POST'])
 def app_review(request):
 	if (request.method == 'GET'):
-		res = {}	
-		# for genre_dict in App.objects.values('play_store_genre').distinct():
-		# 	genre = genre_dict['play_store_genre']
-		# 	res[genre] = {f'{genre[:5]}_query_{i}': [f'{genre[:5]}_query_{i}_choice_{j}' for j in range(4)] for i in range(4)}
-		# return Response(data=res)
+		app_name = request.GET['app_name']
+		res = {}
+		res['app_name'] = app_name
 
-		for genre_obj in Genre.objects.all():
-			genre_dict = PlayStoreGenreSerializer(genre_obj).data
+		app_object = App.objects.get(app_name=app_name)
+		genre_objects = app_object.genre_set.all()
+
+		for genre_obj in genre_objects:
 			temp = {}
-			for i in range(1, 5):	
-				pk = genre_dict[f'query_{i}']
-				query_dict = ReviewQuerySerializer(ReviewQuery.objects.get(pk=pk)).data
-				obj_list = []
-				for j in range(1, 5):
-					pk = query_dict[f'option_{j}']
-					option_dict = QueryOptionSerializer(QueryOption.objects.get(pk=pk)).data
-					obj_list.append(option_dict['option'])
-				temp[f'{query_dict["query"]}'] = obj_list
-			res[genre_dict['genre_name']] = temp
+			
+			query_objects = [genre_obj.query_1, genre_obj.query_2, genre_obj.query_3, genre_obj.query_4]
+
+			for query_obj in query_objects:
+				option_objects = [query_obj.option_1, query_obj.option_2, query_obj.option_3, query_obj.option_4]
+				temp[query_obj.query] = QueryOptionSerializer(option_objects, many=True).data
+				
+			res[genre_obj.genre_name] = temp
 		return Response(data=res)
-
-
-	mutable = request.data.copy()
-	app_found = False
-	if(App.objects.filter(app_name=mutable['app_name']).count() != 0):
-		app = App.objects.get(app_name=mutable['app_name'])
-		mutable['app'] = app.pk
-		app_found = True
-
-	else:
-		app = mutable['app_name']
-		mutable['app'] = app
 	
-	mutable.pop('app_name')
-	review = mutable['app_review']
-	mutable.pop('app_review')
-	mutable['review'] = review
-	# temporary arrangement till availablility of genre queries
-	for i in range(4):
-		mutable.pop(f'TRAVE_query_{i}')
-		
-	if(app_found):
-		serializer = AppReviewSerializer(data=mutable)
-	else:
-		serializer = NewAppReviewSerializer(data=mutable)
-	 # case : if user is not authenticated and if he/she is
-	 # case : genre queries
-	
-	if serializer.is_valid():
-		serializer.save()
-		return Response(data=serializer.data, status=status.HTTP_201_CREATED)
-	return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+	# TODO : POST request handling
 
 @api_view(['GET'])
 def counter(request):

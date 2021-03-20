@@ -36,10 +36,12 @@ def site_review(request):
 
 def app_review(request):
     if request.method == 'POST':
+        print(request.POST)
         response = requests.post(url=get_api_route(request)+'/app_review', data=request.POST)
         if(response.status_code == 400):
-            print(response.text)    
-    response = requests.get(url=get_api_route(request)+'/app_review')
+            print(response.text)
+
+    response = requests.get(url=get_api_route(request)+'/app_review', params={'app_name' : request.GET['app_name']})
     return render(request, 'writeReview.html', {'genres_queries': response.json()})
 
 def login(request):
