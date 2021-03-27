@@ -25,6 +25,14 @@
 			<div class="menuToggle" onclick="toggle()" id="bars">
 				<em class="fa fa-bars"></em>
 			</div>
+			<div class="searchField">
+				<form class="formFields" action="{% url 'front_search' %}" method="GET">
+					<input type="text" placeholder="Search.." name="search">
+  					<button type="submit">
+					  <i class="fa fa-search"></i>
+					</button>
+				</form>
+			</div>
 			<ul class="menu">
 				<li><a href="#main">Menu</a></li>
 				<li><a href="#contact">Contact Us</a></li>

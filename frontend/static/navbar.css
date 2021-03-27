@@ -75,7 +75,39 @@ header.sticky .logo{
 #bars{
   display: none;
 }
+/* search bar */
+form.formFields input[type=text] {
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid grey;
+  float: center;
+  width: 60%;
+  background: #f1f1f1;
+  align-items: center;
+}
 
+form.formFields button {
+  float: left;
+  width: 20%;
+  padding: 10px;
+  background: #2196F3;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none;
+  cursor: pointer;
+}
+
+form.formFields button:hover {
+  background: #0b7dda;
+}
+
+form.formFields::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+ /* search bar end */
 @media(max-width: 991px){
      header .menu{
       display: none;
@@ -124,6 +156,6 @@ header.sticky .logo{
       background-position: center;
     }
 
-
+    
 
 }
