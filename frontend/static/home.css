@@ -18,56 +18,18 @@
 
 
  .searchField{
-  
-  padding-top: 100px;
- }
-.searchWrapper{
-  /* position:   absolute;  */
-  padding-top:150px;
   display: flex;
-  flex-direction:row;
+  padding-top: 100px;
   justify-content: center;
   align-items: center;
-  margin:0;
-  
-}
-.searchWrapper .searchBox{
-  width: 550px;
-  height: 55px;
-  
-    display:  flex; 
-    padding:10px;
-    border-radius: 5px;
-   
-}
-.searchWrapper .searchBox .dropdown{
-   width:180px;
-   border-right: 2px solid;
-   cursor: pointer;
-   position: relative;
-}
-.searchWrapper .searchBox .dropdown .default_options{
-     padding:18px 5px;
-     //font-size: 14px;
-     
-     cursor: pointer;
-}
-.searchWrapper .searchBox .dropdown ul{
-  
-  position: absolute;
-  top:68px;
-  left:-10px;
-  width: 150px;
-  border-radius: 5px;
-  //background-color: #fff;
-  padding:20px;
-  list-style: none;
-  display: none;
-}
+ }
+
 .formFields{
   display: flex;
   flex-direction: row;
   margin-right:3px;
+  justify-content: center;
+  align-items: center;
 
 }
 .field{
@@ -78,22 +40,7 @@
     width:149px;
     margin: 0;
 }
-.searchWrapper .searchBox .dropdown ul li:hover{
-  
-  color:#53BAC1;
-}
-.searchWrapper .searchBox .dropdown .fa{
-  position: absolute;
-  top:15px;
-  right:10px;
-  font-size:22px;
-}
-.searchWrapper .searchBox .searchField{
-  width: 600px;
-  height: 100%;
-  padding-left: 25px;
-  position: relative;
-}
+
 .Box{
   margin-right: 3px;
   padding: 15px;
@@ -111,6 +58,12 @@
   margin-top: 5px;
   background-color: white;
 }
+
+.blocks{
+  display: flex;
+  flex-direction: row;
+}
+
 .search{
   width:80px;
   padding: 15px;
@@ -123,7 +76,7 @@
 
 
 .BoxGenre{
-  padding: 14.3px;
+  padding: 17.2px;
   outline: none;
   border:none;
 }
@@ -219,9 +172,9 @@
       width: 302px;
      }
      .formFields{
-  display: flex;
-  flex-direction: column;
-  max-width:350px;
+      display: flex;
+      flex-direction: column;
+      max-width: 336px;
    }
    .choose{
     display: flex;
@@ -241,7 +194,7 @@
    }
    .search{
     max-width: 100%;
-    width:302px;
+    width:336px;
    }
    .searchbar{
     display: block;

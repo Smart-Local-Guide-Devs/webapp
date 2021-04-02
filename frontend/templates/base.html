@@ -18,22 +18,22 @@
 		{%block headtag%} {%endblock%}
 	</head>
 	<body>
-		<header>
+		<header class="header">
 			<a href="#" class="logo"
 				><img width="40" src="{% static 'logo.png' %}"
 			/></a>
-			<div class="menuToggle" onclick="toggle()" id="bars">
-				<em class="fa fa-bars"></em>
-			</div>
-			<div class="searchField">
-				<form class="formFields" action="{% url 'front_search' %}" method="GET">
-					<input type="text" placeholder="Search.." name="search">
-  					<button type="submit">
+			<form style="display: flex; flex-direction: row;"class="formFields " action="{% url 'front_search' %}" method="GET">
+					<input class="navSearch" type="text" placeholder="Search.." name="search">
+  					<button class="navButton" type="submit">
 					  <i class="fa fa-search"></i>
 					</button>
 				</form>
+			<div class="menuToggle" onclick="toggle()" id="bars">
+				<em class="fa fa-bars"></em>
 			</div>
+			
 			<ul class="menu">
+				
 				<li><a href="#main">Menu</a></li>
 				<li><a href="#contact">Contact Us</a></li>
 				{% if user.is_authenticated %}
