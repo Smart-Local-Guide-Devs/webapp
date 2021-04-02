@@ -43,6 +43,17 @@ def search(request):
     search_results = response.json()
     return render(request, "searchResult.html", {"search_results": search_results})
 
+def search_nav(request):
+    search_query = request.GET["search_query"]
+    response = requests.get(
+        url=get_api_route(request) + "/search",
+        params={
+            "search_query": search_query
+        },
+    )
+    search_results = response.json()
+    return render(request, "searchResult.html", {"search_results": search_results})
+
 
 def get_app(request):
     app_name = request.GET["app_name"]
