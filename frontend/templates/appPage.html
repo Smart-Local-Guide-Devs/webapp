@@ -1,319 +1,289 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<title>Product Overview</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<!-- Nav bar-->
+{%extends 'base.html'%}
+{%load static%}
+ {%block headtag%}
 
-		{%load static%}
-		<link rel="stylesheet" type="text/css" href="{%static 'appPage.css'%}" />
+<!-- Nav bar-->
 
-		<!-- Rating Part-->
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<!-- Font Awesome Icon Library -->
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-		/>
 
-		<link
-			rel="stylesheet"
-			href="https://unpkg.com/flickity@2/dist/flickity.min.css"
-		/>
 
-		<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
-	</head>
-	<style type="text/css">
-		.carousel {
-			background: #c2edce;
-			margin-top: 80px;
-		}
+    <link rel="stylesheet" type="text/css" href="{%static 'appPage.css'%}">
 
-		.carousel-cell {
-			width: 100%;
-			height: auto;
-			min-height: 320px;
-			max-height: 400px;
-			margin-right: 50px;
-			margin-left: 50px;
-			margin-top: 50px;
-			background: #53bac1;
-			border-radius: 5px;
-		}
+<!-- Rating Part-->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Font Awesome Icon Library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-		.carousel-cell.is-selected {
-			background: #53bac1;
-		}
 
-		/* cell number */
-		.carousel-cell:before {
-			display: block;
-			text-align: center;
 
-			line-height: 200px;
-			font-size: 80px;
-			color: white;
-		}
+<link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
 
-		.review {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			flex-direction: column;
-			padding: 10px;
-		}
+<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+</head>
+<style type="text/css">
+  .carousel {
+  background:#C2EDCE;
+  margin-top:80px;
+  
+}
 
-		.userImg {
-			width: 70px;
-			height: 70px;
-			border-radius: 50%;
-			background-color: #fff;
-		}
-	</style>
-	<body>
-		<header>
-			<div class="logo">LOGO</div>
-			<!--<div class="menuToggle" onclick="toggle()" id="bars">
-          <i class="fa fa-bars"></i>
-        </div>-->
-			<ul class="navlinks">
-				<!--<li ><a href="#main">HOME</a></li>
-      <li ><a href="#topApps">TOP SERVICES</a></li>
-      <li ><a href="#contributor">CONTRIBUTORS</a></li>
-      <li ><a href="#contact">CONTACT US</a></li>-->
-			</ul>
-		</header>
+.carousel-cell {
+  width: 100%;
+  height: auto;
+  min-height: 320px;
+  max-height:400px;
+  margin-right: 50px;
+  margin-left:50px;
+  margin-top: 50px;
+  background:  #53BAC1;
+  border-radius: 5px;
+ 
+}
 
-		<div class="Container">
-			<div class="card">
-				<div class="col-md-3 mt-1">
-					<div>
-						<img
-							class="img-fluid img-responsive rounded product-image"
-							src="{{app.icon_link}}"
-							style="float: left"
-							alt="app icon"
-						/>
-					</div>
-					<div>
-						<h1>{{ app.app_name }}</h1>
-						<div class="appDesc">
-							<p>{{ app.app_summary }}</p>
-						</div>
-					</div>
-				</div>
-			</div>
+.carousel-cell.is-selected {
+  background: #53BAC1;
+}
 
-			<div class="cardur">
-				<span class="heading">User Rating</span>
-				{% if app.avg_rating >= 4.5 %}
-				<span class="fa fa-star checked"></span>
-				<span class="fa fa-star checked"></span>
-				<span class="fa fa-star checked"></span>
-				<span class="fa fa-star checked"></span>
-				<span class="fa fa-star checked"></span>
-				{% elif app.avg_rating >= 3.5 %}
-				<span class="fa fa-star checked"></span>
-				<span class="fa fa-star checked"></span>
-				<span class="fa fa-star checked"></span>
-				<span class="fa fa-star checked"></span>
-				<span class="fa fa-star"></span>
-				{% elif app.avg_rating >= 2.5 %}
-				<span class="fa fa-star checked"></span>
-				<span class="fa fa-star checked"></span>
-				<span class="fa fa-star checked"></span>
-				<span class="fa fa-star"></span>
-				<span class="fa fa-star"></span>
-				{% elif app.avg_rating >= 1.5 %}
-				<span class="fa fa-star checked"></span>
-				<span class="fa fa-star checked"></span>
-				<span class="fa fa-star"></span>
-				<span class="fa fa-star"></span>
-				<span class="fa fa-star"></span>
-				{% else %}
-				<span class="fa fa-star checked"></span>
-				<span class="fa fa-star"></span>
-				<span class="fa fa-star"></span>
-				<span class="fa fa-star"></span>
-				<span class="fa fa-star"></span>
-				{% endif %}
+/* cell number */
+.carousel-cell:before {
+  display: block;
+  text-align: center;
+ 
+  line-height: 200px;
+  font-size: 80px;
+  color: white;
+}
 
-				<p>
-					{{ app.avg_rating }} average based on {{ app.ratings_count }} reviews.
-				</p>
+.review{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 10px;
+}
 
-				<div class="row">
-					<div class="side">
-						<div>5 star</div>
-					</div>
-					<div class="middle">
-						<div class="bar-container">
-							<div
-								class="bar-5"
-								style="width: {{ histogram.5_star_percent }}%;"
-							></div>
-						</div>
-					</div>
-					<div class="side right">
-						<div>{{ app.five_stars }}</div>
-					</div>
-					<div class="side">
-						<div>4 star</div>
-					</div>
-					<div class="middle">
-						<div class="bar-container">
-							<div
-								class="bar-4"
-								style="width: {{ histogram.4_star_percent }}%;"
-							></div>
-						</div>
-					</div>
-					<div class="side right">
-						<div>{{ app.four_stars }}</div>
-					</div>
-					<div class="side">
-						<div>3 star</div>
-					</div>
-					<div class="middle">
-						<div class="bar-container">
-							<div
-								class="bar-3"
-								style="width: {{ histogram.3_star_percent }}%;"
-							></div>
-						</div>
-					</div>
-					<div class="side right">
-						<div>{{ app.three_stars }}</div>
-					</div>
-					<div class="side">
-						<div>2 star</div>
-					</div>
-					<div class="middle">
-						<div class="bar-container">
-							<div
-								class="bar-2"
-								style="width: {{ histogram.2_star_percent }}%;"
-							></div>
-						</div>
-					</div>
-					<div class="side right">
-						<div>{{ app.two_stars }}</div>
-					</div>
-					<div class="side">
-						<div>1 star</div>
-					</div>
-					<div class="middle">
-						<div class="bar-container">
-							<div
-								class="bar-1"
-								style="width: {{ histogram.1_star_percent }}%;"
-							></div>
-						</div>
-					</div>
-					<div class="side right">
-						<div>{{ app.one_stars }}</div>
-					</div>
-				</div>
-			</div>
+.userImg{
+     width: 70px;
+     height: 70px;
+     border-radius: 50%;
+     background-color: #fff;
 
-			<h1>User Reviews</h1>
+}
+</style>
+{%endblock%}
+{%block content%}
 
-			<div class="carousel" data-flickity='{ "groupCells": false }'>
-				{% for review in reviews %}
-				<div class="carousel-cell">
-					<div class="review">
-						<img
-							class="userImg"
-							src="{{review.user_img_link}}"
-							alt="user image"
-						/>
-						<div class="userName">
-							<h3>{{review.user_name}}</h3>
-						</div>
-						<div class="rating">
-							{% if review.rating == 5 %}
-							<span class="fa fa-star checked"></span>
-							<span class="fa fa-star checked"></span>
-							<span class="fa fa-star checked"></span>
-							<span class="fa fa-star checked"></span>
-							<span class="fa fa-star checked"></span>
-							{% elif review.rating == 4 %}
-							<span class="fa fa-star checked"></span>
-							<span class="fa fa-star checked"></span>
-							<span class="fa fa-star checked"></span>
-							<span class="fa fa-star checked"></span>
-							<span class="fa fa-star"></span>
-							{% elif review.rating == 3 %}
-							<span class="fa fa-star checked"></span>
-							<span class="fa fa-star checked"></span>
-							<span class="fa fa-star checked"></span>
-							<span class="fa fa-star"></span>
-							<span class="fa fa-star"></span>
-							{% elif review.rating == 2 %}
-							<span class="fa fa-star checked"></span>
-							<span class="fa fa-star checked"></span>
-							<span class="fa fa-star"></span>
-							<span class="fa fa-star"></span>
-							<span class="fa fa-star"></span>
-							{% elif review.rating == 1 %}
-							<span class="fa fa-star checked"></span>
-							<span class="fa fa-star"></span>
-							<span class="fa fa-star"></span>
-							<span class="fa fa-star"></span>
-							<span class="fa fa-star"></span>
-							{%endif%}
-						</div>
-						<div class="review content">{{review.content}}</div>
-						<span class="fa fa-thumbs-up">{{ review.up_vote_count }}</span>
-					</div>
-				</div>
-				{%endfor%}
-			</div>
 
-			<div class="otherRec">
-				<div class="similar">
-					<p>SIMILAR SERVICES</p>
-					<div class="productCard">
-						<div class="productImage"></div>
-						<div class="productName">
-							<p>service name</p>
-						</div>
-					</div>
-					<div class="productCard">
-						<div class="productImage"></div>
-						<div class="productName">
-							<p>service name</p>
-						</div>
-					</div>
-					<div class="productCard">
-						<div class="productImage"></div>
-						<div class="productName">
-							<p>service name</p>
-						</div>
-					</div>
-				</div>
-				<div class="customer">
-					<p>CUSTOMER ALSO PREFER</p>
-					<div class="productCard">
-						<div class="productImage"></div>
-						<div class="productName">
-							<p>service Name</p>
-						</div>
-					</div>
-					<div class="productCard">
-						<div class="productImage"></div>
-						<div class="productName">
-							<p>service name</p>
-						</div>
-					</div>
-					<div class="productCard">
-						<div class="productImage"></div>
-						<div class="productName">
-							<p>service name</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</body>
-</html>
+
+
+<div class="Container">
+<div class="Card">
+  <div class="card_com">
+    <div>
+      <img class="cardimage" src="{{app.icon_link}}">
+    </div>
+    <div class="card_con">
+      <h1>{{app.app_name}}</h1>
+      <p>{{app.app_summary}}</p>
+    </div>
+  </div>
+</div>
+
+<div class = "cardur">
+<span class="heading">User Rating</span>
+{%if app.avg_rating == 5%}
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span>
+{% elif  app.avg_rating <= 5 and app.avg_rating >= 4 %}
+   <span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star"></span>
+
+{% elif  app.avg_rating <= 4 and app.avg_rating >= 3 %}
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star"></span>
+<span class="fa fa-star"></span>
+
+{% elif  app.avg_rating <= 3 and app.avg_rating >= 2 %}
+   <span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star"></span>
+<span class="fa fa-star"></span>
+<span class="fa fa-star"></span>
+
+{% elif  app.avg_rating <= 2 and app.avg_rating >= 1 %}
+   <span class="fa fa-star checked"></span>
+<span class="fa fa-star "></span>
+<span class="fa fa-star"></span>
+<span class="fa fa-star"></span>
+<span class="fa fa-star"></span>
+{%endif%}
+
+<!--<span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star checked"></span>
+<span class="fa fa-star"></span>-->
+<p>{{ app.avg_rating }} average based on {{ app.ratings_count }} reviews.</p>
+
+<div class="row">
+  <div class="side">
+    <div>5 star</div>
+  </div>
+  <div class="middle">
+    <div class="bar-container">
+      <div class="bar-5" style="width: {{ histogram.5_star_percent }}%;"></div>
+    </div>
+  </div>
+  <div class="side right">
+    <div>{{ app.five_stars }}</div>
+  </div>
+  <div class="side">
+    <div>4 star</div>
+  </div>
+  <div class="middle">
+    <div class="bar-container">
+      <div class="bar-4" style="width: {{ histogram.4_star_percent }}%;"></div>
+    </div>
+  </div>
+  <div class="side right">
+    <div>{{ app.four_stars }}</div>
+  </div>
+  <div class="side">
+    <div>3 star</div>
+  </div>
+  <div class="middle">
+    <div class="bar-container">
+      <div class="bar-3" style="width: {{ histogram.3_star_percent }}%;"></div>
+    </div>
+  </div>
+  <div class="side right">
+    <div>{{ app.three_stars }}</div>
+  </div>
+  <div class="side">
+    <div>2 star</div>
+  </div>
+  <div class="middle">
+    <div class="bar-container">
+      <div class="bar-2" style="width: {{ histogram.2_star_percent }}%;"></div>
+    </div>
+  </div>
+  <div class="side right">
+    <div>{{ app.two_stars }}</div>
+  </div>
+  <div class="side">
+    <div>1 star</div>
+  </div>
+  <div class="middle">
+    <div class="bar-container">
+      <div class="bar-1" style="width: {{ histogram.1_star_percent }}%;"></div>
+    </div>
+  </div>
+  <div class="side right">
+    <div>{{ app.one_stars }}</div>
+  </div>
+</div>
+</div>
+
+<h1>User Reviews</h1>
+
+<div class="carousel" data-flickity='{ "groupCells": false }'>
+{% for review in reviews %}
+  <div class="carousel-cell">
+    <div class="review">
+      <img class="userImg" src="{{review.user_img_link}}" alt='user image'>
+      <div class="userName">
+        <h3>{{review.user_name}}</h3>
+      </div>
+      <div class="rating">
+       {% if  review.rating == 5 %}
+         <span class="fa fa-star checked" ></span>
+          <span class="fa fa-star checked" ></span>
+         <span class="fa fa-star checked" ></span>
+          <span class="fa fa-star checked" ></span>
+         <span class="fa fa-star checked"></span>
+         {% elif  review.rating == 4  %}
+         <span class="fa fa-star checked" ></span>
+          <span class="fa fa-star checked" ></span>
+         <span class="fa fa-star checked" ></span>
+          <span class="fa fa-star checked" ></span>
+         <span class="fa fa-star"></span>
+         {% elif  review.rating == 3  %}
+         <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+         <span class="fa fa-star checked "></span>
+          <span class="fa fa-star "></span>
+         <span class="fa fa-star"></span>
+         {% elif  review.rating == 2 %}
+         <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+         <span class="fa fa-star "></span>
+          <span class="fa fa-star "></span>
+         <span class="fa fa-star"></span>
+         {% elif  review.rating == 1  %}
+         <span class="fa fa-star checked"></span>
+          <span class="fa fa-star "></span>
+         <span class="fa fa-star "></span>
+          <span class="fa fa-star "></span>
+         <span class="fa fa-star"></span>
+         {%endif%}
+      </div>
+      <div class="review content">
+             {{review.content}}
+      </div>
+    </div>
+  </div>
+{%endfor%}
+</div>
+
+  <div class="Services">
+    <h1>Similar Services</h1>  
+     <div class="carousel" data-flickity='{ "groupCells": false }'>
+      <div class=" serviceCard">
+        <div class="serviceImage"></div>
+        <p>Service Name</p>
+      </div>
+      <div class="serviceCard">
+        <div class="serviceImage"></div>
+        <p>Service Name</p>
+      </div>
+      <div class="serviceCard">
+        <div class="serviceImage"></div>
+        <p>Service Name</p>
+      </div>
+      <div class="serviceCard">
+        <div class="serviceImage"></div>
+        <p>Service Name</p>
+      </div>
+     </div>
+  </div>
+
+  <div class="Services">
+    <h1>Customer also prefer</h1>  
+     <div class="carousel" data-flickity='{ "groupCells": false }'>
+      <div class=" serviceCard  ">
+        <div class="serviceImage"></div>
+        <p>Service Name</p>
+      </div>
+      <div class=" serviceCard  ">
+        <div class="serviceImage"></div>
+        <p>Service Name</p>
+      </div>
+      <div class=" serviceCard  ">
+        <div class="serviceImage"></div>
+        <p>Service Name</p>
+      </div>
+      <div class=" serviceCard  ">
+        <div class="serviceImage"></div>
+        <p>Service Name</p>
+      </div>
+     </div>
+  </div>
+</div>
+{%endblock%}
