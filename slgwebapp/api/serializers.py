@@ -42,3 +42,8 @@ class QueryOptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = QueryOption
         fields = '__all__'
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = '__all__'

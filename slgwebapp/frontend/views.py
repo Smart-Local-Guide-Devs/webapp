@@ -46,7 +46,6 @@ def site_review(request):
 
 def app_review(request):
     if request.method == 'POST':
-        print(request.POST)
         response = requests.post(url=get_api_route(
             request)+'/app_review', data=request.POST)
         if(response.status_code == 400):

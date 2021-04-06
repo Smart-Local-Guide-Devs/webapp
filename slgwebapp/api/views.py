@@ -56,43 +56,59 @@ def slg_site_review(request):
 
 @api_view(['GET', 'POST'])
 def app_review(request):
-    if (request.method == 'GET'):
-        #         app_name = request.GET['app_name']
-        res = {}
-        #         res['app_name'] = app_name
+    if request.method == 'GET':
+        # not sending genre leads to deformation on the website. Shouldn't be sent ideally?
+        app_name = request.GET['app_name']
+        app_object = App.objects.get(app_name=app_name)
+        genre_objects = app_object.genre_set.all()
+        query_list = []
 
-        #         app_object = App.objects.get(app_name=app_name)
-        #         genre_objects = app_object.genre_set.all()
-        #         query_list = []
+        for genre_obj in genre_objects:
+            for query_obj in genre_obj.queries.all():
+                if query_obj in query_list:
+                    continue
+                query_list.append(query_obj)
 
-        #         for genre_obj in genre_objects:
-        #             temp = {}
-        #             temp_name = {}
-        #             query_objects = [genre_obj.query_1, genre_obj.query_2,
-        #                              genre_obj.query_3, genre_obj.query_4]
-        #             query_list.append(
-        #                 [genre_obj.query_1, genre_obj.query_2, genre_obj.query_3, genre_obj.query_4])
+        query_list = random.sample(query_list, min(len(query_list), 6))
 
-        #         query_list = random.sample(query_list, min(6, len(query_list)))
+        response = {}
+        for query_obj in query_list:
+            temp = []
+            for option_obj in query_obj.options.all():
+                temp.append(option_obj.option) 
+            response[query_obj.query] = temp
 
-        #         for query_obj in query_list:
-        #             option_objects = [
-        #                 query_obj.option_1, query_obj.option_2, query_obj.option_3, query_obj.option_4]
-        #             temp[query_obj.query] = QueryOptionSerializer(
-        #                 option_objects, many=True).data
-        #             res[genre_obj.genre_name] = temp
-
+        # adding temporary fix for genre issue
+        res = {'Genre ek' : response, 'Genre do' : response}
         return Response(data=res)
 
-#     # TODO : POST request handling
-#     mutable = request.POST.copy()
-#     temp = {}
-#     temp['app_name'] = App.Objects.get(app_name=mutable['app_name'])
-#     temp['genre'] = Genre.Objects.get(genre_name=mutable['genre'])
-#     temp['content'] = mutable['content']
-#     temp['ratings'] = mutable['ratings']
-
-
+        #return Response(data=response)
+    
+    req = request.POST.copy()
+    print(req)
+    review = {}
+    app_name = req['app_name']
+    genre_name = req['genre']
+    review['rating'] = req['stars']
+    review['content'] = req['app_review']
+    review['app'] = App.objects.get(app_name=app_name)
+    review['genre'] = Genre.objects.get(genre_name=genre_name)
+    req.pop('csrfmiddlewaretoken')
+    req.pop('app_name')
+    req.pop('genre')
+    req.pop('stars')
+    req.pop('app_review')
+    for query, option_list in req.items():
+        # add query option objects to many to many field query_options
+        pass
+    
+    serializer = ReviewSerializer(data=review)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+    else:
+        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 @api_view(['GET'])
 def counter(request):
     count_apps = App.objects.count()
