@@ -60,43 +60,41 @@ def app_review(request):
         app_object = App.objects.get(app_name=request.GET['app_name'])
         genre_objects = app_object.genre_set.all()
         query_list = []
+        genre_string = ''
 
         for genre_obj in genre_objects:
+            genre_string += genre_obj.genre_name + ', '
             for query_obj in genre_obj.queries.all():
                 if query_obj in query_list:
                     continue
                 query_list.append(query_obj)
         query_list = random.sample(query_list, min(len(query_list), 6))
 
-        response = {}
+        query_option_dict = {}
         for query_obj in query_list:
-            temp = []
+            options = []
             for option_obj in query_obj.options.all():
-                temp.append(option_obj.option) 
-            response[query_obj.query] = temp
+                options.append(option_obj.option) 
+            query_option_dict[query_obj.query] = options
 
-        # adding temporary fix for genre issue
-        res = {'Travel and Tourism' : response, 'Food' : response, 'Air travel' : response}
-        return Response(data=res)
-        #return Response(data=response)
+        response = {'app_name' : request.GET['app_name'], 'genre_string' : genre_string[:-2], 'queries' : query_option_dict}
+        return Response(data=response)
 
     req = request.POST.copy()
     app = App.objects.get(app_name=req['app_name'])
-    genre = Genre.objects.get(genre_name=req['genre'])
     if request.user.is_authenticated:
         user = request.user
     else:
         user = User.objects.get(username='anonymous_user')
 
+    review = Review(app=app, user=user, content=req['app_review'], rating=req['stars'])
+    review.save()
+    
     req.pop('csrfmiddlewaretoken')
     req.pop('app_name')
-    req.pop('genre')
     req.pop('stars')
     req.pop('app_review')
 
-    review = Review(app=app, user=user, content=req['content'], rating=req['rating'], genre=genre)
-    review.save()
-    
     for query, option_list in req.items():
         query_obj = Query.objects.get(query=query)
         option_obj = Option.objects.get(option=option_list[0])

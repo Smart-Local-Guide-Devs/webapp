@@ -50,20 +50,12 @@
                             
                             <div class="input-group mb-3">
                                 <span class="input-group-text">App Name</span>
-                                <input type="text" class="form-control" name="app_name">
+                                <input type="text" class="form-control" name="app_name" value="{{ app_name }}" placeholder="{{ app_name }}" readonly>
                             </div>
         
                             <div class="input-group">
                                 <span class="input-group-text">Product Category</span>
-                                <select class="form-select" onchange="gen(this.value);" id="select-it" form="app_review_form" name="genre">
-                                    {% for genre in genres_queries %}
-                                     {% comment %} {% if forloop.first %} {% endcomment %}
-                                        {% comment %} <option selected = "selected" value="{{ genre }}"id="gen">{{ genre }}</option> {% endcomment %}
-                                     {% comment %} {% else %} {% endcomment %}
-                                       <option  value="{{ genre }}"id="{{ genre }}">{{ genre }}</option>
-                                    {% comment %} {% endif %} {% endcomment %}
-                                    {% endfor %}
-                                </select>
+                                <span class="input-group-text">{{ genre_string }}</span>
                             </div>
         
                             <div class="row" style="margin-top:20px; margin-bottom: 10px;">
@@ -98,24 +90,19 @@
                         <!-- how is the form submitting values?-->
                         <div class="col gy-5" >
                             <div class="row gy-4">
-                           {% for genre, query_choices in genres_queries.items %}
-                                    <div class="hide queryhide" id="{{genre}}_queries">
-                                    {% for query, choices in query_choices.items %}
-                                        <div class="row" style="padding: 1em;">
-                                            <div class="col-6">
-                                                <h6>{{ query }}</h6>
-                                            </div>
-                                            <div class="col-6">
-                                                <select class="form-select" form="app_review_form" name="{{ query }}">
-                                                    {% for choice in choices %}
-                                                    <option>{{ choice }}</option>
-                                                    {% endfor %}
-                                                </select>
-                                            </div>
-                                        </div>
-                                         {% endfor %}
+                                {% for query, options in queries.items %}
+                                <div class="row" style="padding: 1em;">
+                                    <div class="col-6">
+                                        <h6>{{ query }}</h6>
                                     </div>
-                                   
+                                    <div class="col-6">
+                                        <select class="form-select" form="app_review_form" name="{{ query }}">
+                                            {% for option in options %}
+                                            <option>{{ option }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
                                 {% endfor %}
                             </div>   
                         </div>
@@ -185,16 +172,5 @@
             </div>
         </div>
     </main>
-    <script type="text/javascript">
-        function gen(genre) {
-            var s = document.getElementsByClassName("queryhide");
-            for(var i=0;i<s.length;i++)
-            {
-                s[i].style.display="none";
-            }
-            var elements = document.getElementById(genre+"_queries");
-            elements.style.display = "block";
-        }
-    </script>
 </body>
 </html>

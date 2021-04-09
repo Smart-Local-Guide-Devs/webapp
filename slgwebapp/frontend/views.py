@@ -53,7 +53,7 @@ def app_review(request):
         response = requests.get(url=get_api_route(request)+'/app_review', params={'app_name': request.POST['app_name']})
     else:
         response = requests.get(url=get_api_route(request)+'/app_review', params={'app_name': request.GET['app_name']})
-    return render(request, 'writeReview.html', {'genres_queries': response.json()})
+    return render(request, 'writeReview.html', response.json())
 
 
 def login(request):

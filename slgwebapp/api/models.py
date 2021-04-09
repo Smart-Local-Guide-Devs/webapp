@@ -79,13 +79,15 @@ class QueryOption(models.Model):
     query = models.ForeignKey(to=Query, on_delete=models.CASCADE)
     option = models.ForeignKey(to=Option, on_delete=models.CASCADE)
 
+    def __str__(self) -> str:
+        return self.query.query + " : " + self.option.option
+
 
 class Review(models.Model):
     app = models.ForeignKey(to=App, on_delete=models.CASCADE)
     user = models.ForeignKey(to=User, on_delete=models.CASCADE)
     content = models.TextField()
     rating = models.IntegerField(choices=[(i, i) for i in range(1, 6)])
-    genre = models.ForeignKey(to=Genre, on_delete=models.PROTECT, related_name='genre')
     query_options = models.ManyToManyField(to=QueryOption)
 
     def __str__(self) -> str:
