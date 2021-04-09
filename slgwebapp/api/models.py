@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 
 # Create your models here.
 
@@ -85,8 +85,7 @@ class Review(models.Model):
     user = models.ForeignKey(to=User, on_delete=models.CASCADE)
     content = models.TextField()
     rating = models.IntegerField(choices=[(i, i) for i in range(1, 6)])
-    genre = models.ForeignKey(
-        to=Genre, on_delete=models.PROTECT, related_name='genre')
+    genre = models.ForeignKey(to=Genre, on_delete=models.PROTECT, related_name='genre')
     query_options = models.ManyToManyField(to=QueryOption)
 
     def __str__(self) -> str:

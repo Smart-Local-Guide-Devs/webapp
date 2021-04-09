@@ -57,9 +57,7 @@ def slg_site_review(request):
 @api_view(['GET', 'POST'])
 def app_review(request):
     if request.method == 'GET':
-        # not sending genre leads to deformation on the website. Shouldn't be sent ideally?
-        app_name = request.GET['app_name']
-        app_object = App.objects.get(app_name=app_name)
+        app_object = App.objects.get(app_name=request.GET['app_name'])
         genre_objects = app_object.genre_set.all()
         query_list = []
 
@@ -68,7 +66,6 @@ def app_review(request):
                 if query_obj in query_list:
                     continue
                 query_list.append(query_obj)
-
         query_list = random.sample(query_list, min(len(query_list), 6))
 
         response = {}
@@ -79,35 +76,41 @@ def app_review(request):
             response[query_obj.query] = temp
 
         # adding temporary fix for genre issue
-        res = {'Genre ek' : response, 'Genre do' : response}
+        res = {'Travel and Tourism' : response, 'Food' : response, 'Air travel' : response}
         return Response(data=res)
-
         #return Response(data=response)
-    
+
     req = request.POST.copy()
-    print(req)
-    review = {}
-    app_name = req['app_name']
-    genre_name = req['genre']
-    review['rating'] = req['stars']
-    review['content'] = req['app_review']
-    review['app'] = App.objects.get(app_name=app_name)
-    review['genre'] = Genre.objects.get(genre_name=genre_name)
+    app = App.objects.get(app_name=req['app_name'])
+    genre = Genre.objects.get(genre_name=req['genre'])
+    if request.user.is_authenticated:
+        user = request.user
+    else:
+        user = User.objects.get(username='anonymous_user')
+
     req.pop('csrfmiddlewaretoken')
     req.pop('app_name')
     req.pop('genre')
     req.pop('stars')
     req.pop('app_review')
-    for query, option_list in req.items():
-        # add query option objects to many to many field query_options
-        pass
+
+    review = Review(app=app, user=user, content=req['content'], rating=req['rating'], genre=genre)
+    review.save()
     
-    serializer = ReviewSerializer(data=review)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(data=serializer.data, status=status.HTTP_201_CREATED)
-    else:
-        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    for query, option_list in req.items():
+        query_obj = Query.objects.get(query=query)
+        option_obj = Option.objects.get(option=option_list[0])
+        try:
+            query_option_obj = QueryOption.objects.get(query=query_obj, option=option_obj)
+        except QueryOption.DoesNotExist:
+            query_option_obj = QueryOption()
+            query_option_obj.query = query_obj
+            query_option_obj.option = option_obj
+            query_option_obj.save()
+        review.query_options.add(query_option_obj)
+
+    review.save()
+    return Response(data={'status' : 'success'}, status=status.HTTP_200_OK)
     
 @api_view(['GET'])
 def counter(request):

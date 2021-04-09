@@ -50,9 +50,9 @@ def app_review(request):
             request)+'/app_review', data=request.POST)
         if(response.status_code == 400):
             print(response.text)
-
-    response = requests.get(url=get_api_route(
-        request)+'/app_review', params={'app_name': request.GET['app_name']})
+        response = requests.get(url=get_api_route(request)+'/app_review', params={'app_name': request.POST['app_name']})
+    else:
+        response = requests.get(url=get_api_route(request)+'/app_review', params={'app_name': request.GET['app_name']})
     return render(request, 'writeReview.html', {'genres_queries': response.json()})
 
 
