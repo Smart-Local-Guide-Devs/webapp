@@ -14,13 +14,13 @@
 			margin: 0;
 			padding: 0;
 			height: 100%;
-			background: #7abecc !important;
+			background:#ABDCD6 !important;
 		}
 		.user_card {
 			width: 350px;
 			margin-top: auto;
 			margin-bottom: auto;
-			background: #74cfbf;
+			background: #E4DBBF;
 			position: relative;
 			display: flex;
 			justify-content: center;
@@ -29,7 +29,7 @@
 			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 			-webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 			-moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-			border-radius: 5px;
+			border-radius: 30px;
 
 		}
 
@@ -38,25 +38,33 @@
 		}
 
 		#form-title{
-			color: #fff;
+			color: rgb(10, 1, 1);
 			
 		}
 
 		.login_btn {
 			width: 100%;
-			background: #33ccff !important;
-			color: white !important;
+			background-color: #007ea7;
+background-image: linear-gradient(315deg, #007ea7 0%, #80ced7 74%);
+			color: rgb(8, 0, 0) !important;
+			border-radius: 30px;
 		}
 		.login_btn:focus {
 			box-shadow: none !important;
 			outline: 0px !important;
 		}
+		.login_btn:hover{
+			color: darkgoldenrod;
+			opacity: 1;
+		}
 		.login_container {
 			padding: 0 2rem;
 		}
 		.input-group-text {
-			background: #f7ba5b !important;
-			color: white !important;
+			background-color: #48dbfb;
+background-image: linear-gradient(315deg, #48dbfb 0%, #d3d3d3 74%) !important;
+
+			color: black !important;
 			border: 0 !important;
 			border-radius: 0.25rem 0 0 0.25rem !important;
 		}
@@ -67,11 +75,26 @@
 		}
 
 		#messages{
-			background-color: grey;
+			background-color:#f44336;
 			color: #fff;
-			padding: 10px;
-			margin-top: 10px;
+			padding: 15px;
+			margin-top: 15px;
+			text-align: center;
+			/* border-radius: 30px; */
 		}
+		.closebtn {
+			margin-left: 20px;
+			color: white;
+			font-weight: bold;
+			float: right;
+			font-size: 22px;
+			line-height: 40px;
+			cursor: pointer;
+			transition: 0.3s;
+			}
+		.closebtn:hover {
+			color: black;
+			}
 	</style>
 
 </head>
@@ -125,7 +148,10 @@
 				</div>
 
 				{% for message in messages %}
+				<div>
+					<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
 					<p id="messages">{{message}}</p>
+				</div>
 				{% endfor %}			
 		
 				<div class="mt-4">
