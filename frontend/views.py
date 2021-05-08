@@ -43,6 +43,7 @@ def search(request):
     search_results = response.json()
     return render(request, "searchResult.html", {"search_results": search_results})
 
+
 def search_nav(request):
     search_query = request.GET["search_query"]
     response = requests.get(
@@ -60,7 +61,7 @@ def get_app(request):
     response = requests.get(
         url=get_api_route(request) + "/get_app", params={"app_name": app_name}
     ).json()
-    ratings_count = response["app"]["ratings_count"]
+    ratings_count = max(response["app"]["ratings_count"], 1)
     histogram = {
         "1_star_percent": response["app"]["one_stars"] * 100 / ratings_count,
         "2_star_percent": response["app"]["two_stars"] * 100 / ratings_count,
