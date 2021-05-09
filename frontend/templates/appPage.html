@@ -1,12 +1,12 @@
 {%extends 'base.html'%}
 {%load static%}
- {%block headtag%}
+{%block headtag%}
 
 <!-- Nav bar-->
 
 
 
-    <link rel="stylesheet" type="text/css" href="{%static 'appPage.css'%}">
+<link rel="stylesheet" type="text/css" href="{%static 'appPage.css'%}">
 
 <!-- Rating Part-->
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,53 +21,53 @@
 </head>
 <style type="text/css">
   .carousel {
-  background:#C2EDCE;
-  margin-top:80px;
-  
-}
+    background: #C2EDCE;
+    margin-top: 80px;
 
-.carousel-cell {
-  width: 100%;
-  height: auto;
-  min-height: 320px;
-  max-height:400px;
-  margin-right: 50px;
-  margin-left:50px;
-  margin-top: 50px;
-  background:  #53BAC1;
-  border-radius: 5px;
- 
-}
+  }
 
-.carousel-cell.is-selected {
-  background: #53BAC1;
-}
+  .carousel-cell {
+    width: 100%;
+    height: auto;
+    min-height: 320px;
+    max-height: 400px;
+    margin-right: 50px;
+    margin-left: 50px;
+    margin-top: 50px;
+    background: #53BAC1;
+    border-radius: 5px;
 
-/* cell number */
-.carousel-cell:before {
-  display: block;
-  text-align: center;
- 
-  line-height: 200px;
-  font-size: 80px;
-  color: white;
-}
+  }
 
-.review{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  padding: 10px;
-}
+  .carousel-cell.is-selected {
+    background: #53BAC1;
+  }
 
-.userImg{
-     width: 70px;
-     height: 70px;
-     border-radius: 50%;
-     background-color: #fff;
+  /* cell number */
+  .carousel-cell:before {
+    display: block;
+    text-align: center;
 
-}
+    line-height: 200px;
+    font-size: 80px;
+    color: white;
+  }
+
+  .review {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .userImg {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: #fff;
+
+  }
 </style>
 {%endblock%}
 {%block content%}
@@ -76,175 +76,170 @@
 
 
 <div class="Container">
-<div class="Card">
-  <div class="card_com">
-    <div>
-      <img class="cardimage" src="{{app.icon_link}}">
-    </div>
-    <div class="card_con">
-      <h1>{{app.app_name}}</h1>
-      <p>{{app.app_summary}}</p>
-    </div>
-  </div>
-</div>
-
-<div class = "cardur">
-<span class="heading">User Rating</span>
-{%if app.avg_rating == 5%}
-<span class="fa fa-star checked"></span>
-<span class="fa fa-star checked"></span>
-<span class="fa fa-star checked"></span>
-<span class="fa fa-star checked"></span>
-<span class="fa fa-star checked"></span>
-{% elif  app.avg_rating <= 5 and app.avg_rating >= 4 %}
-   <span class="fa fa-star checked"></span>
-<span class="fa fa-star checked"></span>
-<span class="fa fa-star checked"></span>
-<span class="fa fa-star checked"></span>
-<span class="fa fa-star"></span>
-
-{% elif  app.avg_rating <= 4 and app.avg_rating >= 3 %}
-<span class="fa fa-star checked"></span>
-<span class="fa fa-star checked"></span>
-<span class="fa fa-star checked"></span>
-<span class="fa fa-star"></span>
-<span class="fa fa-star"></span>
-
-{% elif  app.avg_rating <= 3 and app.avg_rating >= 2 %}
-   <span class="fa fa-star checked"></span>
-<span class="fa fa-star checked"></span>
-<span class="fa fa-star"></span>
-<span class="fa fa-star"></span>
-<span class="fa fa-star"></span>
-
-{% elif  app.avg_rating <= 2 and app.avg_rating >= 1 %}
-   <span class="fa fa-star checked"></span>
-<span class="fa fa-star "></span>
-<span class="fa fa-star"></span>
-<span class="fa fa-star"></span>
-<span class="fa fa-star"></span>
-{%endif%}
-
-<!--<span class="fa fa-star checked"></span>
-<span class="fa fa-star checked"></span>
-<span class="fa fa-star checked"></span>
-<span class="fa fa-star checked"></span>
-<span class="fa fa-star"></span>-->
-<p>{{ app.avg_rating }} average based on {{ app.ratings_count }} reviews.</p>
-
-<div class="row">
-  <div class="side">
-    <div>5 star</div>
-  </div>
-  <div class="middle">
-    <div class="bar-container">
-      <div class="bar-5" style="width: {{ histogram.5_star_percent }}%;"></div>
-    </div>
-  </div>
-  <div class="side right">
-    <div>{{ app.five_stars }}</div>
-  </div>
-  <div class="side">
-    <div>4 star</div>
-  </div>
-  <div class="middle">
-    <div class="bar-container">
-      <div class="bar-4" style="width: {{ histogram.4_star_percent }}%;"></div>
-    </div>
-  </div>
-  <div class="side right">
-    <div>{{ app.four_stars }}</div>
-  </div>
-  <div class="side">
-    <div>3 star</div>
-  </div>
-  <div class="middle">
-    <div class="bar-container">
-      <div class="bar-3" style="width: {{ histogram.3_star_percent }}%;"></div>
-    </div>
-  </div>
-  <div class="side right">
-    <div>{{ app.three_stars }}</div>
-  </div>
-  <div class="side">
-    <div>2 star</div>
-  </div>
-  <div class="middle">
-    <div class="bar-container">
-      <div class="bar-2" style="width: {{ histogram.2_star_percent }}%;"></div>
-    </div>
-  </div>
-  <div class="side right">
-    <div>{{ app.two_stars }}</div>
-  </div>
-  <div class="side">
-    <div>1 star</div>
-  </div>
-  <div class="middle">
-    <div class="bar-container">
-      <div class="bar-1" style="width: {{ histogram.1_star_percent }}%;"></div>
-    </div>
-  </div>
-  <div class="side right">
-    <div>{{ app.one_stars }}</div>
-  </div>
-</div>
-</div>
-
-<h1>User Reviews</h1>
-
-<div class="carousel" data-flickity='{ "groupCells": false }'>
-{% for review in reviews %}
-  <div class="carousel-cell">
-    <div class="review">
-      <img class="userImg" src="{{review.user_img_link}}" alt='user image'>
-      <div class="userName">
-        <h3>{{review.user_name}}</h3>
+  <div class="Card">
+    <div class="card_com">
+      <div>
+        <img alt="app icon" class="cardimage" src="{{icon}}">
       </div>
-      <div class="rating">
-       {% if  review.rating == 5 %}
-         <span class="fa fa-star checked" ></span>
-          <span class="fa fa-star checked" ></span>
-         <span class="fa fa-star checked" ></span>
-          <span class="fa fa-star checked" ></span>
-         <span class="fa fa-star checked"></span>
-         {% elif  review.rating == 4  %}
-         <span class="fa fa-star checked" ></span>
-          <span class="fa fa-star checked" ></span>
-         <span class="fa fa-star checked" ></span>
-          <span class="fa fa-star checked" ></span>
-         <span class="fa fa-star"></span>
-         {% elif  review.rating == 3  %}
-         <span class="fa fa-star checked"></span>
+      <div class="card_con">
+        <h1>{{ title }}</h1>
+        <p>{{ summaryHTML }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="cardur">
+    <span class="heading">User Rating</span>
+    {%if score == 5%}
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star checked"></span>
+    {% elif  score <= 5 and score >= 4 %}
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star"></span>
+
+    {% elif  score <= 4 and score >= 3 %}
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star"></span>
+    <span class="fa fa-star"></span>
+
+    {% elif  score <= 3 and score >= 2 %}
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star"></span>
+    <span class="fa fa-star"></span>
+    <span class="fa fa-star"></span>
+
+    {% elif  score <= 2 and score >= 1 %}
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star "></span>
+    <span class="fa fa-star"></span>
+    <span class="fa fa-star"></span>
+    <span class="fa fa-star"></span>
+    {%endif%}
+
+    <p>{{ score }} average based on {{ ratings }} reviews.</p>
+
+    <div class="row">
+      <div class="side">
+        <div>5 star</div>
+      </div>
+      <div class="middle">
+        <div class="bar-container">
+          <div class="bar-5" style="width: {% widthratio histogram.4 ratings 100 %}%;"></div>
+        </div>
+      </div>
+      <div class="side right">
+        <div>{{ histogram.4 }}</div>
+      </div>
+      <div class="side">
+        <div>4 star</div>
+      </div>
+      <div class="middle">
+        <div class="bar-container">
+          <div class="bar-4" style="width: {% widthratio histogram.3 ratings 100 %}%;"></div>
+        </div>
+      </div>
+      <div class="side right">
+        <div>{{ histogram.3 }}</div>
+      </div>
+      <div class="side">
+        <div>3 star</div>
+      </div>
+      <div class="middle">
+        <div class="bar-container">
+          <div class="bar-3" style="width: {% widthratio histogram.2 ratings 100 %}%;"></div>
+        </div>
+      </div>
+      <div class="side right">
+        <div>{{ histogram.2 }}</div>
+      </div>
+      <div class="side">
+        <div>2 star</div>
+      </div>
+      <div class="middle">
+        <div class="bar-container">
+          <div class="bar-2" style="width: {% widthratio histogram.1 ratings 100 %}%;"></div>
+        </div>
+      </div>
+      <div class="side right">
+        <div>{{ histogram.1 }}</div>
+      </div>
+      <div class="side">
+        <div>1 star</div>
+      </div>
+      <div class="middle">
+        <div class="bar-container">
+          <div class="bar-1" style="width: {% widthratio histogram.0 ratings 100 %}%;"></div>
+        </div>
+      </div>
+      <div class="side right">
+        <div>{{ histogram.0 }}</div>
+      </div>
+    </div>
+  </div>
+
+  <h1>User Reviews</h1>
+
+  <div class="carousel" data-flickity='{ "groupCells": false }'>
+    {% for review in app_reviews %}
+    <div class="carousel-cell">
+      <div class="review">
+        <img class="userImg" src="{{review.user_img_link}}" alt='user image'>
+        <div class="userName">
+          <h3>{{review.user_name}}</h3>
+        </div>
+        <div class="rating">
+          {% if  review.rating == 5 %}
           <span class="fa fa-star checked"></span>
-         <span class="fa fa-star checked "></span>
-          <span class="fa fa-star "></span>
-         <span class="fa fa-star"></span>
-         {% elif  review.rating == 2 %}
-         <span class="fa fa-star checked"></span>
           <span class="fa fa-star checked"></span>
-         <span class="fa fa-star "></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          {% elif  review.rating == 4  %}
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star"></span>
+          {% elif  review.rating == 3  %}
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked "></span>
           <span class="fa fa-star "></span>
-         <span class="fa fa-star"></span>
-         {% elif  review.rating == 1  %}
-         <span class="fa fa-star checked"></span>
+          <span class="fa fa-star"></span>
+          {% elif  review.rating == 2 %}
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
           <span class="fa fa-star "></span>
-         <span class="fa fa-star "></span>
           <span class="fa fa-star "></span>
-         <span class="fa fa-star"></span>
-         {%endif%}
-      </div>
-      <div class="review content">
-             {{review.content}}
+          <span class="fa fa-star"></span>
+          {% elif  review.rating == 1  %}
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star "></span>
+          <span class="fa fa-star "></span>
+          <span class="fa fa-star "></span>
+          <span class="fa fa-star"></span>
+          {%endif%}
+        </div>
+        <div class="review content">
+          {{review.content}}
+        </div>
       </div>
     </div>
+    {%endfor%}
   </div>
-{%endfor%}
-</div>
 
   <div class="Services">
-    <h1>Similar Services</h1>  
-     <div class="carousel" data-flickity='{ "groupCells": false }'>
+    <h1>Similar Services</h1>
+    <div class="carousel" data-flickity='{ "groupCells": false }'>
       <div class=" serviceCard">
         <div class="serviceImage"></div>
         <p>Service Name</p>
@@ -261,12 +256,12 @@
         <div class="serviceImage"></div>
         <p>Service Name</p>
       </div>
-     </div>
+    </div>
   </div>
 
   <div class="Services">
-    <h1>Customer also prefer</h1>  
-     <div class="carousel" data-flickity='{ "groupCells": false }'>
+    <h1>Customer also prefer</h1>
+    <div class="carousel" data-flickity='{ "groupCells": false }'>
       <div class=" serviceCard  ">
         <div class="serviceImage"></div>
         <p>Service Name</p>
@@ -283,7 +278,7 @@
         <div class="serviceImage"></div>
         <p>Service Name</p>
       </div>
-     </div>
+    </div>
   </div>
 </div>
 {%endblock%}

@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
 from django.contrib.sites.shortcuts import get_current_site
 import requests
+from google_play_scraper import app
 
 
 def get_api_route(request):
@@ -43,39 +44,24 @@ def search(request):
     search_results = response.json()
     return render(request, "searchResult.html", {"search_results": search_results})
 
+
 def search_nav(request):
     search_query = request.GET["search_query"]
     response = requests.get(
         url=get_api_route(request) + "/search",
-        params={
-            "search_query": search_query
-        },
+        params={"search_query": search_query},
     )
     search_results = response.json()
     return render(request, "searchResult.html", {"search_results": search_results})
 
 
 def get_app(request):
-    app_name = request.GET["app_name"]
-    response = requests.get(
-        url=get_api_route(request) + "/get_app", params={"app_name": app_name}
-    ).json()
-    ratings_count = response["app"]["ratings_count"]
-    histogram = {
-        "1_star_percent": response["app"]["one_stars"] * 100 / ratings_count,
-        "2_star_percent": response["app"]["two_stars"] * 100 / ratings_count,
-        "3_star_percent": response["app"]["three_stars"] * 100 / ratings_count,
-        "4_star_percent": response["app"]["four_stars"] * 100 / ratings_count,
-        "5_star_percent": response["app"]["five_stars"] * 100 / ratings_count,
-    }
+    app_id = request.GET["app_id"]
+    app_details = app(app_id, "en", "in")
     return render(
         request,
         "appPage.html",
-        {
-            "app": response["app"],
-            "histogram": histogram,
-            "reviews": response["reviews"],
-        },
+        app_details,
     )
 
 

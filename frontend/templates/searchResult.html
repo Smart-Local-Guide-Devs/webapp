@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
     <head>
         <title>Search results</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!--Nav Bar-->
-         {%load static%}
-         <link rel="stylesheet" type="text/css" href="{%static 'searchResult.css'%}">
+        {%load static%}
+        <link rel="stylesheet" type="text/css" href="{%static 'searchResult.css'%}">
     </head>
+
     <body>
         <header>
             <div class="logo">LOGO</div>
@@ -24,7 +26,7 @@
             <div class="card1">
                 <div class="side">
                     <h3> {{app.play_store_genre}} </h3>
-                    <a href="{% url 'front_get_app' %}?app_name={{ app.app_name }}"><button>View Details</button></a>
+                    <a href="{% url 'front_get_app' %}?app_id={{ app.app_id }}"><button>View Details</button></a>
                 </div>
                 <div class="app">
                     <div class="middle">
@@ -44,4 +46,5 @@
         </div>
 
     </body>
+
 </html>
