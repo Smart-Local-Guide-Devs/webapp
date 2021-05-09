@@ -1,7 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 
 # Create your models here.
+
+
 class App(models.Model):
     app_id = models.CharField(unique=True, max_length=128)
     app_name = models.CharField(max_length=64)
@@ -27,17 +29,17 @@ class App(models.Model):
 
 
 class SlgSiteReview(models.Model):
-    user_name = models.CharField(default="Anonymous User", max_length=64)
+    user_name = models.CharField(default='Anonymous User', max_length=64)
     email_id = models.EmailField(max_length=256)
     content = models.TextField()
 
     def __str__(self) -> str:
-        return self.content
+        return self.review
 
 
 class PlayStoreReview(models.Model):
     app = models.ForeignKey(to=App, on_delete=models.CASCADE)
-    user_name = models.CharField(default="Anonymous User", max_length=64)
+    user_name = models.CharField(default='Anonymous User', max_length=64)
     user_img_link = models.URLField()
     content = models.TextField()
     rating = models.SmallIntegerField(choices=[(i, i) for i in range(1, 6)])
@@ -47,27 +49,17 @@ class PlayStoreReview(models.Model):
         return self.content
 
 
-class QueryOption(models.Model):
+class Option(models.Model):
     option = models.CharField(max_length=128, unique=True)
 
     def __str__(self) -> str:
         return self.option
 
 
-class ReviewQuery(models.Model):
+class Query(models.Model):
     query = models.CharField(max_length=256, unique=True)
-    option_1 = models.ForeignKey(
-        to=QueryOption, on_delete=models.PROTECT, related_name="option_1"
-    )
-    option_2 = models.ForeignKey(
-        to=QueryOption, on_delete=models.PROTECT, related_name="option_2"
-    )
-    option_3 = models.ForeignKey(
-        to=QueryOption, on_delete=models.PROTECT, related_name="option_3"
-    )
-    option_4 = models.ForeignKey(
-        to=QueryOption, on_delete=models.PROTECT, related_name="option_4"
-    )
+    options = models.ManyToManyField(
+        to=Option)
 
     def __str__(self) -> str:
         return self.query
@@ -76,21 +68,19 @@ class ReviewQuery(models.Model):
 class Genre(models.Model):
     genre_name = models.CharField(max_length=32, unique=True)
     apps = models.ManyToManyField(to=App)
-    query_1 = models.ForeignKey(
-        to=ReviewQuery, on_delete=models.PROTECT, related_name="query_1"
-    )
-    query_2 = models.ForeignKey(
-        to=ReviewQuery, on_delete=models.PROTECT, related_name="query_2"
-    )
-    query_3 = models.ForeignKey(
-        to=ReviewQuery, on_delete=models.PROTECT, related_name="query_3"
-    )
-    query_4 = models.ForeignKey(
-        to=ReviewQuery, on_delete=models.PROTECT, related_name="query_4"
-    )
+    queries = models.ManyToManyField(
+        to=Query)
 
     def __str__(self) -> str:
         return self.genre_name
+
+
+class QueryOption(models.Model):
+    query = models.ForeignKey(to=Query, on_delete=models.CASCADE)
+    option = models.ForeignKey(to=Option, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return self.query.query + " : " + self.option.option
 
 
 class Review(models.Model):
@@ -98,42 +88,7 @@ class Review(models.Model):
     user = models.ForeignKey(to=User, on_delete=models.CASCADE)
     content = models.TextField()
     rating = models.IntegerField(choices=[(i, i) for i in range(1, 6)])
-    general_query_1 = models.ForeignKey(
-        to=ReviewQuery, on_delete=models.PROTECT, related_name="general_query_1"
-    )
-    general_choice_1 = models.ForeignKey(
-        to=QueryOption, on_delete=models.PROTECT, related_name="general_choice_1"
-    )
-    general_query_2 = models.ForeignKey(
-        to=ReviewQuery, on_delete=models.PROTECT, related_name="general_query_2"
-    )
-    general_choice_2 = models.ForeignKey(
-        to=QueryOption, on_delete=models.PROTECT, related_name="general_choice_2"
-    )
-    genre_query_1 = models.ForeignKey(
-        to=ReviewQuery, on_delete=models.PROTECT, related_name="genre_query_1"
-    )
-    genre_choice_1 = models.ForeignKey(
-        to=QueryOption, on_delete=models.PROTECT, related_name="genre_choice_1"
-    )
-    genre_query_2 = models.ForeignKey(
-        to=ReviewQuery, on_delete=models.PROTECT, related_name="genre_query_2"
-    )
-    genre_choice_2 = models.ForeignKey(
-        to=QueryOption, on_delete=models.PROTECT, related_name="genre_choice_2"
-    )
-    genre_query_3 = models.ForeignKey(
-        to=ReviewQuery, on_delete=models.PROTECT, related_name="genre_query_3"
-    )
-    genre_choice_3 = models.ForeignKey(
-        to=QueryOption, on_delete=models.PROTECT, related_name="genre_choice_3"
-    )
-    genre_query_4 = models.ForeignKey(
-        to=ReviewQuery, on_delete=models.PROTECT, related_name="genre_query_4"
-    )
-    genre_choice_4 = models.ForeignKey(
-        to=QueryOption, on_delete=models.PROTECT, related_name="genre_choice_4"
-    )
+    query_options = models.ManyToManyField(to=QueryOption)
 
     def __str__(self) -> str:
         return self.content

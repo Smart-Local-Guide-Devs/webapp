@@ -1,242 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    
-    <script src="script.js"></script> 
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {%load static%}
+        <link rel="stylesheet" type="text/css" href="{%static 'writeReview.css'%}">
 
-    {%load static%}
-    <link rel="stylesheet" type="text/css" href="{%static 'writeReview.css'%}">
-    
-    <!-- Bootstrap CSS-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    
-    <title>Review Submission</title>
-</head>
+        <!-- Bootstrap CSS-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
-<body>
-    <!-- nav bar -->
-    <header>
-       
-        <div  class="logo">LOGO</div>
-        <div class="menuToggle" onclick="toggle()" id="bars">
-            <em class="fa fa-bars"></em>
-        </div>
-        <ul class="menu">
-           <!-- <li ><a href="#main">HOME</a></li>
-            <li ><a href="#topApps">TOP SERVICES</a></li>
-            <li ><a href="#contributor">CONTRIBUTORS</a></li>
-            <li ><a href="#contact">CONTACT US</a></li>-->
+        <title>Review Submission</title>
+    </head>
 
-        </ul>
-    </header>
-    <!-- back arrow -->
+    <body>
+        <!-- nav bar -->
+        <header>
 
-    <main> 
-        <!-- form -->
-        <div class="container">
-
-            <!-- form heading -->
-            <div class="boxed" style="color: #ffffff;">
-                Review Form
+            <div class="logo">LOGO</div>
+            <div class="menuToggle" onclick="toggle()" id="bars">
+                <em class="fa fa-bars"></em>
             </div>
+            <ul class="menu">
+            </ul>
+        </header>
+        <!-- back arrow -->
 
-            <div class="row gy-4">
-                <!-- left column / up column-->
-                <div class="col-md-12 col-lg-6"> 
-                <!-- for width < 1200px up-down configuration & left-right configuration otherwise-->
-                    
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="inputGroup-sizing-default">{{ app.app_name }}</span>
-                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+        <main>
+            <!-- form -->
+            <div class="container">
+
+                <!-- form heading -->
+                <!-- adding form tag-->
+                <form action="{% url 'front_app_review' %}" method="POST" class="review-form" id="app_review_form">
+                    {% csrf_token %}
+                    <!-- form heading -->
+                    <div class="boxed" style="color: #ffffff;">
+                        <h3>Review Form</h3>
                     </div>
 
-                    <div class="input-group">
-                        <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon">
-                            <option selected>Product Category...</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>
-                    </div>
-
-                    <div class="row" style="margin-top:20px; margin-bottom: 10px;">
-                        <div class="col-6" style="position: relative; left: 10px;">
-                            <h6>Rating</h6>
-                        </div>
-                        <div class="col-6">
-                            <div style="display: flex; justify-content: flex-end">
-                                <div class="txt-center">
-                                    <form>
-                                          <div class="rating">
-                                              <input id="star5" name="star" type="radio" value="5" class="radio-btn hide" />
-                                              <label for="star5" >☆</label>
-                                              <input id="star4" name="star" type="radio" value="4" class="radio-btn hide" />
-                                              <label for="star4" >☆</label>
-                                              <input id="star3" name="star" type="radio" value="3" class="radio-btn hide" />
-                                              <label for="star3" >☆</label>
-                                              <input id="star2" name="star" type="radio" value="2" class="radio-btn hide" />
-                                              <label for="star2" >☆</label>
-                                              <input id="star1" name="star" type="radio" value="1" class="radio-btn hide" />
-                                              <label for="star1" >☆</label>
-                                              <div class="clear"></div>
-                                          </div>
-                                      </form>
-                                  </div>
-                            </div>
-                        </div> 
-                        
-                    </div>
-                    
-                    <textarea class="form-control" rows="5" placeholder="How was your experience ... "></textarea>
-                </div>
-                <!-- right column / down column-->
-                <div class="col" >
                     <div class="row gy-4">
-                        <div class="product_query" id="preferred_app">
-                            <div class="row">
-                                <div class="col-6">
-                                    <h6>Preferred Application</h6>
+                        <!-- left column / up column-->
+                        <div class="col-md-12 col-lg-6 gy-5">
+                            <!-- for width < 1200px up-down configuration & left-right configuration otherwise-->
+                            <input type="hidden" class="form-control" name="app_id" value="{{ app_id }}" readonly>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">App Name</span>
+                                <span class="input-group-text">{{ app_name }}</span>
+                            </div>
+
+                            <div class="input-group">
+                                <span class="input-group-text">Genre</span>
+                                <span class="input-group-text">{{ genre_string }}</span>
+                            </div>
+
+                            <div class="row" style="margin-top:20px; margin-bottom: 10px;">
+                                <div class="col-6" style="position: relative; left: 10px;">
+                                    <h6>Rating</h6>
                                 </div>
                                 <div class="col-6">
-                                    <select class="form-select" aria-label="Default select example">
-                                        <option selected>Open this select menu</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                    </select>
+                                    <div style="display: flex; justify-content: flex-end">
+                                        <div class="txt-center">
+                                            <div class="rating">
+                                                <input id="star5" name="stars" type="radio" value="5"
+                                                    class="radio-btn hide" form="app_review_form" />
+                                                <label for="star5">☆</label>
+                                                <input id="star4" name="stars" type="radio" value="4"
+                                                    class="radio-btn hide" form="app_review_form" />
+                                                <label for="star4">☆</label>
+                                                <input id="star3" name="stars" type="radio" value="3"
+                                                    class="radio-btn hide" form="app_review_form" />
+                                                <label for="star3">☆</label>
+                                                <input id="star2" name="stars" type="radio" value="2"
+                                                    class="radio-btn hide" form="app_review_form" />
+                                                <label for="star2">☆</label>
+                                                <input id="star1" name="stars" type="radio" value="1"
+                                                    class="radio-btn hide" form="app_review_form" />
+                                                <label for="star1">☆</label>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+
+                            </div>
+
+                            <textarea form="app_review_form" name="app_review" class="form-control" rows="5"
+                                placeholder="How was your experience ... "></textarea>
+                        </div>
+                        <!-- right column / down column-->
+                        <!-- how is the form submitting values?-->
+                        <div class="col gy-5">
+                            <div class="row gy-4">
+                                {% for query, options in queries.items %}
+                                <div class="row" style="padding: 1em;">
+                                    <div class="col-6">
+                                        <h6>{{ query }}</h6>
+                                    </div>
+                                    <div class="col-6">
+                                        <select class="form-select" form="app_review_form" name="{{ query }}">
+                                            {% for option in options %}
+                                            <option>{{ option }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                {% endfor %}
                             </div>
                         </div>
-                        <div class="product_query" id="query_1">
-                            <div class="row">
-                                <div class="col-6">
-                                    <h6>query_1</h6>
-                                </div>
-                                <div class="col-6">
-                                    <select class="form-select" aria-label="Default select example">
-                                        <option selected>Open this select menu</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                    </select>
-                                </div>
+                        <!-- submit button -->
+                        <div style="display: flex; margin-top: 20px;">
+                            <div class="d-grid gap-2 col-6 mx-auto">
+                                <button class="btn btn-primary" type="button submit" value="submit">Submit
+                                    Review</button>
                             </div>
                         </div>
-                        <div class="product_query" id="query_2">
-                            <div class="row">
-                                <div class="col-6">
-                                    <h6>query_2</h6>
-                                </div>
-                                <div class="col-6">
-                                    <select class="form-select" aria-label="Default select example">
-                                        <option selected>Open this select menu</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product_query" id="query_3">
-                            <div class="row">
-                                <div class="col-6">
-                                    <h6>query_3</h6>
-                                </div>
-                                <div class="col-6">
-                                    <select class="form-select" aria-label="Default select example">
-                                        <option selected>Open this select menu</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product_query" id="query_4">
-                            <div class="row">
-                                <div class="col-6">
-                                    <h6>query_4</h6>
-                                </div>
-                                <div class="col-6">
-                                    <select class="form-select" aria-label="Default select example">
-                                        <option selected>Open this select menu</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>   
-                </div>
+                    </div>
+                </form>
             </div>
-            <!-- submit button -->
-            <div style="display: flex; margin-top: 20px;">
-                <div class="d-grid gap-2 col-6 mx-auto">
-                    <button class="btn btn-primary" type="button">Submit Review</button>
-                </div>
-            </div>
+        </main>
+    </body>
 
-        </div>
-
-
-        <div class="container">
-            <!-- similar products -->
-            <h1>SIMILAR PRODUCT</h1>
-              <div class= "otherRec">
-                <div class="similar">
-                    <p>SIMILAR SERVICES</p>
-                    <div class="productCard">
-                        <div class="productImage">
-                        </div>
-                        <div class="productName">
-                            <p>service name</p>
-                        </div>
-                    </div>
-                        <div class="productCard">
-                            <div class="productImage">
-                            </div>
-                            <div class="productName">
-                                <p>service name</p>
-                        </div>
-                    </div>
-                        <div class="productCard">
-                            <div class="productImage">
-                            </div>
-                            <div class="productName">
-                                <p>service name</p>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="customer">
-                    <p>CUSTOMER ALSO PREFER</p>
-                    <div class="productCard">
-                        <div class="productImage">
-                        </div>
-                        <div class="productName">
-                            <p>service Name</p>
-                        </div>
-                    </div>
-                    <div class="productCard">
-                        <div class="productImage">
-                        </div>
-                        <div class="productName">
-                            <p>service name</p>
-                        </div>
-                    </div>
-                    <div class="productCard">
-                        <div class="productImage"></div>
-                        <div class="productName">
-                            <p>service name</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-</body>
 </html>

@@ -1,74 +1,44 @@
 {%extends 'base.html'%} {%load static%} {%block headtag%}
-<link
-	rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-<link
-	rel="stylesheet"
-	href="https://unpkg.com/flickity@2/dist/flickity.min.css"
-/>
+<link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css" />
 <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
 <link rel="stylesheet" type="text/css" href="{%static 'home.css'%}" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Counter-Up/1.0.0/jquery.counterup.min.js"></script>
-<link
-	rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-	integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
-	crossorigin="anonymous"
-/>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+	integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
 {%endblock%} {%block content%}
 <section class="main" id="main">
-	<div class="searchWrapper">
-		<div class="searchBox">
-			<div class="searchField">
-				<form class="formFields" action="{% url 'front_search' %}" method="GET">
-					<input
-						class="field Box"
-						type="text"
-						placeholder="Search"
-						name="search_query"
-					/>
-					<select class="form-select BoxGenre Box" id="genre" name="genre">
-						<option value="">select genre</option>
-						<option>Food & Drink</option>
-						<option>Maps & Navigation</option>
-						<option>Travel & Local</option>
-						<option>Shopping</option>
-						<option>Weather</option>
-						<option>Auto & Vehicles</option>
-					</select>
-					<div class="choose">
-						<input
-							class="filter Box Box1"
-							type="number"
-							placeholder="Average Rating"
-							class="vIntegerField"
-							min="0"
-							max="5"
-							name="rating"
-							step=".1"
-						/>
 
-						<input
-							class="filter Box"
-							type="number"
-							placeholder="Minimum Installs"
-							class="vIntegerField"
-							name="installs"
-						/>
-					</div>
+	<div class="searchField">
+		<form class="formFields" action="{% url 'front_search' %}" method="GET">
+			<input class="field Box" type="text" placeholder="Search" name="search_query" />
+			<select class="form-select BoxGenre Box" id="genre" name="genre">
+				<option value="">select genre</option>
+				<option>Food & Drink</option>
+				<option>Maps & Navigation</option>
+				<option>Travel & Local</option>
+				<option>Shopping</option>
+				<option>Weather</option>
+				<option>Auto & Vehicles</option>
+			</select>
+			<div class="choose">
+				<input class="filter Box Box1" type="number" placeholder="Average Rating" class="vIntegerField" min="0"
+					max="5" name="rating" step=".1" />
 
-					<button class="search" type="submit" class="btn btn-primary">
-						<i class="fa fa-search"></i>
-						<div class="searchbar">search</div>
-					</button>
-				</form>
+				<input class="filter Box" type="number" placeholder="Minimum Installs" class="vIntegerField"
+					name="installs" />
 			</div>
-		</div>
+
+			<button class="search" type="submit" class="btn btn-primary">
+				<i class="fa fa-search"></i>
+				<div class="searchbar">search</div>
+			</button>
+		</form>
 	</div>
+
 </section>
 <div class="counterup">
 	<div class="counterContent">
@@ -124,17 +94,11 @@
 
 					{% for app in apps %}
 					<div class="cardService">
-						<a href="{% url 'front_get_app' %}?app_name={{ app.app_name }} ">
-							<img
-								class="serviceImage"
-								src="{{ app.icon_link }}"
-								alt="app icon"
-							/>
+						<a href="{% url 'front_get_app' %}?app_id={{ app.app_id }} ">
+							<img class="serviceImage" src="{{ app.icon_link }}" alt="app icon" />
 						</a>
 						<div class="serviceName top">
-							<a href="{% url 'front_get_app' %}?app_name={{ app.app_name }}">
-								<p>{{ app.app_name }}</p>
-							</a>
+							<p>{{ app.app_name }}</p>
 						</div>
 					</div>
 					{% endfor %}
@@ -157,11 +121,7 @@
 					{% for user in top_3_users %}
 					<div class="userCard topCard">
 						<h1 class="userinfo">{{forloop.counter}}</h1>
-						<img
-							class="userImg userinfo"
-							src="{{user.user_img_link}}"
-							alt="user image"
-						/>
+						<img class="userImg userinfo" src="{{user.user_img_link}}" alt="user image" />
 						<p class="userinfo name">{{user.user_name}}</p>
 						<p class="userinfo">{{user.up_vote_count}} pts</p>
 					</div>
@@ -171,11 +131,7 @@
 					{% for user in mid_7_users %}
 					<div class="userCard">
 						<h1 class="userinfo2">{{ forloop.counter|add:"3" }}</h1>
-						<img
-							class="userImg2 userinfo2"
-							src="{{user.user_img_link}}"
-							alt="user image"
-						/>
+						<img class="userImg2 userinfo2" src="{{user.user_img_link}}" alt="user image" />
 						<p class="userinfo2 name">{{ user.user_name }}</p>
 						<p class="userinfo2">{{user.up_vote_count}} pts</p>
 					</div>
@@ -185,11 +141,7 @@
 					{% for user in last_15_users %}
 					<div class="userCard">
 						<h1 class="userinfo3">{{ forloop.counter|add:"10" }}</h1>
-						<img
-							class="userImg3 userinfo3"
-							src="{{user.user_img_link}}"
-							alt="user image"
-						/>
+						<img class="userImg3 userinfo3" src="{{user.user_img_link}}" alt="user image" />
 						<p class="userinfo3 name">{{ user.user_name }}</p>
 						<p class="userinfo3">{{user.up_vote_count}} pts</p>
 					</div>
@@ -211,20 +163,11 @@
 		</div>
 		<div class="formContact right">
 			<h1 style="color: black; margin-bottom: 20px">CONTACT US</h1>
-			<form
-				class="Form"
-				action="{% url 'front_site_review' %}"
-				id="site_review_form"
-				method="POST"
-			>
+			<form class="Form" action="{% url 'front_site_review' %}" id="site_review_form" method="POST">
 				{% csrf_token %}
-				<input type="text" name="user_name" placeholder="name" />
-				<input type="email" name="email_id" placeholder="email" />
-				<textarea
-					placeholder="message"
-					name="content"
-					form="site_review_form"
-				></textarea>
+				<input type="text" name="user_name" placeholder="{{ review_form.username }}" />
+				<input type="email" name="email_id" placeholder="{{ review_form.email_id }}" />
+				<textarea placeholder="{{ review_form.content }}" name="content" form="site_review_form"></textarea>
 				<button class="formBtn" type="submit">SUBMIT</button>
 			</form>
 		</div>

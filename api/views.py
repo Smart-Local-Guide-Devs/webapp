@@ -1,13 +1,8 @@
-from django.forms.models import model_to_dict
-from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
-import requests
 from .models import *
 from .forms import CreateUserForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
@@ -17,7 +12,7 @@ from .serializers import (
     SlgSiteReviewSerializer,
 )
 from .models import App, PlayStoreReview
-
+import random
 
 # Create your views here.
 
@@ -49,10 +44,7 @@ def get_app(request):
     return Response({"reviews": reviews.data, "app": serializer.data})
 
 
-def index(request):
-    return render(request, "home.html")
-
-
+@api_view(["GET", "POST"])
 def signup(request):
     if request.user.is_authenticated:
         return redirect("index")
@@ -69,6 +61,7 @@ def signup(request):
         return render(request, "signup.html", context)
 
 
+@api_view(["GET", "POST"])
 def signin(request):
     if request.user.is_authenticated:
         return redirect("index")
@@ -86,17 +79,9 @@ def signin(request):
         return render(request, "signin.html", context)
 
 
-def logoutUser(request):
+def logout_user(request):
     logout(request)
     return redirect("index")
-
-
-def product(request):
-    return render(request, "productOverview.html")
-
-
-def review_form(request):
-    return render(request, "writeReview.html")
 
 
 @api_view(["GET"])
@@ -133,3 +118,86 @@ def counter(request):
     return Response(
         {"apps": count_apps, "users": count_users, "reviews": count_reviews}
     )
+
+
+@api_view(["GET"])
+def similar_apps(request):
+    app_object = App.objects.get(app_id=request.GET["app_id"])
+    genre = app_object.play_store_genre
+
+    # This part can be used for tags when tags have been made
+    # tags = app_object.genre_set.all()
+    # tags_list = []
+    # for tag in tags:
+    #     tags_list.append(tag)
+    # similar_apps = App.objects.filter(play_store_genre__in = tags_list)
+
+    similar_apps = App.objects.filter(play_store_genre=genre)
+    similar_apps = similar_apps.exclude(app_name=app_object.app_name)
+    similar_apps = similar_apps.order_by("avg_rating")[:6]
+    serializer = AppSerializer(similar_apps, many=True)
+    return Response(serializer.data)
+
+
+@api_view(["GET", "POST"])
+def app_review(request):
+    if request.method == "GET":
+        app_object = App.objects.get(app_id=request.GET["app_id"])
+        genre_objects = app_object.genre_set.all()
+        query_list = []
+        genre_string = ""
+
+        for genre_obj in genre_objects:
+            genre_string += genre_obj.genre_name + ", "
+            for query_obj in genre_obj.queries.all():
+                if query_obj in query_list:
+                    continue
+                query_list.append(query_obj)
+        query_list = random.sample(query_list, min(len(query_list), 6))
+
+        query_option_dict = {}
+        for query_obj in query_list:
+            options = []
+            for option_obj in query_obj.options.all():
+                options.append(option_obj.option)
+            query_option_dict[query_obj.query] = options
+
+        response = {
+            "app_id": request.GET["app_id"],
+            "app_name": app_object.app_name,
+            "genre_string": genre_string[:-2],
+            "queries": query_option_dict,
+        }
+        return Response(response)
+
+    req = request.POST.copy()
+    app = App.objects.get(app_id=req["app_id"])
+    if request.user.is_authenticated:
+        user = request.user
+    else:
+        user = User.objects.get(username="anonymous_user")
+
+    review = Review(app=app, user=user, content=req["app_review"], rating=req["stars"])
+    review.save()
+
+    req.pop("csrfmiddlewaretoken")
+    req.pop("app_id")
+    req.pop("stars")
+    req.pop("app_review")
+
+    for query, option_list in req.items():
+        query_obj = Query.objects.get(query=query)
+        option_obj = Option.objects.get(option=option_list[0])
+        try:
+            query_option_obj = QueryOption.objects.get(
+                query=query_obj, option=option_obj
+            )
+        except QueryOption.DoesNotExist:
+            query_option_obj = QueryOption()
+            query_option_obj.query = query_obj
+            query_option_obj.option = option_obj
+            query_option_obj.save()
+        review.query_options.add(query_option_obj)
+
+    review.save()
+    return Response(data={"status": "success"}, status=status.HTTP_200_OK)
