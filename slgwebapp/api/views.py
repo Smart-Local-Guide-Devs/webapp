@@ -53,6 +53,23 @@ def slg_site_review(request):
         return Response(serializer.data, status.HTTP_201_CREATED)
     return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET'])
+def similar_apps(request):
+    app_object = App.objects.get(app_name=request.GET['app_name'])
+    genre = app_object.play_store_genre
+
+    # This part can be used for tags when tags have been made
+    # tags = app_object.genre_set.all()
+    # tags_list = []
+    # for tag in tags:
+    #     tags_list.append(tag)
+    # similar_apps = App.objects.filter(play_store_genre__in = tags_list)
+
+    similar_apps = App.objects.filter(play_store_genre=genre)
+    similar_apps = similar_apps.exclude(app_name = app_object.app_name)
+    similar_apps = similar_apps.order_by('avg_rating')[:6]
+    serializer = AppSerializer(similar_apps,many=True)
+    return Response(serializer.data)
 
 @api_view(['GET', 'POST'])
 def app_review(request):

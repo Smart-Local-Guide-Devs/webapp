@@ -26,6 +26,9 @@ def search(request):
 
 
 def get_app(request):
+    url_similar_apps = get_api_route(request)
+    url_similar_apps += '/similar_apps'
+    similar_apps = requests.get(url=url_similar_apps, params={'app_name': request.GET['app_name']})
     app_name = request.GET['app_name']
     response = requests.get(url=get_api_route(
         request)+'/get_app', params={'app_name': app_name}).json()
@@ -35,7 +38,7 @@ def get_app(request):
                  '3_star_percent': response['app']['three_stars']*100/ratings_count,
                  '4_star_percent': response['app']['four_stars']*100/ratings_count,
                  '5_star_percent': response['app']['five_stars']*100/ratings_count, }
-    return render(request, 'appPage.html', {'app': response['app'], 'histogram': histogram, 'reviews': response['reviews']})
+    return render(request, 'appPage.html', {'app': response['app'], 'histogram': histogram, 'reviews': response['reviews'],"similar_apps":similar_apps.json() })
 
 
 def site_review(request):
@@ -45,6 +48,9 @@ def site_review(request):
 
 
 def app_review(request):
+    url_similar_apps = get_api_route(request)
+    url_similar_apps += '/similar_apps'
+    similar_apps = requests.get(url=url_similar_apps , params={'app_name': request.GET['app_name']})
     if request.method == 'POST':
         response = requests.post(url=get_api_route(
             request)+'/app_review', data=request.POST)
@@ -53,7 +59,7 @@ def app_review(request):
         response = requests.get(url=get_api_route(request)+'/app_review', params={'app_name': request.POST['app_name']})
     else:
         response = requests.get(url=get_api_route(request)+'/app_review', params={'app_name': request.GET['app_name']})
-    return render(request, 'writeReview.html', response.json())
+    return render(request, 'writeReview.html', {"response":response.json() , "similar_apps": similar_apps.json()})
 
 
 def login(request):
