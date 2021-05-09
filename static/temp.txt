@@ -1,0 +1,1 @@
+This folder is for the static files collected during deployment do not change name or add any contents to this folder.
