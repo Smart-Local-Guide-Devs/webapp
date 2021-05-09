@@ -28,7 +28,7 @@ def index(request):
             "top_3_users": top_users[:3],
             "mid_7_users": top_users[3:10],
             "last_15_users": top_users[10:],
-            "reviwe_form": review_form,
+            "review_form": review_form,
         },
     )
 
@@ -95,7 +95,7 @@ def site_review(request):
             "top_3_users": top_users[:3],
             "mid_7_users": top_users[3:10],
             "last_15_users": top_users[10:],
-            "review_form": response.json(),
+            "review_form": review_form,
         },
     )
 

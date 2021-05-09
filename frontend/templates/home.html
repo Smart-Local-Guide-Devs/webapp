@@ -165,7 +165,7 @@
 			<h1 style="color: black; margin-bottom: 20px">CONTACT US</h1>
 			<form class="Form" action="{% url 'front_site_review' %}" id="site_review_form" method="POST">
 				{% csrf_token %}
-				<input type="text" name="user_name" placeholder="{{ review_form.username }}" />
+				<input type="text" name="user_name" placeholder="{{ review_form.user_name }}" />
 				<input type="email" name="email_id" placeholder="{{ review_form.email_id }}" />
 				<textarea placeholder="{{ review_form.content }}" name="content" form="site_review_form"></textarea>
 				<button class="formBtn" type="submit">SUBMIT</button>
