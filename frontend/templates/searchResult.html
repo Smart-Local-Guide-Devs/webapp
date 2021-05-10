@@ -25,16 +25,16 @@
             {%for app in search_results%}
             <div class="card1">
                 <div class="side">
-                    <h3> {{app.play_store_genre}} </h3>
-                    <a href="{% url 'front_get_app' %}?app_id={{ app.app_id }}"><button>View Details</button></a>
+                    <h3> {{app.genre}} </h3>
+                    <a href="{% url 'front_get_app' %}?app_id={{ app.appId }}"><button>View Details</button></a>
                 </div>
                 <div class="app">
                     <div class="middle">
-                        <h4>{{app.app_name}}</h4>
-                        <a href="{% url 'front_app_review' %}?app_id={{ app.app_id }}"><button>Review</button></a>
+                        <h4>{{app.title}}</h4>
+                        <a href="{% url 'front_app_review' %}?app_id={{ app.appId }}"><button>Review</button></a>
                     </div>
                     <div class="right">
-                        <img class="dot" src="{{app.icon_link}}" alt="app icon">
+                        <img class="dot" src="{{app.icon}}" alt="app icon">
                     </div>
                 </div>
             </div>

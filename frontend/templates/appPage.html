@@ -88,6 +88,9 @@
     </div>
   </div>
 
+  <a href="{% url 'front_app_review' %}?app_id={{ appId }}"><button>Review</button></a>
+  <a href="{{ url }}"><button>Download</button></a>
+
   <div class="cardur">
     <span class="heading">User Rating</span>
     {%if score == 5%}
@@ -242,10 +245,10 @@
     <div class="carousel" data-flickity='{ "groupCells": false }'>
       {% for similar_app in similar_apps %}
       <div class=" serviceCard">
-        <a href="{% url 'front_get_app' %}?app_id={{ similar_app.app_id }} ">
-          <img class="serviceImage" src="{{ similar_app.icon_link }}" alt="app icon" />
+        <a href="{% url 'front_get_app' %}?app_id={{ similar_app.appId }} ">
+          <img class="serviceImage" src="{{ similar_app.icon }}" alt="app icon" />
         </a>
-        <p>{{ similar_app.app_name }}</p>
+        <p>{{ similar_app.title }}</p>
       </div>
       {% endfor %}
     </div>
