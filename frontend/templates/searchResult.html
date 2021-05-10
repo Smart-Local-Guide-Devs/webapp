@@ -1,50 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <title>Search results</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!--Nav Bar-->
-        {%load static%}
-        <link rel="stylesheet" type="text/css" href="{%static 'searchResult.css'%}">
-    </head>
+<head>
+    <title>Search results</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--Nav Bar-->
+    {%load static%}
+    <link rel="stylesheet" type="text/css" href="{%static 'searchResult.css'%}">
+</head>
 
-    <body>
-        <header>
-            <div class="logo">LOGO</div>
-            <div class="menuToggle" onclick="toggle()" id="bars">
-                <em class="fa fa-bars"></em>
-            </div>
-        </header>
-        <div class="topnav">
-            <h3>Search result</h3>
-            <hr>
+<body>
+    <header>
+        <div class="logo">LOGO</div>
+        <div class="menuToggle" onclick="toggle()" id="bars">
+            <em class="fa fa-bars"></em>
         </div>
+    </header>
+    <div class="topnav">
+        <h3>Search result</h3>
+        <hr>
+    </div>
 
-        <div class="Container">
-            {%for app in search_results%}
-            <div class="card1">
-                <div class="side">
-                    <h3> {{app.genre}} </h3>
-                    <a href="{% url 'front_get_app' %}?app_id={{ app.appId }}"><button>View Details</button></a>
+    <div class="Container">
+        {%for app in search_results%}
+        <div class="card1">
+            <div class="side">
+                <h3> {{app.genre}} </h3>
+                <a href="{% url 'front_get_app' %}?app_id={{ app.appId }}"><button>View Details</button></a>
+            </div>
+            <div class="app">
+                <div class="middle">
+                    <h4>{{app.title}}</h4>
+                    <a href="{% url 'front_app_review' %}?app_id={{ app.appId }}"><button>Review</button></a>
                 </div>
-                <div class="app">
-                    <div class="middle">
-                        <h4>{{app.title}}</h4>
-                        <a href="{% url 'front_app_review' %}?app_id={{ app.appId }}"><button>Review</button></a>
-                    </div>
-                    <div class="right">
-                        <img class="dot" src="{{app.icon}}" alt="app icon">
-                    </div>
+                <div class="right">
+                    <img class="dot" src="{{app.icon}}" alt="app icon">
                 </div>
             </div>
-            {% empty %}
-            <div>
-                Could Not Find What you are looking for!!
-            </div>
-            {%endfor%}
         </div>
+        {% empty %}
+        <div>
+            Could Not Find What you are looking for!!
+        </div>
+        {%endfor%}
+    </div>
+    {% if search_results.has_previous %}
+    <a href="{{sub_url}}{{search_results.previous_page_number}}">Previous Page</a>
+    {% endif %}
 
-    </body>
+    {% for i in search_results.paginator.page_range %}
+    <li class="page-items">
+        <a class="page-link" href="{{sub_url}}{{i}}">{{i}}</a>
+    </li>
+    {% endfor %}
+    {% if search_results.has_next %}
+    <a href="{{sub_url}}{{search_results.next_page_number}}">Next Page</a>
+    {% endif %}
+</body>
 
 </html>

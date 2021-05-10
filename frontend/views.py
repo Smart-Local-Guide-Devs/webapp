@@ -1,6 +1,7 @@
 from django.http.request import HttpRequest
 from django.shortcuts import redirect, render
 from django.contrib.sites.shortcuts import get_current_site
+from django.core.paginator import Paginator, EmptyPage
 import requests
 from google_play_scraper import app, reviews, Sort
 
@@ -46,17 +47,28 @@ def search(request: HttpRequest):
     genre = request.GET.get("genre")
     installs = request.GET.get("installs")
     rating = request.GET.get("rating")
+    page_num = request.GET.get("page", 1)
     response = requests.get(
         url=get_api_route(request) + "/search",
         params={
             "search_query": search_query,
             "genre": genre,
-            "installs": installs,
-            "rating": rating,
+            # "installs": installs,
+            # "rating": rating,
+            "page": page_num,
         },
     )
     search_results = response.json()
-    return render(request, "searchResult.html", {"search_results": search_results})
+
+    # for paging
+    search_results = Paginator(search_results, 8)
+    try:
+        search_results = search_results.page(page_num)
+    except EmptyPage:
+        search_results = search_results.page(1)
+    sub_url = "?search_query="+search_query + "&genre="+genre + "&page="
+
+    return render(request, "searchResult.html", {"search_results": search_results, "sub_url": sub_url})
 
 
 def search_nav(request: HttpRequest):
