@@ -10,6 +10,11 @@ def get_api_route(request: HttpRequest):
     return "http://" + domain + "/api"
 
 
+def get_location(request: HttpRequest):
+    # json of location of a user
+    location = location = requests.get("https://geolocation-db.com/json")
+    return location
+
 # Create your views here.
 
 
@@ -128,7 +133,7 @@ def login(request: HttpRequest):
 
 def add_new_app(request: HttpRequest):
     app_link: str = request.POST["app_playstore_link"]
-    app_id = app_link[app_link.find("id=") + 3 :]
+    app_id = app_link[app_link.find("id=") + 3:]
     add_app = requests.post(
         get_api_route(request) + "/add_new_app", data={"app_id": app_id}
     ).json()
