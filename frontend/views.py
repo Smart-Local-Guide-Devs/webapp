@@ -9,12 +9,6 @@ def get_api_route(request: HttpRequest):
     domain = get_current_site(request=request).domain
     return "http://" + domain + "/api"
 
-
-def get_location(request: HttpRequest):
-    # json of location of a user
-    location = location = requests.get("https://geolocation-db.com/json")
-    return location
-
 # Create your views here.
 
 
