@@ -76,9 +76,10 @@
 
 
 .BoxGenre{
-  padding: 17.2px;
+  text-align: center;
+  padding: 6.5px;
   outline: none;
-  border:none;
+  border-left:1px solid black;
 }
 
 
