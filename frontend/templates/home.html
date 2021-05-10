@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
 	integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
 {%endblock%} {%block content%}
-<section class="main" id="main">
+{% comment %} <section class="main" id="main">
 
 	<div class="searchField">
 		<form class="formFields" action="{% url 'front_search' %}" method="GET">
@@ -39,7 +39,7 @@
 		</form>
 	</div>
 
-</section>
+</section> {% endcomment %}
 <div class="counterup">
 	<div class="counterContent">
 		<div class="box">
@@ -162,8 +162,9 @@
 			</p>
 			<form class="Form" action="{% url 'front_add_new_app' %}" method="post">
 				{% csrf_token %}
-				<input type="text" name="app_playstore_link" placeholder="{{ add_app_status }}" />
-				<button class="formBtn" type="submit">ADD</button>
+				<input class="applink" type="text" name="app_playstore_link" placeholder="{{ add_app_status }}" />
+				<button class="formBtn1" type="submit">ADD THIS APP</button>
+				{% comment %} <button class="formBtn" type="submit">ADD</button> {% endcomment %}
 			</form>
 		</div>
 		<div class="formContact right">
