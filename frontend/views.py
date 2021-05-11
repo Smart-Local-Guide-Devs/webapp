@@ -8,6 +8,7 @@ from api.views import slg_site_review as submit_slg_site_review
 from api.views import app_review_queries as fetch_app_review_queries
 from api.views import app_details as fetch_app_details
 from api.views import app_review as submit_app_review
+from api.views import all_genres as fetch_all_genres
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.paginator import EmptyPage, Paginator
 from django.http.request import HttpRequest
@@ -63,6 +64,7 @@ prev_search_result = {}
 
 
 def search(request: HttpRequest):
+    res = {}
     sub_url = request.get_full_path(False)
     idx = sub_url.find("page=")
     if idx >= 0:
@@ -80,10 +82,13 @@ def search(request: HttpRequest):
     except EmptyPage:
         search_results = search_results.page(1)
     sub_url += "page="
+    res["search_results"] = search_results
+    res["sub_url"] = sub_url
+    res["genres"] = fetch_all_genres(request).data
     return render(
         request,
         "searchResult.html",
-        {"search_results": search_results, "sub_url": sub_url},
+        res,
     )
 
 
@@ -92,6 +97,7 @@ def get_app(request: HttpRequest):
     context = app(app_id, "en", "in")
     context["similar_apps"] = fetch_similar_apps(request).data
     context["reviews"], _ = reviews(app_id, "en", "in", Sort.NEWEST, 6)
+    context["genres"] = fetch_all_genres(request).data
     return render(
         request,
         "appPage.html",
@@ -120,6 +126,7 @@ def app_review(request: HttpRequest):
     res["app"] = fetch_app_details(request).data
     res["queries"] = fetch_app_review_queries(request).data
     res["city"] = get_user_city()
+    res["genres"] = fetch_all_genres(request).data
     return render(
         request,
         "writeReview.html",

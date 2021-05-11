@@ -21,16 +21,18 @@ from .serializers import *
 
 @api_view(["GET"])
 def search(request: HttpRequest):
-    search_query = request.GET["search_query"]
+    search_query = request.GET.get("search_query", "")
     genre = request.GET.get("genre", "")
     installs = request.GET.get("installs", "")
     rating = request.GET.get("rating", "")
     no_of_ratings = request.GET.get("no_of_ratings", "")
     no_of_reviews = request.GET.get("no_of_reviews", "")
 
-    apps = App.objects.filter(app_name__icontains=search_query)
+    apps = App.objects.all()
     if genre != "":
-        apps = apps.filter(play_store_genre__icontains=genre)
+        apps = apps.filter(genre__genre_name__icontains=genre)
+    if search_query != "":
+        apps = apps.filter(app_name__icontains=search_query)
     if installs != "":
         apps = apps.filter(min_installs__gte=installs)
     if rating != "":
@@ -39,7 +41,6 @@ def search(request: HttpRequest):
         apps = apps.filter(ratings_count__gte=no_of_ratings)
     if no_of_ratings != "":
         apps = apps.filter(reviews_count__gte=no_of_reviews)
-
     res = []
     for search_app in apps[:32]:
         try:
@@ -219,7 +220,7 @@ def add_new_app(request: HttpRequest):
         return Response({"status": "app not found"}, status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(["GET"])
+@cache_page(60 * 15)
 def all_genres(request: HttpRequest):
     genres = Genre.objects.all()
     res = []
