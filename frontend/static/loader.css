@@ -1,26 +1,30 @@
-/*body{background:#ECF0F1}
+body{
+  overflow: hidden;
+}
 
 .pre-loader{
   border: 1px solid #ECF0F1;
   padding: 5px;
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform-origin: center center;
-  transform:translate(-50%, -50%) rotate(135deg);
-  /*change these sizes to fit into your project*//*
-  width:50px;
-  height:50px;
-  
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #ECF0F1;
+  z-index: 9999;
 }
-.pre-loader hr{
+.pre-loader div{
   border:0;
   margin:0;
-  width:40%;
-  height:40%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
   position:absolute;
   border-radius:50%;
   animation:spin 2s ease infinite;
+  z-index: 10000;
 }
 
 .pre-loader :first-child{background:#19A68C;animation-delay:-1.5s}
@@ -33,4 +37,4 @@
   25%{transform:translateY(200%)}
   50%{transform:translateX(0)}
   75%{transform:translateY(0)}
-}*/
+}

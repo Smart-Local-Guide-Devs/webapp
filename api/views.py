@@ -1,25 +1,20 @@
-from django.http.request import HttpRequest
-from django.shortcuts import render, redirect
-from google_play_scraper.features.app import app
-from google_play_scraper.exceptions import NotFoundError
-from .models import *
-from .forms import CreateUserForm
+import random
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from django.http.request import HttpRequest
+from django.shortcuts import redirect, render
+from django.views.decorators.cache import cache_page
+from google_play_scraper.exceptions import NotFoundError
+from google_play_scraper.features.app import app
 from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+from .forms import CreateUserForm
+from .models import *
 from .serializers import *
-import random
-import requests
-import urllib.request
-import json
 
-
-def get_location():
-    with urllib.request.urlopen("https://geolocation-db.com/json") as url:
-        data = json.loads(url.read().decode())
-    return data
 
 # Create your views here.
 
@@ -27,26 +22,26 @@ def get_location():
 @api_view(["GET"])
 def search(request: HttpRequest):
     search_query = request.GET["search_query"]
-    genre = request.GET.get("genre")
-    installs = request.GET.get("installs")
-    rating = request.GET.get("rating")
-    no_of_ratings = request.GET.get("no_of_ratings")
-    no_of_reviews = request.GET.get("no_of_reviews")
+    genre = request.GET.get("genre", "")
+    installs = request.GET.get("installs", "")
+    rating = request.GET.get("rating", "")
+    no_of_ratings = request.GET.get("no_of_ratings", "")
+    no_of_reviews = request.GET.get("no_of_reviews", "")
 
     apps = App.objects.filter(app_name__icontains=search_query)
-    if genre != "" and genre is not None:
+    if genre != "":
         apps = apps.filter(play_store_genre__icontains=genre)
-    if installs != "" and installs is not None:
+    if installs != "":
         apps = apps.filter(min_installs__gte=installs)
-    if rating != "" and rating is not None:
+    if rating != "":
         apps = apps.filter(avg_rating__gte=rating)
-    if no_of_reviews != "" and no_of_reviews is not None:
+    if no_of_reviews != "":
         apps = apps.filter(ratings_count__gte=no_of_ratings)
-    if no_of_ratings != "" and no_of_ratings is not None:
+    if no_of_ratings != "":
         apps = apps.filter(reviews_count__gte=no_of_reviews)
 
     res = []
-    for search_app in apps:
+    for search_app in apps[:32]:
         try:
             res.append(app(search_app.app_id, "en", "in"))
         except NotFoundError:
@@ -94,10 +89,10 @@ def logout_user(request: HttpRequest):
     return redirect("index")
 
 
-@api_view(["GET"])
+@cache_page(60 * 15)
 def best_apps(request: HttpRequest):
     res = {}
-    for genre in Genre.objects.all():
+    for genre in Genre.objects.prefetch_related("apps").all():
         res[genre.genre_name] = []
         for genre_app in genre.apps.order_by("avg_rating")[:4]:
             try:
@@ -107,9 +102,9 @@ def best_apps(request: HttpRequest):
     return Response(res)
 
 
-@api_view(["GET"])
+@cache_page(60 * 15)
 def top_users(request: HttpRequest):
-    reviews = Review.objects.order_by("-up_votes")[:25]
+    reviews = Review.objects.select_related("user").order_by("-up_votes")[:25]
     res = []
     for review in reviews:
         res.append(review.user.username)
@@ -118,14 +113,13 @@ def top_users(request: HttpRequest):
 
 @api_view(["POST"])
 def slg_site_review(request: HttpRequest):
-    serializer = SlgSiteReviewSerializer(data=request.data)
+    serializer = SlgSiteReviewSerializer(data=request.POST)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status.HTTP_201_CREATED)
     return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(["GET"])
 def counter(request: HttpRequest):
     count_apps = App.objects.count()
     count_users = User.objects.count()
@@ -144,7 +138,7 @@ def similar_apps(request: HttpRequest):
     # tags = app_object.genre_set.all()
     # tags_list = []
     # for tag in tags:
-    #     tags_list.append(tag)
+    #     tags_list.append(tag.genre_name)
     # similar_apps = App.objects.filter(play_store_genre__in = tags_list)
 
     similar_apps = App.objects.filter(play_store_genre=genre)
@@ -159,48 +153,8 @@ def similar_apps(request: HttpRequest):
     return Response(res)
 
 
-def get_genres_and_queries(genre_objects):
-    query_list = []
-    genre_string = ""
-
-    for genre_obj in genre_objects:
-        genre_string += genre_obj.genre_name + ", "
-        for query_obj in genre_obj.queries.all():
-            if query_obj in query_list:
-                continue
-            query_list.append(query_obj)
-    query_list = random.sample(query_list, min(len(query_list), 6))
-
-    query_option_dict = {}
-    for query_obj in query_list:
-        options = []
-        for option_obj in query_obj.options.all():
-            options.append(option_obj.option)
-        query_option_dict[query_obj.query] = options
-
-    return genre_string, query_option_dict
-
-
-@api_view(["GET", "POST"])
+@api_view(["POST"])
 def app_review(request: HttpRequest):
-    if request.method == "GET":
-        app_object = App.objects.get(app_id=request.GET["app_id"])
-        genre_objects = app_object.genre_set.all()
-        genre_string, query_option_dict = get_genres_and_queries(genre_objects)
-        location = get_location()
-        city = location["city"]
-        response = {
-            "app_id": request.GET["app_id"],
-            "app_name": app_object.app_name,
-            "genre_string": genre_string[:-2],
-            "queries": query_option_dict,
-            "city": city,
-        }
-
-        return Response(response)
-
-    location = get_location()
-    city = location["city"]
 
     req = request.POST.copy()
     app = App.objects.get(app_id=req["app_id"])
@@ -210,7 +164,12 @@ def app_review(request: HttpRequest):
         user = User.objects.get(username="anonymous_user")
 
     review = Review(
-        app=app, user=user, content=req["app_review"], rating=req["stars"], city=city, up_votes=1
+        app=app,
+        user=user,
+        content=req["app_review"],
+        rating=req["stars"],
+        city=req["city"],
+        up_votes=1,
     )
     review.save()
 
@@ -218,6 +177,7 @@ def app_review(request: HttpRequest):
     req.pop("app_id")
     req.pop("stars")
     req.pop("app_review")
+    req.pop("city")
 
     for query, option_list in req.items():
         query_obj = Query.objects.get(query=query)
@@ -228,7 +188,7 @@ def app_review(request: HttpRequest):
         review.query_options.add(query_option_obj)
 
     review.save()
-    return Response({"status": "success"}, status.HTTP_200_OK)
+    return Response("review successfully submitted", status.HTTP_201_CREATED)
 
 
 @api_view(["POST"])
@@ -254,6 +214,43 @@ def add_new_app(request: HttpRequest):
             free=new_app["free"],
         )
         new_app_obj.save()
-        return Response({"status": "app successfully added"}, status.HTTP_200_OK)
+        return Response({"status": "app successfully added"}, status.HTTP_201_CREATED)
     except NotFoundError:
         return Response({"status": "app not found"}, status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["GET"])
+def all_genres(request: HttpRequest):
+    genres = Genre.objects.all()
+    res = []
+    for genre in genres:
+        res.append(genre.genre_name)
+    return Response(res)
+
+
+@api_view(["GET"])
+def app_review_queries(request: HttpRequest):
+    res = {}
+    queries = []
+    app_id = request.GET["app_id"]
+    app_obj = App.objects.get(app_id=app_id)
+    for genre in app_obj.genre_set.prefetch_related("queries").all():
+        for query in genre.queries.prefetch_related("options").all():
+            queries.append(query)
+    queries = random.sample(queries, min(len(queries), 6))
+    for query in queries:
+        res[query.query] = []
+        for option in query.options.all():
+            res[query.query].append(option.option)
+    return Response(res)
+
+
+@api_view(["GET"])
+def app_details(request: HttpRequest):
+    app_id = request.GET["app_id"]
+    app_obj = App.objects.prefetch_related("genre_set").get(app_id=app_id)
+    res = AppSerializer(app_obj).data
+    res["genres"] = []
+    for genre in app_obj.genre_set.all():
+        res["genres"].append(genre.genre_name)
+    return Response(res)

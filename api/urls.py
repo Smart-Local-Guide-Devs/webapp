@@ -15,4 +15,7 @@ urlpatterns = [
     path("counter", views.counter, name="api_counter"),
     path("top_users", views.top_users, name="api_top_users"),
     path("add_new_app", views.add_new_app, name="api_add_new_app"),
+    path("all_genres", views.all_genres, name="api_all_genres"),
+    path("app_review_queries", views.app_review_queries, name="api_app_review_queries"),
+    path("app_details", views.app_details, name="api_app_details"),
 ]

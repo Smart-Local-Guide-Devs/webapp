@@ -1,131 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <title>Search results</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--Nav Bar-->
-    {%load static%}
-    <link rel="stylesheet" type="text/css" href="{%static 'searchResult.css'%}">
-</head>
+    <head>
+        <title>Search results</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--Nav Bar-->
+        {%load static%}
+        <link rel="stylesheet" type="text/css" href="{%static 'searchResult.css'%}">
+    </head>
 
-<body>
-    <header>
-        <div class="logo">LOGO</div>
-        <div class="menuToggle" onclick="toggle()" id="bars">
-            <em class="fa fa-bars"></em>
-        </div>
-    </header>
-    <div class="topnav">
-        <h3>Search result</h3>
-        <hr>
-    </div>
-
-    <form style="display: flex; flex-direction: row;" class="formFields " action="{% url 'front_search' %}"
-        method="GET">
-        <input class="navSearch" type="text" placeholder="Search" name="search_query" />
-        <select class="form-select BoxGenre Box" id="genre" name="genre">
-            <option value="">select genre</option>
-            <option>Food & Drink</option>
-            <option>Maps & Navigation</option>
-            <option>Travel & Local</option>
-            <option>Shopping</option>
-            <option>Weather</option>
-            <option>Auto & Vehicles</option>
-        </select>
-        <label>Average Rating : </label>
-        <span id="slider_value2"></span><br>
-        <!-- <input type="button" value="-" onClick="subtract_half()"> -->
-        0 <input type="range" min="0" max="5" step="0.5" name="rating" id="rating" value="0"
-            onchange="show_value2(this.value)">
-        5
-        <!-- <input type="button" value="+" onClick="add_half()"> -->
-
-        <label> Min Installs : </label>
-        <span id="slider_value3"></span><br>
-        <!-- <input type="button" value="-" onClick="subtract_half()"> -->
-        0<input type="range" min="0" max="10000000" step="10000" name="installs" id="installs" value="0"
-            onchange="show_value3(this.value)">10M
-        <!-- <input type="button" value="+" onClick="add_half()"> -->
-
-        <label> No. of reviews : </label>
-        <span id="slider_value4"></span><br>
-        <!-- <input type="button" value="-" onClick="subtract_half()"> -->
-        0<input type="range" min="0" max="100000" step="100" name="no_of_reviews" id="no_of_reviews" value="0"
-            onchange="show_value4(this.value)">100k
-        <!-- <input type="button" value="+" onClick="add_half()"> -->
-
-        <label> No. of ratings : </label>
-        <span id="slider_value5"></span><br>
-        <!-- <input type="button" value="-" onClick="subtract_half()"> -->
-        0<input type="range" min="0" max="100000" step="100" name="no_of_ratings" id="no_of_ratings" value="0"
-            onchange="show_value5(this.value)">100k
-        <!-- <input type="button" value="+" onClick="add_half()"> -->
-
-        <input class="navSearch" type="text" placeholder="page" name="page" value="1" hidden />
-        <button class="navButton" type="submit">
-            <em class="fa fa-search"></em>
-        </button>
-    </form>
-
-    <div class="Container">
-        {%for app in search_results%}
-        <div class="card1">
-            <div class="side">
-                <h3> {{app.genre}} </h3>
-                <a href="{% url 'front_get_app' %}?app_id={{ app.appId }}"><button>View Details</button></a>
+    <body>
+        <header>
+            <div class="logo">LOGO</div>
+            <div class="menuToggle" onclick="toggle()" id="bars">
+                <em class="fa fa-bars"></em>
             </div>
-            <div class="app">
-                <div class="middle">
-                    <h4>{{app.title}}</h4>
-                    <a href="{% url 'front_app_review' %}?app_id={{ app.appId }}"><button>Review</button></a>
+        </header>
+        <div class="topnav">
+            <h3>Search result</h3>
+            <hr>
+        </div>
+
+        <form style="display: flex; flex-direction: row;" class="formFields " action="{% url 'front_search' %}"
+            method="GET">
+            <input class="navSearch" type="text" placeholder="Search" name="search_query" />
+            <select class="form-select BoxGenre Box" id="genre" name="genre">
+                <option value="">select genre</option>
+                <option>Food & Drink</option>
+                <option>Maps & Navigation</option>
+                <option>Travel & Local</option>
+                <option>Shopping</option>
+                <option>Weather</option>
+                <option>Auto & Vehicles</option>
+            </select>
+            <label>Average Rating : </label>
+            <span id="slider_value2"></span><br>
+            0 <input type="range" min="0" max="5" step="0.5" name="rating" id="rating" value="0"
+                onchange="show_value2(this.value)">
+            5
+
+            <label> Min Installs : </label>
+            <span id="slider_value3"></span><br>
+            0<input type="range" min="0" max="10000000" step="10000" name="installs" id="installs" value="0"
+                onchange="show_value3(this.value)">10M
+
+            <label> No. of reviews : </label>
+            <span id="slider_value4"></span><br>
+            0<input type="range" min="0" max="100000" step="100" name="no_of_reviews" id="no_of_reviews" value="0"
+                onchange="show_value4(this.value)">100k
+
+            <label> No. of ratings : </label>
+            <span id="slider_value5"></span><br>
+            0<input type="range" min="0" max="100000" step="100" name="no_of_ratings" id="no_of_ratings" value="0"
+                onchange="show_value5(this.value)">100k
+
+            <input class="navSearch" type="text" placeholder="page" name="page" value="1" hidden />
+            <button class="navButton" type="submit">
+                <em class="fa fa-search"></em>
+            </button>
+        </form>
+
+        <div class="Container">
+            {%for app in search_results%}
+            <div class="card1">
+                <div class="side">
+                    <h3> {{app.genre}} </h3>
+                    <a href="{% url 'front_get_app' %}?app_id={{ app.appId }}"><button>View Details</button></a>
                 </div>
-                <div class="right">
-                    <img class="dot" src="{{app.icon}}" alt="app icon">
+                <div class="app">
+                    <div class="middle">
+                        <h4>{{app.title}}</h4>
+                        <a href="{% url 'front_app_review' %}?app_id={{ app.appId }}"><button>Review</button></a>
+                    </div>
+                    <div class="right">
+                        <img class="dot" src="{{app.icon}}" alt="app icon">
+                    </div>
                 </div>
             </div>
+            {% empty %}
+            <div>
+                Could Not Find What you are looking for!!
+            </div>
+            {%endfor%}
         </div>
-        {% empty %}
-        <div>
-            Could Not Find What you are looking for!!
-        </div>
-        {%endfor%}
-    </div>
-    {% if search_results.has_previous %}
-    <a href="{{sub_url}}{{search_results.previous_page_number}}">Previous Page</a>
-    {% endif %}
+        {% if search_results.has_previous %}
+        <a href="{{sub_url}}{{search_results.previous_page_number}}">Previous Page</a>
+        {% endif %}
+        <ol>
+            {% for i in search_results.paginator.page_range %}
+            <a href="{{sub_url}}{{i}}" class="page-link">
+                <li class="page-items"></li>
+            </a>
+            {% endfor %}
+        </ol>
+        {% if search_results.has_next %}
+        <a href="{{sub_url}}{{search_results.next_page_number}}">Next Page</a>
+        {% endif %}
+        <script>
+            function show_value2(x) {
+                document.getElementById("slider_value2").innerHTML = x;
+            }
+            function show_value3(x) {
+                document.getElementById("slider_value3").innerHTML = x;
+            }
+            function show_value4(x) {
+                document.getElementById("slider_value4").innerHTML = x;
+            }
+            function show_value5(x) {
+                document.getElementById("slider_value5").innerHTML = x;
+            }
 
-    {% for i in search_results.paginator.page_range %}
-    <li class="page-items">
-        <a class="page-link" href="{{sub_url}}{{i}}">{{i}}</a>
-    </li>
-    {% endfor %}
-    {% if search_results.has_next %}
-    <a href="{{sub_url}}{{search_results.next_page_number}}">Next Page</a>
-    {% endif %}
-    <script>
-        function show_value2(x) {
-            document.getElementById("slider_value2").innerHTML = x;
-        }
-        function show_value3(x) {
-            document.getElementById("slider_value3").innerHTML = x;
-        }
-        function show_value4(x) {
-            document.getElementById("slider_value4").innerHTML = x;
-        }
-        function show_value5(x) {
-            document.getElementById("slider_value5").innerHTML = x;
-        }
-        // function add_half() {
-        //     document.f.sld6.value = parseInt(document.f.sld6.value) + 0.5;
-        //     show_value2(document.f.sld6.value);
-        // }
-        // function subtract_half() {
-        //     document.f.sld6.value = parseInt(document.f.sld6.value) - 0.5;
-        //     show_value2(document.f.sld6.value);
-        // }
-
-    </script>
-</body>
+        </script>
+    </body>
 
 </html>
