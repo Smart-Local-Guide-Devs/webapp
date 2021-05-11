@@ -30,7 +30,10 @@ def search(request: HttpRequest):
         apps = apps.filter(avg_rating__gte=rating)
     res = []
     for search_app in apps:
-        res.append(app(search_app.app_id, "en", "in"))
+        try:
+            res.append(app(search_app.app_id, "en", "in"))
+        except NotFoundError:
+            pass
     return Response(res)
 
 
@@ -80,7 +83,10 @@ def best_apps(request: HttpRequest):
     for genre in Genre.objects.all():
         res[genre.genre_name] = []
         for genre_app in genre.apps.order_by("avg_rating")[:4]:
-            res[genre.genre_name].append(app(genre_app.app_id, "en", "in"))
+            try:
+                res[genre.genre_name].append(app(genre_app.app_id, "en", "in"))
+            except NotFoundError:
+                pass
     return Response(res)
 
 
@@ -129,7 +135,10 @@ def similar_apps(request: HttpRequest):
     similar_apps = similar_apps.order_by("avg_rating")[:6]
     res = []
     for similar_app in similar_apps:
-        res.append(app(similar_app.app_id, "en", "in"))
+        try:
+            res.append(app(similar_app.app_id, "en", "in"))
+        except NotFoundError:
+            pass
     return Response(res)
 
 
