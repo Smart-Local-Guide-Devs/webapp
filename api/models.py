@@ -72,6 +72,7 @@ class Review(models.Model):
     content = models.TextField()
     rating = models.IntegerField(choices=[(i, i) for i in range(1, 6)])
     query_options = models.ManyToManyField(to=QueryOption)
+    city = models.CharField(max_length=100, default="not available")
     up_votes = models.PositiveIntegerField(default=1)
 
     def __str__(self) -> str:

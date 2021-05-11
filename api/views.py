@@ -11,6 +11,15 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from .serializers import *
 import random
+import requests
+import urllib.request
+import json
+
+
+def get_location():
+    with urllib.request.urlopen("https://geolocation-db.com/json") as url:
+        data = json.loads(url.read().decode())
+    return data
 
 # Create your views here.
 
@@ -21,6 +30,9 @@ def search(request: HttpRequest):
     genre = request.GET.get("genre")
     installs = request.GET.get("installs")
     rating = request.GET.get("rating")
+    no_of_ratings = request.GET.get("no_of_ratings")
+    no_of_reviews = request.GET.get("no_of_reviews")
+
     apps = App.objects.filter(app_name__icontains=search_query)
     if genre != "" and genre is not None:
         apps = apps.filter(play_store_genre__icontains=genre)
@@ -28,9 +40,17 @@ def search(request: HttpRequest):
         apps = apps.filter(min_installs__gte=installs)
     if rating != "" and rating is not None:
         apps = apps.filter(avg_rating__gte=rating)
+    if no_of_reviews != "" and no_of_reviews is not None:
+        apps = apps.filter(ratings_count__gte=no_of_ratings)
+    if no_of_ratings != "" and no_of_ratings is not None:
+        apps = apps.filter(reviews_count__gte=no_of_reviews)
+
     res = []
     for search_app in apps:
-        res.append(app(search_app.app_id, "en", "in"))
+        try:
+            res.append(app(search_app.app_id, "en", "in"))
+        except NotFoundError:
+            pass
     return Response(res)
 
 
@@ -80,7 +100,10 @@ def best_apps(request: HttpRequest):
     for genre in Genre.objects.all():
         res[genre.genre_name] = []
         for genre_app in genre.apps.order_by("avg_rating")[:4]:
-            res[genre.genre_name].append(app(genre_app.app_id, "en", "in"))
+            try:
+                res[genre.genre_name].append(app(genre_app.app_id, "en", "in"))
+            except NotFoundError:
+                pass
     return Response(res)
 
 
@@ -129,7 +152,10 @@ def similar_apps(request: HttpRequest):
     similar_apps = similar_apps.order_by("avg_rating")[:6]
     res = []
     for similar_app in similar_apps:
-        res.append(app(similar_app.app_id, "en", "in"))
+        try:
+            res.append(app(similar_app.app_id, "en", "in"))
+        except NotFoundError:
+            pass
     return Response(res)
 
 
@@ -161,15 +187,20 @@ def app_review(request: HttpRequest):
         app_object = App.objects.get(app_id=request.GET["app_id"])
         genre_objects = app_object.genre_set.all()
         genre_string, query_option_dict = get_genres_and_queries(genre_objects)
-
+        location = get_location()
+        city = location["city"]
         response = {
             "app_id": request.GET["app_id"],
             "app_name": app_object.app_name,
             "genre_string": genre_string[:-2],
             "queries": query_option_dict,
+            "city": city,
         }
 
         return Response(response)
+
+    location = get_location()
+    city = location["city"]
 
     req = request.POST.copy()
     app = App.objects.get(app_id=req["app_id"])
@@ -179,7 +210,7 @@ def app_review(request: HttpRequest):
         user = User.objects.get(username="anonymous_user")
 
     review = Review(
-        app=app, user=user, content=req["app_review"], rating=req["stars"], up_votes=1
+        app=app, user=user, content=req["app_review"], rating=req["stars"], city=city, up_votes=1
     )
     review.save()
 

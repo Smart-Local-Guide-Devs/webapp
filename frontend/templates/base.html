@@ -37,6 +37,7 @@
 				<option>Weather</option>
 				<option>Auto & Vehicles</option>
 			</select>
+			<input class="navSearch" type="text" placeholder="page" name="page" value="1" hidden />
 			<button class="navButton" type="submit">
 				<em class="fa fa-search"></em>
 			</button>
@@ -61,28 +62,8 @@
 		</ul>
 	</header>
 
- {% comment %} <section>
-		<div class="Product Box">
-			{%for app in search_results%}
-			<div class="card1">
-				<div class="side">
-					<h3>{{app.play_store_genre}}</h3>
-					<a href="{% url 'front_get_app' %}?app_name={{ app.app_name }}"><button>View
-							Details</button></a>
-				</div>
-				<div class="app">
-					<div class="middle">
-						<h4>{{app.app_name}}</h4>
-						<a href="{% url 'front_app_review' %}?app_name={{ app.app_name }}"><button>Review</button></a>
-					</div>
-					<div class="right">
-						<img class="dot" src="{{app.icon_link}}" alt="app icon" />
-					</div>
-				</div>
-			</div>
-			{%endfor%}
-		</div>
-	</section>  {% endcomment %}
+
+	</section>
 	{%block content%} {%endblock%}
 	<section>
 		<footer id="mu-footer">
