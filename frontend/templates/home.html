@@ -15,15 +15,7 @@
 	<div class="searchField">
 		<form class="formFields" action="{% url 'front_search' %}" method="GET">
 			<input class="field Box" type="text" placeholder="Search" name="search_query" />
-			<select class="form-select BoxGenre Box" id="genre" name="genre">
-				<option value="">select genre</option>
-				<option>Food & Drink</option>
-				<option>Maps & Navigation</option>
-				<option>Travel & Local</option>
-				<option>Shopping</option>
-				<option>Weather</option>
-				<option>Auto & Vehicles</option>
-			</select>
+			
 			<div class="choose">
 				<input class="filter Box Box1" type="number" placeholder="Average Rating" class="vIntegerField" min="0"
 					max="5" name="rating" step=".1" />

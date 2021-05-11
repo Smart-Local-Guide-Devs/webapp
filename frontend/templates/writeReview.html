@@ -1,7 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-    <head>
+{%extends 'base.html'%} {%load static%} {%block headtag%}
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         {%load static%}
@@ -12,11 +9,9 @@
             integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
         <title>Review Submission</title>
-    </head>
-
-    <body>
+ {%endblock%}   {%block content%} 
         <!-- nav bar -->
-        <header>
+        {% comment %} <header>
 
             <div class="logo">LOGO</div>
             <div class="menuToggle" onclick="toggle()" id="bars">
@@ -24,7 +19,7 @@
             </div>
             <ul class="menu">
             </ul>
-        </header>
+        </header> {% endcomment %}
         <!-- back arrow -->
 
         <main>
@@ -120,6 +115,4 @@
                 </form>
             </div>
         </main>
-    </body>
-
-</html>
+   {%endblock%}

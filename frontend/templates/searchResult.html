@@ -1,21 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
+{%extends 'base.html'%} {%load static%} {%block headtag%}
 
-    <head>
+    
         <title>Search results</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!--Nav Bar-->
         {%load static%}
         <link rel="stylesheet" type="text/css" href="{%static 'searchResult.css'%}">
-    </head>
+    {%endblock%} {%block content%}
 
-    <body>
-        <header>
+  
+        {% comment %} <header>
             <div class="logo">LOGO</div>
             <div class="menuToggle" onclick="toggle()" id="bars">
                 <em class="fa fa-bars"></em>
             </div>
-        </header>
+        </header> {% endcomment %}
         <div class="topnav">
             <h3>Search result</h3>
             <hr>
@@ -45,6 +44,5 @@
             {%endfor%}
         </div>
 
-    </body>
-
-</html>
+ 
+{%endblock%}
