@@ -30,6 +30,9 @@ def search(request: HttpRequest):
     genre = request.GET.get("genre")
     installs = request.GET.get("installs")
     rating = request.GET.get("rating")
+    no_of_ratings = request.GET.get("no_of_ratings")
+    no_of_reviews = request.GET.get("no_of_reviews")
+
     apps = App.objects.filter(app_name__icontains=search_query)
     if genre != "" and genre is not None:
         apps = apps.filter(play_store_genre__icontains=genre)
@@ -37,6 +40,11 @@ def search(request: HttpRequest):
         apps = apps.filter(min_installs__gte=installs)
     if rating != "" and rating is not None:
         apps = apps.filter(avg_rating__gte=rating)
+    if no_of_reviews != "" and no_of_reviews is not None:
+        apps = apps.filter(ratings_count__gte=no_of_ratings)
+    if no_of_ratings != "" and no_of_ratings is not None:
+        apps = apps.filter(reviews_count__gte=no_of_reviews)
+
     res = []
     for search_app in apps:
         res.append(app(search_app.app_id, "en", "in"))

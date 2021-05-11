@@ -47,14 +47,26 @@ def search(request: HttpRequest):
     genre = request.GET.get("genre")
     installs = request.GET.get("installs")
     rating = request.GET.get("rating")
+    no_of_ratings = request.GET.get("no_of_ratings")
+    no_of_reviews = request.GET.get("no_of_reviews")
+    if rating is None:
+        rating = "0"
+    if installs is None:
+        installs = "0"
+    if no_of_ratings is None:
+        no_of_ratings = "0"
+    if no_of_reviews is None:
+        no_of_reviews = "0"
     page_num = request.GET.get("page", 1)
     response = requests.get(
         url=get_api_route(request) + "/search",
         params={
             "search_query": search_query,
             "genre": genre,
-            # "installs": installs,
-            # "rating": rating,
+            "installs": installs,
+            "rating": rating,
+            "no_of_reviews": no_of_reviews,
+            "no_of_ratings": no_of_ratings,
             "page": page_num,
         },
     )
@@ -66,8 +78,9 @@ def search(request: HttpRequest):
         search_results = search_results.page(page_num)
     except EmptyPage:
         search_results = search_results.page(1)
-    sub_url = "?search_query="+search_query + "&genre="+genre + "&page="
-
+    sub_url = "?search_query="+search_query + "&genre="+genre + \
+        "&rating="+rating+"&installs="+installs + "&no_of_reviews=" + \
+        no_of_reviews+"&no_of_ratings="+no_of_ratings+"&page="
     return render(request, "searchResult.html", {"search_results": search_results, "sub_url": sub_url})
 
 
