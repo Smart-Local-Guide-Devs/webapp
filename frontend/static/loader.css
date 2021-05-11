@@ -1,4 +1,4 @@
-body{background:#ECF0F1}
+/*body{background:#ECF0F1}
 
 .pre-loader{
   border: 1px solid #ECF0F1;
@@ -8,7 +8,7 @@ body{background:#ECF0F1}
   left:50%;
   transform-origin: center center;
   transform:translate(-50%, -50%) rotate(135deg);
-  /*change these sizes to fit into your project*/
+  /*change these sizes to fit into your project*//*
   width:50px;
   height:50px;
   
@@ -33,4 +33,4 @@ body{background:#ECF0F1}
   25%{transform:translateY(200%)}
   50%{transform:translateX(0)}
   75%{transform:translateY(0)}
-}
+}*/

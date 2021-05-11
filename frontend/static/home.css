@@ -76,9 +76,10 @@
 
 
 .BoxGenre{
-  padding: 17.2px;
+  text-align: center;
+  padding: 6.5px;
   outline: none;
-  border:none;
+  border-left:1px solid black;
 }
 
 
@@ -354,6 +355,7 @@ textarea{
   background-color: #53BAC1;
   outline: none;
   border:none;
+  border-radius: 25px;
 }
 .foot{
   width: 100%;
@@ -455,4 +457,25 @@ textarea{
 .counter{
   font-size: 38px;
   margin: 20px;
+}
+
+.formBtn1{
+  margin: auto;
+  padding: 10px;
+  width: 75 px;
+  background-color: #53BAC1;
+  outline: none;
+  border:none;
+  border-radius: 25px;
+  /* border-radius: 10px; */
+}
+
+.Form .applink{
+  width: 500px;
+  text-align: center;
+  margin-bottom:30px;
+  padding:10px;
+  outline: none;
+  border:none;
+  border-radius: 10px;
 }
