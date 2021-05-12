@@ -15,7 +15,7 @@
 	<div class="searchField">
 		<form class="formFields" action="{% url 'front_search' %}" method="GET">
 			<input class="field Box" type="text" placeholder="Search" name="search_query" />
-			
+
 			<div class="choose">
 				<input class="filter Box Box1" type="number" placeholder="Average Rating" class="vIntegerField" min="0"
 					max="5" name="rating" step=".1" />
@@ -25,7 +25,7 @@
 			</div>
 
 			<button class="search" type="submit" class="btn btn-primary">
-				<i class="fa fa-search"></i>
+				<em class="fa fa-search"></em>
 				<div class="searchbar">search</div>
 			</button>
 		</form>
@@ -33,8 +33,8 @@
 
 </section> {% endcomment %}
 <section class="main" id="main">
-    <div class="hero">
-		
+	<div class="hero">
+
 	</div>
 </section>
 <div class="counterup">
@@ -115,32 +115,29 @@
 			</div>
 			<div class="carousel" data-flickity='{ "groupCells": true }'>
 				<div class="carousel-cell usercell">
-					{% for user in top_3_users %}
+					{% for user_name, up_votes in top_3_users %}
 					<div class="userCard topCard">
 						<h1 class="userinfo">{{forloop.counter}}</h1>
-						<img class="userImg userinfo" src="{{user.user_img_link}}" alt="user image" />
-						<p class="userinfo name">{{user.user_name}}</p>
-						<p class="userinfo">{{user.up_vote_count}} pts</p>
+						<p class="userinfo name">{{ user_name }}</p>
+						<p class="userinfo">{{ up_votes }} pts</p>
 					</div>
 					{% endfor %}
 				</div>
 				<div class="carousel-cell usercell">
-					{% for user in mid_7_users %}
+					{% for user_name, up_votes in mid_7_users %}
 					<div class="userCard">
 						<h1 class="userinfo2">{{ forloop.counter|add:"3" }}</h1>
-						<img class="userImg2 userinfo2" src="{{user.user_img_link}}" alt="user image" />
-						<p class="userinfo2 name">{{ user.user_name }}</p>
-						<p class="userinfo2">{{user.up_vote_count}} pts</p>
+						<p class="userinfo2 name">{{ user_name }}</p>
+						<p class="userinfo2">{{ up_votes }} pts</p>
 					</div>
 					{% endfor %}
 				</div>
 				<div class="carousel-cell usercell">
-					{% for user in last_15_users %}
+					{% for user_name, up_votes in last_15_users %}
 					<div class="userCard">
 						<h1 class="userinfo3">{{ forloop.counter|add:"10" }}</h1>
-						<img class="userImg3 userinfo3" src="{{user.user_img_link}}" alt="user image" />
-						<p class="userinfo3 name">{{ user.user_name }}</p>
-						<p class="userinfo3">{{user.up_vote_count}} pts</p>
+						<p class="userinfo3 name">{{ user_name }}</p>
+						<p class="userinfo3">{{ up_votes }} pts</p>
 					</div>
 					{% endfor %}
 				</div>
@@ -161,7 +158,6 @@
 				{% csrf_token %}
 				<input class="applink" type="text" name="app_playstore_link" placeholder="{{ add_app_status }}" />
 				<button class="formBtn1" type="submit">ADD THIS APP</button>
-				{% comment %} <button class="formBtn" type="submit">ADD</button> {% endcomment %}
 			</form>
 		</div>
 		<div class="formContact right">

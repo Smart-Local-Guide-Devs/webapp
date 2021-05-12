@@ -15,91 +15,103 @@
     <h3>Search result</h3>
     <hr>
     <link rel="stylesheet" type="text/css" href="{%static 'searchResult.css'%}">
-  </div>
+</div>
 
-    <form style="display: flex; flex-direction: row;" class="formFields " action="{% url 'front_search' %}"
-        method="GET">
-        <input class="navSearch" type="text" placeholder="Search" name="search_query" />
-        <select class="form-select BoxGenre Box" id="genre" name="genre">
-            <option value="">select genre</option>
-            {% for genre in genres %}
-            <option>{{ genre }}</option>
-            {% endfor %}
-        </select>
-        <label>Average Rating : </label>
-        <span id="slider_value2"></span>
-        <br>
-        0 <input type="range" min="0" max="5" step="0.5" name="rating" id="rating" value="0"
-            onchange="show_value2(this.value)">5
+<form style="display: flex; flex-direction: row;" class="formFields " action="{% url 'front_search' %}" method="GET">
 
-        <label> Min Installs : </label>
-        <span id="slider_value3"></span><br>
-        0<input type="range" min="0" max="10000000" step="10000" name="installs" id="installs" value="0"
-            onchange="show_value3(this.value)">10M
+    <input class="navSearch" type="text" placeholder="{{ search_query }}" name="search_query" id="searchInput" />
+    <hr>
 
-        <label> No. of reviews : </label>
-        <span id="slider_value4"></span><br>
-        0<input type="range" min="0" max="100000" step="100" name="no_of_reviews" id="no_of_reviews" value="0"
-            onchange="show_value4(this.value)">100k
-
-        <label> No. of ratings : </label>
-        <span id="slider_value5"></span><br>
-        0<input type="range" min="0" max="100000" step="100" name="no_of_ratings" id="no_of_ratings" value="0"
-            onchange="show_value5(this.value)">100k
-        
-        <input class="navSearch" type="text" placeholder="page" name="page" value="1" hidden />
-        <button class="navButton" type="submit">
-            <em class="fa fa-search"></em>
-        </button>
-    </form>
-
-    <div class="Container">
-        {%for app in search_results%}
-         <div class="searchCard">
-             <div class="appName">
-                <h3>{{app.title}}</h3>
-                <h6 style="color:grey">({{app.genre}})</h6>
-             </div>
-             <div class="appImg">
-                <img class="dotImg" src="{{app.icon}}" alt="app icon">
-                <div class="Btns">
-                    <div><a href="{% url 'front_get_app' %}?app_id={{ app.appId }}"><button class="btn">View Details</button></a></div>
-                    <div ><a href="{% url 'front_app_review' %}?app_id={{ app.appId }}"><button class="btn">Review</button></a></div>
-                </div>
-             </div>
-         </div>
-        {% empty %}
-        <div>
-            Could Not Find What you are looking for!!
-        </div>
-        {%endfor%}
-    </div>
-    {% if search_results.has_previous %}
-    <a href="{{sub_url}}{{search_results.previous_page_number}}">Previous Page</a>
-    {% endif %}
-    <ol>
-        {% for i in search_results.paginator.page_range %}
-        <a href="{{sub_url}}{{i}}" class="page-link">
-            <li class="page-items"></li>
-        </a>
+    <select class="form-select BoxGenre Box" id="genreInput" name="genre">
+        <option value="">select genre</option>
+        {% for genre_value in genres %}
+        {% if genre_value == genre %}
+        <option selected>{{ genre_value }}</option>
+        {% else %}
+        <option>{{ genre_value }}</option>
+        {% endif %}
         {% endfor %}
-    </ol>
-    {% if search_results.has_next %}
-    <a href="{{sub_url}}{{search_results.next_page_number}}">Next Page</a>
-    {% endif %}
-    <script>
-        function show_value2(x) {
-            document.getElementById("slider_value2").innerHTML = x;
-        }
-        function show_value3(x) {
-            document.getElementById("slider_value3").innerHTML = x;
-        }
-        function show_value4(x) {
-            document.getElementById("slider_value4").innerHTML = x;
-        }
-        function show_value5(x) {
-            document.getElementById("slider_value5").innerHTML = x;
-        }
+    </select>
+    <hr>
 
-    </script>
-    {% endblock %}
+    <label for="rating"> Min Average Rating : </label>
+    <output id="ratingOutput">{{ rating }}</output>
+    <input type="range" min="0" max="5" step="0.5" name="rating" id="ratingInput" value="{{ rating }}"
+        onchange="ratingOutput.value=value">
+    <hr>
+
+    <label for="installs"> Min Installs : </label>
+    <output id="installsOutput">{{ installs }}</output>
+    <input type="range" min="0" max="10000000" step="10000" name="installs" id="installsInput" value="{{ installs }}"
+        onchange="installsOutput.value=value">
+    <hr>
+
+    <label for="reviews"> Min reviews : </label>
+    <output id="reviewsOutput">{{ reviews }}</output>
+    <input type="range" min="0" max="100000" step="1000" name="reviews" id="reviewsInput" value="{{ reviews }}"
+        onchange="reviewsOutput.value=value">
+    <hr>
+
+    <label for="ratings"> Min ratings : </label>
+    <output id="ratingsOutput">{{ ratings }}</output>
+    <input type="range" min="0" max="100000" step="1000" name="ratings" id="ratingsInput" value="{{ ratings }}"
+        onchange="ratingsOutput.value=value">
+    <hr>
+
+    <label for="free">Only Free</label>
+    {% if free == "true" %}
+    <input type="checkbox" name="free" id="freeInput" value="true" checked>
+    {% else %}
+    <input type="checkbox" name="free" id="freeInput" value="true">
+    {% endif %}
+    <hr>
+
+    <button class="navButton" type="submit">
+        <em class="fa fa-search"></em>
+    </button>
+</form>
+
+<div class="Container">
+    {%for app in search_results%}
+    <div class="searchCard">
+        <div class="appName">
+            <h3>{{app.title}}</h3>
+            <h6 style="color:grey">({{app.genre}})</h6>
+        </div>
+        <div class="appImg">
+            <img class="dotImg" src="{{app.icon}}" alt="app icon">
+            <div class="Btns">
+                <div><a href="{% url 'front_get_app' %}?app_id={{ app.appId }}"><button class="btn">View
+                            Details</button></a></div>
+                <div><a href="{% url 'front_app_review' %}?app_id={{ app.appId }}"><button
+                            class="btn">Review</button></a></div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div>
+        Could not find any apps that met your needs, if you have any suggetions please add them so that others can know.
+        <form class="Form" action="{% url 'front_add_new_app' %}" method="post">
+            {% csrf_token %}
+            <input class="applink" type="text" name="app_playstore_link" placeholder="{{ add_app_status }}" />
+            <button class="formBtn1" type="submit">ADD THIS APP</button>
+        </form>
+    </div>
+    {%endfor%}
+</div>
+{% if search_results.has_previous %}
+<a href="{{sub_url}}{{search_results.previous_page_number}}">Previous Page</a>
+{% endif %}
+<ol>
+    {% for i in search_results.paginator.page_range %}
+    <a href="{{sub_url}}{{i}}" class="page-link">
+        <li class="page-items"></li>
+    </a>
+    {% endfor %}
+</ol>
+{% if search_results.has_next %}
+<a href="{{sub_url}}{{search_results.next_page_number}}">Next Page</a>
+{% endif %}
+<script>
+</script>
+{% endblock %}

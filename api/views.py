@@ -23,24 +23,21 @@ from .serializers import *
 def search(request: HttpRequest):
     search_query = request.GET.get("search_query", "")
     genre = request.GET.get("genre", "")
-    installs = request.GET.get("installs", "")
-    rating = request.GET.get("rating", "")
-    no_of_ratings = request.GET.get("no_of_ratings", "")
-    no_of_reviews = request.GET.get("no_of_reviews", "")
-
+    installs = request.GET.get("installs", 0)
+    rating = request.GET.get("rating", 0)
+    ratings = request.GET.get("ratings", 0)
+    reviews = request.GET.get("reviews", 0)
+    free = request.GET.get("free", False)
     apps = App.objects.all()
-    if genre != "":
-        apps = apps.filter(genre__genre_name__icontains=genre)
-    if search_query != "":
-        apps = apps.filter(app_name__icontains=search_query)
-    if installs != "":
-        apps = apps.filter(min_installs__gte=installs)
-    if rating != "":
-        apps = apps.filter(avg_rating__gte=rating)
-    if no_of_reviews != "":
-        apps = apps.filter(ratings_count__gte=no_of_ratings)
-    if no_of_ratings != "":
-        apps = apps.filter(reviews_count__gte=no_of_reviews)
+    apps = apps.filter(genre__genre_name__icontains=genre)
+    apps = apps.filter(app_name__icontains=search_query)
+    apps = apps.filter(min_installs__gte=installs)
+    apps = apps.filter(avg_rating__gte=rating)
+    apps = apps.filter(ratings_count__gte=ratings)
+    apps = apps.filter(reviews_count__gte=reviews)
+    if free:
+        apps = apps.filter(free=True)
+    apps.order_by("reviews_count")
     res = []
     for search_app in apps[:32]:
         try:
@@ -90,12 +87,13 @@ def logout_user(request: HttpRequest):
     return redirect("index")
 
 
+@api_view(["GET"])
 @cache_page(60 * 15)
 def best_apps(request: HttpRequest):
     res = {}
     for genre in Genre.objects.prefetch_related("apps").all():
         res[genre.genre_name] = []
-        for genre_app in genre.apps.order_by("avg_rating")[:4]:
+        for genre_app in genre.apps.order_by("reviews_count")[:4]:
             try:
                 res[genre.genre_name].append(app(genre_app.app_id, "en", "in"))
             except NotFoundError:
@@ -103,12 +101,15 @@ def best_apps(request: HttpRequest):
     return Response(res)
 
 
+@api_view(["GET"])
 @cache_page(60 * 15)
 def top_users(request: HttpRequest):
     reviews = Review.objects.select_related("user").order_by("-up_votes")[:25]
-    res = []
+    res = {}
     for review in reviews:
-        res.append(review.user.username)
+        res[review.user.username] = max(
+            review.up_votes, res.get(review.user.username, 1)
+        )
     return Response(res)
 
 
@@ -121,6 +122,7 @@ def slg_site_review(request: HttpRequest):
     return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(["GET"])
 def counter(request: HttpRequest):
     count_apps = App.objects.count()
     count_users = User.objects.count()
@@ -220,6 +222,7 @@ def add_new_app(request: HttpRequest):
         return Response({"status": "app not found"}, status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(["GET"])
 @cache_page(60 * 15)
 def all_genres(request: HttpRequest):
     genres = Genre.objects.all()

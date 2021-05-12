@@ -25,9 +25,11 @@ def get_api_route(request: HttpRequest):
     return "http://" + domain + "/api"
 
 
-def get_home_page_context():
-    req = HttpRequest()
-    top_users = fetch_top_users(req).data
+def get_home_page_context(req: HttpRequest):
+    method = req.method
+    req.method = "GET"
+    top_users = list(fetch_top_users(req).data.items())
+    print(top_users)
     counter = fetch_counter(req).data
     best_apps = fetch_best_apps(req).data
     review_form = {
@@ -35,6 +37,7 @@ def get_home_page_context():
         "email_id": "Mail",
         "content": "Message",
     }
+    req.method = method
     return {
         "best_apps": best_apps,
         "counter": counter,
@@ -51,7 +54,7 @@ def get_home_page_context():
 
 
 def index(request):
-    context = get_home_page_context()
+    context = get_home_page_context(request)
     return render(
         request,
         "home.html",
@@ -68,23 +71,33 @@ def search(request: HttpRequest):
     sub_url = request.get_full_path(False)
     idx = sub_url.find("page=")
     if idx >= 0:
-        sub_url = sub_url[:idx]
+        sub_url = sub_url[: idx - 1]
     global prev_search_query, prev_search_result
     if prev_search_query != sub_url:
         prev_search_query = sub_url
         prev_search_result = fetch_search_results(request).data
+        prev_search_result = Paginator(prev_search_result, 8)
     search_results = prev_search_result
     page_num = request.GET.get("page", 1)
     # for paging
-    search_results = Paginator(search_results, 8)
     try:
         search_results = search_results.page(page_num)
     except EmptyPage:
         search_results = search_results.page(1)
-    sub_url += "page="
+    sub_url += "&page="
     res["search_results"] = search_results
     res["sub_url"] = sub_url
     res["genres"] = fetch_all_genres(request).data
+    res["add_app_status"] = "Enter playstore app link"
+    res["search_query"] = (
+        request.GET["search_query"] if request.GET["search_query"] != "" else "Search"
+    )
+    res["genre"] = request.GET.get("genre", "")
+    res["rating"] = request.GET.get("rating", 0)
+    res["installs"] = request.GET.get("installs", 0)
+    res["ratings"] = request.GET.get("ratings", 0)
+    res["reviews"] = request.GET.get("reviews", 0)
+    res["free"] = request.GET.get("free", "false")
     return render(
         request,
         "searchResult.html",
@@ -106,7 +119,7 @@ def get_app(request: HttpRequest):
 
 
 def site_review(request: HttpRequest):
-    context = get_home_page_context()
+    context = get_home_page_context(request)
     if request.method == "POST":
         response = submit_slg_site_review(request)
         context["review_form"] = response.json()
@@ -144,7 +157,7 @@ def add_new_app(request: HttpRequest):
     add_app = requests.post(
         get_api_route(request) + "/add_new_app", data={"app_id": app_id}
     ).json()
-    context = get_home_page_context()
+    context = get_home_page_context(request)
     context["add_app_status"] = add_app["status"]
     return render(
         request,

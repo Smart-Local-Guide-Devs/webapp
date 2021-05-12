@@ -45,9 +45,9 @@
 			<ul class="menu">
 
 				<li><a href="{% url 'index' %}">Menu</a></li>
-				<li><a href="#contact">Contact Us</a></li>
+				<li><a href="{% url 'index' %}#contact">Contact Us</a></li>
 				{% if user.is_authenticated %}
-				<li class="hello-msg">Hello, {{request.user}}</li>
+				<li class="hello-msg">Hello, {{request.user.first_name}} {{request.user.last_name}}</li>
 				<li><a class="hello-msg" href="{% url 'logout' %}">Logout</a></li>
 
 				{% else %}
@@ -79,6 +79,7 @@
 										reserved.
 									</p>
 								</div>
+								<p>Mail issues @ smartlocalguide@gmail.com</p>
 							</div>
 						</div>
 					</div>
