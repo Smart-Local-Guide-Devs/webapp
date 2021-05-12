@@ -1,5 +1,5 @@
 .topnav {
-    background-color: #53BAC1;
+    
     width:100%;
     margin-top: 30px;
     padding: 20px;
@@ -19,37 +19,7 @@
 hr{
   width: 500px;
 }
-.card1 {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  padding: 15px ;
-  
-  height: 8%;
-  margin: 10px 10px 10px 10px;
-  text-align: left;
-  font-family: arial;
-  background-color:  #C2EDCE;
-  width: 65%;
-  display: flex;
-  justify-content: space-between;
-}
-.card1 button {
-    border: none;
-    outline: 0;
-    padding: 12px;
-    color: black;
-    background-color:#53BAC1;
-    text-align: center;
-    cursor: pointer;
-    width: 105%;
-    font-size: 12px;
-    font-weight: bold;
-    width:150px;
 
-  }
-  
-.card1 button:hover {
-    opacity: 0.5;
-}
 
 * {
     box-sizing: border-box;
@@ -73,50 +43,62 @@ body {
   font-size: 25px;
 }
 
-
-/* Three column layout */
-.side {
-  float: center;
-  width: 40%;
-  margin-top:-10px;
-  padding: 10px;
- 
+.Contain{
+  width:100%;
 }
-
-.app{
-  padding: 10px;
-  /* float: right; */
+.searchCard{
+  width:70%;
+  height:auto;
   display: flex;
-  flex:auto;
   flex-direction: row;
-  margin-left: 8em;
-  /* margin-right: -8em; */
+  background-color: #C2EDCE;
+  padding:20px;
+  margin-top:40px;
+  border-radius:8px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
-.middle {
-  margin-top:-10px;
-  float: right;
-  width: 50%;
-  margin-right: 60px;
+.appName{
+  width:50%;
+  float:left;
+  padding-top: 20px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 
 }
-
-/* Place text to the right */
-/*.right {
-  text-align: right;
-}*/
-
-.dot {
-    height: 65px;
+.appImg{
+   float:right;
+   width:40%;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+}
+.Btns{
+  display: flex;
+  flex-direction: row;
+}
+.btn{
+  border:none;
+  outline: none;
+  background-color: #53BAC1;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  margin: 20px;
+}
+.btn:hover{
+  background-color: aqua;
+}
+.dotImg{
+  height: 65px;
     width: 65px;
     background-color: #bbb;
     border-radius: 50%;
-    display: inline-block;
 }
 .Container{
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  width:100%;
 }
 header{
   z-index: 100;
@@ -146,11 +128,15 @@ header .navlinks li a{
   color:#fff;
 }
 @media screen and (max-width: 1200px) {
-  .Container, .card1 , .app  {
+  .Container {
     width: 100%; 
   }
-
+}
 @media screen and (max-width: 600px) {
    .right , .dot  {
       width: 100%; 
     }
+    .Container {
+      width: 100%; 
+    }
+  }

@@ -11,20 +11,11 @@
 
 {%block content%}
 
-
-{% comment %}
-<header>
-    <div class="logo">LOGO</div>
-    <div class="menuToggle" onclick="toggle()" id="bars">
-        <em class="fa fa-bars"></em>
-    </div>
-</header>
-{% endcomment %}
 <div class="topnav">
     <h3>Search result</h3>
     <hr>
     <link rel="stylesheet" type="text/css" href="{%static 'searchResult.css'%}">
-
+  </div>
 
     <form style="display: flex; flex-direction: row;" class="formFields " action="{% url 'front_search' %}"
         method="GET">
@@ -55,7 +46,7 @@
         <span id="slider_value5"></span><br>
         0<input type="range" min="0" max="100000" step="100" name="no_of_ratings" id="no_of_ratings" value="0"
             onchange="show_value5(this.value)">100k
-
+        
         <input class="navSearch" type="text" placeholder="page" name="page" value="1" hidden />
         <button class="navButton" type="submit">
             <em class="fa fa-search"></em>
@@ -64,21 +55,19 @@
 
     <div class="Container">
         {%for app in search_results%}
-        <div class="card1">
-            <div class="side">
-                <h3> {{app.genre}} </h3>
-                <a href="{% url 'front_get_app' %}?app_id={{ app.appId }}"><button>View Details</button></a>
-            </div>
-            <div class="app">
-                <div class="middle">
-                    <h4>{{app.title}}</h4>
-                    <a href="{% url 'front_app_review' %}?app_id={{ app.appId }}"><button>Review</button></a>
+         <div class="searchCard">
+             <div class="appName">
+                <h3>{{app.title}}</h3>
+                <h6 style="color:grey">({{app.genre}})</h6>
+             </div>
+             <div class="appImg">
+                <img class="dotImg" src="{{app.icon}}" alt="app icon">
+                <div class="Btns">
+                    <div><a href="{% url 'front_get_app' %}?app_id={{ app.appId }}"><button class="btn">View Details</button></a></div>
+                    <div ><a href="{% url 'front_app_review' %}?app_id={{ app.appId }}"><button class="btn">Review</button></a></div>
                 </div>
-                <div class="right">
-                    <img class="dot" src="{{app.icon}}" alt="app icon">
-                </div>
-            </div>
-        </div>
+             </div>
+         </div>
         {% empty %}
         <div>
             Could Not Find What you are looking for!!
