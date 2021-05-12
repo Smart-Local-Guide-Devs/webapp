@@ -82,7 +82,36 @@
   border-left:1px solid black;
 }
 
+.hero{
+	position: absolute;
+	left:0;
+	top:0;
+	width: 100%;
+	height:100%;
+	background-size: cover;
+	background-repeat: no-repeat;
+	animation: slidy 30s ease infinite;
+}
 
+@keyframes slidy{
+  0%,100%{
+     background-image: url(media/travel.jpg);
+
+
+   }
+   20%{
+     background-image: url(media/airport.jpg);
+   }
+   40%{
+     background-image: url(media/cabs.jpg);
+   }
+   60%{
+     background-image: url(media/food.jpg);
+   }
+   80%{
+     background-image: url(media/shop.jpg);
+   }
+}
 
 .content{
   padding: 20px;
