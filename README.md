@@ -1,5 +1,5 @@
 # Smart Local Guide Web App
-Server files for the smart local guide project
+Server files for the smart local guide web app project
 
 ## File structure
 - ### api 
