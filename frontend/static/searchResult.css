@@ -2,7 +2,7 @@
     
     width:100%;
     margin-top: 30px;
-    padding: 20px;
+    padding: 100px;
     text-align: center;
 }
 
@@ -11,10 +11,10 @@
 .topnav input[type=text] {
     float: center;
     padding: 6px;
-    border: none;
+    border: #000 solid 1px;
     margin: 16px;
     font-size: 17px;
-    background-color: #C2EDCE;
+   
   }
 hr{
   width: 500px;
@@ -100,33 +100,68 @@ body {
   flex-direction: column;
   width:100%;
 }
-header{
-  z-index: 100;
-  top:0;
-  left:0;
-  width: 100%;
-  background-color: #3A3A3A;
-  padding:10px 20px;
-  position: fixed;
+.formSearch{
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-left: 40px;
+}
+.formFields{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
 }
-header .logo{
-  color:#FFF;
+.search{
+  background-color: aliceblue;
+  width:400px;
 }
-header .navlinks{
-  list-style: none;
-  display: flex;
-  position: relative;
+.Box{
+  padding:7px;
+  margin-left:2px;
+  
+  
 }
-header .navlinks li{
-  margin-left: 20px;
+.filterBox{
+  text-align:left;
+  width:200px;
+  padding:6px;
+  overflow: hidden;
+  margin-top:16px;
+  margin-right: 0;
 }
-header .navlinks li a{
-  text-decoration: none;
-  color:#fff;
+
+.filterBox p{
+  border:#000 solid 1px;
+  position:relative;
+  transition:all 1s ease;
+  padding:5px;
+  cursor:pointer; 
 }
+.filterBox p:after{
+  content:"+";
+  position:absolute;
+   right:10px;
+}
+.filterBox .filter{
+  display: none;
+}
+.activefilter p:after{content:"-" !important;}
+
+
+.activefilter .filter{
+  display:block;
+  z-index: 1;
+  position: absolute;
+  width:200px;
+  margin:5px;
+  padding-left:10px;
+  background-color:white;
+  opacity:0.7;
+  
+}
+
 @media screen and (max-width: 1200px) {
   .Container {
     width: 100%; 
