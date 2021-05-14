@@ -11,8 +11,9 @@
   background-color: #c2edce;
 }
 
-.a {
+.serviceName a {
   text-decoration: none;
+  color: #111;
 }
 
 .searchField {

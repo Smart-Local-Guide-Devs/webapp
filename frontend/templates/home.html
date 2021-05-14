@@ -95,7 +95,9 @@
 							<img class="serviceImage" src="{{ app.icon }}" alt="app icon" />
 						</a>
 						<div class="serviceName top">
+							<a href="{% url 'front_get_app' %}?app_id={{ app.appId }} ">
 							<p>{{ app.title }}</p>
+							</a>
 						</div>
 					</div>
 					{% endfor %}
