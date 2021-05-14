@@ -44,7 +44,7 @@
 
 			<ul class="menu">
 
-				<li><a href="{% url 'index' %}">Menu</a></li>
+				<li><a href="{% url 'index' %}">Home</a></li>
 				<li><a href="{% url 'index' %}#contact">Contact Us</a></li>
 				{% if user.is_authenticated %}
 				<li class="hello-msg">Hello, {{request.user.first_name}} {{request.user.last_name}}</li>

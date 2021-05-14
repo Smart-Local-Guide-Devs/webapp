@@ -309,10 +309,17 @@
 
 .serviceType {
   text-align: center;
-  font-size: 20px;
+  font-size: 30px;
   margin-top: 10px;
+  
   /* background: cornflowerblue;
   border-radius: 20px; */
+}
+
+.carousel .carousel-cell hr{
+  color:#111;
+  height: 2px;
+  background: black;
 }
 .CardHeaderCon {
   align-items: center;
