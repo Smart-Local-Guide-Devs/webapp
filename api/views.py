@@ -15,6 +15,8 @@ from .forms import CreateUserForm
 from .models import *
 from .serializers import *
 
+# SIMILAR APPS MODEL
+from word_weight import WordWeight
 
 # Create your views here.
 
