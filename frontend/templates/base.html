@@ -10,17 +10,30 @@
 			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
 		<script src="https://kit.fontawesome.com/a076d05399.js"></script>
-
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 		{%block headtag%} {%endblock%}
+		<link rel="stylesheet" type="text/css" href="{% static 'loader.css' %}" />
+
 	</head>
 
 	<body>
+		<div class="pre-loader">
+			<div class="pre-loader-dots"></div>
+			<div class="pre-loader-dots"></div>
+			<div class="pre-loader-dots"></div>
+			<div class="pre-loader-dots"></div>
+		</div>
 		<header class="header">
 			<a href="#" class="logo"><img width="40" src="{% static 'logo.png' %}" alt="logo" /></a>
 			<form style="display: flex; flex-direction: row;" class="formFields " action="{% url 'front_search' %}"
 				method="GET">
 				<input class="navSearch" type="text" placeholder="Search" name="search_query" />
-
+				<select class="form-select BoxGenre Box" id="genre" name="genre">
+					<option value="">select genre</option>
+					{% for genre in genres %}
+					<option>{{ genre }}</option>
+					{% endfor %}
+				</select>
 				<button class="navButton" type="submit">
 					<em class="fa fa-search"></em>
 				</button>
@@ -31,10 +44,10 @@
 
 			<ul class="menu">
 
-				<li><a href="{% url 'index' %}">Menu</a></li>
-				<li><a href="#contact">Contact Us</a></li>
+				<li><a href="{% url 'index' %}">Home</a></li>
+				<li><a href="{% url 'index' %}#contact">Contact Us</a></li>
 				{% if user.is_authenticated %}
-				<li class="hello-msg">Hello, {{request.user}}</li>
+				<li class="hello-msg">Hello, {{request.user.first_name}} {{request.user.last_name}}</li>
 				<li><a class="hello-msg" href="{% url 'logout' %}">Logout</a></li>
 
 				{% else %}
@@ -45,29 +58,6 @@
 			</ul>
 		</header>
 
-		<section>
-			<div class="Product Box">
-				{%for app in search_results%}
-				<div class="card1">
-					<div class="side">
-						<h3>{{app.play_store_genre}}</h3>
-						<a href="{% url 'front_get_app' %}?app_name={{ app.app_name }}"><button>View
-								Details</button></a>
-					</div>
-					<div class="app">
-						<div class="middle">
-							<h4>{{app.app_name}}</h4>
-							<a
-								href="{% url 'front_app_review' %}?app_name={{ app.app_name }}"><button>Review</button></a>
-						</div>
-						<div class="right">
-							<img class="dot" src="{{app.icon_link}}" alt="app icon" />
-						</div>
-					</div>
-				</div>
-				{%endfor%}
-			</div>
-		</section>
 		{%block content%} {%endblock%}
 		<section>
 			<footer id="mu-footer">
@@ -89,6 +79,7 @@
 										reserved.
 									</p>
 								</div>
+								<p>Mail issues @ smartlocalguide@gmail.com</p>
 							</div>
 						</div>
 					</div>
@@ -96,6 +87,13 @@
 			</footer>
 		</section>
 		<script type="text/javascript">
+			$(window).on('load', () => {
+				$(".pre-loader").fadeOut("slow");
+				$("body").css({ 'overflow': 'visible' });
+			});
+
+
+
 			window.addEventListener("scroll", function () {
 				const header = document.querySelector("header");
 				header.classList.toggle("sticky", window.scrollY > 0);
@@ -107,6 +105,7 @@
 				menuToggle.classList.toggle("active");
 				menu.classList.toggle("active");
 			}
+
 		</script>
 	</body>
 

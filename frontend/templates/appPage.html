@@ -68,6 +68,37 @@
     background-color: #fff;
 
   }
+  .abc{
+    display: inline;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .button{
+    margin-top: 10px;
+    padding: 3px;
+    background:#53BAC1;
+    border-radius: 5px;
+    display: inline;
+    align-items: center;
+    justify-content:center;
+    text-align: center;
+    text-decoration:none;
+    width: 150px;
+    margin: auto;
+    margin-top: 20px;
+    margin-left: 120px;
+    /* margin-left: 220px;
+    margin-top: 20px; */
+  }
+  
+  .button-item{
+    align-items: center;
+    text-align: center;
+    margin-right: 10px;
+  }
+  .button-icon{
+     margin-right: 10px;
+  }
 </style>
 {%endblock%}
 {%block content%}
@@ -87,6 +118,16 @@
       </div>
     </div>
   </div>
+{% comment %} 
+  <a href="{% url 'front_app_review' %}?app_id={{ appId }}"><button>Review</button></a>
+  <a href="{{ url }}"><button>Download</button></a> {% endcomment %}
+<div class="abc">
+  <a href="{% url 'front_app_review' %}?app_id={{ appId }}"class =""><button type="button" class="button"><span class="button-icon"><i class="fas fa-address-book"></i></span><span class="button-text">Review</span></button></a>
+  <a href="{{ url }}" class=""><button type="button" class="button">
+    <span class="button-icon"><i class="fab fa-google-play"></i></span>
+   <span class="button-text">Download</span>
+  </button></a>
+</div>
 
   <div class="cardur">
     <span class="heading">User Rating</span>
@@ -186,7 +227,7 @@
     </div>
   </div>
 
-  <h1>User Reviews</h1>
+  <h1 style="text-align: center">User Reviews</h1>
 
   <div class="carousel" data-flickity='{ "groupCells": false }'>
     {% for review in reviews %}
@@ -242,10 +283,11 @@
     <div class="carousel" data-flickity='{ "groupCells": false }'>
       {% for similar_app in similar_apps %}
       <div class=" serviceCard">
-        <a href="{% url 'front_get_app' %}?app_id={{ similar_app.app_id }} ">
-          <img class="serviceImage" src="{{ similar_app.icon_link }}" alt="app icon" />
+        <a href="{% url 'front_get_app' %}?app_id={{ similar_app.appId }} ">
+          <img class="serviceImage" src="{{ similar_app.icon }}" alt="app icon" />
         </a>
-        <p>{{ similar_app.app_name }}</p>
+        <p>{{ similar_app.title }}</p>
+        <p style="font-size:12px">{{similar_app.summary}}</p>
       </div>
       {% endfor %}
     </div>
@@ -257,6 +299,7 @@
       <div class=" serviceCard  ">
         <div class="serviceImage"></div>
         <p>Service Name</p>
+        <p style="font-size:12px">app summary</p>
       </div>
       <div class=" serviceCard  ">
         <div class="serviceImage"></div>

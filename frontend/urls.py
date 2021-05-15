@@ -2,10 +2,11 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path(route='', view=views.index, name="index"),
-	path(route='get_app', view=views.get_app, name="front_get_app"),
-	path(route='app_review', view=views.app_review, name="front_app_review"),
-	path(route='login', view=views.login, name="login"),
-	path(route='search', view=views.search, name="front_search"),
-	path(route='site_review', view=views.site_review, name='front_site_review' ),	
+    path("", views.index, name="index"),
+    path("get_app", views.get_app, name="front_get_app"),
+    path("app_review", views.app_review, name="front_app_review"),
+    path("login", views.login, name="login"),
+    path("search", views.search, name="front_search"),
+    path("site_review", views.site_review, name="front_site_review"),
+    path("add_new_app", views.add_new_app, name="front_add_new_app"),
 ]

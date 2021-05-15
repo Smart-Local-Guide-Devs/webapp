@@ -15,96 +15,166 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='App',
+            name="App",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('app_id', models.CharField(max_length=128, unique=True)),
-                ('app_name', models.CharField(max_length=64)),
-                ('playstore_link', models.URLField()),
-                ('app_description', models.TextField()),
-                ('app_summary', models.TextField()),
-                ('play_store_genre', models.CharField(max_length=32)),
-                ('min_installs', models.PositiveIntegerField()),
-                ('avg_rating', models.FloatField()),
-                ('ratings_count', models.PositiveIntegerField()),
-                ('reviews_count', models.PositiveIntegerField()),
-                ('one_stars', models.PositiveIntegerField()),
-                ('two_stars', models.PositiveIntegerField()),
-                ('three_stars', models.PositiveIntegerField()),
-                ('four_stars', models.PositiveIntegerField()),
-                ('five_stars', models.PositiveIntegerField()),
-                ('free', models.BooleanField()),
-                ('icon_link', models.URLField()),
-                ('header_link', models.URLField()),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("app_id", models.CharField(max_length=128, unique=True)),
+                ("app_name", models.CharField(max_length=64)),
+                ("app_description", models.TextField()),
+                ("app_summary", models.TextField()),
+                ("play_store_genre", models.CharField(max_length=32)),
+                ("min_installs", models.PositiveIntegerField()),
+                ("avg_rating", models.FloatField()),
+                ("ratings_count", models.PositiveIntegerField()),
+                ("reviews_count", models.PositiveIntegerField()),
+                ("one_stars", models.PositiveIntegerField()),
+                ("two_stars", models.PositiveIntegerField()),
+                ("three_stars", models.PositiveIntegerField()),
+                ("four_stars", models.PositiveIntegerField()),
+                ("five_stars", models.PositiveIntegerField()),
+                ("free", models.BooleanField()),
             ],
         ),
         migrations.CreateModel(
-            name='Genre',
+            name="Genre",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('genre_name', models.CharField(max_length=32, unique=True)),
-                ('apps', models.ManyToManyField(to='api.App')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("genre_name", models.CharField(max_length=32, unique=True)),
+                ("apps", models.ManyToManyField(to="api.App")),
             ],
         ),
         migrations.CreateModel(
-            name='Option',
+            name="Option",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('option', models.CharField(max_length=128, unique=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("option", models.CharField(max_length=128, unique=True)),
             ],
         ),
         migrations.CreateModel(
-            name='Query',
+            name="Query",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('query', models.CharField(max_length=256, unique=True)),
-                ('options', models.ManyToManyField(to='api.Option')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("query", models.CharField(max_length=256, unique=True)),
+                ("options", models.ManyToManyField(to="api.Option")),
             ],
         ),
         migrations.CreateModel(
-            name='QueryOption',
+            name="QueryOption",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('option', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api.option')),
-                ('query', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api.query')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "option",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="api.option"
+                    ),
+                ),
+                (
+                    "query",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="api.query"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='SlgSiteReview',
+            name="SlgSiteReview",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('user_name', models.CharField(default='Anonymous User', max_length=64)),
-                ('email_id', models.EmailField(max_length=256)),
-                ('content', models.TextField()),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "user_name",
+                    models.CharField(default="Anonymous User", max_length=64),
+                ),
+                ("email_id", models.EmailField(max_length=256)),
+                ("content", models.TextField()),
             ],
         ),
         migrations.CreateModel(
-            name='Review',
+            name="Review",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('content', models.TextField()),
-                ('rating', models.IntegerField(choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)])),
-                ('app', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api.app')),
-                ('genre', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='genre', to='api.genre')),
-                ('query_options', models.ManyToManyField(to='api.QueryOption')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-            ],
-        ),
-        migrations.CreateModel(
-            name='PlayStoreReview',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('user_name', models.CharField(default='Anonymous User', max_length=64)),
-                ('user_img_link', models.URLField()),
-                ('content', models.TextField()),
-                ('rating', models.SmallIntegerField(choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)])),
-                ('up_vote_count', models.PositiveIntegerField()),
-                ('app', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api.app')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("content", models.TextField()),
+                (
+                    "rating",
+                    models.IntegerField(
+                        choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
+                    ),
+                ),
+                (
+                    "app",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="api.app"
+                    ),
+                ),
+                ("query_options", models.ManyToManyField(to="api.QueryOption")),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                ("up_votes", models.PositiveSmallIntegerField(default=1)),
             ],
         ),
         migrations.AddField(
-            model_name='genre',
-            name='queries',
-            field=models.ManyToManyField(to='api.Query'),
+            model_name="genre",
+            name="queries",
+            field=models.ManyToManyField(to="api.Query"),
         ),
     ]

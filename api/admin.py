@@ -5,7 +5,6 @@ from .models import *
 admin.site.register(App)
 admin.site.register(SlgSiteReview)
 admin.site.register(Review)
-admin.site.register(PlayStoreReview)
 admin.site.register(Genre)
 admin.site.register(Query)
 admin.site.register(QueryOption)

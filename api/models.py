@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User, AnonymousUser
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -7,7 +7,6 @@ from django.contrib.auth.models import User, AnonymousUser
 class App(models.Model):
     app_id = models.CharField(unique=True, max_length=128)
     app_name = models.CharField(max_length=64)
-    playstore_link = models.URLField()
     app_description = models.TextField()
     app_summary = models.TextField()
     play_store_genre = models.CharField(max_length=32)
@@ -21,32 +20,18 @@ class App(models.Model):
     four_stars = models.PositiveIntegerField()
     five_stars = models.PositiveIntegerField()
     free = models.BooleanField()
-    icon_link = models.URLField()
-    header_link = models.URLField()
 
     def __str__(self) -> str:
         return self.app_name
 
 
 class SlgSiteReview(models.Model):
-    user_name = models.CharField(default='Anonymous User', max_length=64)
+    user_name = models.CharField(default="Anonymous User", max_length=64)
     email_id = models.EmailField(max_length=256)
     content = models.TextField()
 
     def __str__(self) -> str:
         return self.review
-
-
-class PlayStoreReview(models.Model):
-    app = models.ForeignKey(to=App, on_delete=models.CASCADE)
-    user_name = models.CharField(default='Anonymous User', max_length=64)
-    user_img_link = models.URLField()
-    content = models.TextField()
-    rating = models.SmallIntegerField(choices=[(i, i) for i in range(1, 6)])
-    up_vote_count = models.PositiveIntegerField()
-
-    def __str__(self) -> str:
-        return self.content
 
 
 class Option(models.Model):
@@ -58,8 +43,7 @@ class Option(models.Model):
 
 class Query(models.Model):
     query = models.CharField(max_length=256, unique=True)
-    options = models.ManyToManyField(
-        to=Option)
+    options = models.ManyToManyField(to=Option)
 
     def __str__(self) -> str:
         return self.query
@@ -68,8 +52,7 @@ class Query(models.Model):
 class Genre(models.Model):
     genre_name = models.CharField(max_length=32, unique=True)
     apps = models.ManyToManyField(to=App)
-    queries = models.ManyToManyField(
-        to=Query)
+    queries = models.ManyToManyField(to=Query)
 
     def __str__(self) -> str:
         return self.genre_name
@@ -89,6 +72,8 @@ class Review(models.Model):
     content = models.TextField()
     rating = models.IntegerField(choices=[(i, i) for i in range(1, 6)])
     query_options = models.ManyToManyField(to=QueryOption)
+    city = models.CharField(max_length=100, default="not available")
+    up_votes = models.PositiveIntegerField(default=1)
 
     def __str__(self) -> str:
         return self.content

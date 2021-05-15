@@ -1,50 +1,131 @@
-<!DOCTYPE html>
-<html lang="en">
+{%extends 'base.html'%}
+{%load static%}
+{%block headtag%}
 
-    <head>
-        <title>Search results</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!--Nav Bar-->
-        {%load static%}
-        <link rel="stylesheet" type="text/css" href="{%static 'searchResult.css'%}">
-    </head>
 
-    <body>
-        <header>
-            <div class="logo">LOGO</div>
-            <div class="menuToggle" onclick="toggle()" id="bars">
-                <em class="fa fa-bars"></em>
-            </div>
-        </header>
-        <div class="topnav">
-            <h3>Search result</h3>
-            <hr>
-        </div>
+<title>Search results</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--Nav Bar-->
+<link rel="stylesheet" type="text/css" href="{%static 'searchResult.css'%}">
+{%endblock%}
 
-        <div class="Container">
-            {%for app in search_results%}
-            <div class="card1">
-                <div class="side">
-                    <h3> {{app.play_store_genre}} </h3>
-                    <a href="{% url 'front_get_app' %}?app_id={{ app.app_id }}"><button>View Details</button></a>
-                </div>
-                <div class="app">
-                    <div class="middle">
-                        <h4>{{app.app_name}}</h4>
-                        <a href="{% url 'front_app_review' %}?app_id={{ app.app_id }}"><button>Review</button></a>
-                    </div>
-                    <div class="right">
-                        <img class="dot" src="{{app.icon_link}}" alt="app icon">
-                    </div>
-                </div>
-            </div>
-            {% empty %}
+{%block content%}
+
+<div class="topnav">
+    <h3>Search result</h3>
+    <div class="formSearch">
+        <form class="formFields " action="{% url 'front_search' %}" method="GET">
             <div>
-                Could Not Find What you are looking for!!
+                <input class="search" type="text" placeholder="Search" name="search_query" id="searchInput"
+                    value="{{ search_query }}" />
             </div>
-            {%endfor%}
+            <div>
+                <select class="form-select Genre Box" id="genreInput" name="genre">
+                    <option value="">select genre</option>
+                    {% for genre_value in genres %}
+                    {% if genre_value == genre %}
+                    <option selected>{{ genre_value }}</option>
+                    {% else %}
+                    <option>{{ genre_value }}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="filterBox">
+                <p>Filter</p>
+
+                <ul class="filter">
+                    <label for="rating"> Min Average Rating : </label>
+                    <output id="ratingOutput">{{ rating }}</output>
+                    <input type="range" min="0" max="5" step="0.5" name="rating" id="ratingInput" value="{{ rating }}"
+                        onchange="ratingOutput.value=value">
+
+
+                    <label for="installs"> Min Installs : </label>
+                    <output id="installsOutput">{{ installs }}</output>
+                    <input type="range" min="0" max="10000000" step="10000" name="installs" id="installsInput"
+                        value="{{ installs }}" onchange="installsOutput.value=value">
+
+
+                    <label for="reviews"> Min reviews : </label>
+                    <output id="reviewsOutput">{{ reviews }}</output>
+                    <input type="range" min="0" max="100000" step="1000" name="reviews" id="reviewsInput"
+                        value="{{ reviews }}" onchange="reviewsOutput.value=value">
+
+
+                    <label for="ratings"> Min ratings : </label>
+                    <output id="ratingsOutput">{{ ratings }}</output>
+                    <input type="range" min="0" max="100000" step="1000" name="ratings" id="ratingsInput"
+                        value="{{ ratings }}" onchange="ratingsOutput.value=value">
+
+
+                    <label for="free">Only Free</label>
+                    {% if free == "true" %}
+                    <input type="checkbox" name="free" id="freeInput" value="true" checked>
+                    {% else %}
+                    <input type="checkbox" name="free" id="freeInput" value="true">
+                    {% endif %}
+
+                </ul>
+
+            </div>
+            <button class="navButton" type="submit">
+                <em class="fa fa-search"></em>
+            </button>
+        </form>
+    </div>
+
+
+</div>
+
+
+<div class="Container">
+    {%for app in search_results%}
+    <div class="searchCard">
+        <div class="appName">
+            <h3>{{app.title}}</h3>
+            <h6 style="color:grey">({{app.genre}})</h6>
         </div>
-
-    </body>
-
-</html>
+        <div class="appImg">
+            <img class="dotImg" src="{{app.icon}}" alt="app icon">
+            <div class="Btns">
+                <div><a href="{% url 'front_get_app' %}?app_id={{ app.appId }}"><button class="btn">View
+                            Details</button></a></div>
+                <div><a href="{% url 'front_app_review' %}?app_id={{ app.appId }}"><button
+                            class="btn">Review</button></a></div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div>
+        Could not find any apps that met your needs, if you have any suggetions please add them so that others can know.
+        <form class="Form" action="{% url 'front_add_new_app' %}" method="post">
+            {% csrf_token %}
+            <input class="applink" type="text" name="app_playstore_link" placeholder="{{ add_app_status }}" />
+            <button class="formBtn1" type="submit">ADD THIS APP</button>
+        </form>
+    </div>
+    {%endfor%}
+</div>
+{% if search_results.has_previous %}
+<a href="{{sub_url}}{{search_results.previous_page_number}}">Previous Page</a>
+{% endif %}
+<ol>
+    {% for i in search_results.paginator.page_range %}
+    <a href="{{sub_url}}{{i}}" class="page-link">
+        <li class="page-items"></li>
+    </a>
+    {% endfor %}
+</ol>
+{% if search_results.has_next %}
+<a href="{{sub_url}}{{search_results.next_page_number}}">Next Page</a>
+{% endif %}
+<script>
+    $(document).ready(function () {
+        $(".filterBox p").click(function () {
+            console.log("clicked")
+            $(".filterBox").toggleClass("activefilter");
+        });
+    });
+</script>
+{% endblock %}

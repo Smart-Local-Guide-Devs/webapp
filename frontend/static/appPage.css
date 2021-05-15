@@ -81,7 +81,7 @@ body {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   padding: 15px 10px 7.5px 25px;
   max-width: 800px;
-  //width: 98%;
+  
   margin: 30px 0px 0px 10px;
   text-align: left;
   font-family: arial;
@@ -89,15 +89,11 @@ body {
   background-color: #53BAC1;
 
 }
-</style>
 
 
 
-<!-- Rating Part-->
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Font Awesome Icon Library -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
+
+
 * {
   box-sizing: border-box;
 }
@@ -237,9 +233,9 @@ header .navlinks li a{
   padding-bottom: -20px;
 }
 .serviceCard{
-  width:200px;
-  background-color: white;
- 
+  width:250px;
+  background-color:aliceblue;
+  height: 250px;
   margin:50px;
   border-radius: 10px;
   display: flex;
@@ -251,6 +247,9 @@ header .navlinks li a{
 }
 .flickity-page-dots{
   display: none;
+}
+.flickity-viewport{
+  height:354px;
 }
 .serviceImage{
   width: 50px;

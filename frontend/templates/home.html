@@ -10,20 +10,12 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
 	integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
 {%endblock%} {%block content%}
-<section class="main" id="main">
+{% comment %} <section class="main" id="main">
 
 	<div class="searchField">
 		<form class="formFields" action="{% url 'front_search' %}" method="GET">
 			<input class="field Box" type="text" placeholder="Search" name="search_query" />
-			<select class="form-select BoxGenre Box" id="genre" name="genre">
-				<option value="">select genre</option>
-				<option>Food & Drink</option>
-				<option>Maps & Navigation</option>
-				<option>Travel & Local</option>
-				<option>Shopping</option>
-				<option>Weather</option>
-				<option>Auto & Vehicles</option>
-			</select>
+
 			<div class="choose">
 				<input class="filter Box Box1" type="number" placeholder="Average Rating" class="vIntegerField" min="0"
 					max="5" name="rating" step=".1" />
@@ -33,18 +25,23 @@
 			</div>
 
 			<button class="search" type="submit" class="btn btn-primary">
-				<i class="fa fa-search"></i>
+				<em class="fa fa-search"></em>
 				<div class="searchbar">search</div>
 			</button>
 		</form>
 	</div>
 
+</section> {% endcomment %}
+<section class="main" id="main">
+	<div class="hero">
+
+	</div>
 </section>
 <div class="counterup">
 	<div class="counterContent">
 		<div class="box">
 			<div class="icon">
-				<i class="fab fa-google-play"></i>
+				<em class="fab fa-google-play"></em>
 			</div>
 
 			<div class="counter">{{counter.apps}}</div>
@@ -52,21 +49,21 @@
 		</div>
 		<div class="box">
 			<div class="icon">
-				<i class="fa fa-users"></i>
+				<em class="fa fa-users"></em>
 			</div>
 			<div class="counter">{{counter.users}}</div>
 			<div class="textDes">No. of Users</div>
 		</div>
 		<div class="box">
 			<div class="icon">
-				<i class="fa fa-eye"></i>
+				<em class="fa fa-eye"></em>
 			</div>
 			<div class="counter">10346</div>
 			<div class="textDes">No. of Views</div>
 		</div>
 		<div class="box">
 			<div class="icon">
-				<i class="fa fa-star"></i>
+				<em class="fa fa-star"></em>
 			</div>
 			<div class="counter">{{counter.reviews}}</div>
 			<div class="textDes">No. of Reviews</div>
@@ -78,11 +75,11 @@
 		<div class="card">
 			<div class="CardHeader">
 				<div>
-					<h1>TOP SERVICES</h1>
+					<h1>TOP SERVICES IN </h1>
 					<hr class="line" />
 				</div>
 				<div class="locationLogo">
-					<em class="fas fa-location-arrow" style="font-size: 24px"></em>
+					<input type="text" name="city" placeholder="Enter City" value="{{ location }}" />
 				</div>
 			</div>
 
@@ -94,11 +91,13 @@
 
 					{% for app in apps %}
 					<div class="cardService">
-						<a href="{% url 'front_get_app' %}?app_id={{ app.app_id }} ">
-							<img class="serviceImage" src="{{ app.icon_link }}" alt="app icon" />
+						<a href="{% url 'front_get_app' %}?app_id={{ app.appId }} ">
+							<img class="serviceImage" src="{{ app.icon }}" alt="app icon" />
 						</a>
 						<div class="serviceName top">
-							<p>{{ app.app_name }}</p>
+							<a href="{% url 'front_get_app' %}?app_id={{ app.appId }} ">
+								<p>{{ app.title }}</p>
+							</a>
 						</div>
 					</div>
 					{% endfor %}
@@ -118,32 +117,29 @@
 			</div>
 			<div class="carousel" data-flickity='{ "groupCells": true }'>
 				<div class="carousel-cell usercell">
-					{% for user in top_3_users %}
+					{% for user_name, up_votes in top_3_users %}
 					<div class="userCard topCard">
 						<h1 class="userinfo">{{forloop.counter}}</h1>
-						<img class="userImg userinfo" src="{{user.user_img_link}}" alt="user image" />
-						<p class="userinfo name">{{user.user_name}}</p>
-						<p class="userinfo">{{user.up_vote_count}} pts</p>
+						<p class="userinfo name">{{ user_name }}</p>
+						<p class="userinfo">{{ up_votes }} pts</p>
 					</div>
 					{% endfor %}
 				</div>
 				<div class="carousel-cell usercell">
-					{% for user in mid_7_users %}
+					{% for user_name, up_votes in mid_7_users %}
 					<div class="userCard">
 						<h1 class="userinfo2">{{ forloop.counter|add:"3" }}</h1>
-						<img class="userImg2 userinfo2" src="{{user.user_img_link}}" alt="user image" />
-						<p class="userinfo2 name">{{ user.user_name }}</p>
-						<p class="userinfo2">{{user.up_vote_count}} pts</p>
+						<p class="userinfo2 name">{{ user_name }}</p>
+						<p class="userinfo2">{{ up_votes }} pts</p>
 					</div>
 					{% endfor %}
 				</div>
 				<div class="carousel-cell usercell">
-					{% for user in last_15_users %}
+					{% for user_name, up_votes in last_15_users %}
 					<div class="userCard">
 						<h1 class="userinfo3">{{ forloop.counter|add:"10" }}</h1>
-						<img class="userImg3 userinfo3" src="{{user.user_img_link}}" alt="user image" />
-						<p class="userinfo3 name">{{ user.user_name }}</p>
-						<p class="userinfo3">{{user.up_vote_count}} pts</p>
+						<p class="userinfo3 name">{{ user_name }}</p>
+						<p class="userinfo3">{{ up_votes }} pts</p>
 					</div>
 					{% endfor %}
 				</div>
@@ -160,6 +156,11 @@
 				Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet.Lorem ipsum dolor
 				sit amet. Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet.
 			</p>
+			<form class="Form" action="{% url 'front_add_new_app' %}" method="post">
+				{% csrf_token %}
+				<input class="applink" type="text" name="app_playstore_link" placeholder="{{ add_app_status }}" />
+				<button class="formBtn1" type="submit">ADD THIS APP</button>
+			</form>
 		</div>
 		<div class="formContact right">
 			<h1 style="color: black; margin-bottom: 20px">CONTACT US</h1>

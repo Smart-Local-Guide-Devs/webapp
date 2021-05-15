@@ -1,74 +1,114 @@
-from django.shortcuts import redirect, render
-from django.contrib.sites.shortcuts import get_current_site
 import requests
-from google_play_scraper import app, reviews, Sort
+from api.views import best_apps as fetch_best_apps
+from api.views import counter as fetch_counter
+from api.views import top_users as fetch_top_users
+from api.views import search as fetch_search_results
+from api.views import similar_apps as fetch_similar_apps
+from api.views import slg_site_review as submit_slg_site_review
+from api.views import app_review_queries as fetch_app_review_queries
+from api.views import app_details as fetch_app_details
+from api.views import app_review as submit_app_review
+from api.views import all_genres as fetch_all_genres
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.paginator import EmptyPage, Paginator
+from django.http.request import HttpRequest
+from django.shortcuts import render
+from google_play_scraper import Sort, app, reviews
 
 
-def get_api_route(request):
+def get_user_city():
+    return requests.get("https://geolocation-db.com/json").json()["city"]
+
+
+def get_api_route(request: HttpRequest):
     domain = get_current_site(request=request).domain
     return "http://" + domain + "/api"
 
 
-# Create your views here.
-def index(request):
-    top_users = requests.get(url=get_api_route(request) + "/top_users").json()
-    counter = requests.get(url=get_api_route(request) + "/counter").json()
-    best_apps = requests.get(url=get_api_route(request) + "/best_apps").json()
+def get_home_page_context(req: HttpRequest):
+    method = req.method
+    req.method = "GET"
+    top_users = list(fetch_top_users(req).data.items())
+    counter = fetch_counter(req).data
+    best_apps = fetch_best_apps(req).data
     review_form = {
-        "user_name": "Name",
+        "username": "Name",
         "email_id": "Mail",
         "content": "Message",
     }
+    req.method = method
+    return {
+        "best_apps": best_apps,
+        "counter": counter,
+        "top_3_users": top_users[:3],
+        "mid_7_users": top_users[3:10],
+        "last_15_users": top_users[10:],
+        "review_form": review_form,
+        "add_app_status": "Enter playstore app link",
+        "genres": best_apps.keys(),
+        "location": get_user_city(),
+    }
+
+
+# Create your views here.
+
+
+def index(request):
+    context = get_home_page_context(request)
     return render(
         request,
         "home.html",
-        {
-            "best_apps": best_apps,
-            "counter": counter,
-            "top_3_users": top_users[:3],
-            "mid_7_users": top_users[3:10],
-            "last_15_users": top_users[10:],
-            "review_form": review_form,
-        },
+        context,
     )
 
 
-def search(request):
-    search_query = request.GET["search_query"]
-    genre = request.GET.get("genre")
-    installs = request.GET.get("installs")
-    rating = request.GET.get("rating")
-    response = requests.get(
-        url=get_api_route(request) + "/search",
-        params={
-            "search_query": search_query,
-            "genre": genre,
-            "installs": installs,
-            "rating": rating,
-        },
+prev_search_query = ""
+prev_search_result = {}
+
+
+def search(request: HttpRequest):
+    res = {}
+    sub_url = request.get_full_path(False)
+    idx = sub_url.find("page=")
+    if idx >= 0:
+        sub_url = sub_url[: idx - 1]
+    global prev_search_query, prev_search_result
+    if prev_search_query != sub_url:
+        prev_search_query = sub_url
+        prev_search_result = fetch_search_results(request).data
+        prev_search_result = Paginator(prev_search_result, 8)
+    search_results = prev_search_result
+    page_num = request.GET.get("page", 1)
+    # for paging
+    try:
+        search_results = search_results.page(page_num)
+    except EmptyPage:
+        search_results = search_results.page(1)
+    sub_url += "&page="
+    res["search_results"] = search_results
+    res["sub_url"] = sub_url
+    res["genres"] = fetch_all_genres(request).data
+    res["add_app_status"] = "Enter playstore app link"
+    res["search_query"] = request.GET.get("search_query", "")
+    res["genre"] = request.GET.get("genre", "")
+    res["rating"] = request.GET.get("rating", 0)
+    res["installs"] = request.GET.get("installs", 0)
+    res["ratings"] = request.GET.get("ratings", 0)
+    res["reviews"] = request.GET.get("reviews", 0)
+    res["free"] = request.GET.get("free", "false")
+    return render(
+        request,
+        "searchResult.html",
+        res,
     )
-    search_results = response.json()
-    return render(request, "searchResult.html", {"search_results": search_results})
 
 
-def search_nav(request):
-    search_query = request.GET["search_query"]
-    response = requests.get(
-        url=get_api_route(request) + "/search",
-        params={"search_query": search_query},
-    )
-    search_results = response.json()
-    return render(request, "searchResult.html", {"search_results": search_results})
-
-
-def get_app(request):
+def get_app(request: HttpRequest):
     app_id = request.GET["app_id"]
-    similar_apps = requests.get(
-        url=get_api_route(request) + "/similar_apps", params={"app_id": app_id}
-    )
     context = app(app_id, "en", "in")
-    context["similar_apps"] = similar_apps.json()
+    context["similar_apps"] = fetch_similar_apps(request).data
     context["reviews"], _ = reviews(app_id, "en", "in", Sort.NEWEST, 6)
+    context["genres"] = fetch_all_genres(request).data
     return render(
         request,
         "appPage.html",
@@ -76,50 +116,48 @@ def get_app(request):
     )
 
 
-def site_review(request):
-    response = requests.post(
-        url=get_api_route(request) + "/slg_site_review", data=request.POST
-    )
-    review_form = response.json()
-    if response.status_code == 400:
-        review_form["content"] = "Your response has been sent successfully"
-    top_users = requests.get(url=get_api_route(request) + "/top_users").json()
-    counter = requests.get(url=get_api_route(request) + "/counter").json()
-    best_apps = requests.get(url=get_api_route(request) + "/best_apps").json()
+def site_review(request: HttpRequest):
+    context = get_home_page_context(request)
+    if request.method == "POST":
+        response = submit_slg_site_review(request)
+        context["review_form"] = response.json()
     return render(
         request,
         "home.html",
-        {
-            "best_apps": best_apps,
-            "counter": counter,
-            "top_3_users": top_users[:3],
-            "mid_7_users": top_users[3:10],
-            "last_15_users": top_users[10:],
-            "review_form": review_form,
-        },
+        context,
     )
 
 
-def app_review(request):
+def app_review(request: HttpRequest):
+    res = {}
+    res["review"] = "How was your experience ..."
     if request.method == "POST":
-        response = requests.post(
-            url=get_api_route(request) + "/app_review", data=request.POST
-        )
-        if response.status_code == 400:
-            print(response.text)
-        app_id = request.POST["app_id"]
-    else:
-        app_id = request.GET["app_id"]
-    response = requests.get(
-        url=get_api_route(request) + "/app_review",
-        params={"app_id": app_id},
-    )
+        res["review"] = submit_app_review(request).data
+    res["app"] = fetch_app_details(request).data
+    res["queries"] = fetch_app_review_queries(request).data
+    res["city"] = get_user_city()
+    res["genres"] = fetch_all_genres(request).data
     return render(
         request,
         "writeReview.html",
-        response.json(),
+        res,
     )
 
 
-def login(request):
+def login(request: HttpRequest):
     return render(request, "login.html")
+
+
+def add_new_app(request: HttpRequest):
+    app_link: str = request.POST["app_playstore_link"]
+    app_id = app_link[app_link.find("id=") + 3 :]
+    add_app = requests.post(
+        get_api_route(request) + "/add_new_app", data={"app_id": app_id}
+    ).json()
+    context = get_home_page_context(request)
+    context["add_app_status"] = add_app["status"]
+    return render(
+        request,
+        "home.html",
+        context,
+    )
