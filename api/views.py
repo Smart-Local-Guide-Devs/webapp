@@ -190,6 +190,12 @@ def app_review(request: HttpRequest):
         )
         review.query_options.add(query_option_obj)
 
+
+    # for alert message on submission of review
+    
+    # if req.is_valid():
+    #     messages.success(request, 'Review submission successful')
+
     review.save()
     return Response("review successfully submitted", status.HTTP_201_CREATED)
 
