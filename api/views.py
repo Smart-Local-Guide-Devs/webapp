@@ -21,7 +21,7 @@ from .serializers import *
 
 @api_view(["GET"])
 def search(request: HttpRequest):
-    search_query = request.GET.get("search_query", "")
+    search_query = request.GET.get("search_query", "").lower()
     genre = request.GET.get("genre", "")
     installs = request.GET.get("installs", 0)
     rating = request.GET.get("rating", 0)
@@ -182,9 +182,9 @@ def app_review(request: HttpRequest):
     req.pop("app_review")
     req.pop("city")
 
-    for query, option_list in req.items():
+    for query, option in req.items():
         query_obj = Query.objects.get(query=query)
-        option_obj = Option.objects.get(option=option_list[0])
+        option_obj = Option.objects.get(option=option)
         query_option_obj, _ = QueryOption.objects.get_or_create(
             query=query_obj, option=option_obj
         )

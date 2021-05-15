@@ -29,7 +29,6 @@ def get_home_page_context(req: HttpRequest):
     method = req.method
     req.method = "GET"
     top_users = list(fetch_top_users(req).data.items())
-    print(top_users)
     counter = fetch_counter(req).data
     best_apps = fetch_best_apps(req).data
     review_form = {
@@ -47,6 +46,7 @@ def get_home_page_context(req: HttpRequest):
         "review_form": review_form,
         "add_app_status": "Enter playstore app link",
         "genres": best_apps.keys(),
+        "location": get_user_city(),
     }
 
 
@@ -89,9 +89,7 @@ def search(request: HttpRequest):
     res["sub_url"] = sub_url
     res["genres"] = fetch_all_genres(request).data
     res["add_app_status"] = "Enter playstore app link"
-    res["search_query"] = (
-        request.GET["search_query"] if request.GET["search_query"] != "" else "Search"
-    )
+    res["search_query"] = request.GET.get("search_query", "")
     res["genre"] = request.GET.get("genre", "")
     res["rating"] = request.GET.get("rating", 0)
     res["installs"] = request.GET.get("installs", 0)
@@ -134,7 +132,6 @@ def app_review(request: HttpRequest):
     res = {}
     res["review"] = "How was your experience ..."
     if request.method == "POST":
-        request.POST["city"] = get_user_city()
         res["review"] = submit_app_review(request).data
     res["app"] = fetch_app_details(request).data
     res["queries"] = fetch_app_review_queries(request).data

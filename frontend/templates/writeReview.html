@@ -15,115 +15,116 @@
 <title>Review Submission</title>
 
 
-    <!-- nav bar -->
-    <header>
+<!-- nav bar -->
+<header>
 
-        <div class="logo">LOGO</div>
-        <div class="menuToggle" onclick="toggle()" id="bars">
-            <em class="fa fa-bars"></em>
-        </div>
-        <ul class="menu">
-        </ul>
-    </header>
-    <!-- back arrow -->
+    <div class="logo">LOGO</div>
+    <div class="menuToggle" onclick="toggle()" id="bars">
+        <em class="fa fa-bars"></em>
+    </div>
+    <ul class="menu">
+    </ul>
+</header>
+<!-- back arrow -->
 
-    <main>
-        <!-- form -->
-        <div class="Container">
+<main>
+    <!-- form -->
+    <div class="Container">
 
+        <!-- form heading -->
+        <!-- adding form tag-->
+        <form action="{% url 'front_app_review' %}" method="POST" class="review-form" id="app_review_form">
+            {% csrf_token %}
             <!-- form heading -->
-            <!-- adding form tag-->
-            <form action="{% url 'front_app_review' %}" method="POST" class="review-form" id="app_review_form">
-                {% csrf_token %}
-                <!-- form heading -->
-                <div class="boxed" style="color: #ffffff;">
-                    <h3>Review Form</h3>
-                </div>
+            <div class="boxed" style="color: #ffffff;">
+                <h3>Review Form</h3>
+            </div>
 
-                <div class="row gy-4">
-                    <!-- left column / up column-->
-                    <div class="col-md-12 col-lg-6 gy-5">
-                        <!-- for width < 1200px up-down configuration & left-right configuration otherwise-->
-                        <input type="hidden" class="form-control" name="app_id" value="{{ app_id }}" readonly>
-                        <div class="input-group mb-2">
-                            <span class="input-group-text">App Name</span>
-                            <span class="input-group-text">{{ app.app_name }}</span>
-                        </div>
+            <div class="row gy-4">
+                <!-- left column / up column-->
+                <div class="col-md-12 col-lg-6 gy-5">
+                    <!-- for width < 1200px up-down configuration & left-right configuration otherwise-->
+                    <input type="hidden" name="app_id" value="{{ app.app_d }}" readonly form="app_review_form">
+                    <div class="input-group mb-2">
+                        <span class="input-group-text">App Name</span>
+                        <span class="input-group-text">{{ app.app_name }}</span>
+                    </div>
 
-                        <div class="input-group mb-2">
-                            <span class="input-group-text">Genres</span>
-                            {% for genre in app.genres %}
-                            <span class="input-group-text">{{ genre }}</span>
-                            {% endfor %}
-                        </div>
-                        <div class="input-group">
-                            <span class="input-group-text">City</span>
-                            <span class="input-group-text">{{ city }}</span>
-                        </div>
+                    <div class="input-group mb-2">
+                        <span class="input-group-text">Genres</span>
+                        {% for genre in app.genres %}
+                        <span class="input-group-text">{{ genre }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-text">City</span>
+                        <!-- <span class="input-group-text">{{ city }}</span> -->
+                        <input class="input-group-text" name="city" value="{{ city }}" form="app_review_form">
+                    </div>
 
-                        <div class="row" style="margin-top:20px; margin-bottom: 10px;">
-                            <div class="col-6" style="position: relative; left: 10px;">
-                                <h6>Rating</h6>
-                            </div>
-                            <div class="col-6">
-                                <div style="display: flex; justify-content: flex-end">
-                                    <div class="txt-center">
-                                        <div class="rating">
-                                            <input id="star5" name="stars" type="radio" value="5" class="radio-btn hide"
-                                                form="app_review_form" />
-                                            <label for="star5">☆</label>
-                                            <input id="star4" name="stars" type="radio" value="4" class="radio-btn hide"
-                                                form="app_review_form" />
-                                            <label for="star4">☆</label>
-                                            <input id="star3" name="stars" type="radio" value="3" class="radio-btn hide"
-                                                form="app_review_form" />
-                                            <label for="star3">☆</label>
-                                            <input id="star2" name="stars" type="radio" value="2" class="radio-btn hide"
-                                                form="app_review_form" />
-                                            <label for="star2">☆</label>
-                                            <input id="star1" name="stars" type="radio" value="1" class="radio-btn hide"
-                                                form="app_review_form" />
-                                            <label for="star1">☆</label>
-                                            <div class="clear"></div>
-                                        </div>
+                    <div class="row" style="margin-top:20px; margin-bottom: 10px;">
+                        <div class="col-6" style="position: relative; left: 10px;">
+                            <h6>Rating</h6>
+                        </div>
+                        <div class="col-6">
+                            <div style="display: flex; justify-content: flex-end">
+                                <div class="txt-center">
+                                    <div class="rating">
+                                        <input id="star5" name="stars" type="radio" value="5" class="radio-btn hide"
+                                            form="app_review_form" />
+                                        <label for="star5">☆</label>
+                                        <input id="star4" name="stars" type="radio" value="4" class="radio-btn hide"
+                                            form="app_review_form" />
+                                        <label for="star4">☆</label>
+                                        <input id="star3" name="stars" type="radio" value="3" class="radio-btn hide"
+                                            form="app_review_form" />
+                                        <label for="star3">☆</label>
+                                        <input id="star2" name="stars" type="radio" value="2" class="radio-btn hide"
+                                            form="app_review_form" />
+                                        <label for="star2">☆</label>
+                                        <input id="star1" name="stars" type="radio" value="1" class="radio-btn hide"
+                                            form="app_review_form" />
+                                        <label for="star1">☆</label>
+                                        <div class="clear"></div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
 
-                        <textarea form="app_review_form" name="app_review" class="form-control" rows="5"
-                            placeholder="{{ review }}"></textarea>
                     </div>
-                    <!-- right column / down column-->
-                    <!-- how is the form submitting values?-->
-                    <div class="col gy-5">
-                        <div class="row gy-4">
-                            {% for query, options in queries.items %}
-                            <div class="row" style="padding: 1em;">
-                                <div class="col-6">
-                                    <h6>{{ query }}</h6>
-                                </div>
-                                <div class="col-6">
-                                    <select class="form-select" form="app_review_form" name="{{ query }}">
-                                        {% for option in options %}
-                                        <option>{{ option }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
+
+                    <textarea form="app_review_form" name="app_review" class="form-control" rows="5"
+                        placeholder="{{ review }}"></textarea>
+                </div>
+                <!-- right column / down column-->
+                <!-- how is the form submitting values?-->
+                <div class="col gy-5">
+                    <div class="row gy-4">
+                        {% for query, options in queries.items %}
+                        <div class="row" style="padding: 1em;">
+                            <div class="col-6">
+                                <h6>{{ query }}</h6>
                             </div>
-                            {% endfor %}
+                            <div class="col-6">
+                                <select class="form-select" form="app_review_form" name="{{ query }}">
+                                    {% for option in options %}
+                                    <option>{{ option }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <!-- submit button -->
-                    <div style="display: flex; margin-top: 20px;">
-                        <div class="d-grid gap-2 col-6 mx-auto">
-                            <button class="btn btn-primary" type="button submit" value="submit">Submit
-                                Review</button>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
-            </form>
-        </div>
-    </main>
-    {%endblock%}
+                <!-- submit button -->
+                <div style="display: flex; margin-top: 20px;">
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <button class="btn btn-primary" type="button submit" value="submit">Submit
+                            Review</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>
+{%endblock%}

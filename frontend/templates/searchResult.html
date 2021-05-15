@@ -14,67 +14,68 @@
 <div class="topnav">
     <h3>Search result</h3>
     <div class="formSearch">
-        <form  class="formFields " action="{% url 'front_search' %}" method="GET">
+        <form class="formFields " action="{% url 'front_search' %}" method="GET">
             <div>
-            <input class="search" type="text" placeholder="{{ search_query }}" name="search_query" id="searchInput" />
-           </div>
-           <div>
-            <select class="form-select Genre Box" id="genreInput" name="genre">
-                <option value="">select genre</option>
-                {% for genre_value in genres %}
-                {% if genre_value == genre %}
-                <option selected>{{ genre_value }}</option>
-                {% else %}
-                <option>{{ genre_value }}</option>
-                {% endif %}
-                {% endfor %}
-            </select>
-        </div>
+                <input class="search" type="text" placeholder="Search" name="search_query" id="searchInput"
+                    value="{{ search_query }}" />
+            </div>
+            <div>
+                <select class="form-select Genre Box" id="genreInput" name="genre">
+                    <option value="">select genre</option>
+                    {% for genre_value in genres %}
+                    {% if genre_value == genre %}
+                    <option selected>{{ genre_value }}</option>
+                    {% else %}
+                    <option>{{ genre_value }}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
             <div class="filterBox">
-            <p>Filter</p>
-            
-            <ul class="filter">
-            <label for="rating"> Min Average Rating : </label>
-            <output id="ratingOutput">{{ rating }}</output>
-            <input type="range" min="0" max="5" step="0.5" name="rating" id="ratingInput" value="{{ rating }}"
-                onchange="ratingOutput.value=value">
-            
-        
-            <label for="installs"> Min Installs : </label>
-            <output id="installsOutput">{{ installs }}</output>
-            <input type="range" min="0" max="10000000" step="10000" name="installs" id="installsInput" value="{{ installs }}"
-                onchange="installsOutput.value=value">
-            
-        
-            <label for="reviews"> Min reviews : </label>
-            <output id="reviewsOutput">{{ reviews }}</output>
-            <input type="range" min="0" max="100000" step="1000" name="reviews" id="reviewsInput" value="{{ reviews }}"
-                onchange="reviewsOutput.value=value">
-            
-        
-            <label for="ratings"> Min ratings : </label>
-            <output id="ratingsOutput">{{ ratings }}</output>
-            <input type="range" min="0" max="100000" step="1000" name="ratings" id="ratingsInput" value="{{ ratings }}"
-                onchange="ratingsOutput.value=value">
-            
-        
-            <label for="free">Only Free</label>
-            {% if free == "true" %}
-            <input type="checkbox" name="free" id="freeInput" value="true" checked>
-            {% else %}
-            <input type="checkbox" name="free" id="freeInput" value="true">
-            {% endif %}
-    
-            </ul>
-            
-        </div>
+                <p>Filter</p>
+
+                <ul class="filter">
+                    <label for="rating"> Min Average Rating : </label>
+                    <output id="ratingOutput">{{ rating }}</output>
+                    <input type="range" min="0" max="5" step="0.5" name="rating" id="ratingInput" value="{{ rating }}"
+                        onchange="ratingOutput.value=value">
+
+
+                    <label for="installs"> Min Installs : </label>
+                    <output id="installsOutput">{{ installs }}</output>
+                    <input type="range" min="0" max="10000000" step="10000" name="installs" id="installsInput"
+                        value="{{ installs }}" onchange="installsOutput.value=value">
+
+
+                    <label for="reviews"> Min reviews : </label>
+                    <output id="reviewsOutput">{{ reviews }}</output>
+                    <input type="range" min="0" max="100000" step="1000" name="reviews" id="reviewsInput"
+                        value="{{ reviews }}" onchange="reviewsOutput.value=value">
+
+
+                    <label for="ratings"> Min ratings : </label>
+                    <output id="ratingsOutput">{{ ratings }}</output>
+                    <input type="range" min="0" max="100000" step="1000" name="ratings" id="ratingsInput"
+                        value="{{ ratings }}" onchange="ratingsOutput.value=value">
+
+
+                    <label for="free">Only Free</label>
+                    {% if free == "true" %}
+                    <input type="checkbox" name="free" id="freeInput" value="true" checked>
+                    {% else %}
+                    <input type="checkbox" name="free" id="freeInput" value="true">
+                    {% endif %}
+
+                </ul>
+
+            </div>
             <button class="navButton" type="submit">
                 <em class="fa fa-search"></em>
             </button>
         </form>
-        </div>
-    
-    
+    </div>
+
+
 </div>
 
 
@@ -120,11 +121,11 @@
 <a href="{{sub_url}}{{search_results.next_page_number}}">Next Page</a>
 {% endif %}
 <script>
-    $(document).ready(function(){
+    $(document).ready(function () {
         $(".filterBox p").click(function () {
             console.log("clicked")
-           $(".filterBox").toggleClass("activefilter");
-       });
+            $(".filterBox").toggleClass("activefilter");
+        });
     });
 </script>
 {% endblock %}
