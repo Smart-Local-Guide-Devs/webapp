@@ -78,8 +78,8 @@
 					<h1>TOP SERVICES IN </h1>
 					<hr class="line" />
 				</div>
-			 <div class="locationLogo"> 
-				<input type="text" name="city" placeholder="Enter City" />
+				<div class="locationLogo">
+					<input type="text" name="city" placeholder="Enter City" value="{{ location }}" />
 				</div>
 			</div>
 
@@ -87,7 +87,7 @@
 				{% for genre, apps in best_apps.items %}
 				<div class="carousel-cell">
 					<h2 class="serviceType">{{ genre }}</h2>
-					<hr/>
+					<hr />
 
 					{% for app in apps %}
 					<div class="cardService">
@@ -96,7 +96,7 @@
 						</a>
 						<div class="serviceName top">
 							<a href="{% url 'front_get_app' %}?app_id={{ app.appId }} ">
-							<p>{{ app.title }}</p>
+								<p>{{ app.title }}</p>
 							</a>
 						</div>
 					</div>
