@@ -1,11 +1,14 @@
+from django.db.models import fields
 from rest_framework import serializers
 from .models import *
 
 
 class AppSerializer(serializers.ModelSerializer):
+    genre_set = serializers.StringRelatedField(many=True)
+
     class Meta:
         model = App
-        fields = "__all__"
+        fields = ["app_id", "app_name", "app_summary", "icon_link", "genre_set"]
 
 
 class SlgSiteReviewSerializer(serializers.ModelSerializer):
@@ -14,9 +17,9 @@ class SlgSiteReviewSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class GenreSerializer(serializers.ModelSerializer):
+class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Genre
+        model = Review
         fields = "__all__"
 
 
@@ -26,19 +29,7 @@ class QuerySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class OptionSerializer(serializers.ModelSerializer):
+class GenreSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Option
-        fields = "__all__"
-
-
-class QueryOptionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = QueryOption
-        fields = "__all__"
-
-
-class ReviewSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Review
-        fields = "__all__"
+        model = Genre
+        fields = ["genre"]

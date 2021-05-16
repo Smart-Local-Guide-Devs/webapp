@@ -44,7 +44,7 @@
                 <!-- left column / up column-->
                 <div class="col-md-12 col-lg-6 gy-5">
                     <!-- for width < 1200px up-down configuration & left-right configuration otherwise-->
-                    <input type="hidden" name="app_id" value="{{ app.app_d }}" readonly form="app_review_form">
+                    <input type="hidden" name="app_id" value="{{ app.app_id }}" readonly form="app_review_form">
                     <div class="input-group mb-2">
                         <span class="input-group-text">App Name</span>
                         <span class="input-group-text">{{ app.app_name }}</span>
@@ -52,13 +52,12 @@
 
                     <div class="input-group mb-2">
                         <span class="input-group-text">Genres</span>
-                        {% for genre in app.genres %}
+                        {% for genre in app.genre_set %}
                         <span class="input-group-text">{{ genre }}</span>
                         {% endfor %}
                     </div>
                     <div class="input-group">
                         <span class="input-group-text">City</span>
-                        <!-- <span class="input-group-text">{{ city }}</span> -->
                         <input class="input-group-text" name="city" value="{{ city }}" form="app_review_form">
                     </div>
 
@@ -70,19 +69,19 @@
                             <div style="display: flex; justify-content: flex-end">
                                 <div class="txt-center">
                                     <div class="rating">
-                                        <input id="star5" name="stars" type="radio" value="5" class="radio-btn hide"
+                                        <input id="star5" name="rating" type="radio" value="5" class="radio-btn hide"
                                             form="app_review_form" />
                                         <label for="star5">☆</label>
-                                        <input id="star4" name="stars" type="radio" value="4" class="radio-btn hide"
+                                        <input id="star4" name="rating" type="radio" value="4" class="radio-btn hide"
                                             form="app_review_form" />
                                         <label for="star4">☆</label>
-                                        <input id="star3" name="stars" type="radio" value="3" class="radio-btn hide"
+                                        <input id="star3" name="rating" type="radio" value="3" class="radio-btn hide"
                                             form="app_review_form" />
                                         <label for="star3">☆</label>
-                                        <input id="star2" name="stars" type="radio" value="2" class="radio-btn hide"
+                                        <input id="star2" name="rating" type="radio" value="2" class="radio-btn hide"
                                             form="app_review_form" />
                                         <label for="star2">☆</label>
-                                        <input id="star1" name="stars" type="radio" value="1" class="radio-btn hide"
+                                        <input id="star1" name="rating" type="radio" value="1" class="radio-btn hide"
                                             form="app_review_form" />
                                         <label for="star1">☆</label>
                                         <div class="clear"></div>
@@ -93,24 +92,20 @@
 
                     </div>
 
-                    <textarea form="app_review_form" name="app_review" class="form-control" rows="5"
+                    <textarea form="app_review_form" name="content" class="form-control" rows="5"
                         placeholder="{{ review }}"></textarea>
                 </div>
                 <!-- right column / down column-->
                 <!-- how is the form submitting values?-->
                 <div class="col gy-5">
                     <div class="row gy-4">
-                        {% for query, options in queries.items %}
+                        {% for query in queries %}
                         <div class="row" style="padding: 1em;">
                             <div class="col-6">
                                 <h6>{{ query }}</h6>
                             </div>
                             <div class="col-6">
-                                <select class="form-select" form="app_review_form" name="{{ query }}">
-                                    {% for option in options %}
-                                    <option>{{ option }}</option>
-                                    {% endfor %}
-                                </select>
+                                <input type="range" name="{{ query }}" max="5" min="1" step="1">
                             </div>
                         </div>
                         {% endfor %}
@@ -125,14 +120,14 @@
 
                     <!-- for alert message on status of review submission-->
 
-                    <!-- {% if messages %}
+                    {% if messages %}
                     <ul class="messages">
                         {% for message in messages %}
-                        <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+                        <li {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
                         {% endfor %}
                     </ul>
-                    {% endif %} -->
-                
+                    {% endif %}
+
                 </div>
             </div>
         </form>

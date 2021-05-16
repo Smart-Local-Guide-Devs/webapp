@@ -137,6 +137,7 @@ def app_review(request: HttpRequest):
     res["queries"] = fetch_app_review_queries(request).data
     res["city"] = get_user_city()
     res["genres"] = fetch_all_genres(request).data
+    print(res)
     return render(
         request,
         "writeReview.html",

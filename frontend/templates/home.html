@@ -91,12 +91,12 @@
 
 					{% for app in apps %}
 					<div class="cardService">
-						<a href="{% url 'front_get_app' %}?app_id={{ app.appId }} ">
-							<img class="serviceImage" src="{{ app.icon }}" alt="app icon" />
+						<a href="{% url 'front_get_app' %}?app_id={{ app.app_id }} ">
+							<img class="serviceImage" src="{{ app.icon_link }}" alt="app icon" />
 						</a>
 						<div class="serviceName top">
-							<a href="{% url 'front_get_app' %}?app_id={{ app.appId }} ">
-								<p>{{ app.title }}</p>
+							<a href="{% url 'front_get_app' %}?app_id={{ app.app_id }} ">
+								<p>{{ app.app_name }}</p>
 							</a>
 						</div>
 					</div>
@@ -117,28 +117,28 @@
 			</div>
 			<div class="carousel" data-flickity='{ "groupCells": true }'>
 				<div class="carousel-cell usercell">
-					{% for user_name, up_votes in top_3_users %}
+					{% for username, up_votes in top_3_users %}
 					<div class="userCard topCard">
 						<h1 class="userinfo">{{forloop.counter}}</h1>
-						<p class="userinfo name">{{ user_name }}</p>
+						<p class="userinfo name">{{ username }}</p>
 						<p class="userinfo">{{ up_votes }} pts</p>
 					</div>
 					{% endfor %}
 				</div>
 				<div class="carousel-cell usercell">
-					{% for user_name, up_votes in mid_7_users %}
+					{% for username, up_votes in mid_7_users %}
 					<div class="userCard">
 						<h1 class="userinfo2">{{ forloop.counter|add:"3" }}</h1>
-						<p class="userinfo2 name">{{ user_name }}</p>
+						<p class="userinfo2 name">{{ username }}</p>
 						<p class="userinfo2">{{ up_votes }} pts</p>
 					</div>
 					{% endfor %}
 				</div>
 				<div class="carousel-cell usercell">
-					{% for user_name, up_votes in last_15_users %}
+					{% for username, up_votes in last_15_users %}
 					<div class="userCard">
 						<h1 class="userinfo3">{{ forloop.counter|add:"10" }}</h1>
-						<p class="userinfo3 name">{{ user_name }}</p>
+						<p class="userinfo3 name">{{ username }}</p>
 						<p class="userinfo3">{{ up_votes }} pts</p>
 					</div>
 					{% endfor %}
