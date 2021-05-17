@@ -206,6 +206,7 @@ def app_review_queries(request: HttpRequest):
     app = App.objects.prefetch_related("genre_set__queries").get(app_id=app_id)
     for genre in app.genre_set.all():
         genre_queries = QuerySerializer(genre.queries.all(), many=True).data
+        genre_queries = [query["query"] for query in genre_queries]
         queries.extend(genre_queries)
     queries = random.sample(queries, min(len(queries), 6))
     return Response(queries)

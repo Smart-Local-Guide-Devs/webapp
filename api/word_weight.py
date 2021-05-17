@@ -6,7 +6,7 @@ from pandas.core.frame import DataFrame
 class WordWeight:
 
     genre_keywords = {
-        "rides": [
+        "Rides": [
             "cab",
             "taxi",
             "ride|rides|riding",
@@ -15,9 +15,9 @@ class WordWeight:
             "vehicle",
             "travel",
         ],
-        "food": ["food", "meal|meals", "grocery", "shopping", "eat", "restraunt"],
-        "delivery": ["delivery", "order", "door|doorstep", "fast|quick"],
-        "fashion": [
+        "Food": ["food", "meal|meals", "grocery", "shopping", "eat", "restraunt"],
+        "Delivery": ["delivery", "order", "door|doorstep", "fast|quick"],
+        "Fashion": [
             "fashion",
             "clothes|clothing",
             "shopping",
@@ -29,10 +29,10 @@ class WordWeight:
             "brands",
             "deals",
         ],
-        "weather": ["weather", "temperature", "humidity"],
-        "map": ["map|maps", "navigation", "gps", "compass", "find"],
-        "hotel": ["hotel", "booking", "stay", "room|rooms", "cheap|luxurious"],
-        "business": [
+        "Weather": ["weather", "temperature", "humidity"],
+        "Map": ["map|maps", "navigation", "gps", "compass", "find"],
+        "Hotel": ["hotel", "booking", "stay", "room|rooms", "cheap|luxurious"],
+        "Business": [
             "business",
             "entrepreneurs",
             "professional",
@@ -41,17 +41,17 @@ class WordWeight:
             "jobs",
             "finance",
         ],
-        "medicine": [
+        "Medicine": [
             "medicine",
             "health|healthcare",
             "hospital|hospitals",
             "ambulance",
         ],
-        "news": ["news", "information", "latest", "headline"],
+        "News": ["news", "information", "latest", "headline"],
     }
 
     genre_weights = {
-        "rides": {
+        "Rides": {
             "cab": 10,
             "taxi": 7,
             "ride|rides|riding": 9,
@@ -60,7 +60,7 @@ class WordWeight:
             "vehicle": 5,
             "travel": 4,
         },
-        "food": {
+        "Food": {
             "food": 7,
             "meal|meals": 9,
             "grocery": 6,
@@ -68,8 +68,8 @@ class WordWeight:
             "eat": 6,
             "restraunt": 8,
         },
-        "delivery": {"delivery": 9, "order": 8, "door|doorstep": 4, "fast|quick": 6},
-        "fashion": {
+        "Delivery": {"delivery": 9, "order": 8, "door|doorstep": 4, "fast|quick": 6},
+        "Fashion": {
             "fashion": 10,
             "clothes|clothing": 8,
             "shopping": 9,
@@ -81,8 +81,8 @@ class WordWeight:
             "brands": 8,
             "deals": 6,
         },
-        "weather": {"weather": 10, "temperature": 9, "humidity": 8},
-        "map": {
+        "Weather": {"weather": 10, "temperature": 9, "humidity": 8},
+        "Map": {
             "map|maps": 8,
             "explore": 6,
             "navigation": 9,
@@ -90,14 +90,14 @@ class WordWeight:
             "compass": 10,
             "find": 6,
         },
-        "hotel": {
+        "Hotel": {
             "hotel": 10,
             "booking": 7,
             "stay": 5,
             "room|rooms": 6,
             "cheap|luxurious": 3,
         },
-        "business": {
+        "Business": {
             "business": 9,
             "entrepreneurs": 6,
             "professional": 7,
@@ -106,13 +106,61 @@ class WordWeight:
             "jobs": 7,
             "finance": 6,
         },
-        "medicine": {
+        "Medicine": {
             "medicine": 8,
             "health|healthcare": 10,
             "hospital|hospitals": 7,
             "ambulance": 4,
         },
-        "news": {"news": 6, "information": 7, "latest": 3, "headline": 4},
+        "News": {"news": 6, "information": 7, "latest": 3, "headline": 4},
+    }
+
+    genre_queries = {
+        "Fashion": [
+            "How good is the refund process?",
+            "How is the quality of products on the app?",
+            "How good are the prices on the app?",
+        ],
+        "News": [
+            "How useful was the information provided?",
+            "How accurate is the customized experience?",
+            "How frequently does the app update with recent events and happenings?",
+        ],
+        "Map": [
+            "How good is the user experience of the service?",
+            "How much information is provided about the locations?",
+            "Accuracy of location detection?",
+        ],
+        "Rides": [
+            "How accurate was the estimated time as said by the app?",
+            "How would you rate the travel prices on the app?",
+            "How good was the travel experience?",
+        ],
+        "Food": [
+            "How would you rate the food quality?",
+            "How good is the variety of products?",
+            "How would you rate the food prices on the app?",
+        ],
+        "Delivery": [
+            "How good is the cancelation process?",
+            "How good was the condition of the package on arrival?",
+            "How good was the estimated delivery time?",
+        ],
+        "Hotel": [
+            "How would you rate the service by hotel staff?",
+            "How good was hygiene in and around the place?",
+            "How would you rate the staying charges on the app?",
+        ],
+        "Business": [
+            "How good was the user interface of the app?",
+            "How frequently was the app updated with new information?",
+            "How much is the reliability of the service?",
+        ],
+        "Medicine": [
+            "How much has the app affected your concern over your healthcare routine?",
+            "How authentic are the services provided?",
+            "How good is the variety of medical supplies?",
+        ],
     }
 
     MAN_KEYWORDS = {
@@ -192,8 +240,9 @@ class WordWeight:
                 print("Apps are similar on genre " + genre)
 
     @staticmethod
-    def similar_apps(app_desc: str, app_genres: str, data: DataFrame) -> list:
+    def similar_apps(app_desc: str, data: DataFrame) -> list:
         apps = []
+        app_genres = WordWeight.get_app_genres(app_desc)
         for app_genre in app_genres:
             word_count = {}
             keywords = WordWeight.genre_keywords[app_genre]
@@ -215,7 +264,7 @@ class WordWeight:
                     and WordWeight.keyword_match(keywords_count, word_count)
                 ):  # if more than n_req_keywords similar keywords are present in description && confidence greater than some threshold
                     apps.append(
-                        (row["APP_NAME"], WordWeight.score(app_genre, keywords_count))
+                        (row["APP_ID"], WordWeight.score(app_genre, keywords_count))
                     )
         apps.sort(key=lambda x: x[1], reverse=True)
         return apps
