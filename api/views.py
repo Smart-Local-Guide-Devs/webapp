@@ -171,7 +171,7 @@ def app_review(request: HttpRequest):
     # for alert message on submission of review
     if req.is_valid():
         messages.success(request, "Review submission successful")
-    return Response("review successfully submitted", status.HTTP_201_CREATED)
+    return Response("Review successfully submitted", status.HTTP_201_CREATED)
 
 
 @api_view(["POST"])
@@ -210,8 +210,8 @@ def app_review_queries(request: HttpRequest):
     app_id = request.GET["app_id"]
     app = App.objects.prefetch_related("genre_set__queries").get(app_id=app_id)
     for genre in app.genre_set.all():
-        genre_queries = QuerySerializer(genre.queries.all(), many=True).data
-        queries.extend(genre_queries)
+        for query in genre.queries.all():
+            queries.append(query)
     queries = random.sample(queries, min(len(queries), 6))
     return Response(queries)
 
