@@ -150,6 +150,8 @@ def app_review(request: HttpRequest):
         user=user,
         content=req["content"],
         rating=req["rating"],
+        state=req["state"],
+        country=req["country"],
         city=req["city"],
         up_votes=1,
     )
@@ -157,11 +159,14 @@ def app_review(request: HttpRequest):
 
     req.pop("rating")
     req.pop("content")
+    req.pop("country")
+    req.pop("state")
     req.pop("city")
 
     for query, choice in req.items():
         query = Query.objects.get(query=query)
-        query_choice, _ = QueryChoice.objects.get_or_create(query=query, choice=choice)
+        query_choice, _ = QueryChoice.objects.get_or_create(
+            query=query, choice=choice)
         review.query_choices.add(query_choice)
     # for alert message on submission of review
     if req.is_valid():

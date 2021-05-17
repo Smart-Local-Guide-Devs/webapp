@@ -47,7 +47,8 @@ class Genre(models.Model):
 
 class QueryChoice(models.Model):
     query = models.ForeignKey(to=Query, on_delete=models.CASCADE)
-    choice = models.PositiveSmallIntegerField(choices=[(i, i) for i in range(1, 6)])
+    choice = models.PositiveSmallIntegerField(
+        choices=[(i, i) for i in range(1, 6)])
 
     def __str__(self) -> str:
         return self.query.query + ": " + self.choice
@@ -57,8 +58,11 @@ class Review(models.Model):
     app = models.ForeignKey(to=App, on_delete=models.CASCADE)
     user = models.ForeignKey(to=User, on_delete=models.CASCADE)
     content = models.TextField(blank=True)
-    rating = models.PositiveSmallIntegerField(choices=[(i, i) for i in range(1, 6)])
+    rating = models.PositiveSmallIntegerField(
+        choices=[(i, i) for i in range(1, 6)])
     query_choices = models.ManyToManyField(to=QueryChoice, blank=True)
+    country = models.CharField(max_length=128, default="Not Available")
+    state = models.CharField(max_length=128, default="Not Available")
     city = models.CharField(max_length=128)
     up_votes = models.PositiveIntegerField(blank=True, default=1)
 

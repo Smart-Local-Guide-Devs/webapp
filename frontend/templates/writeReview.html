@@ -11,6 +11,8 @@
 
 <title>Review Submission</title>
 {%endblock%} {%block content%}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="//geodata.solutions/includes/statecity.js"></script>
 
 <title>Review Submission</title>
 
@@ -56,10 +58,14 @@
                         <span class="input-group-text">{{ genre }}</span>
                         {% endfor %}
                     </div>
-                    <div class="input-group">
-                        <span class="input-group-text">City</span>
-                        <input class="input-group-text" name="city" value="{{ city }}" form="app_review_form">
-                    </div>
+
+                    <input type="hidden" name="country" id="countryId" value="IN" />
+                    <select name="state" class="states order-alpha form-select mb-2 col-6" id="stateId">
+                        <option value="">Select State</option>
+                    </select>
+                    <select name="city" class="cities order-alpha form-select mb-2 col-6" id="cityId">
+                        <option value="">Select City</option>
+                    </select>
 
                     <div class="row" style="margin-top:20px; margin-bottom: 10px;">
                         <div class="col-6" style="position: relative; left: 10px;">

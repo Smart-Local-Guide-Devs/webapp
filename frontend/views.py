@@ -135,7 +135,6 @@ def app_review(request: HttpRequest):
         res["review"] = submit_app_review(request).data
     res["app"] = fetch_app_details(request).data
     res["queries"] = fetch_app_review_queries(request).data
-    res["city"] = get_user_city()
     res["genres"] = fetch_all_genres(request).data
     return render(
         request,
@@ -150,7 +149,7 @@ def login(request: HttpRequest):
 
 def add_new_app(request: HttpRequest):
     app_link: str = request.POST["app_playstore_link"]
-    app_id = app_link[app_link.find("id=") + 3 :]
+    app_id = app_link[app_link.find("id=") + 3:]
     add_app = requests.post(
         get_api_route(request) + "/add_new_app", data={"app_id": app_id}
     ).json()
