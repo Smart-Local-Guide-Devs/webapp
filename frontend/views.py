@@ -1,4 +1,8 @@
+from django.contrib import messages
 import requests
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from api.views import best_apps as fetch_best_apps
 from api.views import counter as fetch_counter
 from api.views import top_users as fetch_top_users
@@ -14,10 +18,6 @@ from django.core.paginator import EmptyPage, Paginator
 from django.http.request import HttpRequest
 from django.shortcuts import render
 from google_play_scraper import Sort, app, reviews
-
-
-def get_user_city():
-    return requests.get("https://geolocation-db.com/json").json()["city"]
 
 
 def get_api_route(request: HttpRequest):
@@ -46,7 +46,6 @@ def get_home_page_context(req: HttpRequest):
         "review_form": review_form,
         "add_app_status": "Enter playstore app link",
         "genres": best_apps.keys(),
-        "location": get_user_city(),
     }
 
 
@@ -107,7 +106,7 @@ def get_app(request: HttpRequest):
     app_id = request.GET["app_id"]
     context = app(app_id, "en", "in")
     context["similar_apps"] = fetch_similar_apps(request).data
-    context["reviews"], _ = reviews(app_id, "en", "in", Sort.NEWEST, 6)
+    context["reviews"], _ = reviews(app_id, "en", "in", Sort.MOST_RELEVANT, 6)
     context["genres"] = fetch_all_genres(request).data
     return render(
         request,
@@ -119,8 +118,8 @@ def get_app(request: HttpRequest):
 def site_review(request: HttpRequest):
     context = get_home_page_context(request)
     if request.method == "POST":
-        response = submit_slg_site_review(request)
-        context["review_form"] = response.json()
+        res = submit_slg_site_review(request)
+        context["review_form"] = res.data
     return render(
         request,
         "home.html",
@@ -129,18 +128,29 @@ def site_review(request: HttpRequest):
 
 
 def app_review(request: HttpRequest):
-    res = {}
-    res["review"] = "How was your experience ..."
+    context = {}
     if request.method == "POST":
-        res["review"] = submit_app_review(request).data
-    res["app"] = fetch_app_details(request).data
-    res["queries"] = fetch_app_review_queries(request).data
-    res["city"] = get_user_city()
-    res["genres"] = fetch_all_genres(request).data
+        req = request.POST.dict()
+        req["username"] = request.user.username
+        req["query_choices"] = []
+        for key, value in req.items():
+            if key.startswith("query: "):
+                req["query_choices"].append(
+                    {"query": key.removeprefix("query: "), "choice": value}
+                )
+        res = submit_app_review(request, req)
+        context["review"] = res.data
+        if res.status_code in [202, 201, 200]:
+            messages.success(request, "Review Submission Successful")
+        else:
+            messages.error(request, "Review Submission Failed")
+    context["app"] = fetch_app_details(request).data
+    context["queries"] = fetch_app_review_queries(request).data
+    context["genres"] = fetch_all_genres(request).data
     return render(
         request,
         "writeReview.html",
-        res,
+        context,
     )
 
 

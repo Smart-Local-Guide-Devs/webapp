@@ -83,15 +83,20 @@
     {%for app in search_results%}
     <div class="searchCard">
         <div class="appName">
-            <h3>{{app.title}}</h3>
-            <h6 style="color:grey">({{app.genre}})</h6>
+            <h3>{{app.app_name}}</h3>
+            <h6 style="color:grey">(
+                {% for genre in app.genres %}
+                {{ genre }},
+                {% endfor %}
+                )
+            </h6>
         </div>
         <div class="appImg">
-            <img class="dotImg" src="{{app.icon}}" alt="app icon">
+            <img class="dotImg" src="{{app.icon_link}}" alt="app icon">
             <div class="Btns">
-                <div><a href="{% url 'front_get_app' %}?app_id={{ app.appId }}"><button class="btn">View
+                <div><a href="{% url 'front_get_app' %}?app_id={{ app.app_id }}"><button class="btn">View
                             Details</button></a></div>
-                <div><a href="{% url 'front_app_review' %}?app_id={{ app.appId }}"><button
+                <div><a href="{% url 'front_app_review' %}?app_id={{ app.app_id }}"><button
                             class="btn">Review</button></a></div>
             </div>
         </div>

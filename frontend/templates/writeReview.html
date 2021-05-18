@@ -11,6 +11,7 @@
 
 <title>Review Submission</title>
 {%endblock%} {%block content%}
+<script src="//geodata.solutions/includes/statecity.js"></script>
 
 <title>Review Submission</title>
 
@@ -56,11 +57,14 @@
                         <span class="input-group-text">{{ genre }}</span>
                         {% endfor %}
                     </div>
-                    <div class="input-group">
-                        <span class="input-group-text">City</span>
-                        <!-- <span class="input-group-text">{{ city }}</span> -->
-                        <input class="input-group-text" name="city" value="{{ city }}" form="app_review_form">
-                    </div>
+
+                    <input type="hidden" name="country" id="countryId" readonly value="IN" />
+                    <select name="state" class="states order-alpha form-select mb-2 col-6" required id="stateId">
+                        <option value="">Select State</option>
+                    </select>
+                    <select name="city" class="cities order-alpha form-select mb-2 col-6" required id="cityId">
+                        <option value="">Select City</option>
+                    </select>
 
                     <div class="row" style="margin-top:20px; margin-bottom: 10px;">
                         <div class="col-6" style="position: relative; left: 10px;">
@@ -70,20 +74,20 @@
                             <div style="display: flex; justify-content: flex-end">
                                 <div class="txt-center">
                                     <div class="rating">
-                                        <input id="star5" name="stars" type="radio" value="5" class="radio-btn hide"
-                                            form="app_review_form" />
+                                        <input id="star5" name="rating" type="radio" value="5" required
+                                            class="radio-btn hide" form="app_review_form" />
                                         <label for="star5">☆</label>
-                                        <input id="star4" name="stars" type="radio" value="4" class="radio-btn hide"
-                                            form="app_review_form" />
+                                        <input id="star4" name="rating" type="radio" value="4" required
+                                            class="radio-btn hide" form="app_review_form" />
                                         <label for="star4">☆</label>
-                                        <input id="star3" name="stars" type="radio" value="3" class="radio-btn hide"
-                                            form="app_review_form" />
+                                        <input id="star3" name="rating" type="radio" value="3" required
+                                            class="radio-btn hide" form="app_review_form" />
                                         <label for="star3">☆</label>
-                                        <input id="star2" name="stars" type="radio" value="2" class="radio-btn hide"
-                                            form="app_review_form" />
+                                        <input id="star2" name="rating" type="radio" value="2" required
+                                            class="radio-btn hide" form="app_review_form" />
                                         <label for="star2">☆</label>
-                                        <input id="star1" name="stars" type="radio" value="1" class="radio-btn hide"
-                                            form="app_review_form" />
+                                        <input id="star1" name="rating" type="radio" value="1" required
+                                            class="radio-btn hide" form="app_review_form" />
                                         <label for="star1">☆</label>
                                         <div class="clear"></div>
                                     </div>
@@ -93,24 +97,20 @@
 
                     </div>
 
-                    <textarea form="app_review_form" name="app_review" class="form-control" rows="5"
-                        placeholder="{{ review }}"></textarea>
+                    <textarea form="app_review_form" name="content" class="form-control" rows="5"
+                        placeholder="How was your experience ..."></textarea>
                 </div>
                 <!-- right column / down column-->
                 <!-- how is the form submitting values?-->
                 <div class="col gy-5">
                     <div class="row gy-4">
-                        {% for query, options in queries.items %}
+                        {% for query in queries %}
                         <div class="row" style="padding: 1em;">
                             <div class="col-6">
                                 <h6>{{ query }}</h6>
                             </div>
                             <div class="col-6">
-                                <select class="form-select" form="app_review_form" name="{{ query }}">
-                                    {% for option in options %}
-                                    <option>{{ option }}</option>
-                                    {% endfor %}
-                                </select>
+                                <input type="range" name="query: {{ query }}" max="5" min="1" step="1">
                             </div>
                         </div>
                         {% endfor %}
@@ -122,6 +122,17 @@
                         <button class="btn btn-primary" type="button submit" value="submit">Submit
                             Review</button>
                     </div>
+
+                    <!-- for alert message on status of review submission-->
+
+                    {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <li {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+
                 </div>
             </div>
         </form>
