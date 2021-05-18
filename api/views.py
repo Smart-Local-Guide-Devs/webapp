@@ -7,6 +7,7 @@ from django.shortcuts import redirect, render
 from django.views.decorators.cache import cache_page
 from google_play_scraper.exceptions import NotFoundError
 from google_play_scraper.features.app import app
+from requests.api import request
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -171,7 +172,7 @@ def add_new_app(request: HttpRequest):
         return Response("app not found", status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(["GET"])
+@api_view(["GET", "POST"])
 @cache_page(60 * 15)
 def all_genres(request: HttpRequest):
     genres = Genre.objects.all()
@@ -180,22 +181,25 @@ def all_genres(request: HttpRequest):
     return Response(genres)
 
 
-@api_view(["GET"])
+@api_view(["GET", "POST"])
 def app_review_queries(request: HttpRequest):
     queries = []
-    app_id = request.GET["app_id"]
+    app_id = (
+        request.POST["app_id"] if request.method == "POST" else request.GET["app_id"]
+    )
     app = App.objects.prefetch_related("genre_set__queries").get(app_id=app_id)
     for genre in app.genre_set.all():
-        genre_queries = QuerySerializer(genre.queries.all(), many=True).data
-        genre_queries = [query["query"] for query in genre_queries]
-        queries.extend(genre_queries)
+        for query in genre.queries.all():
+            queries.append(query)
     queries = random.sample(queries, min(len(queries), 6))
     return Response(queries)
 
 
-@api_view(["GET"])
+@api_view(["GET", "POST"])
 def app_details(request: HttpRequest):
-    app_id = request.GET["app_id"]
+    app_id = (
+        request.POST["app_id"] if request.method == "POST" else request.GET["app_id"]
+    )
     app = App.objects.get(app_id=app_id)
     app = AppSerializer(app).data
     return Response(app)

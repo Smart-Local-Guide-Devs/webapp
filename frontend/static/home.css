@@ -7,7 +7,7 @@
 
 .main {
   width: 100%;
-  height: 100vh;
+  height: 80vh;
   background-color: #c2edce;
 }
 
@@ -82,7 +82,7 @@
   top: 0;
   width: 100%;
   height: 100%;
-  background-size: cover;
+  background-size: 100% 80%;
   background-repeat: no-repeat;
   animation: slidy 30s ease infinite;
 }
@@ -248,17 +248,17 @@
 
 .carousel {
   background: #c2edce;
-  margin-top: 40px;
+  margin-top: 30px;
 }
 
 .carousel-cell {
   width: 50%;
   height: auto;
   min-height: 320px;
-  max-height: 400px;
+  max-height: 370px;
   margin-right: 50px;
   margin-left: 50px;
-  margin-top: 50px;
+  margin-top: 25px;
   background: #53bac1;
   border-radius: 10px;
 }
