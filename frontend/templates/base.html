@@ -27,7 +27,7 @@
 			<a href="#" class="logo"><img width="40" src="{% static 'logo.png' %}" alt="logo" /></a>
 			<form style="display: flex; flex-direction: row;" class="formFields " action="{% url 'front_search' %}"
 				method="GET">
-				<input class="navSearch" type="text" placeholder="Search" name="search_query" />
+				<input class="navSearch" type="search" placeholder="Search" name="search_query" />
 				<select class="form-select BoxGenre Box" id="genre" name="genre">
 					<option value="">select genre</option>
 					{% for genre in genres %}

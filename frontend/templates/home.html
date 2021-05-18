@@ -158,7 +158,7 @@
 			</p>
 			<form class="Form" action="{% url 'front_add_new_app' %}" method="post">
 				{% csrf_token %}
-				<input class="applink" type="text" name="app_playstore_link" placeholder="{{ add_app_status }}" />
+				<input class="applink" type="url" name="app_playstore_link" placeholder="{{ add_app_status }}" />
 				<button class="formBtn1" type="submit">ADD THIS APP</button>
 			</form>
 		</div>
