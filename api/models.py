@@ -68,3 +68,8 @@ class Review(models.Model):
 
     def __str__(self) -> str:
         return self.content
+
+class Visitors(models.Model):
+    visitor=models.TextField(default=None)
+    def __str__(self):
+        return self.visitor 
