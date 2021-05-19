@@ -7,6 +7,7 @@ from django.shortcuts import redirect, render
 from django.views.decorators.cache import cache_page
 from google_play_scraper.exceptions import NotFoundError
 from google_play_scraper.features.app import app
+from requests.api import request
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -14,12 +15,7 @@ from django.db.models import Q
 
 from .forms import CreateUserForm
 from .models import *
-from .serializers import (
-    AppSerializer,
-    GenreSerializer,
-    QuerySerializer,
-    SlgSiteReviewSerializer,
-)
+from .serializers import *
 from .word_weight import WordWeight
 
 # Create your views here.
@@ -83,6 +79,7 @@ def signin(request: HttpRequest):
         return render(request, "signin.html", context)
 
 
+@api_view(["GET", "POST"])
 def logout_user(request: HttpRequest):
     logout(request)
     return redirect("index")
@@ -137,42 +134,14 @@ def similar_apps(request: HttpRequest):
 
 
 @api_view(["POST"])
-def app_review(request: HttpRequest):
-    req = request.POST.dict()
-    app = App.objects.get(app_id=req["app_id"])
-    req.pop("app_id")
-    if request.user.is_authenticated:
-        user = request.user
-    else:
-        user = User.objects.get(username="anonymous_user")
-
-    review = Review(
-        app=app,
-        user=user,
-        content=req["content"],
-        rating=req["rating"],
-        state=req["state"],
-        country=req["country"],
-        city=req["city"],
-        up_votes=1,
-    )
-    review.save()
-
-    req.pop("rating")
-    req.pop("content")
-    req.pop("country")
-    req.pop("state")
-    req.pop("city")
-
-    for query, choice in req.items():
-        query = Query.objects.get(query=query)
-        query_choice, _ = QueryChoice.objects.get_or_create(
-            query=query, choice=choice)
-        review.query_choices.add(query_choice)
-    # for alert message on submission of review
-    if req.is_valid():
-        messages.success(request, "Review submission successful")
-    return Response("Review successfully submitted", status.HTTP_201_CREATED)
+def app_review(request: HttpRequest, data: dict = None):
+    if data is None:
+        data = request.POST.copy()
+    serializer = ReviewSerializer(data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status.HTTP_201_CREATED)
+    return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["POST"])
@@ -180,23 +149,31 @@ def add_new_app(request: HttpRequest):
     app_id = request.POST["app_id"]
     try:
         new_app = app(app_id, "en", "in")
-        new_app_obj = App(
-            app_id=new_app["appId"],
-            app_name=new_app["title"],
-            app_summary=new_app["summary"],
-            min_installs=new_app["minInstalls"],
-            avg_rating=new_app["score"],
-            ratings_count=new_app["ratings"],
-            reviews_count=new_app["reviews"],
-            free=new_app["free"],
+        genres = WordWeight.get_app_genres(new_app["description"])
+        if genres:
+            new_app_obj = App(
+                app_id=new_app["appId"],
+                app_name=new_app["title"],
+                app_summary=new_app["summary"],
+                min_installs=new_app["minInstalls"],
+                avg_rating=new_app["score"],
+                ratings_count=new_app["ratings"],
+                reviews_count=new_app["reviews"],
+                free=new_app["free"],
+                icon_link=new_app["icon"],
+            )
+            new_app_obj.save()
+            for genre in genres:
+                Genre.objects.get(genre=genre).apps.add(new_app_obj)
+            return Response("app successfully added", status.HTTP_201_CREATED)
+        return Response(
+            "app does not satisfy required criterias", status.HTTP_400_BAD_REQUEST
         )
-        new_app_obj.save()
-        return Response("app successfully added", status.HTTP_201_CREATED)
     except NotFoundError:
         return Response("app not found", status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(["GET"])
+@api_view(["GET", "POST"])
 @cache_page(60 * 15)
 def all_genres(request: HttpRequest):
     genres = Genre.objects.all()
@@ -205,10 +182,12 @@ def all_genres(request: HttpRequest):
     return Response(genres)
 
 
-@api_view(["GET"])
+@api_view(["GET", "POST"])
 def app_review_queries(request: HttpRequest):
     queries = []
-    app_id = request.GET["app_id"]
+    app_id = (
+        request.POST["app_id"] if request.method == "POST" else request.GET["app_id"]
+    )
     app = App.objects.prefetch_related("genre_set__queries").get(app_id=app_id)
     for genre in app.genre_set.all():
         for query in genre.queries.all():
@@ -217,9 +196,11 @@ def app_review_queries(request: HttpRequest):
     return Response(queries)
 
 
-@api_view(["GET"])
+@api_view(["GET", "POST"])
 def app_details(request: HttpRequest):
-    app_id = request.GET["app_id"]
+    app_id = (
+        request.POST["app_id"] if request.method == "POST" else request.GET["app_id"]
+    )
     app = App.objects.get(app_id=app_id)
     app = AppSerializer(app).data
     return Response(app)
