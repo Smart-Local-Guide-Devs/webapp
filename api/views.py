@@ -18,6 +18,7 @@ from .models import *
 from .serializers import *
 from .word_weight import WordWeight
 from .recommend_by_location import RecommendByLocation
+from .similar_user_apps import SimilarUserApps
 
 # Create your views here.
 
