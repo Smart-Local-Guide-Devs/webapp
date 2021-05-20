@@ -1,19 +1,13 @@
 from django.contrib import messages
-import requests
-from rest_framework import status
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
 from api.views import best_apps as fetch_best_apps
 from api.views import counter as fetch_counter
 from api.views import top_users as fetch_top_users
 from api.views import search as fetch_search_results
 from api.views import similar_apps as fetch_similar_apps
-from api.views import slg_site_review as submit_slg_site_review
 from api.views import app_review_queries as fetch_app_review_queries
 from api.views import app_details as fetch_app_details
 from api.views import app_review as submit_app_review
 from api.views import all_genres as fetch_all_genres
-from api.views import get_visitors_count
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.paginator import EmptyPage, Paginator
 from django.http.request import HttpRequest
@@ -26,21 +20,18 @@ def get_api_route(request: HttpRequest):
     return "http://" + domain + "/api"
 
 
-def get_home_page_context(req: HttpRequest):
-    method = req.method
-    req.method = "GET"
-    top_users = list(fetch_top_users(req).data.items())
-    counter = fetch_counter(req).data
-    best_apps = fetch_best_apps(req).data
-
-    visitors_count = get_visitors_count(req) #can be accomodated in counter but has been kept separate for now
-    
+def get_home_page_context(request: HttpRequest):
+    method = request.method
+    request.method = "GET"
+    top_users = list(fetch_top_users(request).data.items())
+    counter = fetch_counter(request).data
+    best_apps = fetch_best_apps(request).data
     review_form = {
         "username": "Name",
         "email_id": "Mail",
         "content": "Message",
     }
-    req.method = method
+    request.method = method
     return {
         "best_apps": best_apps,
         "counter": counter,
@@ -48,10 +39,6 @@ def get_home_page_context(req: HttpRequest):
         "mid_7_users": top_users[3:10],
         "last_15_users": top_users[10:],
         "review_form": review_form,
-        "add_app_status": "Enter playstore app link",
-        "genres": best_apps.keys(),
-        "location": get_user_city(),
-        "visitors_count": visitors_count,
     }
 
 
@@ -113,22 +100,9 @@ def get_app(request: HttpRequest):
     context = app(app_id, "en", "in")
     context["similar_apps"] = fetch_similar_apps(request).data
     context["reviews"], _ = reviews(app_id, "en", "in", Sort.MOST_RELEVANT, 6)
-    context["genres"] = fetch_all_genres(request).data
     return render(
         request,
         "appPage.html",
-        context,
-    )
-
-
-def site_review(request: HttpRequest):
-    context = get_home_page_context(request)
-    if request.method == "POST":
-        res = submit_slg_site_review(request)
-        context["review_form"] = res.data
-    return render(
-        request,
-        "home.html",
         context,
     )
 
@@ -152,7 +126,6 @@ def app_review(request: HttpRequest):
             messages.error(request, "Review Submission Failed")
     context["app"] = fetch_app_details(request).data
     context["queries"] = fetch_app_review_queries(request).data
-    context["genres"] = fetch_all_genres(request).data
     return render(
         request,
         "writeReview.html",

@@ -67,7 +67,9 @@ class Review(models.Model):
     def __str__(self) -> str:
         return self.content
 
-class Visitors(models.Model):
-    visitor=models.TextField(default=None)
+
+class Visitor(models.Model):
+    ip = models.CharField(max_length=64, unique=True)
+
     def __str__(self):
-        return self.visitor 
+        return self.visitor

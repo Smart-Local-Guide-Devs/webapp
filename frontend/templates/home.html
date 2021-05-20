@@ -37,7 +37,7 @@
 			<div class="icon">
 				<em class="fa fa-eye"></em>
 			</div>
-			<div class="counter">{{visitors_count}}</div>
+			<div class="counter">{{counter.views}}</div>
 			<div class="textDes">No. of Views</div>
 		</div>
 		<div class="box">
@@ -130,25 +130,26 @@
 <section class="contact" id="contact">
 	<div class="ContactUs">
 		<div class="about left">
-			<h1 style="color: black; margin-bottom: 20px">ABOUT US</h1>
+			<h1 style="color: black; margin-bottom: 20px">About Us</h1>
 			<p class="aboutContent">
-				Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet.Lorem ipsum dolor
-				sit amet. Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet.
+				As we have just started this site we do not have much information about all niche or special apps.
+				If you have any recommendations feel free to paste their playstore links here and it will be
+				automatically added, given it passes our basic checks.
 			</p>
 			<form class="Form" id="addAppForm">
 				{% csrf_token %}
-				<input class="applink" type="url" name="app_playstore_link" placeholder="{{ add_app_status }}" />
-				<button class="formBtn1" type="submit">ADD THIS APP</button>
+				<input class="applink" type="url" name="app_playstore_link" placeholder="Enter App Playstore Link" />
+				<button class="formBtn1" type="submit" id="addAppButton">Add</button>
 			</form>
 		</div>
 		<div class="formContact right">
-			<h1 style="color: black; margin-bottom: 20px">CONTACT US</h1>
-			<form class="Form" action="{% url 'front_site_review' %}" id="site_review_form" method="POST">
+			<h1 style="color: black; margin-bottom: 20px">Feedback</h1>
+			<form class="Form" id="siteReviewForm">
 				{% csrf_token %}
-				<input type="text" name="user_name" placeholder="{{ review_form.username }}" />
-				<input type="email" name="email_id" placeholder="{{ review_form.email_id }}" />
-				<textarea placeholder="{{ review_form.content }}" name="content" form="site_review_form"></textarea>
-				<button class="formBtn" type="submit">SUBMIT</button>
+				<input type="text" name="user_name" placeholder="Name" />
+				<input type="email" name="email_id" required placeholder="Email Address" />
+				<textarea placeholder="Message" required name="content"></textarea>
+				<button class="formBtn" type="submit" id="siteReviewButton">Send</button>
 			</form>
 		</div>
 	</div>
@@ -181,17 +182,21 @@
 		});
 
 		$("#addAppForm").submit(() => {
-			data = $("#addAppForm").serializeArray();
-			csrfmiddlewaretoken = data[0]['value'];
-			appLink = data[1]['value'];
+			formData = $("#addAppForm").serializeArray();
+			csrfmiddlewaretoken = formData[0]['value'];
+			appLink = formData[1]['value'];
 			appIdIdx = appLink.indexOf("id=");
 			if (appIdIdx >= 0) {
 				appId = appLink.slice(appIdIdx + 3);
+				$("#addAppButton").prop('disabled', true);
+				$("#addAppButton").html('Adding...');
 				$.post("{% url 'api_add_new_app' %}", {
 					'csrfmiddlewaretoken': csrfmiddlewaretoken,
 					'app_id': appId,
-				}).always((data) => {
-					alert((typeof data == 'string') ? data : data.responseJSON);
+				}).always((resData) => {
+					alert((typeof resData == 'string') ? resData : resData.responseJSON);
+					$("#addAppButton").html('Add');
+					$("#addAppButton").prop('disabled', false);
 				});
 			} else {
 				alert('Please Enter A Valid Playstore App Link')
@@ -199,6 +204,23 @@
 			return false;
 		});
 
+		$('#siteReviewForm').submit(() => {
+
+			postData = {};
+			$("#siteReviewForm").serializeArray().forEach((ele) => {
+				postData[ele.name] = ele.value;
+			});
+			$("#siteReviewButton").prop('disabled', true);
+			$("#siteReviewButton").html('Sending...');
+			$.post("{% url 'api_slg_site_review' %}", postData)
+				.always((resData) => {
+					if (resData.status == 400) alert('Enter Valid Email Address');
+					else alert('Thanks For Giving Us Your Time !!!');
+					$("#siteReviewButton").html('Send');
+					$("#siteReviewButton").prop('disabled', false);
+				});
+			return false;
+		});
 	});
 
 </script>

@@ -25,37 +25,30 @@
 		</div>
 		<header class="header">
 			<a href="#" class="logo"><img width="40" src="{% static 'logo.png' %}" alt="logo" /></a>
-        <form  class="navFormFields " action="{% url 'front_search' %}"
-            method="GET">
-            <input class="navSearch" type="text" placeholder="Search" name="search_query" />
-            <select class="form-select BoxGenre Box" id="genre" name="genre">
-                <option value="">select genre</option>
-                {% for genre in genres %}
-                <option>{{ genre }}</option>
-                {% endfor %}
-            </select>
-            <button class="navButton" type="submit">
-                <em class="fa fa-search"></em>
-            </button>
-        </form>
-		<div class='left'>
-        <div class="slideSearch">
-            <em class="fa fa-search"></em>
-            <form  class="navFormFields " action="{% url 'front_search' %}"
-            method="GET">
-                 <input class="navSearch" type="text" placeholder="Search" name="search_query" />
-                 <select class="form-select BoxGenre Box" id="genre" name="genre">
-                    <option value="">select genre</option>
-                    {% for genre in genres %}
-                    <option>{{ genre }}</option>
-                    {% endfor %}
-                </select>
-            </form>     
-        </div>
-		<div class="menuToggle" onclick="toggle()" id="bars">
-            <em class="fa fa-bars"></em>
-        </div>
-	</div>
+			<form class="navFormFields " action="{% url 'front_search' %}" method="GET">
+				<input class="navSearch" type="text" placeholder="Search" name="search_query" />
+				<select class="form-select BoxGenre Box" id="genre" name="genre">
+					<!-- genres will get loaded to the select with id genre  -->
+					<option value="">select genre</option>
+				</select>
+				<button class="navButton" type="submit">
+					<em class="fa fa-search"></em>
+				</button>
+			</form>
+			<div class='left'>
+				<div class="slideSearch">
+					<em class="fa fa-search"></em>
+					<form class="navFormFields " action="{% url 'front_search' %}" method="GET">
+						<input class="navSearch" type="text" placeholder="Search" name="search_query" />
+						<select class="form-select BoxGenre Box" name="genre">
+							<option value="">select genre</option>
+						</select>
+					</form>
+				</div>
+				<div class="menuToggle" onclick="toggle()" id="bars">
+					<em class="fa fa-bars"></em>
+				</div>
+			</div>
 
 			<ul class="menu">
 
@@ -107,8 +100,6 @@
 				$("body").css({ 'overflow': 'visible' });
 			});
 
-
-
 			window.addEventListener("scroll", function () {
 				const header = document.querySelector("header");
 				header.classList.toggle("sticky", window.scrollY > 0);
@@ -121,13 +112,21 @@
 				menu.classList.toggle("active");
 			}
 
-
 			$(document).ready(function () {
-            $(".slideSearch .fa").click(function () {
-                console.log("clicked")
-                $(".slideSearch").toggleClass("activeSearch");
-            });
-        });
+
+				$(".slideSearch .fa").click(function () {
+					console.log("clicked")
+					$(".slideSearch").toggleClass("activeSearch");
+				});
+
+				$.getJSON("{% url 'api_all_genres' %}")
+					.done((data) => {
+						data.forEach(genre => {
+							$('#genre').append(`<option>${genre}</option>`)
+						});
+					});
+
+			});
 
 		</script>
 	</body>

@@ -7,12 +7,10 @@ from django.shortcuts import redirect, render
 from django.views.decorators.cache import cache_page
 from google_play_scraper.exceptions import NotFoundError
 from google_play_scraper.features.app import app
-from requests.api import request
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
-from django.db.models import Q
 
 from .forms import CreateUserForm
 from .models import *
@@ -20,6 +18,16 @@ from .serializers import *
 from .word_weight import WordWeight
 from .recommend_by_location import RecommendByLocation
 from .similar_user_apps import SimilarUserApps
+
+
+def get_ip(req):
+    address = req.META.get("HTTP_X_FORWARDED_FOR")
+    if address:
+        ip = address.split(",")[-1].strip()
+    else:
+        ip = req.META.get("REMOTE_ADDR")
+    return ip
+
 
 # Create your views here.
 
@@ -123,8 +131,16 @@ def counter(request: HttpRequest):
     count_apps = App.objects.count()
     count_users = User.objects.count()
     count_reviews = Review.objects.count()
+    ip = get_ip(request)
+    Visitor.objects.get_or_create(ip=ip)
+    count_views = Visitor.objects.count()
     return Response(
-        {"apps": count_apps, "users": count_users, "reviews": count_reviews}
+        {
+            "apps": count_apps,
+            "users": count_users,
+            "reviews": count_reviews,
+            "views": count_views,
+        }
     )
 
 
@@ -153,7 +169,7 @@ def app_review(request: HttpRequest, data: dict = None):
 def add_new_app(request: HttpRequest):
     app_id = request.POST["app_id"]
     if App.objects.filter(app_id=app_id).exists():
-        return Response("App Already Exists", status.HTTP_200_OK)
+        return Response("App Already Exists")
     try:
         new_app = app(app_id, "en", "in")
         genres = WordWeight.get_app_genres(new_app["description"])
@@ -214,26 +230,3 @@ def app_details(request: HttpRequest):
     app = App.objects.get(app_id=app_id)
     app = AppSerializer(app).data
     return Response(app)
-
-
-def get_ip(req):
-    address = req.META.get('HTTP_X_FORWARDED_FOR')
-    if address:
-        ip = address.split(',')[-1].strip()
-    else:
-        ip = req.META.get('REMOTE_ADDR')
-    return ip
-
-def get_visitors_count(req):
-    # done using the count of different ips visiting the site 
-    # would not give actual count but would be a rough estimate
-    # for low amount of traffic the count would be pretty close
-    ip = get_ip(req)
-    visitor = Visitors(visitor=ip)
-    result = Visitors.objects.filter(Q(visitor__icontains=ip))
-    if len(result) >= 1:
-        pass
-    else:
-        visitor.save()
-    visitors_count = Visitors.objects.all().count()
-    return visitors_count
