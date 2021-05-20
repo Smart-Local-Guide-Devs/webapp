@@ -156,18 +156,3 @@ def app_review(request: HttpRequest):
 
 def login(request: HttpRequest):
     return render(request, "login.html")
-
-
-def add_new_app(request: HttpRequest):
-    app_link: str = request.POST["app_playstore_link"]
-    app_id = app_link[app_link.find("id=") + 3 :]
-    add_app = requests.post(
-        get_api_route(request) + "/add_new_app", data={"app_id": app_id}
-    ).json()
-    context = get_home_page_context(request)
-    context["add_app_status"] = add_app["status"]
-    return render(
-        request,
-        "home.html",
-        context,
-    )

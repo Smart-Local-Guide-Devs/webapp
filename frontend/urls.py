@@ -8,5 +8,4 @@ urlpatterns = [
     path("login", views.login, name="login"),
     path("search", views.search, name="front_search"),
     path("site_review", views.site_review, name="front_site_review"),
-    path("add_new_app", views.add_new_app, name="front_add_new_app"),
 ]

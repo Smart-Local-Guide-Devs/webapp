@@ -10,6 +10,7 @@ from google_play_scraper.features.app import app
 from requests.api import request
 from rest_framework import status
 from rest_framework.decorators import api_view
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 
 from .forms import CreateUserForm
@@ -136,6 +137,8 @@ def similar_apps(request: HttpRequest):
 def app_review(request: HttpRequest, data: dict = None):
     if data is None:
         data = request.POST.copy()
+    if data["username"] != request.user.username:
+        raise PermissionDenied
     serializer = ReviewSerializer(data=data)
     if serializer.is_valid():
         serializer.save()
@@ -146,6 +149,8 @@ def app_review(request: HttpRequest, data: dict = None):
 @api_view(["POST"])
 def add_new_app(request: HttpRequest):
     app_id = request.POST["app_id"]
+    if App.objects.filter(app_id=app_id).exists():
+        return Response("App Already Exists", status.HTTP_200_OK)
     try:
         new_app = app(app_id, "en", "in")
         genres = WordWeight.get_app_genres(new_app["description"])
@@ -164,12 +169,15 @@ def add_new_app(request: HttpRequest):
             new_app_obj.save()
             for genre in genres:
                 Genre.objects.get(genre=genre).apps.add(new_app_obj)
-            return Response("app successfully added", status.HTTP_201_CREATED)
+            return Response(
+                "Congratulations, App Successfully Added", status.HTTP_201_CREATED
+            )
         return Response(
-            "app does not satisfy required criterias", status.HTTP_400_BAD_REQUEST
+            "Unfortunately, The App Does Not Satisfy Required Criterias",
+            status.HTTP_400_BAD_REQUEST,
         )
     except NotFoundError:
-        return Response("app not found", status.HTTP_400_BAD_REQUEST)
+        return Response("Unfortunately, App Not Found", status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["GET", "POST"])

@@ -135,7 +135,7 @@
 				Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet.Lorem ipsum dolor
 				sit amet. Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet.
 			</p>
-			<form class="Form" action="{% url 'front_add_new_app' %}" method="post">
+			<form class="Form" id="addAppForm">
 				{% csrf_token %}
 				<input class="applink" type="url" name="app_playstore_link" placeholder="{{ add_app_status }}" />
 				<button class="formBtn1" type="submit">ADD THIS APP</button>
@@ -155,10 +155,6 @@
 </section>
 
 <script type="text/javascript">
-	window.addEventListener("scroll", function () {
-		const header = document.querySelector("header");
-		header.classList.toggle("sticky", window.scrollY > 0);
-	});
 
 	function toggle() {
 		const menuToggle = document.querySelector(".menuToggle");
@@ -173,17 +169,37 @@
 	}
 
 	$(document).ready(function () {
+
 		$(".dropdown ul li").click(function () {
 			var text = $(this).text();
 			$(".default_options").text(text);
 		});
-	});
 
-	$(document).ready(function () {
 		$(".counter").counterUp({
 			delay: 10,
 			time: 1000,
 		});
+
+		$("#addAppForm").submit(() => {
+			data = $("#addAppForm").serializeArray();
+			csrfmiddlewaretoken = data[0]['value'];
+			appLink = data[1]['value'];
+			appIdIdx = appLink.indexOf("id=");
+			if (appIdIdx >= 0) {
+				appId = appLink.slice(appIdIdx + 3);
+				$.post("{% url 'api_add_new_app' %}", {
+					'csrfmiddlewaretoken': csrfmiddlewaretoken,
+					'app_id': appId,
+				}).always((data) => {
+					alert((typeof data == 'string') ? data : data.responseJSON);
+				});
+			} else {
+				alert('Please Enter A Valid Playstore App Link')
+			}
+			return false;
+		});
+
 	});
+
 </script>
 {%endblock%}
