@@ -5,25 +5,14 @@ from pandas.core.frame import DataFrame
 class SimilarUserApps:
 
     @staticmethod
-    def create_matrix(reviews: DataFrame, criteria: str):
-        reviews["R1"]=np.random.randint(low=1, high=5, size=95)
-        reviews["R2"]=np.random.randint(low=1, high=5, size=95)
-        reviews["R3"]=np.random.randint(low=1, high=5, size=95)
-        reviews["R4"]=np.random.randint(low=1, high=5, size=95)
-        reviews["R5"]=np.random.randint(low=1, high=5, size=95)
-        reviews["R6"]=np.random.randint(low=1, high=5, size=95)
-        reviews["R7"]=np.random.randint(low=1, high=5, size=95)
-
+    def create_matrix(reviews: DataFrame, criteria: str) -> DataFrame:
         matrix=reviews.pivot_table(index='USER_NAME', columns='APP_ID', values=criteria)
         matrix=matrix.fillna(0)
 
         return matrix
 
-
     @staticmethod
-    def similar_users(user_name: str, reviews: DataFrame, criteria: str, k=3) -> list:
-        
-        matrix = SimilarUserApps.create_matrix(reviews, criteria)
+    def similar_users(user_name: str, matrix: DataFrame, k=3) -> list:
 
         # create a df of just the current user
         user = matrix[matrix.index == user_name]
@@ -56,7 +45,7 @@ class SimilarUserApps:
         
         matrix = SimilarUserApps.create_matrix(reviews, criteria)
 
-        similar_user_names = SimilarUserApps.similar_users(user_name, reviews, criteria)
+        similar_user_names = SimilarUserApps.similar_users(user_name, matrix)
         # load vectors for similar users
         similar_users = matrix[matrix.index.isin(similar_user_names)]
         # calc avg ratings across the 3 similar users
@@ -83,5 +72,4 @@ class SimilarUserApps:
         top_n_apps = similar_users_df_ordered.head(items)
         top_n_apps_names = top_n_apps.index.tolist()
     
-        
         return top_n_apps_names
