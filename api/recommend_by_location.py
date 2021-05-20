@@ -2,6 +2,7 @@ from pandas.core.frame import DataFrame
 
 class RecommendByLocation:
 
+    @staticmethod
     def weighted_rating(x, m=m ,C=C) :
         v = x['R1']+x['R2']+x['R3']+x['R4']+x['R5']+x['R6']+x['R7']*2
         R =( x['R1']+x['R2']+x['R3']+x['R4']+x['R5']+x['R6']+x['R7']*2)/8
@@ -21,6 +22,6 @@ class RecommendByLocation:
         app_filt = top_res_loc.copy().loc[data['R7'] >= m]
         app_filt['score'] = app_filt.apply(RecommendByLocation.weighted_rating, axis=1)
         app_filt = app_filt.sort_values('score' , ascending = False)
-        app_filt.values.tolist() #currently returns whole app objects as list
+        app_filt['APP_ID'].tolist() #currently returns whole app objects as list
         
         return app_filt

@@ -56,7 +56,7 @@ class SimilarUserApps:
         
         matrix = SimilarUserApps.create_matrix(reviews, criteria)
 
-        similar_user_names = SimilarUserApps.similar_users(current_user, reviews, criteria)
+        similar_user_names = SimilarUserApps.similar_users(user_name, reviews, criteria)
         # load vectors for similar users
         similar_users = matrix[matrix.index.isin(similar_user_names)]
         # calc avg ratings across the 3 similar users
