@@ -13,6 +13,7 @@ from api.views import app_review_queries as fetch_app_review_queries
 from api.views import app_details as fetch_app_details
 from api.views import app_review as submit_app_review
 from api.views import all_genres as fetch_all_genres
+from api.views import get_visitors_count
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.paginator import EmptyPage, Paginator
 from django.http.request import HttpRequest
@@ -31,6 +32,9 @@ def get_home_page_context(req: HttpRequest):
     top_users = list(fetch_top_users(req).data.items())
     counter = fetch_counter(req).data
     best_apps = fetch_best_apps(req).data
+
+    visitors_count = get_visitors_count(req) #can be accomodated in counter but has been kept separate for now
+    
     review_form = {
         "username": "Name",
         "email_id": "Mail",
@@ -46,6 +50,8 @@ def get_home_page_context(req: HttpRequest):
         "review_form": review_form,
         "add_app_status": "Enter playstore app link",
         "genres": best_apps.keys(),
+        "location": get_user_city(),
+        "visitors_count": visitors_count,
     }
 
 

@@ -25,22 +25,37 @@
 		</div>
 		<header class="header">
 			<a href="#" class="logo"><img width="40" src="{% static 'logo.png' %}" alt="logo" /></a>
-			<form style="display: flex; flex-direction: row;" class="formFields " action="{% url 'front_search' %}"
-				method="GET">
-				<input class="navSearch" type="search" placeholder="Search" name="search_query" />
-				<select class="form-select BoxGenre Box" id="genre" name="genre">
-					<option value="">select genre</option>
-					{% for genre in genres %}
-					<option>{{ genre }}</option>
-					{% endfor %}
-				</select>
-				<button class="navButton" type="submit">
-					<em class="fa fa-search"></em>
-				</button>
-			</form>
-			<div class="menuToggle" onclick="toggle()" id="bars">
-				<em class="fa fa-bars"></em>
-			</div>
+        <form  class="navFormFields " action="{% url 'front_search' %}"
+            method="GET">
+            <input class="navSearch" type="text" placeholder="Search" name="search_query" />
+            <select class="form-select BoxGenre Box" id="genre" name="genre">
+                <option value="">select genre</option>
+                {% for genre in genres %}
+                <option>{{ genre }}</option>
+                {% endfor %}
+            </select>
+            <button class="navButton" type="submit">
+                <em class="fa fa-search"></em>
+            </button>
+        </form>
+		<div class='left'>
+        <div class="slideSearch">
+            <em class="fa fa-search"></em>
+            <form  class="navFormFields " action="{% url 'front_search' %}"
+            method="GET">
+                 <input class="navSearch" type="text" placeholder="Search" name="search_query" />
+                 <select class="form-select BoxGenre Box" id="genre" name="genre">
+                    <option value="">select genre</option>
+                    {% for genre in genres %}
+                    <option>{{ genre }}</option>
+                    {% endfor %}
+                </select>
+            </form>     
+        </div>
+		<div class="menuToggle" onclick="toggle()" id="bars">
+            <em class="fa fa-bars"></em>
+        </div>
+	</div>
 
 			<ul class="menu">
 
@@ -105,6 +120,14 @@
 				menuToggle.classList.toggle("active");
 				menu.classList.toggle("active");
 			}
+
+
+			$(document).ready(function () {
+            $(".slideSearch .fa").click(function () {
+                console.log("clicked")
+                $(".slideSearch").toggleClass("activeSearch");
+            });
+        });
 
 		</script>
 	</body>

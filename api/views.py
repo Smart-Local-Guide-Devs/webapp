@@ -12,11 +12,14 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
+from django.db.models import Q
 
 from .forms import CreateUserForm
 from .models import *
 from .serializers import *
 from .word_weight import WordWeight
+from .recommend_by_location import RecommendByLocation
+from .similar_user_apps import SimilarUserApps
 
 # Create your views here.
 
@@ -211,3 +214,26 @@ def app_details(request: HttpRequest):
     app = App.objects.get(app_id=app_id)
     app = AppSerializer(app).data
     return Response(app)
+
+
+def get_ip(req):
+    address = req.META.get('HTTP_X_FORWARDED_FOR')
+    if address:
+        ip = address.split(',')[-1].strip()
+    else:
+        ip = req.META.get('REMOTE_ADDR')
+    return ip
+
+def get_visitors_count(req):
+    # done using the count of different ips visiting the site 
+    # would not give actual count but would be a rough estimate
+    # for low amount of traffic the count would be pretty close
+    ip = get_ip(req)
+    visitor = Visitors(visitor=ip)
+    result = Visitors.objects.filter(Q(visitor__icontains=ip))
+    if len(result) >= 1:
+        pass
+    else:
+        visitor.save()
+    visitors_count = Visitors.objects.all().count()
+    return visitors_count

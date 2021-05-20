@@ -12,7 +12,45 @@
 {%block content%}
 
 <div class="topnav">
-    <h3>Search result</h3>
+    <div class="topFilter">
+        <h3>Search result</h3>
+        <div class='filterIcon'>
+            <em class="fa fa-filter"></em>
+            <ul class="filter">
+                <label for="rating"> Min Average Rating : </label>
+                <output id="ratingOutput">{{ rating }}</output>
+                <input type="range" min="0" max="5" step="0.5" name="rating" id="ratingInput" value="{{ rating }}"
+                    onchange="ratingOutput.value=value">
+
+
+                <label for="installs"> Min Installs : </label>
+                <output id="installsOutput">{{ installs }}</output>
+                <input type="range" min="0" max="10000000" step="10000" name="installs" id="installsInput"
+                    value="{{ installs }}" onchange="installsOutput.value=value">
+
+
+                <label for="reviews"> Min reviews : </label>
+                <output id="reviewsOutput">{{ reviews }}</output>
+                <input type="range" min="0" max="100000" step="1000" name="reviews" id="reviewsInput"
+                    value="{{ reviews }}" onchange="reviewsOutput.value=value">
+
+
+                <label for="ratings"> Min ratings : </label>
+                <output id="ratingsOutput">{{ ratings }}</output>
+                <input type="range" min="0" max="100000" step="1000" name="ratings" id="ratingsInput"
+                    value="{{ ratings }}" onchange="ratingsOutput.value=value">
+
+
+                <label for="free">Only Free</label>
+                {% if free == "true" %}
+                <input type="checkbox" name="free" id="freeInput" value="true" checked>
+                {% else %}
+                <input type="checkbox" name="free" id="freeInput" value="true">
+                {% endif %}
+
+            </ul>
+        </div>
+    </div>
     <div class="formSearch">
         <form class="formFields " action="{% url 'front_search' %}" method="GET">
             <div>
@@ -94,7 +132,7 @@
         <div class="appImg">
             <img class="dotImg" src="{{app.icon_link}}" alt="app icon">
             <div class="Btns">
-                <div><a href="{% url 'front_get_app' %}?app_id={{ app.app_id }}"><button class="btn">View
+                <div><a href="{% url 'front_get_app' %}?app_id={{ app.app_id }}"><button class="btn">
                             Details</button></a></div>
                 <div><a href="{% url 'front_app_review' %}?app_id={{ app.app_id }}"><button
                             class="btn">Review</button></a></div>
@@ -115,16 +153,17 @@
 {% if search_results.has_previous %}
 <a href="{{sub_url}}{{search_results.previous_page_number}}">Previous Page</a>
 {% endif %}
-<ol>
+<ol class='paging'>
     {% for i in search_results.paginator.page_range %}
     <a href="{{sub_url}}{{i}}" class="page-link">
         <li class="page-items"></li>
     </a>
     {% endfor %}
-</ol>
-{% if search_results.has_next %}
+    {% if search_results.has_next %}
 <a href="{{sub_url}}{{search_results.next_page_number}}">Next Page</a>
 {% endif %}
+</ol>
+
 <script>
     $(document).ready(function () {
         $(".filterBox p").click(function () {
@@ -132,5 +171,12 @@
             $(".filterBox").toggleClass("activefilter");
         });
     });
+    
+    $(document).ready(function () {
+            $(".filterIcon").click(function () {
+                console.log("clicked")
+                $(".filterIcon").toggleClass("activefilter");
+            });
+        });
 </script>
 {% endblock %}
