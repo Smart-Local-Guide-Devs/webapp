@@ -1,7 +1,8 @@
 import re
 
 from pandas.core.frame import DataFrame
-
+from sklearn.metrics.pairwise import cosine_similarity
+import operator
 
 class WordWeight:
 
@@ -285,3 +286,37 @@ class WordWeight:
                 genres.append(genre)
 
         return genres
+
+
+    @staticmethod
+    def recommend_item(user_name, similar_user_names, matrix, items=3):
+    
+    	similar_users = matrix[matrix.index.isin(similar_user_names)]
+    	similar_users = similar_users.mean(axis=0)
+    	similar_users_df = pd.DataFrame(similar_users, columns=['mean'])
+    	user_df = matrix[matrix.index == user_name]
+    	user_df_transposed = user_df.transpose()
+    	user_df_transposed.columns = ['rating']
+    	user_df_transposed = user_df_transposed[user_df_transposed['rating']==0]
+    	apps_unused = user_df_transposed.index.tolist()
+    	similar_users_df_filtered = similar_users_df[similar_users_df.index.isin(apps_unused)]
+    	similar_users_df_ordered = similar_users_df.sort_values(by=['mean'], ascending=False) 
+    	top_n_apps = similar_users_df_ordered.head(items)
+    	top_n_apps_names = top_n_apps.index.tolist()
+   
+    
+    	return top_n_apps_names
+
+    @staticmethod
+    def similar_users(user_name, matrix, k=3):
+    	user = matrix[matrix.index == user_name]
+    	other_users = matrix[matrix.index != user_name]
+    	similarities = cosine_similarity(user,other_users)[0].tolist()
+    	userlist = other_users.index.tolist()
+    	index_similarity = dict(zip(userlist, similarities))
+    	similarity_sorted = sorted(index_similarity.items(), key=operator.itemgetter(1))
+    	similarity_sorted.reverse()
+    	top_users_similarities = similarity_sorted[:k]
+    	users = [u[0] for u in top_users_similarities]
+    
+    	return users
