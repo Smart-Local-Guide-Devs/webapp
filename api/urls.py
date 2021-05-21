@@ -18,4 +18,5 @@ urlpatterns = [
     path("all_genres", views.all_genres, name="api_all_genres"),
     path("app_review_queries", views.app_review_queries, name="api_app_review_queries"),
     path("app_details", views.app_details, name="api_app_details"),
+    path("app_reviews", views.app_reviews, name="api_app_reviews"),
 ]

@@ -68,21 +68,23 @@
     background-color: #fff;
 
   }
-  .abc{
+
+  .abc {
     display: inline;
     justify-content: space-between;
     align-items: center;
   }
-  .button{
+
+  .button {
     margin-top: 10px;
     padding: 3px;
-    background:#53BAC1;
+    background: #53BAC1;
     border-radius: 5px;
     display: inline;
     align-items: center;
-    justify-content:center;
+    justify-content: center;
     text-align: center;
-    text-decoration:none;
+    text-decoration: none;
     width: 150px;
     margin: auto;
     margin-top: 20px;
@@ -90,14 +92,15 @@
     /* margin-left: 220px;
     margin-top: 20px; */
   }
-  
-  .button-item{
+
+  .button-item {
     align-items: center;
     text-align: center;
     margin-right: 10px;
   }
-  .button-icon{
-     margin-right: 10px;
+
+  .button-icon {
+    margin-right: 10px;
   }
 </style>
 {%endblock%}
@@ -118,16 +121,18 @@
       </div>
     </div>
   </div>
-{% comment %} 
+  {% comment %}
   <a href="{% url 'front_app_review' %}?app_id={{ appId }}"><button>Review</button></a>
   <a href="{{ url }}"><button>Download</button></a> {% endcomment %}
-<div class="abc">
-  <a href="{% url 'front_app_review' %}?app_id={{ appId }}"class =""><button type="button" class="button"><span class="button-icon"><i class="fas fa-address-book"></i></span><span class="button-text">Review</span></button></a>
-  <a href="{{ url }}" class=""><button type="button" class="button">
-    <span class="button-icon"><i class="fab fa-google-play"></i></span>
-   <span class="button-text">Download</span>
-  </button></a>
-</div>
+  <div class="abc">
+    <a href="{% url 'front_app_review' %}?app_id={{ appId }}" class=""><button type="button" class="button"><span
+          class="button-icon"><i class="fas fa-address-book"></i></span><span
+          class="button-text">Review</span></button></a>
+    <a href="{{ url }}" class=""><button type="button" class="button">
+        <span class="button-icon"><i class="fab fa-google-play"></i></span>
+        <span class="button-text">Download</span>
+      </button></a>
+  </div>
 
   <div class="cardur">
     <span class="heading">User Rating</span>
@@ -227,10 +232,67 @@
     </div>
   </div>
 
-  <h1 style="text-align: center">User Reviews</h1>
+
+  <h1 style="text-align: center">Our Reviews</h1>
 
   <div class="carousel" data-flickity='{ "groupCells": false }'>
     {% for review in reviews %}
+    <div class="carousel-cell">
+      <div class="review">
+        <div class="userName">
+          <h3>{{review.username}} from {{review.city}}</h3>
+        </div>
+        <div class="rating">
+          {% if  review.rating == 5 %}
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          {% elif  review.rating == 4  %}
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star"></span>
+          {% elif  review.rating == 3  %}
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked "></span>
+          <span class="fa fa-star "></span>
+          <span class="fa fa-star"></span>
+          {% elif  review.rating == 2 %}
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star "></span>
+          <span class="fa fa-star "></span>
+          <span class="fa fa-star"></span>
+          {% elif  review.rating == 1  %}
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star "></span>
+          <span class="fa fa-star "></span>
+          <span class="fa fa-star "></span>
+          <span class="fa fa-star"></span>
+          {%endif%}
+        </div>
+        <div class="review content">
+          {{review.content}}
+          <br>
+          {% for query_choice in review.query_choices %}
+          {{ query_choice.query }}: {{ query_choice.choice }}
+          <br>
+          {% endfor %}
+        </div>
+        <em class="fa fa-thumbs-up">{{review.up_votes}}</em>
+      </div>
+    </div>
+    {%endfor%}
+  </div>
+
+  <h1 style="text-align: center">Playstore Reviews</h1>
+
+  <div class="carousel" data-flickity='{ "groupCells": false }'>
+    {% for review in playstore_reviews %}
     <div class="carousel-cell">
       <div class="review">
         <img class="userImg" src="{{review.userImage}}" alt='user image'>
@@ -273,13 +335,14 @@
         <div class="review content">
           {{review.content}}
         </div>
+        <em class="fa fa-thumbs-up">{{review.thumbsUpCount}}</em>
       </div>
     </div>
     {%endfor%}
   </div>
 
   <div class="Services">
-    <h1>Similar Services</h1>
+    <h1>Similar Apps</h1>
     <div class="carousel" data-flickity='{ "groupCells": false }'>
       {% for similar_app in similar_apps %}
       <div class=" serviceCard">

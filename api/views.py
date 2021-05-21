@@ -230,3 +230,12 @@ def app_details(request: HttpRequest):
     app = App.objects.get(app_id=app_id)
     app = AppSerializer(app).data
     return Response(app)
+
+
+@api_view(["GET"])
+def app_reviews(request: HttpRequest):
+    app_id = request.GET["app_id"]
+    app = App.objects.get(app_id=app_id)
+    reviews = app.review_set.all()[:6]
+    reviews = ReviewSerializer(reviews, many=True).data
+    return Response(reviews)
