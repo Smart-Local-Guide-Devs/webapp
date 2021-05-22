@@ -334,8 +334,12 @@
         </div>
         <div class="review content">
           {{review.content}}
+        </div >
+        <div class='upvotes'>
+          <em  class="fa fa-thumbs-up"></em>
+          <p>{{review.thumbsUpCount}}</p>
         </div>
-        <em class="fa fa-thumbs-up">{{review.thumbsUpCount}}</em>
+        
       </div>
     </div>
     {%endfor%}
