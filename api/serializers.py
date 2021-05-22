@@ -34,6 +34,7 @@ class ReviewSerializer(serializers.ModelSerializer):
         "username", source="user", queryset=User.objects.all()
     )
     query_choices = QueryChoiceSerializer(many=True)
+    up_votes = serializers.IntegerField(source="up_voters.count", read_only=True)
 
     class Meta:
         model = Review

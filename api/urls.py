@@ -19,4 +19,5 @@ urlpatterns = [
     path("app_review_queries", views.app_review_queries, name="api_app_review_queries"),
     path("app_details", views.app_details, name="api_app_details"),
     path("app_reviews", views.app_reviews, name="api_app_reviews"),
+    path("up_vote_app", views.up_vote_app, name="api_up_vote_app"),
 ]

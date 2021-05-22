@@ -5,11 +5,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.http.request import HttpRequest
 from django.shortcuts import redirect, render
 from django.views.decorators.cache import cache_page
+from django.db.models import Count
 from google_play_scraper.exceptions import NotFoundError
 from google_play_scraper.features.app import app
 from rest_framework import status
 from rest_framework.decorators import api_view
-from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 
 from .forms import CreateUserForm
@@ -109,11 +109,15 @@ def best_apps(request: HttpRequest):
 @api_view(["GET"])
 @cache_page(60 * 15)
 def top_users(request: HttpRequest):
-    reviews = Review.objects.select_related("user").order_by("-up_votes")[:25]
+    reviews = (
+        Review.objects.select_related("user")
+        .annotate(up_votes=Count("up_voters"))
+        .order_by("-up_votes")[:25]
+    )
     users = {}
     for review in reviews:
         if review.user.username not in users:
-            users[review.user.username] = review.up_votes
+            users[review.user.username] = review.up_voters.count()
     return Response(users)
 
 
@@ -122,7 +126,7 @@ def slg_site_review(request: HttpRequest):
     serializer = SlgSiteReviewSerializer(data=request.POST)
     if serializer.is_valid():
         serializer.save()
-        return Response(serializer.data, status.HTTP_201_CREATED)
+        return Response(serializer.data)
     return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 
 
@@ -157,11 +161,11 @@ def app_review(request: HttpRequest, data: dict = None):
     if data is None:
         data = request.POST.copy()
     if data["username"] != request.user.username:
-        raise PermissionDenied
+        return Response("Please login to submit a review", status.HTTP_400_BAD_REQUEST)
     serializer = ReviewSerializer(data=data)
     if serializer.is_valid():
         serializer.save()
-        return Response(serializer.data, status.HTTP_201_CREATED)
+        return Response(serializer.data)
     return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 
 
@@ -188,9 +192,7 @@ def add_new_app(request: HttpRequest):
             new_app_obj.save()
             for genre in genres:
                 Genre.objects.get(genre=genre).apps.add(new_app_obj)
-            return Response(
-                "Congratulations, App Successfully Added", status.HTTP_201_CREATED
-            )
+            return Response("Congratulations, App Successfully Added")
         return Response(
             "Unfortunately, The App Does Not Satisfy Required Criterias",
             status.HTTP_400_BAD_REQUEST,
@@ -239,3 +241,20 @@ def app_reviews(request: HttpRequest):
     reviews = app.review_set.all()[:6]
     reviews = ReviewSerializer(reviews, many=True).data
     return Response(reviews)
+
+
+@api_view(["POST"])
+def up_vote_app(request: HttpRequest):
+    if request.user.is_anonymous:
+        return Response("Please login to up vote reviews", status.HTTP_400_BAD_REQUEST)
+    app_id = request.POST["app_id"]
+    username = request.POST["username"]
+    app = App.objects.get(app_id=app_id)
+    user = User.objects.get(username=username)
+    review = Review.objects.get(app=app, user=user)
+    if not review.up_voters.filter(username=request.user.username).exists():
+        review.up_voters.add(request.user)
+        return Response("Up vote successful")
+    else:
+        review = ReviewSerializer(review).data
+        return Response("Already up voted once", status.HTTP_400_BAD_REQUEST)

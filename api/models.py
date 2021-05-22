@@ -62,7 +62,7 @@ class Review(models.Model):
     country = models.CharField(max_length=128)
     state = models.CharField(max_length=128)
     city = models.CharField(max_length=128)
-    up_votes = models.PositiveIntegerField(blank=True, default=1)
+    up_voters = models.ManyToManyField(to=User, blank=True, related_name="up_voters")
 
     def __str__(self) -> str:
         return self.content

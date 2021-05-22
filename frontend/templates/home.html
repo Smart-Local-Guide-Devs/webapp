@@ -181,8 +181,8 @@
 			time: 1000,
 		});
 
-		$("#addAppForm").submit(() => {
-			formData = $("#addAppForm").serializeArray();
+		$("#addAppForm").submit(function () {
+			formData = $(this).serializeArray();
 			csrfmiddlewaretoken = formData[0]['value'];
 			appLink = formData[1]['value'];
 			appIdIdx = appLink.indexOf("id=");
@@ -204,10 +204,9 @@
 			return false;
 		});
 
-		$('#siteReviewForm').submit(() => {
-
+		$('#siteReviewForm').submit(function () {
 			postData = {};
-			$("#siteReviewForm").serializeArray().forEach((ele) => {
+			$(this).serializeArray().forEach((ele) => {
 				postData[ele.name] = ele.value;
 			});
 			$("#siteReviewButton").prop('disabled', true);
