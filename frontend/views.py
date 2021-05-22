@@ -1,59 +1,31 @@
 from django.contrib import messages
-import requests
-from rest_framework import status
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
 from api.views import best_apps as fetch_best_apps
 from api.views import counter as fetch_counter
 from api.views import top_users as fetch_top_users
 from api.views import search as fetch_search_results
 from api.views import similar_apps as fetch_similar_apps
-from api.views import slg_site_review as submit_slg_site_review
 from api.views import app_review_queries as fetch_app_review_queries
 from api.views import app_details as fetch_app_details
 from api.views import app_review as submit_app_review
 from api.views import all_genres as fetch_all_genres
-from django.contrib.sites.shortcuts import get_current_site
+from api.views import app_reviews as fetch_app_reviews
 from django.core.paginator import EmptyPage, Paginator
 from django.http.request import HttpRequest
 from django.shortcuts import render
 from google_play_scraper import Sort, app, reviews
 
 
-def get_api_route(request: HttpRequest):
-    domain = get_current_site(request=request).domain
-    return "http://" + domain + "/api"
-
-
-def get_home_page_context(req: HttpRequest):
-    method = req.method
-    req.method = "GET"
-    top_users = list(fetch_top_users(req).data.items())
-    counter = fetch_counter(req).data
-    best_apps = fetch_best_apps(req).data
-    review_form = {
-        "username": "Name",
-        "email_id": "Mail",
-        "content": "Message",
-    }
-    req.method = method
-    return {
-        "best_apps": best_apps,
-        "counter": counter,
-        "top_3_users": top_users[:3],
-        "mid_7_users": top_users[3:10],
-        "last_15_users": top_users[10:],
-        "review_form": review_form,
-        "add_app_status": "Enter playstore app link",
-        "genres": best_apps.keys(),
-    }
-
-
 # Create your views here.
 
 
 def index(request):
-    context = get_home_page_context(request)
+    context = {}
+    top_users = list(fetch_top_users(request).data.items())
+    context["counter"] = fetch_counter(request).data
+    context["best_apps"] = fetch_best_apps(request).data
+    context["top_3_users"] = top_users[:3]
+    context["mid_7_users"] = top_users[3:10]
+    context["last_15_users"] = top_users[10:]
     return render(
         request,
         "home.html",
@@ -106,23 +78,11 @@ def get_app(request: HttpRequest):
     app_id = request.GET["app_id"]
     context = app(app_id, "en", "in")
     context["similar_apps"] = fetch_similar_apps(request).data
-    context["reviews"], _ = reviews(app_id, "en", "in", Sort.MOST_RELEVANT, 6)
-    context["genres"] = fetch_all_genres(request).data
+    context["reviews"] = fetch_app_reviews(request).data
+    context["playstore_reviews"], _ = reviews(app_id, "en", "in", Sort.MOST_RELEVANT, 6)
     return render(
         request,
         "appPage.html",
-        context,
-    )
-
-
-def site_review(request: HttpRequest):
-    context = get_home_page_context(request)
-    if request.method == "POST":
-        res = submit_slg_site_review(request)
-        context["review_form"] = res.data
-    return render(
-        request,
-        "home.html",
         context,
     )
 
@@ -146,7 +106,6 @@ def app_review(request: HttpRequest):
             messages.error(request, "Review Submission Failed")
     context["app"] = fetch_app_details(request).data
     context["queries"] = fetch_app_review_queries(request).data
-    context["genres"] = fetch_all_genres(request).data
     return render(
         request,
         "writeReview.html",
@@ -156,18 +115,3 @@ def app_review(request: HttpRequest):
 
 def login(request: HttpRequest):
     return render(request, "login.html")
-
-
-def add_new_app(request: HttpRequest):
-    app_link: str = request.POST["app_playstore_link"]
-    app_id = app_link[app_link.find("id=") + 3 :]
-    add_app = requests.post(
-        get_api_route(request) + "/add_new_app", data={"app_id": app_id}
-    ).json()
-    context = get_home_page_context(request)
-    context["add_app_status"] = add_app["status"]
-    return render(
-        request,
-        "home.html",
-        context,
-    )
