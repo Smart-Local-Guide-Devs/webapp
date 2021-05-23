@@ -63,10 +63,17 @@ def signup(request: HttpRequest):
         form = CreateUserForm()
         if request.method == "POST":
             form = CreateUserForm(request.POST)
+            print(request.POST)
             if form.is_valid():
-                form.save()
-                user = form.cleaned_data.get("username")
-                messages.success(request, "Account was created for " + user)
+                user = form.save()
+                username = form.cleaned_data.get("username")
+                SlgUser.objects.create(
+				user=user,
+				name=request.POST['name'],
+                phone = request.POST['phone'],
+                email=request.POST['email'],
+				)
+                messages.success(request, "Account was created for " + username)
                 return redirect("signin")
         context = {"form": form}
         return render(request, "signup.html", context)
