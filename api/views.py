@@ -252,9 +252,42 @@ def up_vote_app(request: HttpRequest):
     app = App.objects.get(app_id=app_id)
     user = User.objects.get(username=username)
     review = Review.objects.get(app=app, user=user)
-    if not review.up_voters.filter(username=request.user.username).exists():
-        review.up_voters.add(request.user)
-        return Response("Up vote successful")
-    else:
-        review = ReviewSerializer(review).data
-        return Response("Already up voted once", status.HTTP_400_BAD_REQUEST)
+    data = {}
+    data["up_votes"] = review.up_voters.count()
+    data["down_votes"] = review.down_voters.count()
+    if review.up_voters.filter(username=request.user.username).exists():
+        data["message"] = "Already up voted once"
+        return Response(data, status.HTTP_400_BAD_REQUEST)
+    if review.down_voters.filter(username=request.user.username).exists():
+        review.down_voters.remove(request.user)
+        data["down_votes"] -= 1
+    review.up_voters.add(request.user)
+    data["up_votes"] += 1
+    data["message"] = "Up vote successful"
+    return Response(data)
+
+
+@api_view(["POST"])
+def down_vote_app(request: HttpRequest):
+    if request.user.is_anonymous:
+        return Response(
+            "Please login to down vote reviews", status.HTTP_400_BAD_REQUEST
+        )
+    app_id = request.POST["app_id"]
+    username = request.POST["username"]
+    app = App.objects.get(app_id=app_id)
+    user = User.objects.get(username=username)
+    review = Review.objects.get(app=app, user=user)
+    data = {}
+    data["up_votes"] = review.up_voters.count()
+    data["down_votes"] = review.down_voters.count()
+    if review.down_voters.filter(username=request.user.username).exists():
+        data["message"] = "Already down voted once"
+        return Response(data, status.HTTP_400_BAD_REQUEST)
+    if review.up_voters.filter(username=request.user.username).exists():
+        review.up_voters.remove(request.user)
+        data["up_votes"] -= 1
+    review.down_voters.add(request.user)
+    data["down_votes"] += 1
+    data["message"] = "Down vote successful"
+    return Response(data)

@@ -283,13 +283,17 @@
           <br>
           {% endfor %}
         </div>
-        <form class="Form upVoteForm">
+        <form class="Form votingForm">
           {% csrf_token %}
           <input type="hidden" name="app_id" value="{{ review.app_id }}">
           <input type="hidden" name="username" value="{{ review.username }}">
-          <button class="upvotes upVoteButton" type="submit">
+          <button class="upvotes upVoteButton">
             <em class="fa fa-thumbs-up"></em>
             <span>{{review.up_votes}}</span>
+          </button>
+          <button class="upvotes downVoteButton">
+            <em class="fa fa-thumbs-down"></em>
+            <span>{{review.down_votes}}</span>
           </button>
         </form>
       </div>
@@ -298,22 +302,35 @@
   </div>
 
   <script>
-    $('.upVoteForm').submit(function () {
+
+    $('.upVoteButton').click(function () {
       postData = {};
-      $(this).serializeArray().map((ele) => {
-        postData[ele.name] = ele.value
+      $(this).parent('.votingForm').serializeArray().map((ele) => {
+        postData[ele.name] = ele.value;
       });
-      $.post("{% url 'api_up_vote_app' %}", postData)
-        .done(() => {
-          $(this).children('.upVoteButton').children('span').text((idx, val) => {
-            return +val + 1;
-          });
-        })
-        .always((resData) => {
-          alert((typeof resData == 'string') ? resData : resData.responseJSON);
-        });
+      $.post("{% url 'api_up_vote_app' %}", postData).always((resData) => {
+        if (resData.hasOwnProperty('responseJSON')) resData = resData.responseJSON;
+        $(this).children('span').html(resData.up_votes);
+        $(this).siblings('.downVoteButton').children('span').html(resData.down_votes);
+        alert(resData.message);
+      });
       return false;
     });
+
+    $('.downVoteButton').click(function () {
+      postData = {};
+      $(this).parent('.votingForm').serializeArray().map((ele) => {
+        postData[ele.name] = ele.value;
+      });
+      $.post("{% url 'api_down_vote_app' %}", postData).always((resData) => {
+        if (resData.hasOwnProperty('responseJSON')) resData = resData.responseJSON;
+        $(this).children('span').html(resData.down_votes);
+        $(this).parent('.votingForm').children('.upVoteButton').children('span').html(resData.up_votes);
+        alert(resData.message);
+      });
+      return false;
+    });
+
   </script>
 
   <h1 style="text-align: center">Playstore Reviews</h1>

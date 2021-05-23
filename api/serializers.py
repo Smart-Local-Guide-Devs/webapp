@@ -35,6 +35,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     )
     query_choices = QueryChoiceSerializer(many=True)
     up_votes = serializers.IntegerField(source="up_voters.count", read_only=True)
+    down_votes = serializers.IntegerField(source="down_voters.count", read_only=True)
 
     class Meta:
         model = Review
@@ -48,6 +49,7 @@ class ReviewSerializer(serializers.ModelSerializer):
             "state",
             "city",
             "up_votes",
+            "down_votes",
         ]
 
     def create(self, validated_data: dict):
