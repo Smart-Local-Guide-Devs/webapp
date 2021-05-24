@@ -58,15 +58,23 @@
                     value="{{ search_query }}" />
             </div>
             <div>
-                <select class="form-select Genre Box" id="genreInput" name="genre">
-                    <option value="">select genre</option>
-                    {% for genre_value in genres %}
-                    {% if genre_value == genre %}
-                    <option selected>{{ genre_value }}</option>
-                    {% else %}
-                    <option>{{ genre_value }}</option>
-                    {% endif %}
-                    {% endfor %}
+                {% for genre_value in genres %}
+                {% if genre_value in genre %}
+                <input type="checkbox" class="form-select Genre Box" id="genreInput" name="genre"
+                    value="{{ genre_value }}" selected>{{ genre_value }}
+                {% else %}
+                <input type="checkbox" class="form-select Genre Box" id="genreInput" name="genre"
+                    value="{{ genre_value }}">{{ genre_value }}
+                {% endif %}
+                {% endfor %}
+            </div>
+            <div>
+                <p>Order by</p>
+                <select class="form-select Order Box" id="orderChoice" name="orderby">
+                    <option value="-avg_rating">Average Rating</option>
+                    <option value="-min_installs">Installs</option>
+                    <option value="-reviews_count">Reviews</option>
+                    <option value="-ratings_count" selected>Ratings</option>
                 </select>
             </div>
             <div class="filterBox">
@@ -160,8 +168,8 @@
     </a>
     {% endfor %}
     {% if search_results.has_next %}
-<a href="{{sub_url}}{{search_results.next_page_number}}">Next Page</a>
-{% endif %}
+    <a href="{{sub_url}}{{search_results.next_page_number}}">Next Page</a>
+    {% endif %}
 </ol>
 
 <script>
@@ -171,12 +179,12 @@
             $(".filterBox").toggleClass("activefilter");
         });
     });
-    
+
     $(document).ready(function () {
-            $(".filterIcon").click(function () {
-                console.log("clicked")
-                $(".filterIcon").toggleClass("activefilter");
-            });
+        $(".filterIcon").click(function () {
+            console.log("clicked")
+            $(".filterIcon").toggleClass("activefilter");
         });
+    });
 </script>
 {% endblock %}
