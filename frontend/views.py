@@ -100,7 +100,7 @@ def app_review(request: HttpRequest):
                 )
         res = submit_app_review(request, req)
         context["review"] = res.data
-        if res.status_code in [202, 201, 200]:
+        if res.status_code == 200:
             messages.success(request, "Review Submission Successful")
         else:
             messages.error(request, "Review Submission Failed")

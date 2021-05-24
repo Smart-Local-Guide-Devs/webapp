@@ -11,6 +11,8 @@
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
 		<script src="https://kit.fontawesome.com/a076d05399.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="{%static 'stateCityJSON.js'%}"></script>
 		{%block headtag%} {%endblock%}
 		<link rel="stylesheet" type="text/css" href="{% static 'loader.css' %}" />
 
@@ -28,7 +30,6 @@
 			<form class="navFormFields " action="{% url 'front_search' %}" method="GET">
 				<input class="navSearch" type="text" placeholder="Search" name="search_query" />
 				<select class="form-select BoxGenre Box" id="genre" name="genre">
-					<!-- genres will get loaded to the select with id genre  -->
 					<option value="">select genre</option>
 				</select>
 				<button class="navButton" type="submit">
@@ -36,7 +37,7 @@
 				</button>
 			</form>
 			<div class='left'>
-				
+
 				<div class="menuToggle" onclick="toggle()" id="bars">
 					<em class="fa fa-bars"></em>
 				</div>
@@ -117,6 +118,29 @@
 							$('#genre').append(`<option>${genre}</option>`)
 						});
 					});
+
+				var userState, userCity;
+				$.getJSON('https://geolocation-db.com/json/')
+					.done((resData) => {
+						userState = resData.state;
+						userCity = resData.city;
+					});
+
+				Object.keys(stateCityJSON).forEach((state) => {
+					$('#stateSelect').append(`<option >${state}</option>`);
+				});
+
+				$('#stateSelect').change(function () {
+					$('#citySelect').empty();
+					$('#citySelect').append('<option value="">Select City</option>');
+					state = $(this).val();
+					if (state != "") {
+						stateCityJSON[state].forEach((city) => {
+							if (userState == state && userCity == city) $('#citySelect').append(`<option selected>${city}</option>`);
+							else $('#citySelect').append(`<option >${city}</option>`);
+						});
+					}
+				});
 
 			});
 

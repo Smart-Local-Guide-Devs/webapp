@@ -59,7 +59,6 @@ class Review(models.Model):
     content = models.TextField(blank=True)
     rating = models.PositiveSmallIntegerField(choices=[(i, i) for i in range(1, 6)])
     query_choices = models.ManyToManyField(to=QueryChoice, blank=True)
-    country = models.CharField(max_length=128)
     state = models.CharField(max_length=128)
     city = models.CharField(max_length=128)
     up_voters = models.ManyToManyField(to=User, blank=True, related_name="up_voters")

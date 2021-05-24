@@ -304,20 +304,27 @@
   <script>
 
     $('.upVoteButton').click(function () {
+      $(this).prop('disabled', true);
+      $(this).siblings('.downVoteButton').prop('disabled', true);
       postData = {};
       $(this).parent('.votingForm').serializeArray().map((ele) => {
         postData[ele.name] = ele.value;
       });
-      $.post("{% url 'api_up_vote_app' %}", postData).always((resData) => {
-        if (resData.hasOwnProperty('responseJSON')) resData = resData.responseJSON;
-        $(this).children('span').html(resData.up_votes);
-        $(this).siblings('.downVoteButton').children('span').html(resData.down_votes);
-        alert(resData.message);
-      });
+      $.post("{% url 'api_up_vote_app' %}", postData)
+        .always((resData) => {
+          if (resData.hasOwnProperty('responseJSON')) resData = resData.responseJSON;
+          $(this).children('span').html(resData.up_votes);
+          $(this).siblings('.downVoteButton').children('span').html(resData.down_votes);
+          alert(resData.message);
+          $(this).prop('disabled', false);
+          $(this).siblings('.downVoteButton').prop('disabled', false);
+        });
       return false;
     });
 
     $('.downVoteButton').click(function () {
+      $(this).prop('disabled', true);
+      $(this).siblings('.upVoteButton').prop('disabled', true);
       postData = {};
       $(this).parent('.votingForm').serializeArray().map((ele) => {
         postData[ele.name] = ele.value;
@@ -325,8 +332,10 @@
       $.post("{% url 'api_down_vote_app' %}", postData).always((resData) => {
         if (resData.hasOwnProperty('responseJSON')) resData = resData.responseJSON;
         $(this).children('span').html(resData.down_votes);
-        $(this).parent('.votingForm').children('.upVoteButton').children('span').html(resData.up_votes);
+        $(this).siblings('.upVoteButton').children('span').html(resData.up_votes);
         alert(resData.message);
+        $(this).prop('disabled', false);
+        $(this).siblings('.upVoteButton').prop('disabled', false);
       });
       return false;
     });

@@ -98,7 +98,7 @@ def logout_user(request: HttpRequest):
 
 @api_view(["GET"])
 def best_apps(request: HttpRequest):
-    # city = request.GET["city"]
+    city = request.GET.get("city", "")
     res = {}
     for genre in Genre.objects.prefetch_related("apps").all():
         apps = genre.apps.order_by("-reviews_count")[:6]
@@ -117,7 +117,9 @@ def top_users(request: HttpRequest):
     users = {}
     for review in reviews:
         if review.user.username not in users:
-            users[review.user.username] = review.up_voters.count()
+            users[review.user.username] = (
+                review.up_voters.count() - review.down_voters.count()
+            )
     return Response(users)
 
 
@@ -150,7 +152,8 @@ def counter(request: HttpRequest):
 
 @api_view(["GET"])
 def similar_apps(request: HttpRequest):
-    app = App.objects.get(app_id=request.GET["app_id"])
+    app_id = request.GET["app_id"]
+    app = App.objects.prefetch_related("similar_apps").get(app_id=app_id)
     similar_apps = app.similar_apps.all()
     res = AppSerializer(similar_apps, many=True).data
     return Response(res)

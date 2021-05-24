@@ -45,7 +45,6 @@ class ReviewSerializer(serializers.ModelSerializer):
             "content",
             "rating",
             "query_choices",
-            "country",
             "state",
             "city",
             "up_votes",
