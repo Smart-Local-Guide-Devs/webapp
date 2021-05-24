@@ -34,23 +34,31 @@ def get_ip(req):
 
 @api_view(["GET"])
 def search(request: HttpRequest):
-    search_query = request.GET.get("search_query", "").lower()
-    genre = request.GET.get("genre", "")
+    search_query = request.GET.get("search_query", "")
+    genres = request.GET.getlist("genre", [])
     installs = request.GET.get("installs", 0)
     rating = request.GET.get("rating", 0)
     ratings = request.GET.get("ratings", 0)
     reviews = request.GET.get("reviews", 0)
+    orderby = request.GET.get("orderby", "")
     free = request.GET.get("free", False)
     apps = App.objects.all()
-    apps = apps.filter(genre__genre__icontains=genre)
-    apps = apps.filter(app_name__icontains=search_query)
-    apps = apps.filter(min_installs__gte=installs)
-    apps = apps.filter(avg_rating__gte=rating)
-    apps = apps.filter(ratings_count__gte=ratings)
-    apps = apps.filter(reviews_count__gte=reviews)
+    for genre in genres:
+        apps = apps.filter(genre__genre__icontains=genre)
+    apps = apps.filter(
+        app_name__icontains=search_query,
+        min_installs__gte=installs,
+        avg_rating__gte=rating,
+        ratings_count__gte=ratings,
+        reviews_count__gte=reviews,
+    )
     if free:
         apps = apps.filter(free=True)
-    apps.order_by("-reviews_count")
+    if orderby != "":
+        apps = apps.order_by(orderby)
+    else:
+        apps = apps.order_by("-reviews_count")
+    apps = apps.distinct("app_id")
     apps = AppSerializer(apps[:32], many=True).data
     return Response(apps)
 
