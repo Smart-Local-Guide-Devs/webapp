@@ -63,45 +63,38 @@ def search(request: HttpRequest):
     return Response(apps)
 
 
-@api_view(["GET", "POST"])
+@api_view(["POST"])
 def signup(request: HttpRequest):
     if request.user.is_authenticated:
-        return redirect("index")
-    else:
-        form = CreateUserForm()
-        if request.method == "POST":
-            form = CreateUserForm(request.POST)
-            if form.is_valid():
-                form.save()
-                user = form.cleaned_data.get("username")
-                messages.success(request, "Account was created for " + user)
-                return redirect("signin")
-        context = {"form": form}
-        return render(request, "signup.html", context)
+        return Response(data="Already logged in!", status=status.HTTP_200_OK)
+    form = CreateUserForm(request.POST)
+    if form.is_valid():
+        form.save()
+        user = form.cleaned_data.get("username")
+        messages.success(request, "Account was created for " + user)
+        return Response(data="Account created successfully!", status=status.HTTP_200_OK)
+    return Response(data={"form": form}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["GET", "POST"])
 def signin(request: HttpRequest):
     if request.user.is_authenticated:
-        return redirect("index")
-    else:
-        if request.method == "POST":
-            username = request.POST.get("user")
-            password = request.POST.get("pass")
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect("index")
-            else:
-                messages.info(request, "Username or Password is Incorrect")
-        context = {}
-        return render(request, "signin.html", context)
+        return Response(data="Already logged in!", status=status.HTTP_200_OK)
+    if request.method == "POST":
+        username = request.POST.get("user")
+        password = request.POST.get("pass")
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return Response(data="Log in successful", status=status.HTTP_200_OK)
+        messages.info(request, "Username or Password is Incorrect")
+    return Response(data={}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["GET", "POST"])
-def logout_user(request: HttpRequest):
+def signout(request: HttpRequest):
     logout(request)
-    return redirect("index")
+    return Response(data="Logout successful", status=status.HTTP_200_OK)
 
 
 @api_view(["GET"])
