@@ -40,7 +40,7 @@ def search(request: HttpRequest):
     rating = request.GET.get("rating", 0)
     ratings = request.GET.get("ratings", 0)
     reviews = request.GET.get("reviews", 0)
-    orderby = request.GET.get("orderby", "")
+    order = request.GET.get("orderby", "-reviews_count")
     free = request.GET.get("free", False)
     apps = App.objects.all()
     for genre in genres:
@@ -54,11 +54,7 @@ def search(request: HttpRequest):
     )
     if free:
         apps = apps.filter(free=True)
-    if orderby != "":
-        apps = apps.order_by(orderby)
-    else:
-        apps = apps.order_by("-reviews_count")
-    apps = apps.distinct("app_id")
+    apps = apps.distinct(order[1:]).order_by(order)
     apps = AppSerializer(apps[:32], many=True).data
     return Response(apps)
 
@@ -66,27 +62,35 @@ def search(request: HttpRequest):
 @api_view(["POST"])
 def signup(request: HttpRequest):
     if request.user.is_authenticated:
-        return Response(data="Already logged in!", status=status.HTTP_200_OK)
+        return Response(
+            data={"message": "Already logged in!"}, status=status.HTTP_200_OK
+        )
     form = CreateUserForm(request.POST)
     if form.is_valid():
         form.save()
         user = form.cleaned_data.get("username")
         messages.success(request, "Account was created for " + user)
-        return Response(data="Account created successfully!", status=status.HTTP_200_OK)
+        return Response(
+            data={"message": "Account created successfully!"}, status=status.HTTP_200_OK
+        )
     return Response(data={"form": form}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["GET", "POST"])
 def signin(request: HttpRequest):
     if request.user.is_authenticated:
-        return Response(data="Already logged in!", status=status.HTTP_200_OK)
+        return Response(
+            data={"message": "Already logged in!"}, status=status.HTTP_200_OK
+        )
     if request.method == "POST":
         username = request.POST.get("user")
         password = request.POST.get("pass")
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return Response(data="Log in successful", status=status.HTTP_200_OK)
+            return Response(
+                data={"message": "Log in successful"}, status=status.HTTP_200_OK
+            )
         messages.info(request, "Username or Password is Incorrect")
     return Response(data={}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -94,7 +98,7 @@ def signin(request: HttpRequest):
 @api_view(["GET", "POST"])
 def signout(request: HttpRequest):
     logout(request)
-    return Response(data="Logout successful", status=status.HTTP_200_OK)
+    return Response(data={"message": "Logout successful"}, status=status.HTTP_200_OK)
 
 
 @api_view(["GET"])
