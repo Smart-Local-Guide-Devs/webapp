@@ -83,8 +83,7 @@ def get_app(request: HttpRequest):
     context = app(app_id, "en", "in")
     context["similar_apps"] = fetch_similar_apps(request).data
     context["reviews"] = fetch_app_reviews(request).data
-    context["playstore_reviews"], _ = reviews(
-        app_id, "en", "in", Sort.MOST_RELEVANT, 6)
+    context["playstore_reviews"], _ = reviews(app_id, "en", "in", Sort.MOST_RELEVANT, 6)
     return render(
         request,
         "appPage.html",
@@ -119,25 +118,36 @@ def app_review(request: HttpRequest):
 
 
 def signin(request: HttpRequest):
+    location = request.GET.get("next", request.META["HTTP_REFERER"])
     if request.method == "GET":
-        return render(request, "signin.html")
-    else:
-        res = signin_user(request)
-        if res.status_code == 400:
-            return render(request, "signin.html", res.data)
-        return redirect("index")
+        return render(request, "signin.html", {"next": location})
+    res = signin_user(request)
+    if res.status_code == 400:
+        res.data["next"] = location
+        return render(request, "signin.html", res.data)
+    for suffix in ["in", "out", "up"]:
+        if "sign" + suffix in location:
+            return redirect("index")
+    return redirect(location)
 
 
 def signup(request: HttpRequest):
+    location = request.GET.get("next", request.META["HTTP_REFERER"])
     if request.method == "GET":
-        return render(request, "signup.html", context={"form": CreateUserForm()})
-    else:
-        res = signup_user(request)
-        if res.status_code == 400:
-            return render(request, "signup.html", res.data)
-        return redirect("signin")
+        return render(
+            request,
+            "signup.html",
+            context={"form": CreateUserForm(), "next": location},
+        )
+    res = signup_user(request)
+    if res.status_code == 400:
+        # integrate with signin so that after redirection it leads to the
+        # user's old page
+        res.data["next"] = location
+        return render(request, "signup.html", res.data)
+    return redirect("front_signin")
 
 
 def signout(request: HttpRequest):
     signout_user(request)
-    return redirect("index")
+    return redirect(request.META["HTTP_REFERER"])

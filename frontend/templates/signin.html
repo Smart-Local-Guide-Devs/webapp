@@ -119,7 +119,7 @@
 					<h3 id="form-title">SIGNIN</h3>
 				</div>
 				<div class="d-flex justify-content-center form_container">
-					<form method="POST" action="{% url 'front_signin' %}">
+					<form method="POST" action="{% url 'front_signin' %}?next={{ next }}">
 						{% csrf_token %}
 						<div class="input-group mb-3">
 							<div class="input-group-append">
