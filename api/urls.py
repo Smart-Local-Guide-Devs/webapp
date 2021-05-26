@@ -4,12 +4,12 @@ from django.urls import path, include
 
 urlpatterns = [
     path("search", views.search, name="api_search"),
-    path("signin", views.signin, name="signin"),
-    path("logout", views.logout_user, name="logout"),
+    path("signin", views.signin, name="api_signin"),
+    path("signout", views.signout, name="api_signout"),
+    path("signup", views.signup, name="api_signup"),
     path("social-auth/", include("social_django.urls", namespace="social")),
-    path("signup", views.signup, name="signup"),
     path("best_apps", views.best_apps, name="api_best_apps"),
-    path("similar_apps", views.similar_apps, name="similar_apps"),
+    path("similar_apps", views.similar_apps, name="api_similar_apps"),
     path("app_review", views.app_review, name="api_app_review"),
     path("slg_site_review", views.slg_site_review, name="api_slg_site_review"),
     path("counter", views.counter, name="api_counter"),
@@ -19,4 +19,6 @@ urlpatterns = [
     path("app_review_queries", views.app_review_queries, name="api_app_review_queries"),
     path("app_details", views.app_details, name="api_app_details"),
     path("app_reviews", views.app_reviews, name="api_app_reviews"),
+    path("up_vote_app", views.up_vote_app, name="api_up_vote_app"),
+    path("down_vote_app", views.down_vote_app, name="api_down_vote_app"),
 ]

@@ -1,3 +1,4 @@
+from api.forms import CreateUserForm
 from django.contrib import messages
 from api.views import best_apps as fetch_best_apps
 from api.views import counter as fetch_counter
@@ -9,9 +10,12 @@ from api.views import app_details as fetch_app_details
 from api.views import app_review as submit_app_review
 from api.views import all_genres as fetch_all_genres
 from api.views import app_reviews as fetch_app_reviews
+from api.views import signin as signin_user
+from api.views import signup as signup_user
+from api.views import signout as signout_user
 from django.core.paginator import EmptyPage, Paginator
 from django.http.request import HttpRequest
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from google_play_scraper import Sort, app, reviews
 
 
@@ -79,7 +83,8 @@ def get_app(request: HttpRequest):
     context = app(app_id, "en", "in")
     context["similar_apps"] = fetch_similar_apps(request).data
     context["reviews"] = fetch_app_reviews(request).data
-    context["playstore_reviews"], _ = reviews(app_id, "en", "in", Sort.MOST_RELEVANT, 6)
+    context["playstore_reviews"], _ = reviews(
+        app_id, "en", "in", Sort.MOST_RELEVANT, 6)
     return render(
         request,
         "appPage.html",
@@ -100,7 +105,7 @@ def app_review(request: HttpRequest):
                 )
         res = submit_app_review(request, req)
         context["review"] = res.data
-        if res.status_code in [202, 201, 200]:
+        if res.status_code == 200:
             messages.success(request, "Review Submission Successful")
         else:
             messages.error(request, "Review Submission Failed")
@@ -113,5 +118,26 @@ def app_review(request: HttpRequest):
     )
 
 
-def login(request: HttpRequest):
-    return render(request, "login.html")
+def signin(request: HttpRequest):
+    if request.method == "GET":
+        return render(request, "signin.html")
+    else:
+        res = signin_user(request)
+        if res.status_code == 400:
+            return render(request, "signin.html", res.data)
+        return redirect("index")
+
+
+def signup(request: HttpRequest):
+    if request.method == "GET":
+        return render(request, "signup.html", context={"form": CreateUserForm()})
+    else:
+        res = signup_user(request)
+        if res.status_code == 400:
+            return render(request, "signup.html", res.data)
+        return redirect("signin")
+
+
+def signout(request: HttpRequest):
+    signout_user(request)
+    return redirect("index")

@@ -126,10 +126,10 @@
   <a href="{{ url }}"><button>Download</button></a> {% endcomment %}
   <div class="abc">
     <a href="{% url 'front_app_review' %}?app_id={{ appId }}" class=""><button type="button" class="button"><span
-          class="button-icon"><i class="fas fa-address-book"></i></span><span
+          class="button-icon"><em class="fas fa-address-book"></em></span><span
           class="button-text">Review</span></button></a>
     <a href="{{ url }}" class=""><button type="button" class="button">
-        <span class="button-icon"><i class="fab fa-google-play"></i></span>
+        <span class="button-icon"><em class="fab fa-google-play"></em></span>
         <span class="button-text">Download</span>
       </button></a>
   </div>
@@ -283,14 +283,71 @@
           <br>
           {% endfor %}
         </div>
+<<<<<<< HEAD
         <div class='upvotes'>
           <em class="fa fa-thumbs-up"></em>
           <p>{{review.up_votes}}</p>
         </div>
+=======
+        <form class="Form votingForm">
+          {% csrf_token %}
+          <input type="hidden" name="app_id" value="{{ review.app_id }}">
+          <input type="hidden" name="username" value="{{ review.username }}">
+          <button class="upvotes upVoteButton">
+            <em class="fa fa-thumbs-up"></em>
+            <span>{{review.up_votes}}</span>
+          </button>
+          <button class="upvotes downVoteButton">
+            <em class="fa fa-thumbs-down"></em>
+            <span>{{review.down_votes}}</span>
+          </button>
+        </form>
+>>>>>>> dev
       </div>
     </div>
     {%endfor%}
   </div>
+
+  <script>
+
+    $('.upVoteButton').click(function () {
+      $(this).prop('disabled', true);
+      $(this).siblings('.downVoteButton').prop('disabled', true);
+      postData = {};
+      $(this).parent('.votingForm').serializeArray().map((ele) => {
+        postData[ele.name] = ele.value;
+      });
+      $.post("{% url 'api_up_vote_app' %}", postData)
+        .always((resData) => {
+          if (resData.hasOwnProperty('responseJSON')) resData = resData.responseJSON;
+          $(this).children('span').html(resData.up_votes);
+          $(this).siblings('.downVoteButton').children('span').html(resData.down_votes);
+          alert(resData.message);
+          $(this).prop('disabled', false);
+          $(this).siblings('.downVoteButton').prop('disabled', false);
+        });
+      return false;
+    });
+
+    $('.downVoteButton').click(function () {
+      $(this).prop('disabled', true);
+      $(this).siblings('.upVoteButton').prop('disabled', true);
+      postData = {};
+      $(this).parent('.votingForm').serializeArray().map((ele) => {
+        postData[ele.name] = ele.value;
+      });
+      $.post("{% url 'api_down_vote_app' %}", postData).always((resData) => {
+        if (resData.hasOwnProperty('responseJSON')) resData = resData.responseJSON;
+        $(this).children('span').html(resData.down_votes);
+        $(this).siblings('.upVoteButton').children('span').html(resData.up_votes);
+        alert(resData.message);
+        $(this).prop('disabled', false);
+        $(this).siblings('.upVoteButton').prop('disabled', false);
+      });
+      return false;
+    });
+
+  </script>
 
   <h1 style="text-align: center">Playstore Reviews</h1>
 
@@ -353,11 +410,11 @@
     <div class="carousel" data-flickity='{ "groupCells": false }'>
       {% for similar_app in similar_apps %}
       <div class=" serviceCard">
-        <a href="{% url 'front_get_app' %}?app_id={{ similar_app.appId }} ">
-          <img class="serviceImage" src="{{ similar_app.icon }}" alt="app icon" />
+        <a href="{% url 'front_get_app' %}?app_id={{ similar_app.app_id }} ">
+          <img class="serviceImage" src="{{ similar_app.icon_link }}" alt="app icon" />
         </a>
-        <p>{{ similar_app.title }}</p>
-        <p style="font-size:12px">{{similar_app.summary}}</p>
+        <p>{{ similar_app.app_name }}</p>
+        <p style="font-size:12px">{{similar_app.app_summary}}</p>
       </div>
       {% endfor %}
     </div>

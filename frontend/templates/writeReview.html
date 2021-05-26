@@ -1,8 +1,6 @@
 {%extends 'base.html'%} {%load static%} {%block headtag%}
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-{%load static%}
 <link rel="stylesheet" type="text/css" href="{%static 'writeReview.css'%}">
 
 <!-- Bootstrap CSS-->
@@ -10,24 +8,9 @@
     integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
 <title>Review Submission</title>
-{%endblock%} {%block content%}
-<script src="//geodata.solutions/includes/statecity.js"></script>
+{%endblock%}
 
-<title>Review Submission</title>
-
-
-<!-- nav bar -->
-<header>
-
-    <div class="logo">LOGO</div>
-    <div class="menuToggle" onclick="toggle()" id="bars">
-        <em class="fa fa-bars"></em>
-    </div>
-    <ul class="menu">
-    </ul>
-</header>
-<!-- back arrow -->
-
+{%block content%}
 <main>
     <!-- form -->
     <div class="Container">
@@ -58,11 +41,10 @@
                         {% endfor %}
                     </div>
 
-                    <input type="hidden" name="country" id="countryId" readonly value="IN" />
-                    <select name="state" class="states order-alpha form-select mb-2 col-6" required id="stateId">
+                    <select name="state" id="stateSelect" required>
                         <option value="">Select State</option>
                     </select>
-                    <select name="city" class="cities order-alpha form-select mb-2 col-6" required id="cityId">
+                    <select name="city" id="citySelect" required>
                         <option value="">Select City</option>
                     </select>
 

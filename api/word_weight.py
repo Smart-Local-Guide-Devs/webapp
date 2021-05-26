@@ -3,6 +3,17 @@ import re
 from pandas.core.frame import DataFrame
 from sklearn.metrics.pairwise import cosine_similarity
 import operator
+import pandas as pd
+import numpy as np
+from nltk.corpus import stopwords
+import nltk
+
+# nltk.download('stopwords')
+import re
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.metrics.pairwise import euclidean_distances
+
 
 class WordWeight:
 
@@ -287,36 +298,78 @@ class WordWeight:
 
         return genres
 
-
     @staticmethod
     def recommend_item(user_name, similar_user_names, matrix, items=3):
-    
-    	similar_users = matrix[matrix.index.isin(similar_user_names)]
-    	similar_users = similar_users.mean(axis=0)
-    	similar_users_df = pd.DataFrame(similar_users, columns=['mean'])
-    	user_df = matrix[matrix.index == user_name]
-    	user_df_transposed = user_df.transpose()
-    	user_df_transposed.columns = ['rating']
-    	user_df_transposed = user_df_transposed[user_df_transposed['rating']==0]
-    	apps_unused = user_df_transposed.index.tolist()
-    	similar_users_df_filtered = similar_users_df[similar_users_df.index.isin(apps_unused)]
-    	similar_users_df_ordered = similar_users_df.sort_values(by=['mean'], ascending=False) 
-    	top_n_apps = similar_users_df_ordered.head(items)
-    	top_n_apps_names = top_n_apps.index.tolist()
-   
-    
-    	return top_n_apps_names
+
+        similar_users = matrix[matrix.index.isin(similar_user_names)]
+        similar_users = similar_users.mean(axis=0)
+        similar_users_df = pd.DataFrame(similar_users, columns=["mean"])
+        user_df = matrix[matrix.index == user_name]
+        user_df_transposed = user_df.transpose()
+        user_df_transposed.columns = ["rating"]
+        user_df_transposed = user_df_transposed[user_df_transposed["rating"] == 0]
+        apps_unused = user_df_transposed.index.tolist()
+        similar_users_df_filtered = similar_users_df[
+            similar_users_df.index.isin(apps_unused)
+        ]
+        similar_users_df_ordered = similar_users_df.sort_values(
+            by=["mean"], ascending=False
+        )
+        top_n_apps = similar_users_df_ordered.head(items)
+        top_n_apps_names = top_n_apps.index.tolist()
+
+        return top_n_apps_names
 
     @staticmethod
     def similar_users(user_name, matrix, k=3):
-    	user = matrix[matrix.index == user_name]
-    	other_users = matrix[matrix.index != user_name]
-    	similarities = cosine_similarity(user,other_users)[0].tolist()
-    	userlist = other_users.index.tolist()
-    	index_similarity = dict(zip(userlist, similarities))
-    	similarity_sorted = sorted(index_similarity.items(), key=operator.itemgetter(1))
-    	similarity_sorted.reverse()
-    	top_users_similarities = similarity_sorted[:k]
-    	users = [u[0] for u in top_users_similarities]
-    
-    	return users
+        user = matrix[matrix.index == user_name]
+        other_users = matrix[matrix.index != user_name]
+        similarities = cosine_similarity(user, other_users)[0].tolist()
+        userlist = other_users.index.tolist()
+        index_similarity = dict(zip(userlist, similarities))
+        similarity_sorted = sorted(index_similarity.items(), key=operator.itemgetter(1))
+        similarity_sorted.reverse()
+        top_users_similarities = similarity_sorted[:k]
+        users = [u[0] for u in top_users_similarities]
+
+        return users
+
+    @staticmethod
+    def similar_apps_nltk(app_obj, data: DataFrame):
+
+        matrix = "Cosine Similarity"
+
+        apps = data["APP_NAME"].values.tolist()
+        descriptions = data["APP_DESCRIPTION"].values.tolist()
+        descriptions_df = pd.DataFrame(descriptions, columns=["Descriptions"])
+        descriptions_df["Apps"] = data["APP_NAME"].values.tolist()
+        stop_words_l = stopwords.words("english")
+        descriptions_df["descriptions_cleaned"] = descriptions_df.Descriptions.apply(
+            lambda x: " ".join(
+                re.sub(r"[^a-zA-Z]", " ", w).lower()
+                for w in x.split()
+                if re.sub(r"[^a-zA-Z]", " ", w).lower() not in stop_words_l
+            )
+        )
+
+        tfidfvectoriser = TfidfVectorizer()
+        tfidfvectoriser.fit(descriptions_df.descriptions_cleaned)
+        tfidf_vectors = tfidfvectoriser.transform(descriptions_df.descriptions_cleaned)
+
+        pairwise_similarities = np.dot(tfidf_vectors, tfidf_vectors.T).toarray()
+        similarity_matrix = pairwise_similarities
+
+        doc_id = data.loc[data["APP_NAME"] == app_obj.APP_NAME].index[0]
+
+        print(f'App: {descriptions_df.iloc[doc_id]["Descriptions"]}')
+        print("\n")
+        print("Similar Apps:")
+        if matrix == "Cosine Similarity":
+            similar_ix = np.argsort(similarity_matrix[doc_id])[::-1]
+
+        for ix in similar_ix:
+            if ix == doc_id:
+                continue
+            print("\n")
+            print(f'App: {descriptions_df.iloc[ix]["Apps"]}')
+            print(f"{matrix} : {similarity_matrix[doc_id][ix]}")
