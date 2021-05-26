@@ -1,4 +1,4 @@
-from webapp.api.forms import CreateUserForm
+from api.forms import CreateUserForm
 from django.contrib import messages
 from api.views import best_apps as fetch_best_apps
 from api.views import counter as fetch_counter
@@ -83,7 +83,8 @@ def get_app(request: HttpRequest):
     context = app(app_id, "en", "in")
     context["similar_apps"] = fetch_similar_apps(request).data
     context["reviews"] = fetch_app_reviews(request).data
-    context["playstore_reviews"], _ = reviews(app_id, "en", "in", Sort.MOST_RELEVANT, 6)
+    context["playstore_reviews"], _ = reviews(
+        app_id, "en", "in", Sort.MOST_RELEVANT, 6)
     return render(
         request,
         "appPage.html",
