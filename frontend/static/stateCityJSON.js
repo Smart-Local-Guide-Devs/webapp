@@ -610,7 +610,6 @@ stateCityJSON = {
 		"Wara Seoni"
 	],
 	"Maharashtra": [
-		"[[]]",
 		"Ahmednagar",
 		"Akola",
 		"Akot",

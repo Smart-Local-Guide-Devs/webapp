@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html>
-    
+
 <head>
-	<title>Login</title>
+	<title>Signup</title>
 	<meta name="google-signin-scope" content="profile email">
-      <meta name="google-signin-client_id" content="MY_CLIENT_ID_ON_GOOGLE_DEV.apps.googleusercontent.com">
-      <!-- To integrate Google Sign-in -->
-      <script src="https://apis.google.com/js/api.js"></script>
-      <script src="https://apis.google.com/js/platform.js" async defer></script>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<meta name="google-signin-client_id" content="MY_CLIENT_ID_ON_GOOGLE_DEV.apps.googleusercontent.com">
+	<!-- To integrate Google Sign-in -->
+	<script src="https://apis.google.com/js/api.js"></script>
+	<script src="https://apis.google.com/js/platform.js" async defer></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+		integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
 
 	<style>
-
 		body,
 		html {
 			margin: 0;
@@ -21,6 +22,7 @@
 			height: 100%;
 			background: #ABDCD6 !important;
 		}
+
 		.user_card {
 			width: 350px;
 			margin-top: auto;
@@ -41,38 +43,43 @@
 			margin-top: 20px;
 		}
 
-		#form-title{
+		#form-title {
 			color: black;
 		}
+
 		.login_btn {
 			width: 100%;
 			background-color: #007ea7;
-background-image: linear-gradient(315deg, #007ea7 0%, #80ced7 74%);
+			background-image: linear-gradient(315deg, #007ea7 0%, #80ced7 74%);
 			color: black !important;
 			border-radius: 30px;
 		}
+
 		.login_btn:focus {
 			box-shadow: none !important;
 			outline: 0px !important;
 		}
+
 		.login_container {
 			padding: 0 2rem;
 		}
+
 		.input-group-text {
 			background-color: #48dbfb;
-background-image: linear-gradient(315deg, #48dbfb 0%, #d3d3d3 74%) !important;
+			background-image: linear-gradient(315deg, #48dbfb 0%, #d3d3d3 74%) !important;
 			color: black !important;
 			border: 0 !important;
 			border-radius: 0.25rem 0 0 0.25rem !important;
 		}
+
 		.input_user,
 		.input_pass:focus {
 			box-shadow: none !important;
 			outline: 0px !important;
 		}
-
 	</style>
 </head>
+
 <body>
 	<div class="container h-100">
 		<div class="d-flex justify-content-center h-100">
@@ -82,7 +89,7 @@ background-image: linear-gradient(315deg, #48dbfb 0%, #d3d3d3 74%) !important;
 				</div>
 				<div class="d-flex justify-content-center form_container">
 
-					<form method="POST" action="">
+					<form method="POST" action="{% url 'front_signup' %}?next={{ next }}">
 						{% csrf_token %}
 						<div class="input-group mb-3">
 							<div class="input-group-append">
@@ -102,7 +109,7 @@ background-image: linear-gradient(315deg, #48dbfb 0%, #d3d3d3 74%) !important;
 							</div>
 							{{form.phone}}
 						</div>
-						
+
 						<div class="input-group mb-2">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-key"></i></span>
@@ -117,23 +124,26 @@ background-image: linear-gradient(315deg, #48dbfb 0%, #d3d3d3 74%) !important;
 						</div>
 
 
-				   		<div class="d-flex justify-content-center mt-3 login_container">
-				 			<input class="btn login_btn" type="submit" value="Register Account">
-				   		</div>
+						<div class="d-flex justify-content-center mt-3 login_container">
+							<input class="btn login_btn" type="submit" value="Register Account">
+						</div>
 
 						<div class="d-flex justify-content-center mt-3 login_container">
 							<div class="row">
-							<div class="col-md-3">
-								<a class="btn btn-outline-dark" href="{% url "social:begin" "google-oauth2" %}" role="button" style="text-transform:none">
-								<img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
-								Sign-Up with Google
-								</a>
-							</div>
+								<div class="col-md-3">
+									<a class="btn btn-outline-dark" href="{% url  'social:begin' 'google-oauth2' %}"
+										role="button" style="text-transform:none">
+										<img width="20px" style="margin-bottom:3px; margin-right:5px"
+											alt="Google sign-in"
+											src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+										Sign-Up with Google
+									</a>
+								</div>
 							</div>
 
 
-						   </div>
-						{% comment %} <a href = "{% url "social:begin" "google-oauth2" %}">google</a>  {% endcomment %}
+						</div>
+						{% comment %} <a href="{% url  'social:begin' 'google-oauth2' %}">google</a> {% endcomment %}
 					</form>
 				</div>
 				<!--<label for="r8" id="cy">City:</label>
@@ -152,20 +162,20 @@ background-image: linear-gradient(315deg, #48dbfb 0%, #d3d3d3 74%) !important;
 </select><br/><br/>-->
 
 				{{form.errors}}
-				
+
 				<div class="mt-4">
 					<div class="d-flex justify-content-center links">
-						Already have an account? <a href="{% url 'signin' %}" class="ml-2">Login</a>
-						
+						Already have an account? <a href="{% url 'front_signin' %}" class="ml-2">Login</a>
+
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
-<!-- Sign out a user -->
-<a href="#" onclick="signOut();">Sign out</a>
-<!-- You can enable users to sign out of your app without signing out of Google by adding a sign-out button or link to your site. -->
+	<!-- Sign out a user -->
+	<a href="#" onclick="signOut();">Sign out</a>
+	<!-- You can enable users to sign out of your app without signing out of Google by adding a sign-out button or link to your site. -->
 
 	<script>
 		/* Because i didnt set placeholder values in forms.py they will be set here using vanilla Javascript
@@ -174,19 +184,19 @@ background-image: linear-gradient(315deg, #48dbfb 0%, #d3d3d3 74%) !important;
 
 		//Query All input fields
 		var form_fields = document.getElementsByTagName('input')
-		form_fields[1].placeholder='Username..';
-		form_fields[2].placeholder='Email..';
-		form_fields[3].placeholder='Phone..';
-		form_fields[4].placeholder='Enter password...';
-		form_fields[5].placeholder='Re-enter Password...';
+		form_fields[1].placeholder = 'Username..';
+		form_fields[2].placeholder = 'Email..';
+		form_fields[3].placeholder = 'Phone..';
+		form_fields[4].placeholder = 'Enter password...';
+		form_fields[5].placeholder = 'Re-enter Password...';
 
 
-		for (var field in form_fields){
+		for (var field in form_fields) {
 			form_fields[field].className += ' form-control'
 		}
 	</script>
 
-<!--<script type="text/javascript">
+	<!--<script type="text/javascript">
 function save(){
 var user = document.getElementById("user").value;
 var pwd = document.getElementById("pwd").value;
@@ -195,24 +205,5 @@ alert("username"+user+"password"+pwd);
 </script>-->
 
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

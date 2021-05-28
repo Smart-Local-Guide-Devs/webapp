@@ -1,3 +1,4 @@
+from api.forms import CreateUserForm
 from django.contrib import messages
 from api.views import best_apps as fetch_best_apps
 from api.views import counter as fetch_counter
@@ -9,9 +10,12 @@ from api.views import app_details as fetch_app_details
 from api.views import app_review as submit_app_review
 from api.views import all_genres as fetch_all_genres
 from api.views import app_reviews as fetch_app_reviews
+from api.views import signin as signin_user
+from api.views import signup as signup_user
+from api.views import signout as signout_user
 from django.core.paginator import EmptyPage, Paginator
 from django.http.request import HttpRequest
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from google_play_scraper import Sort, app, reviews
 
 
@@ -113,5 +117,37 @@ def app_review(request: HttpRequest):
     )
 
 
-def login(request: HttpRequest):
-    return render(request, "login.html")
+def signin(request: HttpRequest):
+    location = request.GET.get("next", request.META["HTTP_REFERER"])
+    if request.method == "GET":
+        return render(request, "signin.html", {"next": location})
+    res = signin_user(request)
+    if res.status_code == 400:
+        res.data["next"] = location
+        return render(request, "signin.html", res.data)
+    for suffix in ["in", "out", "up"]:
+        if "sign" + suffix in location:
+            return redirect("index")
+    return redirect(location)
+
+
+def signup(request: HttpRequest):
+    location = request.GET.get("next", request.META["HTTP_REFERER"])
+    if request.method == "GET":
+        return render(
+            request,
+            "signup.html",
+            context={"form": CreateUserForm(), "next": location},
+        )
+    res = signup_user(request)
+    if res.status_code == 400:
+        # integrate with signin so that after redirection it leads to the
+        # user's old page
+        res.data["next"] = location
+        return render(request, "signup.html", res.data)
+    return redirect("front_signin")
+
+
+def signout(request: HttpRequest):
+    signout_user(request)
+    return redirect(request.META["HTTP_REFERER"])
