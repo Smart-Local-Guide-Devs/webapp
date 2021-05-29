@@ -18,6 +18,7 @@ from .serializers import *
 from .word_weight import WordWeight
 from .recommend_by_location import RecommendByLocation
 from .similar_user_apps import SimilarUserApps
+from .similar_descriptions import SimilarDescriptions
 
 
 def get_ip(req):

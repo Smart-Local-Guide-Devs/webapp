@@ -5,14 +5,6 @@ from sklearn.metrics.pairwise import cosine_similarity
 import operator
 import pandas as pd
 import numpy as np
-# from nltk.corpus import stopwords
-# import nltk
-
-# nltk.download('stopwords')
-# import re
-# from sklearn.feature_extraction.text import TfidfVectorizer
-# from sklearn.metrics.pairwise import cosine_similarity
-# from sklearn.metrics.pairwise import euclidean_distances
 
 
 class WordWeight:
