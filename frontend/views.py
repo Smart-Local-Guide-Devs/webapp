@@ -1,3 +1,4 @@
+from django.db.models import query
 from api.forms import CreateUserForm
 from django.contrib import messages
 from api.views import best_apps as fetch_best_apps
@@ -16,6 +17,8 @@ from api.views import signout as signout_user
 from django.core.paginator import EmptyPage, Paginator
 from django.http.request import HttpRequest
 from django.shortcuts import redirect, render
+from django.urls import reverse
+from urllib.parse import urlencode
 from google_play_scraper import Sort, app, reviews
 
 
@@ -65,7 +68,7 @@ def search(request: HttpRequest):
     res["genres"] = fetch_all_genres(request).data
     res["add_app_status"] = "Enter playstore app link"
     res["search_query"] = request.GET.get("search_query", "")
-    res["genre"] = request.GET.get("genre", "")
+    res["genre"] = request.GET.getlist("genre", [])
     res["rating"] = request.GET.get("rating", 0)
     res["installs"] = request.GET.get("installs", 0)
     res["ratings"] = request.GET.get("ratings", 0)
@@ -141,11 +144,12 @@ def signup(request: HttpRequest):
         )
     res = signup_user(request)
     if res.status_code == 400:
-        # integrate with signin so that after redirection it leads to the
-        # user's old page
         res.data["next"] = location
         return render(request, "signup.html", res.data)
-    return redirect("front_signin")
+    base_url = reverse("front_signin")
+    query_string = urlencode({"next": location})
+    url = "{}?{}".format(base_url, query_string)
+    return redirect(url)
 
 
 def signout(request: HttpRequest):

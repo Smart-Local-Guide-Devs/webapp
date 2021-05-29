@@ -61,7 +61,7 @@
                 {% for genre_value in genres %}
                 {% if genre_value in genre %}
                 <input type="checkbox" class="form-select Genre Box" id="genreInput" name="genre"
-                    value="{{ genre_value }}" selected>{{ genre_value }}
+                    value="{{ genre_value }}" checked>{{ genre_value }}
                 {% else %}
                 <input type="checkbox" class="form-select Genre Box" id="genreInput" name="genre"
                     value="{{ genre_value }}">{{ genre_value }}
@@ -73,7 +73,7 @@
                 <select class="form-select Order Box" id="orderChoice" name="orderby">
                     <option value="-avg_rating">Average Rating</option>
                     <option value="-min_installs">Installs</option>
-                    <option value="-reviews_count">Reviews</option>
+                    <option selected value="-reviews_count">Reviews</option>
                     <option value="-ratings_count" selected>Ratings</option>
                 </select>
             </div>

@@ -167,15 +167,21 @@ def similar_apps(request: HttpRequest):
 
 @api_view(["POST"])
 def app_review(request: HttpRequest, data: dict = None):
+    res = {}
     if data is None:
         data = request.POST.copy()
     if data["username"] != request.user.username:
-        return Response("Please login to submit a review", status.HTTP_400_BAD_REQUEST)
+        res["message"] = "Please login to submit a review"
+        return Response(res, status.HTTP_400_BAD_REQUEST)
     serializer = ReviewSerializer(data=data)
     if serializer.is_valid():
         serializer.save()
-        return Response(serializer.data)
-    return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+        res = serializer.data
+        res["message"] = "Thanks for the review"
+        return Response(res)
+    res = serializer.errors
+    res["message"] = "Review submission unsuccessful"
+    return Response(res, status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["POST"])
