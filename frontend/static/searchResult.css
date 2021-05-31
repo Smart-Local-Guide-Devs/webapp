@@ -183,6 +183,21 @@ box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   .selectGenreBox .filter{
   display: none;
   }
+  .activeGenre p:after{content:"-" !important;}
+
+  .activeGenre .filter{
+    display:block;
+    z-index: 1;
+    position: absolute;
+    width:200px;
+    margin:5px;
+    padding-left:10px;
+    background-color:white;
+    opacity:1;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    
+    
+    }
   
 .paging{
   display: flex;
