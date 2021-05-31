@@ -23,7 +23,9 @@ main{
   align-items: center;
   background-color: #C2EDCE;
 }
-
+.Box{
+  padding:4.5px !important;
+}
 .Container {
     background-color: #53BAC1;
     /* border: 5px solid orange; */
