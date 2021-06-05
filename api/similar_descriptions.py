@@ -13,18 +13,6 @@ from sklearn.metrics.pairwise import euclidean_distances
 
 class SimilarDescriptions:
 
-    genres = ['Rides', 'Food', 'Delivery', 'Fashion', 'Weather', 'Map', 'Hotel', 'Business', 'Medicine', 'News']
-
-    @staticmethod
-    def get_top_apps():
-        top_apps = {}
-
-        for genre in genres:
-            top_apps[genre] = data[data.GENRE_ID==genre].sort_values( by='AVG_RATING',axis=0, ascending=False).iloc[:4]['APP_NAME'].tolist()
-
-        return top_apps
-
-
     @staticmethod
     def similar_apps_nltk(app_obj, data: DataFrame):
 

@@ -159,8 +159,9 @@ def counter(request: HttpRequest):
 @api_view(["GET"])
 def similar_apps(request: HttpRequest):
     app_id = request.GET["app_id"]
-    app = App.objects.prefetch_related("similar_apps").get(app_id=app_id)
-    similar_apps = app.similar_apps.all()
+    # app = App.objects.prefetch_related("similar_apps").get(app_id=app_id)
+    # similar_apps = app.similar_apps.all()
+    similar_apps = WordWeight.similar_apps(app_id)
     res = AppSerializer(similar_apps, many=True).data
     return Response(res)
 

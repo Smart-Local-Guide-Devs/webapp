@@ -6,6 +6,7 @@ import operator
 import pandas as pd
 import numpy as np
 
+from .data import DataForAppSimilarity
 
 class WordWeight:
 
@@ -180,6 +181,8 @@ class WordWeight:
         "news": ["news"],
     }
 
+    data = DataForAppSimilarity.df_similar_apps
+
     @staticmethod
     def score(genre: str, keywords_count: dict[str, int]) -> float:
         score = 0
@@ -244,7 +247,9 @@ class WordWeight:
                 print("Apps are similar on genre " + genre)
 
     @staticmethod
-    def similar_apps(app_desc: str, data: DataFrame) -> list:
+    def similar_apps(app_id) -> list:
+        app_desc = str(data[data.APP_ID == app_id].APP_DESCRIPTION)
+
         apps = []
         app_genres = WordWeight.get_app_genres(app_desc)
         for app_genre in app_genres:
@@ -254,7 +259,7 @@ class WordWeight:
                 word_count[keyword] = len(re.findall(keyword, app_desc, re.IGNORECASE))
 
             REQ_KEY_C = 2  # minimum number of keywords that match and are required in the apps being searched
-            for _, row in data.iterrows():
+            for _, row in WordWeight.data.iterrows():
                 app_desc = str(row["APP_DESCRIPTION"])
                 keywords_count = {}
                 for keyword in keywords:
