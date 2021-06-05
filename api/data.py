@@ -8,6 +8,7 @@ def update_csv():
 
 @periodic_task(run_every=(crontab(day='*/1')), name="update_dataframes", ignore_result=True)
 def update_dataframes():
+    DataForAppSimilarity_instance = DataForAppSimilarity()
     pass 
 
 class DataForAppSimilarity:
@@ -29,3 +30,5 @@ class DataForAppSimilarity:
 
     # top_apps --- used in SimilarDescriptions
     top_apps = get_top_apps()
+
+DataForAppSimilarity_instance = DataForAppSimilarity()

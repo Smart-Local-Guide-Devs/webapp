@@ -6,7 +6,7 @@ import operator
 import pandas as pd
 import numpy as np
 
-from .data import DataForAppSimilarity
+from .data import DataForAppSimilarity_instance
 
 class WordWeight:
 
@@ -181,7 +181,7 @@ class WordWeight:
         "news": ["news"],
     }
 
-    data = DataForAppSimilarity.df_similar_apps
+    data = DataForAppSimilarity_instance.df_similar_apps
 
     @staticmethod
     def score(genre: str, keywords_count: dict[str, int]) -> float:
