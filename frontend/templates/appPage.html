@@ -283,12 +283,6 @@
           <br>
           {% endfor %}
         </div>
-<<<<<<< HEAD
-        <div class='upvotes'>
-          <em class="fa fa-thumbs-up"></em>
-          <p>{{review.up_votes}}</p>
-        </div>
-=======
         <form class="Form votingForm">
           {% csrf_token %}
           <input type="hidden" name="app_id" value="{{ review.app_id }}">
@@ -302,7 +296,6 @@
             <span>{{review.down_votes}}</span>
           </button>
         </form>
->>>>>>> dev
       </div>
     </div>
     {%endfor%}
