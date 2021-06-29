@@ -58,19 +58,31 @@
                     value="{{ search_query }}" />
             </div>
             <div>
-                {% for genre_value in genres %}
-                {% if genre_value in genre %}
-                <input type="checkbox" class="form-select Genre Box" id="genreInput" name="genre"
-                    value="{{ genre_value }}" selected>{{ genre_value }}
-                {% else %}
-                <input type="checkbox" class="form-select Genre Box" id="genreInput" name="genre"
-                    value="{{ genre_value }}">{{ genre_value }}
-                {% endif %}
-                {% endfor %}
+            
+            <div class="selectGenreBox">
+                <p>Select Genre</p>
+
+                <ul class="filter" >
+                    {% for genre_value in genres %}
+                        <li style='list-style:none'>
+                            {% if genre_value in genre %}
+                            <input type="checkbox" class="form-select Genre Box" id="genreInput" name="genre"
+                                value="{{ genre_value }}" checked>{{ genre_value }}
+                            {% else %}
+                            <input type="checkbox" class="form-select Genre Box" id="genreInput" name="genre"
+                                value="{{ genre_value }}">{{ genre_value }}
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+
+                </ul>
+
+            </div>
             </div>
             <div>
-                <p>Order by</p>
+                
                 <select class="form-select Order Box" id="orderChoice" name="orderby">
+                    <option selected  value='orderby'>Order By--</option>
                     <option value="-avg_rating">Average Rating</option>
                     <option value="-min_installs">Installs</option>
                     <option value="-reviews_count">Reviews</option>
@@ -115,7 +127,7 @@
                 </ul>
 
             </div>
-            <button class="navButton" type="submit">
+            <button class=" searchButton" type="submit">
                 <em class="fa fa-search"></em>
             </button>
         </form>
@@ -181,10 +193,18 @@
     });
 
     $(document).ready(function () {
+        $(".selectGenreBox p").click(function () {
+            console.log("clicked")
+            $(".selectGenreBox").toggleClass("activeGenre");
+        });
+    });
+
+    $(document).ready(function () {
         $(".filterIcon").click(function () {
             console.log("clicked")
             $(".filterIcon").toggleClass("activefilter");
         });
     });
+
 </script>
 {% endblock %}
