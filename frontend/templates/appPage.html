@@ -22,7 +22,7 @@
 <style type="text/css">
   .carousel {
     background: #C2EDCE;
-    margin-top: 80px;
+    
 
   }
 
@@ -101,6 +101,10 @@
 
   .button-icon {
     margin-right: 10px;
+  }
+
+  .BoxGenre{
+    padding:6.4px !important;
   }
 </style>
 {%endblock%}
@@ -232,8 +236,10 @@
     </div>
   </div>
 
-
+  {%if reviews%}
   <h1 style="text-align: center">Our Reviews</h1>
+  
+ 
 
   <div class="carousel" data-flickity='{ "groupCells": false }'>
     {% for review in reviews %}
@@ -300,6 +306,9 @@
     </div>
     {%endfor%}
   </div>
+  {%else%}
+<div></div>
+  {%endif%}
 
   <script>
 

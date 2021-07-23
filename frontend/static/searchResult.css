@@ -22,7 +22,8 @@ width: 500px;
 }
 
 .fa {
-font-size: 25px;
+font-size: 18px !important;
+padding:5px !important;
 }
 .searchButton{
   padding:4px;
@@ -100,7 +101,7 @@ margin-top:100px;
 display: flex;
 flex-direction: row;
 justify-content: center;
-align-items: center;
+align-items: center !important;
 width:80%;
 }
 .search{
@@ -110,8 +111,8 @@ padding:5px;
 border:1px #333 solid;
 }
 .Box{
-padding:7px;
-margin-left:2px;
+padding:6px !important;
+
 
 
 }
@@ -214,13 +215,13 @@ box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 @media screen and (max-width: 600px) {
  
   .filterBox{
-    display: none;
+    display: block;
   }
   .fa{
     font-size: 18px;
   }
   .filterIcon{
-    display: block;
+    display: none;
     padding-left:4px;
   }
   .filter{
@@ -246,7 +247,15 @@ box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   .appImg{
     width:100%;
   }
-  
+  .formFields{
+    display:flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items:center;
+  }
+  .SearchGroup{
+    width:250px;
+  }
        
   
 }

@@ -73,7 +73,7 @@ body {
   font-family: arial;
   background-color:  #C2EDCE;
   margin-top:10%;
-  margin-bottom: 20%;
+  margin-bottom: 10%;
 
 }
 
@@ -264,7 +264,7 @@ header .navlinks li a{
   flex-direction: row;
   padding:10px;
   height: 40px;
-  background:aquamarine;
+  background:aliceblue;
   border-radius: 5px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 

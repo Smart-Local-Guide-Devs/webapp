@@ -106,7 +106,7 @@ def best_apps(request: HttpRequest):
     city = request.GET.get("city", "")
     res = {}
     for genre in Genre.objects.prefetch_related("apps").all():
-        apps = genre.apps.order_by("-reviews_count")[:6]
+        apps = genre.apps.order_by("-reviews_count")[:3]
         res[genre.genre] = AppSerializer(apps, many=True).data
     return Response(res)
 
