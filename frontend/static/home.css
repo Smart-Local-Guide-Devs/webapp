@@ -294,7 +294,7 @@
   margin-top: 10px;
   display: flex;
   justify-content: center;
-  text-align: center;
+  text-align: left;
   align-items: center;
 }
 
@@ -304,7 +304,9 @@
 .cardService {
   display: flex;
   flex-direction: row;
-  padding: 15px;
+  padding:5px 25px;
+  align-items:center !important;
+  justify-content: flex-start !important;
 }
 
 .serviceType {
@@ -501,12 +503,12 @@ textarea {
 .formBtn1 {
   margin: auto;
   padding: 10px;
-  width: 75 px;
+  width: 5px;
   background-color: #53bac1;
   outline: none;
   border: none;
-  border-radius: 25px;
-  /* border-radius: 10px; */
+  border-radius: 60px;
+ 
 }
 
 .Form .applink {
@@ -517,4 +519,19 @@ textarea {
   outline: none;
   border: none;
   border-radius: 10px;
+}
+
+.select-state{
+  border:none;
+  font-size:14px !important;
+  padding:10px;
+}
+.locationLogo{
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+
+.flickity-page-dots{
+  display:none;
 }

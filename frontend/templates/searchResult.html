@@ -14,122 +14,90 @@
 <div class="topnav">
     <div class="topFilter">
         <h3>Search result</h3>
-        <div class='filterIcon'>
-            <em class="fa fa-filter"></em>
-            <ul class="filter">
-                <label for="rating"> Min Average Rating : </label>
-                <output id="ratingOutput">{{ rating }}</output>
-                <input type="range" min="0" max="5" step="0.5" name="rating" id="ratingInput" value="{{ rating }}"
-                    onchange="ratingOutput.value=value">
 
-
-                <label for="installs"> Min Installs : </label>
-                <output id="installsOutput">{{ installs }}</output>
-                <input type="range" min="0" max="10000000" step="10000" name="installs" id="installsInput"
-                    value="{{ installs }}" onchange="installsOutput.value=value">
-
-
-                <label for="reviews"> Min reviews : </label>
-                <output id="reviewsOutput">{{ reviews }}</output>
-                <input type="range" min="0" max="100000" step="1000" name="reviews" id="reviewsInput"
-                    value="{{ reviews }}" onchange="reviewsOutput.value=value">
-
-
-                <label for="ratings"> Min ratings : </label>
-                <output id="ratingsOutput">{{ ratings }}</output>
-                <input type="range" min="0" max="100000" step="1000" name="ratings" id="ratingsInput"
-                    value="{{ ratings }}" onchange="ratingsOutput.value=value">
-
-
-                <label for="free">Only Free</label>
-                {% if free == "true" %}
-                <input type="checkbox" name="free" id="freeInput" value="true" checked>
-                {% else %}
-                <input type="checkbox" name="free" id="freeInput" value="true">
-                {% endif %}
-
-            </ul>
-        </div>
     </div>
     <div class="formSearch">
         <form class="formFields " action="{% url 'front_search' %}" method="GET">
-            <div>
-                <input class="search" type="text" placeholder="Search" name="search_query" id="searchInput"
+            <div class='SearchGroup'>
+                <input class="search SearchGroup" type="text" placeholder="Search" name="search_query" id="searchInput"
                     value="{{ search_query }}" />
             </div>
             <div>
 
-                <div class="selectGenreBox">
+                <div class="selectGenreBox SearchGroup">
                     <p>Select Genre</p>
 
+                    <div class="selectGenreBox">
+                        <p>Select Genre</p>
+
+                        <ul class="filter">
+                            {% for genre_value in genres %}
+                            <li style='list-style:none'>
+                                {% if genre_value in genre %}
+                                <input type="checkbox" class="form-select Genre Box" id="genreInput" name="genre"
+                                    value="{{ genre_value }}" checked>{{ genre_value }}
+                                {% else %}
+                                <input type="checkbox" class="form-select Genre Box" id="genreInput" name="genre"
+                                    value="{{ genre_value }}">{{ genre_value }}
+                                {% endif %}
+                            </li>
+                            {% endfor %}
+
+                        </ul>
+
+                    </div>
+                </div>
+                <div class='SearchGroup'>
+
+                    <select class="form-select Order Box SearchGroup" id="orderChoice" name="orderby">
+                        <option selected value='orderby'>Order By--</option>
+                        <option value="-avg_rating">Average Rating</option>
+                        <option value="-min_installs">Installs</option>
+                        <option value="-reviews_count">Reviews</option>
+                        <option value="-ratings_count" selected>Ratings</option>
+                    </select>
+                </div>
+                <div class="filterBox SearchGroup">
+                    <p style='font-size:16px !important'>Filter</p>
+
                     <ul class="filter">
-                        {% for genre_value in genres %}
-                        <li style='list-style:none'>
-                            {% if genre_value in genre %}
-                            <input type="checkbox" class="form-select Genre Box" id="genreInput" name="genre"
-                                value="{{ genre_value }}" checked>{{ genre_value }}
-                            {% else %}
-                            <input type="checkbox" class="form-select Genre Box" id="genreInput" name="genre"
-                                value="{{ genre_value }}">{{ genre_value }}
-                            {% endif %}
-                        </li>
-                        {% endfor %}
+                        <label for="rating"> Min Average Rating : </label>
+                        <output id="ratingOutput">{{ rating }}</output>
+                        <input type="range" min="0" max="5" step="0.5" name="rating" id="ratingInput"
+                            value="{{ rating }}" onchange="ratingOutput.value=value">
+
+
+                        <label for="installs"> Min Installs : </label>
+                        <output id="installsOutput">{{ installs }}</output>
+                        <input type="range" min="0" max="10000000" step="10000" name="installs" id="installsInput"
+                            value="{{ installs }}" onchange="installsOutput.value=value">
+
+
+                        <label for="reviews"> Min reviews : </label>
+                        <output id="reviewsOutput">{{ reviews }}</output>
+                        <input type="range" min="0" max="100000" step="1000" name="reviews" id="reviewsInput"
+                            value="{{ reviews }}" onchange="reviewsOutput.value=value">
+
+
+                        <label for="ratings"> Min ratings : </label>
+                        <output id="ratingsOutput">{{ ratings }}</output>
+                        <input type="range" min="0" max="100000" step="1000" name="ratings" id="ratingsInput"
+                            value="{{ ratings }}" onchange="ratingsOutput.value=value">
+
+
+                        <label for="free">Only Free</label>
+                        {% if free == "true" %}
+                        <input type="checkbox" name="free" id="freeInput" value="true" checked>
+                        {% else %}
+                        <input type="checkbox" name="free" id="freeInput" value="true">
+                        {% endif %}
 
                     </ul>
 
                 </div>
-            </div>
-            <div>
-
-                <select class="form-select Order Box" id="orderChoice" name="orderby">
-                    <option selected value='orderby'>Order By--</option>
-                    <option value="-avg_rating">Average Rating</option>
-                    <option value="-min_installs">Installs</option>
-                    <option value="-reviews_count">Reviews</option>
-                    <option value="-ratings_count" selected>Ratings</option>
-                </select>
-            </div>
-            <div class="filterBox">
-                <p>Filter</p>
-
-                <ul class="filter">
-                    <label for="rating"> Min Average Rating : </label>
-                    <output id="ratingOutput">{{ rating }}</output>
-                    <input type="range" min="0" max="5" step="0.5" name="rating" id="ratingInput" value="{{ rating }}"
-                        onchange="ratingOutput.value=value">
-
-
-                    <label for="installs"> Min Installs : </label>
-                    <output id="installsOutput">{{ installs }}</output>
-                    <input type="range" min="0" max="10000000" step="10000" name="installs" id="installsInput"
-                        value="{{ installs }}" onchange="installsOutput.value=value">
-
-
-                    <label for="reviews"> Min reviews : </label>
-                    <output id="reviewsOutput">{{ reviews }}</output>
-                    <input type="range" min="0" max="100000" step="1000" name="reviews" id="reviewsInput"
-                        value="{{ reviews }}" onchange="reviewsOutput.value=value">
-
-
-                    <label for="ratings"> Min ratings : </label>
-                    <output id="ratingsOutput">{{ ratings }}</output>
-                    <input type="range" min="0" max="100000" step="1000" name="ratings" id="ratingsInput"
-                        value="{{ ratings }}" onchange="ratingsOutput.value=value">
-
-
-                    <label for="free">Only Free</label>
-                    {% if free == "true" %}
-                    <input type="checkbox" name="free" id="freeInput" value="true" checked>
-                    {% else %}
-                    <input type="checkbox" name="free" id="freeInput" value="true">
-                    {% endif %}
-
-                </ul>
-
-            </div>
-            <button class=" searchButton" type="submit">
-                <em class="fa fa-search"></em>
-            </button>
+                <button class=" searchButton SearchGroup" type="submit">
+                    <em class="fa fa-search"></em>
+                </button>
         </form>
     </div>
 
@@ -168,7 +136,7 @@
         </form>
     </div>
     {%endfor%}
-</div>
+</div>-->
 {% if search_results.has_previous %}
 <a href="{{sub_url}}{{search_results.previous_page_number}}">Previous Page</a>
 {% endif %}

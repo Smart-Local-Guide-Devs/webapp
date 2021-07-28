@@ -56,13 +56,13 @@
 						<hr class="line" />
 					</div>
 					<div class="locationLogo">
-						<select name="state" id="stateSelect" required>
+						<select name="state" class='select-state' id="stateSelect" required>
 							<option value="">Select State</option>
 						</select>
-						<select name="city" id="citySelect" required>
+						<select name="city" class='select-state'  id="citySelect" required>
 							<option value="">Select City</option>
 						</select>
-						<button type="submit"><em class="fa fa-search"></em></button>
+						<button type="submit" style='border:none;padding-left:10px;padding-right:10px'><em class="fa fa-search" style='font-size:16px;'></em></button>
 					</div>
 				</form>
 			</div>
@@ -144,7 +144,7 @@
 			<form class="Form" id="addAppForm">
 				{% csrf_token %}
 				<input class="applink" type="url" name="app_playstore_link" placeholder="Enter App Playstore Link" />
-				<button class="formBtn1" type="submit" id="addAppButton">Add</button>
+				<button class="formBtn" type="submit" id="addAppButton">Add</button>
 			</form>
 		</div>
 		<div class="formContact right">
