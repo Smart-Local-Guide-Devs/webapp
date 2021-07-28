@@ -58,12 +58,12 @@
                     value="{{ search_query }}" />
             </div>
             <div>
-            
-            <div class="selectGenreBox">
-                <p>Select Genre</p>
 
-                <ul class="filter" >
-                    {% for genre_value in genres %}
+                <div class="selectGenreBox">
+                    <p>Select Genre</p>
+
+                    <ul class="filter">
+                        {% for genre_value in genres %}
                         <li style='list-style:none'>
                             {% if genre_value in genre %}
                             <input type="checkbox" class="form-select Genre Box" id="genreInput" name="genre"
@@ -73,16 +73,16 @@
                                 value="{{ genre_value }}">{{ genre_value }}
                             {% endif %}
                         </li>
-                    {% endfor %}
+                        {% endfor %}
 
-                </ul>
+                    </ul>
 
-            </div>
+                </div>
             </div>
             <div>
-                
+
                 <select class="form-select Order Box" id="orderChoice" name="orderby">
-                    <option selected  value='orderby'>Order By--</option>
+                    <option selected value='orderby'>Order By--</option>
                     <option value="-avg_rating">Average Rating</option>
                     <option value="-min_installs">Installs</option>
                     <option value="-reviews_count">Reviews</option>
@@ -152,20 +152,19 @@
         <div class="appImg">
             <img class="dotImg" src="{{app.icon_link}}" alt="app icon">
             <div class="Btns">
-                <div><a href="{% url 'front_get_app' %}?app_id={{ app.app_id }}"><button class="btn">
+                <div><a href="{% url 'front_get_app' app.app_id %}"><button class="btn">
                             Details</button></a></div>
-                <div><a href="{% url 'front_app_review' %}?app_id={{ app.app_id }}"><button
-                            class="btn">Review</button></a></div>
+                <div><a href="{% url 'front_app_review' app.app_id %}"><button class="btn">Review</button></a></div>
             </div>
         </div>
     </div>
     {% empty %}
     <div>
         Could not find any apps that met your needs, if you have any suggetions please add them so that others can know.
-        <form class="Form" action="{% url 'front_add_new_app' %}" method="post">
+        <form class="Form" id="addAppForm">
             {% csrf_token %}
-            <input class="applink" type="text" name="app_playstore_link" placeholder="{{ add_app_status }}" />
-            <button class="formBtn1" type="submit">ADD THIS APP</button>
+            <input class="applink" type="url" name="app_playstore_link" placeholder="Enter App Playstore Link" />
+            <button class="formBtn1" type="submit" id="addAppButton">Add</button>
         </form>
     </div>
     {%endfor%}
@@ -204,6 +203,28 @@
             console.log("clicked")
             $(".filterIcon").toggleClass("activefilter");
         });
+    });
+
+    $("#addAppForm").submit(function () {
+        formData = $(this).serializeArray();
+        csrfmiddlewaretoken = formData[0]['value'];
+        appLink = formData[1]['value'];
+        appIdIdx = appLink.indexOf("id=");
+        if (appIdIdx >= 0) {
+            appId = appLink.slice(appIdIdx + 3);
+            $("#addAppButton").prop('disabled', true);
+            $("#addAppButton").html('Adding...');
+            $.post("api/app/" + appId, {
+                'csrfmiddlewaretoken': csrfmiddlewaretoken,
+            }).always((resData) => {
+                alert((typeof resData == 'string') ? resData : resData.responseJSON);
+                $("#addAppButton").html('Add');
+                $("#addAppButton").prop('disabled', false);
+            });
+        } else {
+            alert('Please Enter A Valid Playstore App Link')
+        }
+        return false;
     });
 
 </script>

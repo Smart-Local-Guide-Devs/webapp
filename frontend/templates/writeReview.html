@@ -17,7 +17,7 @@
 
         <!-- form heading -->
         <!-- adding form tag-->
-        <form action="{% url 'front_app_review' %}" method="POST" class="review-form" id="app_review_form">
+        <form action="{% url 'front_app_review' app.app_id %}" method="POST" class="review-form" id="app_review_form">
             {% csrf_token %}
             <!-- form heading -->
             <div class="boxed" style="color: #ffffff;">

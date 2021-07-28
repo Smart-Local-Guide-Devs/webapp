@@ -1,4 +1,3 @@
-from django.db.models import query
 from api.forms import CreateUserForm
 from django.contrib import messages
 from api.views import best_apps as fetch_best_apps
@@ -7,10 +6,10 @@ from api.views import top_users as fetch_top_users
 from api.views import search as fetch_search_results
 from api.views import similar_apps as fetch_similar_apps
 from api.views import app_review_queries as fetch_app_review_queries
-from api.views import app_details as fetch_app_details
+from api.views import api_app as fetch_app_details
 from api.views import app_review as submit_app_review
 from api.views import all_genres as fetch_all_genres
-from api.views import app_reviews as fetch_app_reviews
+from api.views import app_review as fetch_app_reviews
 from api.views import signin as signin_user
 from api.views import signup as signup_user
 from api.views import signout as signout_user
@@ -81,11 +80,10 @@ def search(request: HttpRequest):
     )
 
 
-def get_app(request: HttpRequest):
-    app_id = request.GET["app_id"]
+def get_app(request: HttpRequest, app_id: str):
     context = app(app_id, "en", "in")
-    context["similar_apps"] = fetch_similar_apps(request).data
-    context["reviews"] = fetch_app_reviews(request).data
+    context["similar_apps"] = fetch_similar_apps(request, app_id).data
+    context["reviews"] = fetch_app_reviews(request, app_id).data
     context["playstore_reviews"], _ = reviews(app_id, "en", "in", Sort.MOST_RELEVANT, 6)
     return render(
         request,
@@ -94,7 +92,7 @@ def get_app(request: HttpRequest):
     )
 
 
-def app_review(request: HttpRequest):
+def app_review(request: HttpRequest, app_id: str):
     context = {}
     if request.method == "POST":
         req = request.POST.dict()
@@ -105,14 +103,14 @@ def app_review(request: HttpRequest):
                 req["query_choices"].append(
                     {"query": key.removeprefix("query: "), "choice": value}
                 )
-        res = submit_app_review(request, req)
+        res = submit_app_review(request, app_id, req)
         context["review"] = res.data
         if res.status_code == 200:
             messages.success(request, "Review Submission Successful")
         else:
             messages.error(request, "Review Submission Failed")
-    context["app"] = fetch_app_details(request).data
-    context["queries"] = fetch_app_review_queries(request).data
+    context["app"] = fetch_app_details(request, app_id).data
+    context["queries"] = fetch_app_review_queries(request, app_id).data
     return render(
         request,
         "writeReview.html",

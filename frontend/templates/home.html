@@ -75,11 +75,11 @@
 
 					{% for app in apps %}
 					<div class="cardService">
-						<a href="{% url 'front_get_app' %}?app_id={{ app.app_id }} ">
+						<a href="{% url 'front_get_app' app.app_id %}">
 							<img class="serviceImage" src="{{ app.icon_link }}" alt="app icon" />
 						</a>
 						<div class="serviceName top">
-							<a href="{% url 'front_get_app' %}?app_id={{ app.app_id }} ">
+							<a href="{% url 'front_get_app' app.app_id %}">
 								<p>{{ app.app_name }}</p>
 							</a>
 						</div>
@@ -199,9 +199,8 @@
 				appId = appLink.slice(appIdIdx + 3);
 				$("#addAppButton").prop('disabled', true);
 				$("#addAppButton").html('Adding...');
-				$.post("{% url 'api_add_new_app' %}", {
+				$.post("api/app/" + appId, {
 					'csrfmiddlewaretoken': csrfmiddlewaretoken,
-					'app_id': appId,
 				}).always((resData) => {
 					alert((typeof resData == 'string') ? resData : resData.responseJSON);
 					$("#addAppButton").html('Add');

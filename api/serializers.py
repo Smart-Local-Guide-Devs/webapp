@@ -12,12 +12,6 @@ class AppSerializer(serializers.ModelSerializer):
         fields = ["app_id", "app_name", "app_summary", "icon_link", "genres"]
 
 
-class SlgSiteReviewSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SlgSiteReview
-        fields = "__all__"
-
-
 class QueryChoiceSerializer(serializers.ModelSerializer):
     query = serializers.SlugRelatedField("query", queryset=Query.objects.all())
 
@@ -40,6 +34,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = [
+            "pk",
             "app_id",
             "username",
             "content",
