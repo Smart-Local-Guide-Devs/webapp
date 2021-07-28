@@ -20,15 +20,6 @@ class App(models.Model):
         return self.app_name
 
 
-class SlgSiteReview(models.Model):
-    username = models.CharField(max_length=128, blank=True)
-    email_id = models.EmailField(max_length=256)
-    content = models.TextField()
-
-    def __str__(self) -> str:
-        return self.content
-
-
 class Query(models.Model):
     query = models.CharField(max_length=256, unique=True)
 

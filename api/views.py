@@ -1,13 +1,13 @@
+import json
 import random
+import requests
+import os
 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.http.request import HttpRequest
-from django.shortcuts import redirect, render
 from django.views.decorators.cache import cache_page
 from django.db.models import Count
-from google_play_scraper.exceptions import NotFoundError
-from google_play_scraper.features.app import app
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -15,9 +15,6 @@ from rest_framework.response import Response
 from .forms import CreateUserForm
 from .models import *
 from .serializers import *
-from .word_weight import WordWeight
-from .recommend_by_location import RecommendByLocation
-from .similar_user_apps import SimilarUserApps
 
 
 def get_ip(req):
@@ -27,6 +24,22 @@ def get_ip(req):
     else:
         ip = req.META.get("REMOTE_ADDR")
     return ip
+
+
+def send_slack_message(channel_id: str, text: str) -> None:
+    requests.post(
+        "https://slack.com/api/chat.postMessage",
+        data=json.dumps(
+            {
+                "channel": channel_id,
+                "text": text,
+            }
+        ),
+        headers={
+            "Content-type": "application/json; charset=utf-8",
+            "Authorization": f"Bearer {os.environ['SLACK_OAUTH_TOKEN']}",
+        },
+    )
 
 
 # Create your views here.
@@ -76,7 +89,7 @@ def signup(request: HttpRequest):
     return Response(data={"form": form}, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(["GET", "POST"])
+@api_view(["POST"])
 def signin(request: HttpRequest):
     if request.user.is_authenticated:
         return Response(
@@ -106,7 +119,7 @@ def best_apps(request: HttpRequest):
     city = request.GET.get("city", "")
     res = {}
     for genre in Genre.objects.prefetch_related("apps").all():
-        apps = genre.apps.order_by("-reviews_count")[:6]
+        apps = genre.apps.order_by("-reviews_count")[:3]
         res[genre.genre] = AppSerializer(apps, many=True).data
     return Response(res)
 
@@ -130,11 +143,12 @@ def top_users(request: HttpRequest):
 
 @api_view(["POST"])
 def slg_site_review(request: HttpRequest):
-    serializer = SlgSiteReviewSerializer(data=request.POST)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data)
-    return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+    user_name = request.POST["user_name"]
+    email_id = request.POST["email_id"]
+    content = request.POST["content"]
+    slack_msg = f"User: {user_name}\nEmail: {email_id}\nContent: {content}"
+    send_slack_message(os.environ["SLACK_SITE_REVIEWS_CHANNEL_ID"], slack_msg)
+    return Response("Review Successful")
 
 
 @api_view(["GET"])
@@ -156,16 +170,24 @@ def counter(request: HttpRequest):
 
 
 @api_view(["GET"])
-def similar_apps(request: HttpRequest):
-    app_id = request.GET["app_id"]
+def similar_apps(request: HttpRequest, app_id: str):
     app = App.objects.prefetch_related("similar_apps").get(app_id=app_id)
-    similar_apps = app.similar_apps.all()
+    similar_apps = app.similar_apps.all()[:6]
     res = AppSerializer(similar_apps, many=True).data
     return Response(res)
 
 
-@api_view(["POST"])
-def app_review(request: HttpRequest, data: dict = None):
+@api_view(["GET", "POST"])
+def app_review(request: HttpRequest, app_id: str, data: dict = None):
+    """
+    param:
+        data: only for when this method is called in the frontend app, to help pass data without altering the original
+    """
+    if request.method == "GET":
+        app = App.objects.get(app_id=app_id)
+        reviews = app.review_set.all()[:6]
+        reviews = ReviewSerializer(reviews, many=True).data
+        return Response(reviews)
     res = {}
     if data is None:
         data = request.POST.copy()
@@ -183,36 +205,18 @@ def app_review(request: HttpRequest, data: dict = None):
     return Response(res, status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(["POST"])
-def add_new_app(request: HttpRequest):
-    app_id = request.POST["app_id"]
+@api_view(["GET", "POST"])
+def api_app(request: HttpRequest, app_id: str):
+    # TODO remove post access
+    if request.method == "GET":
+        app = App.objects.get(app_id=app_id)
+        app = AppSerializer(app).data
+        return Response(app)
     if App.objects.filter(app_id=app_id).exists():
         return Response("App Already Exists")
-    try:
-        new_app = app(app_id, "en", "in")
-        genres = WordWeight.get_app_genres(new_app["description"])
-        if genres:
-            new_app_obj = App(
-                app_id=new_app["appId"],
-                app_name=new_app["title"],
-                app_summary=new_app["summary"],
-                min_installs=new_app["minInstalls"],
-                avg_rating=new_app["score"],
-                ratings_count=new_app["ratings"],
-                reviews_count=new_app["reviews"],
-                free=new_app["free"],
-                icon_link=new_app["icon"],
-            )
-            new_app_obj.save()
-            for genre in genres:
-                Genre.objects.get(genre=genre).apps.add(new_app_obj)
-            return Response("Congratulations, App Successfully Added")
-        return Response(
-            "Unfortunately, The App Does Not Satisfy Required Criterias",
-            status.HTTP_400_BAD_REQUEST,
-        )
-    except NotFoundError:
-        return Response("Unfortunately, App Not Found", status.HTTP_400_BAD_REQUEST)
+    slack_msg = f"User: {request.user.username}\nRequested App ID: {app_id}"
+    send_slack_message(os.environ["SLACK_NEW_APPS_CHANNEL_ID"], slack_msg)
+    return Response("New App Request Successfully Sent")
 
 
 @api_view(["GET", "POST"])
@@ -225,11 +229,9 @@ def all_genres(request: HttpRequest):
 
 
 @api_view(["GET", "POST"])
-def app_review_queries(request: HttpRequest):
+def app_review_queries(request: HttpRequest, app_id: str):
+    # TODO remove post access
     queries = []
-    app_id = (
-        request.POST["app_id"] if request.method == "POST" else request.GET["app_id"]
-    )
     app = App.objects.prefetch_related("genre_set__queries").get(app_id=app_id)
     for genre in app.genre_set.all():
         for query in genre.queries.all():
@@ -238,37 +240,15 @@ def app_review_queries(request: HttpRequest):
     return Response(queries)
 
 
-@api_view(["GET", "POST"])
-def app_details(request: HttpRequest):
-    app_id = (
-        request.POST["app_id"] if request.method == "POST" else request.GET["app_id"]
-    )
-    app = App.objects.get(app_id=app_id)
-    app = AppSerializer(app).data
-    return Response(app)
-
-
-@api_view(["GET"])
-def app_reviews(request: HttpRequest):
-    app_id = request.GET["app_id"]
-    app = App.objects.get(app_id=app_id)
-    reviews = app.review_set.all()[:6]
-    reviews = ReviewSerializer(reviews, many=True).data
-    return Response(reviews)
-
-
 @api_view(["POST"])
-def up_vote_app(request: HttpRequest):
-    if request.user.is_anonymous:
-        return Response("Please login to up vote reviews", status.HTTP_400_BAD_REQUEST)
-    app_id = request.POST["app_id"]
-    username = request.POST["username"]
-    app = App.objects.get(app_id=app_id)
-    user = User.objects.get(username=username)
-    review = Review.objects.get(app=app, user=user)
+def up_vote_app(request: HttpRequest, app_id: str, pk: int):
+    review = Review.objects.get(pk=pk)
     data = {}
     data["up_votes"] = review.up_voters.count()
     data["down_votes"] = review.down_voters.count()
+    if request.user.is_anonymous:
+        data["message"] = "Please login to up vote reviews"
+        return Response(data, status.HTTP_400_BAD_REQUEST)
     if review.up_voters.filter(username=request.user.username).exists():
         data["message"] = "Already up voted once"
         return Response(data, status.HTTP_400_BAD_REQUEST)
@@ -282,19 +262,14 @@ def up_vote_app(request: HttpRequest):
 
 
 @api_view(["POST"])
-def down_vote_app(request: HttpRequest):
-    if request.user.is_anonymous:
-        return Response(
-            "Please login to down vote reviews", status.HTTP_400_BAD_REQUEST
-        )
-    app_id = request.POST["app_id"]
-    username = request.POST["username"]
-    app = App.objects.get(app_id=app_id)
-    user = User.objects.get(username=username)
-    review = Review.objects.get(app=app, user=user)
+def down_vote_app(request: HttpRequest, app_id: str, pk: int):
+    review = Review.objects.get(pk=pk)
     data = {}
     data["up_votes"] = review.up_voters.count()
     data["down_votes"] = review.down_voters.count()
+    if request.user.is_anonymous:
+        data["message"] = "Please login to down vote reviews"
+        return Response(data, status.HTTP_400_BAD_REQUEST)
     if review.down_voters.filter(username=request.user.username).exists():
         data["message"] = "Already down voted once"
         return Response(data, status.HTTP_400_BAD_REQUEST)

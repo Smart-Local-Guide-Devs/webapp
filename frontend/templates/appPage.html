@@ -22,7 +22,7 @@
 <style type="text/css">
   .carousel {
     background: #C2EDCE;
-    margin-top: 80px;
+    
 
   }
 
@@ -102,6 +102,10 @@
   .button-icon {
     margin-right: 10px;
   }
+
+  .BoxGenre{
+    padding:6.4px !important;
+  }
 </style>
 {%endblock%}
 {%block content%}
@@ -121,11 +125,8 @@
       </div>
     </div>
   </div>
-  {% comment %}
-  <a href="{% url 'front_app_review' %}?app_id={{ appId }}"><button>Review</button></a>
-  <a href="{{ url }}"><button>Download</button></a> {% endcomment %}
   <div class="abc">
-    <a href="{% url 'front_app_review' %}?app_id={{ appId }}" class=""><button type="button" class="button"><span
+    <a href="{% url 'front_app_review' appId %}" class=""><button type="button" class="button"><span
           class="button-icon"><em class="fas fa-address-book"></em></span><span
           class="button-text">Review</span></button></a>
     <a href="{{ url }}" class=""><button type="button" class="button">
@@ -232,8 +233,10 @@
     </div>
   </div>
 
-
+  {%if reviews%}
   <h1 style="text-align: center">Our Reviews</h1>
+  
+ 
 
   <div class="carousel" data-flickity='{ "groupCells": false }'>
     {% for review in reviews %}
@@ -283,16 +286,17 @@
           <br>
           {% endfor %}
         </div>
-        <form class="Form votingForm">
+        <form action="{% url 'api_up_vote_app' appId review.pk %}">
           {% csrf_token %}
-          <input type="hidden" name="app_id" value="{{ review.app_id }}">
-          <input type="hidden" name="username" value="{{ review.username }}">
-          <button class="upvotes upVoteButton">
+          <button class="upvotes">
             <em class="fa fa-thumbs-up"></em>
             <span>{{review.up_votes}}</span>
           </button>
-          <button class="upvotes downVoteButton">
-            <em class="fa fa-thumbs-down"></em>
+        </form>
+        <form action="{% url 'api_down_vote_app' appId review.pk %}">
+          {% csrf_token %}
+          <button class="upvotes">
+            <em class=" fa fa-thumbs-down"></em>
             <span>{{review.down_votes}}</span>
           </button>
         </form>
@@ -300,42 +304,21 @@
     </div>
     {%endfor%}
   </div>
+  {%else%}
+<div></div>
+  {%endif%}
 
   <script>
-
-    $('.upVoteButton').click(function () {
-      $(this).prop('disabled', true);
-      $(this).siblings('.downVoteButton').prop('disabled', true);
-      postData = {};
-      $(this).parent('.votingForm').serializeArray().map((ele) => {
-        postData[ele.name] = ele.value;
-      });
-      $.post("{% url 'api_up_vote_app' %}", postData)
-        .always((resData) => {
-          if (resData.hasOwnProperty('responseJSON')) resData = resData.responseJSON;
-          $(this).children('span').html(resData.up_votes);
-          $(this).siblings('.downVoteButton').children('span').html(resData.down_votes);
-          alert(resData.message);
-          $(this).prop('disabled', false);
-          $(this).siblings('.downVoteButton').prop('disabled', false);
-        });
-      return false;
-    });
-
-    $('.downVoteButton').click(function () {
-      $(this).prop('disabled', true);
-      $(this).siblings('.upVoteButton').prop('disabled', true);
-      postData = {};
-      $(this).parent('.votingForm').serializeArray().map((ele) => {
-        postData[ele.name] = ele.value;
-      });
-      $.post("{% url 'api_down_vote_app' %}", postData).always((resData) => {
-        if (resData.hasOwnProperty('responseJSON')) resData = resData.responseJSON;
-        $(this).children('span').html(resData.down_votes);
-        $(this).siblings('.upVoteButton').children('span').html(resData.up_votes);
-        alert(resData.message);
-        $(this).prop('disabled', false);
-        $(this).siblings('.upVoteButton').prop('disabled', false);
+    $('.upvotes').click(function () {
+      $('.upvotes').prop('disabled', true);
+      const form = $(this).parent();
+      $.post(form.prop('action'), form.serialize()).always((resData) => {
+        resData = resData.responseJSON;
+        spans = $(this).parent().parent().children('form').children('button').children('span');
+        spans[0] = resData['up_votes'];
+        spans[1] = resData['down_votes'];
+        alert(resData['message']);
+        $('.upvotes').prop('disabled', false);
       });
       return false;
     });
@@ -403,7 +386,7 @@
     <div class="carousel" data-flickity='{ "groupCells": false }'>
       {% for similar_app in similar_apps %}
       <div class=" serviceCard">
-        <a href="{% url 'front_get_app' %}?app_id={{ similar_app.app_id }} ">
+        <a href="{% url 'front_get_app' similar_app.app_id %}">
           <img class="serviceImage" src="{{ similar_app.icon_link }}" alt="app icon" />
         </a>
         <p>{{ similar_app.app_name }}</p>

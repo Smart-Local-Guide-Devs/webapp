@@ -11,13 +11,13 @@
 {%endblock%}
 
 {%block content%}
-<main>
+<main >
     <!-- form -->
-    <div class="Container">
+    <div class="container" style='background-color:#53BAC1;margin-top:100px;padding:20px;margin-bottom:100px'>
 
         <!-- form heading -->
         <!-- adding form tag-->
-        <form action="{% url 'front_app_review' %}" method="POST" class="review-form" id="app_review_form">
+        <form action="{% url 'front_app_review' app.app_id %}" method="POST" class="review-form" id="app_review_form">
             {% csrf_token %}
             <!-- form heading -->
             <div class="boxed" style="color: #ffffff;">
@@ -31,7 +31,7 @@
                     <input type="hidden" name="app_id" value="{{ app.app_id }}" readonly form="app_review_form">
                     <div class="input-group mb-2">
                         <span class="input-group-text">App Name</span>
-                        <span class="input-group-text">{{ app.app_name }}</span>
+                        <span class="input-group-text appNameInput"><p class='appName'>{{ app.app_name }}</p></span>
                     </div>
 
                     <div class="input-group mb-2">
@@ -41,10 +41,10 @@
                         {% endfor %}
                     </div>
 
-                    <select name="state" id="stateSelect" required>
+                    <select name="state" id="stateSelect" required style='border:none;padding:5px'>
                         <option value="">Select State</option>
                     </select>
-                    <select name="city" id="citySelect" required>
+                    <select name="city" id="citySelect" required style='border:none;padding:5px'>
                         <option value="">Select City</option>
                     </select>
 
