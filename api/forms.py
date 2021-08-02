@@ -9,9 +9,3 @@ class CreateUserForm(UserCreationForm):
 	class Meta:
 		model = User
 		fields = ['username','name','email','phone','password1','password2']
-
-class SlgUserForm(UserCreationForm):
-	class Meta:
-		model = SlgUser
-		fields = '__all__'
-		exclude = ['user']

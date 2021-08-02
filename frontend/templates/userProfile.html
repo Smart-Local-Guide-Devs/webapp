@@ -89,7 +89,7 @@
                   <div class="card">
                     <div class="card-body">
                       <div class="d-flex flex-column align-items-center text-center">
-                        <img  style="border: 5px solid #555;" src="{{slg_user.profile_pic.url}}" alt="Admin" class="rounded-circle" width="150">
+                        <img  style="border: 5px solid #555;" src="{{slg_user.profile_pic_url}}" alt="Admin" class="rounded-circle" width="150">
                         <div class="mt-3">
                           <h4>{{slg_user.user}}</h4>
                           
@@ -153,31 +153,27 @@
                         <table class="table table-hover">
                             <thead>
                               <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Handle</th>
+                                <th scope="col">App Name</th>
+                                <th scope="col">Content</th>
+                                <th scope="col">Up Votes Count</th>
                               </tr>
                             </thead>
                             <tbody>
+                              
+                              <!-- {% for review in reviews %}
                               <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
+                                <th scope="col">{{review.app}}</th>
+                                <th scope="col">{{review.content}}</th>
+                                <th scope="col">{{review.up_votes}}</th>
+                                
+
                               </tr>
-                              <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                              </tr>
-                              <tr>
-                                <th scope="row">3</th>
-                                <td colspan="2">Larry the Bird</td>
-                                <td>@twitter</td>
-                              </tr>
+                              {% endfor %} -->
+
                             </tbody>
+                            <tr>
+                              <h4>No Reviews Available</h4>
+                            </tr>
                           </table>
                       
                     </div>

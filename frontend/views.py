@@ -122,9 +122,11 @@ def user_profile(request):
     if request.user.is_authenticated:
         user = request.user
         slg_user = SlgUser.objects.get(user=user)
+        # reviews = Review.objects.filter(user=user)
     else :
         user = None
         slg_user = None
+        # reviews=None
 
     context = {'slg_user':slg_user}
     return render(request,"userProfile.html",context)

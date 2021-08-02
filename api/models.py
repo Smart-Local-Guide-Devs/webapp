@@ -79,7 +79,7 @@ class SlgUser(models.Model):
 	name = models.CharField(max_length=200, null=True)
 	phone = models.CharField(max_length=200, null=True)
 	email = models.CharField(max_length=200, null=True)
-	profile_pic = models.ImageField(default = "defaultProfile.jpg",null=True, blank=True)
+	profile_pic_url = models.TextField(null=True)
 
 	def __str__(self):
 		return self.name
