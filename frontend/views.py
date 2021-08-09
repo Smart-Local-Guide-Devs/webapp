@@ -1,3 +1,4 @@
+from api.forms import CreateUserForm
 from django.contrib import messages
 from api.views import best_apps as fetch_best_apps
 from api.views import counter as fetch_counter
@@ -5,13 +6,18 @@ from api.views import top_users as fetch_top_users
 from api.views import search as fetch_search_results
 from api.views import similar_apps as fetch_similar_apps
 from api.views import app_review_queries as fetch_app_review_queries
-from api.views import app_details as fetch_app_details
+from api.views import api_app as fetch_app_details
 from api.views import app_review as submit_app_review
 from api.views import all_genres as fetch_all_genres
-from api.views import app_reviews as fetch_app_reviews
+from api.views import app_review as fetch_app_reviews
+from api.views import signin as signin_user
+from api.views import signup as signup_user
+from api.views import signout as signout_user
 from django.core.paginator import EmptyPage, Paginator
 from django.http.request import HttpRequest
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.urls import reverse
+from urllib.parse import urlencode
 from google_play_scraper import Sort, app, reviews
 from api.models import *
 
@@ -62,7 +68,7 @@ def search(request: HttpRequest):
     res["genres"] = fetch_all_genres(request).data
     res["add_app_status"] = "Enter playstore app link"
     res["search_query"] = request.GET.get("search_query", "")
-    res["genre"] = request.GET.get("genre", "")
+    res["genre"] = request.GET.getlist("genre", [])
     res["rating"] = request.GET.get("rating", 0)
     res["installs"] = request.GET.get("installs", 0)
     res["ratings"] = request.GET.get("ratings", 0)
@@ -75,11 +81,10 @@ def search(request: HttpRequest):
     )
 
 
-def get_app(request: HttpRequest):
-    app_id = request.GET["app_id"]
+def get_app(request: HttpRequest, app_id: str):
     context = app(app_id, "en", "in")
-    context["similar_apps"] = fetch_similar_apps(request).data
-    context["reviews"] = fetch_app_reviews(request).data
+    context["similar_apps"] = fetch_similar_apps(request, app_id).data
+    context["reviews"] = fetch_app_reviews(request, app_id).data
     context["playstore_reviews"], _ = reviews(app_id, "en", "in", Sort.MOST_RELEVANT, 6)
     return render(
         request,
@@ -88,7 +93,7 @@ def get_app(request: HttpRequest):
     )
 
 
-def app_review(request: HttpRequest):
+def app_review(request: HttpRequest, app_id: str):
     context = {}
     if request.method == "POST":
         req = request.POST.dict()
@@ -99,14 +104,14 @@ def app_review(request: HttpRequest):
                 req["query_choices"].append(
                     {"query": key.removeprefix("query: "), "choice": value}
                 )
-        res = submit_app_review(request, req)
+        res = submit_app_review(request, app_id, req)
         context["review"] = res.data
-        if res.status_code in [202, 201, 200]:
+        if res.status_code == 200:
             messages.success(request, "Review Submission Successful")
         else:
             messages.error(request, "Review Submission Failed")
-    context["app"] = fetch_app_details(request).data
-    context["queries"] = fetch_app_review_queries(request).data
+    context["app"] = fetch_app_details(request, app_id).data
+    context["queries"] = fetch_app_review_queries(request, app_id).data
     return render(
         request,
         "writeReview.html",
@@ -114,8 +119,7 @@ def app_review(request: HttpRequest):
     )
 
 
-def login(request: HttpRequest):
-    return render(request, "login.html")
+
 
 
 def user_profile(request):
@@ -130,3 +134,39 @@ def user_profile(request):
 
     context = {'slg_user':slg_user}
     return render(request,"userProfile.html",context)
+  
+def signin(request: HttpRequest):
+    location = request.GET.get("next", request.META["HTTP_REFERER"])
+    if request.method == "GET":
+        return render(request, "signin.html", {"next": location})
+    res = signin_user(request)
+    if res.status_code == 400:
+        res.data["next"] = location
+        return render(request, "signin.html", res.data)
+    for suffix in ["in", "out", "up"]:
+        if "sign" + suffix in location:
+            return redirect("index")
+    return redirect(location)
+
+
+def signup(request: HttpRequest):
+    location = request.GET.get("next", request.META["HTTP_REFERER"])
+    if request.method == "GET":
+        return render(
+            request,
+            "signup.html",
+            context={"form": CreateUserForm(), "next": location},
+        )
+    res = signup_user(request)
+    if res.status_code == 400:
+        res.data["next"] = location
+        return render(request, "signup.html", res.data)
+    base_url = reverse("front_signin")
+    query_string = urlencode({"next": location})
+    url = "{}?{}".format(base_url, query_string)
+    return redirect(url)
+
+
+def signout(request: HttpRequest):
+    signout_user(request)
+    return redirect(request.META["HTTP_REFERER"])

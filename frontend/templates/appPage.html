@@ -22,7 +22,7 @@
 <style type="text/css">
   .carousel {
     background: #C2EDCE;
-    margin-top: 80px;
+    
 
   }
 
@@ -102,6 +102,10 @@
   .button-icon {
     margin-right: 10px;
   }
+
+  .BoxGenre{
+    padding:6.4px !important;
+  }
 </style>
 {%endblock%}
 {%block content%}
@@ -121,15 +125,12 @@
       </div>
     </div>
   </div>
-  {% comment %}
-  <a href="{% url 'front_app_review' %}?app_id={{ appId }}"><button>Review</button></a>
-  <a href="{{ url }}"><button>Download</button></a> {% endcomment %}
   <div class="abc">
-    <a href="{% url 'front_app_review' %}?app_id={{ appId }}" class=""><button type="button" class="button"><span
-          class="button-icon"><i class="fas fa-address-book"></i></span><span
+    <a href="{% url 'front_app_review' appId %}" class=""><button type="button" class="button"><span
+          class="button-icon"><em class="fas fa-address-book"></em></span><span
           class="button-text">Review</span></button></a>
     <a href="{{ url }}" class=""><button type="button" class="button">
-        <span class="button-icon"><i class="fab fa-google-play"></i></span>
+        <span class="button-icon"><em class="fab fa-google-play"></em></span>
         <span class="button-text">Download</span>
       </button></a>
   </div>
@@ -232,8 +233,10 @@
     </div>
   </div>
 
-
+  {%if reviews%}
   <h1 style="text-align: center">Our Reviews</h1>
+  
+ 
 
   <div class="carousel" data-flickity='{ "groupCells": false }'>
     {% for review in reviews %}
@@ -283,11 +286,44 @@
           <br>
           {% endfor %}
         </div>
-        <em class="fa fa-thumbs-up">{{review.up_votes}}</em>
+        <form action="{% url 'api_up_vote_app' appId review.pk %}">
+          {% csrf_token %}
+          <button class="upvotes">
+            <em class="fa fa-thumbs-up"></em>
+            <span>{{review.up_votes}}</span>
+          </button>
+        </form>
+        <form action="{% url 'api_down_vote_app' appId review.pk %}">
+          {% csrf_token %}
+          <button class="upvotes">
+            <em class=" fa fa-thumbs-down"></em>
+            <span>{{review.down_votes}}</span>
+          </button>
+        </form>
       </div>
     </div>
     {%endfor%}
   </div>
+  {%else%}
+<div></div>
+  {%endif%}
+
+  <script>
+    $('.upvotes').click(function () {
+      $('.upvotes').prop('disabled', true);
+      const form = $(this).parent();
+      $.post(form.prop('action'), form.serialize()).always((resData) => {
+        resData = resData.responseJSON;
+        spans = $(this).parent().parent().children('form').children('button').children('span');
+        spans[0] = resData['up_votes'];
+        spans[1] = resData['down_votes'];
+        alert(resData['message']);
+        $('.upvotes').prop('disabled', false);
+      });
+      return false;
+    });
+
+  </script>
 
   <h1 style="text-align: center">Playstore Reviews</h1>
 
@@ -334,12 +370,12 @@
         </div>
         <div class="review content">
           {{review.content}}
-        </div >
+        </div>
         <div class='upvotes'>
-          <em  class="fa fa-thumbs-up"></em>
+          <em class="fa fa-thumbs-up"></em>
           <p>{{review.thumbsUpCount}}</p>
         </div>
-        
+
       </div>
     </div>
     {%endfor%}
@@ -350,11 +386,11 @@
     <div class="carousel" data-flickity='{ "groupCells": false }'>
       {% for similar_app in similar_apps %}
       <div class=" serviceCard">
-        <a href="{% url 'front_get_app' %}?app_id={{ similar_app.appId }} ">
-          <img class="serviceImage" src="{{ similar_app.icon }}" alt="app icon" />
+        <a href="{% url 'front_get_app' similar_app.app_id %}">
+          <img class="serviceImage" src="{{ similar_app.icon_link }}" alt="app icon" />
         </a>
-        <p>{{ similar_app.title }}</p>
-        <p style="font-size:12px">{{similar_app.summary}}</p>
+        <p>{{ similar_app.app_name }}</p>
+        <p style="font-size:12px">{{similar_app.app_summary}}</p>
       </div>
       {% endfor %}
     </div>

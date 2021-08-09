@@ -6,6 +6,7 @@
 }
 body{
   background-color: #C2EDCE;
+  
 }
 .boxed{
   background-color: #343434;
@@ -23,9 +24,11 @@ main{
   align-items: center;
   background-color: #C2EDCE;
 }
-
+.Box{
+  padding:4.5px !important;
+}
 .Container {
-    background-color: #53BAC1;
+    
     /* border: 5px solid orange; */
     padding: 20px;
     margin: 20px;
@@ -159,4 +162,14 @@ header.sticky .logo{
 }
 .product_queries {
   display: none;
+}
+
+@media(max-width:768px){
+  .appNameInput{
+    width:60% !important;
+  }
+  .appName{
+    width:60% !important;
+    overflow:hidden !important;
+  }
 }

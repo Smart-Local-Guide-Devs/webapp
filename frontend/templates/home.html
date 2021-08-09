@@ -1,10 +1,7 @@
 {%extends 'base.html'%} {%load static%} {%block headtag%}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-<script src="https://kit.fontawesome.com/a076d05399.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css" />
 <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
 <link rel="stylesheet" type="text/css" href="{%static 'home.css'%}" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Counter-Up/1.0.0/jquery.counterup.min.js"></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
@@ -53,13 +50,21 @@
 	<div class="container">
 		<div class="card">
 			<div class="CardHeader">
-				<div>
-					<h1>TOP SERVICES IN </h1>
-					<hr class="line" />
-				</div>
-				<div class="locationLogo">
-					<input type="text" name="city" placeholder="Enter City" value="{{ location }}" />
-				</div>
+				<form id="topAppsForm">
+					<div>
+						<h1>Top Apps In</h1>
+						<hr class="line" />
+					</div>
+					<div class="locationLogo">
+						<select name="state" class='select-state' id="stateSelect" required>
+							<option value="">Select State</option>
+						</select>
+						<select name="city" class='select-state'  id="citySelect" required>
+							<option value="">Select City</option>
+						</select>
+						<button type="submit" style='border:none;padding-left:10px;padding-right:10px'><em class="fa fa-search" style='font-size:16px;'></em></button>
+					</div>
+				</form>
 			</div>
 
 			<div class="carousel" data-flickity='{ "groupCells": true }'>
@@ -70,11 +75,11 @@
 
 					{% for app in apps %}
 					<div class="cardService">
-						<a href="{% url 'front_get_app' %}?app_id={{ app.app_id }} ">
+						<a href="{% url 'front_get_app' app.app_id %}">
 							<img class="serviceImage" src="{{ app.icon_link }}" alt="app icon" />
 						</a>
 						<div class="serviceName top">
-							<a href="{% url 'front_get_app' %}?app_id={{ app.app_id }} ">
+							<a href="{% url 'front_get_app' app.app_id %}">
 								<p>{{ app.app_name }}</p>
 							</a>
 						</div>
@@ -139,13 +144,12 @@
 			<form class="Form" id="addAppForm">
 				{% csrf_token %}
 				<input class="applink" type="url" name="app_playstore_link" placeholder="Enter App Playstore Link" />
-				<button class="formBtn1" type="submit" id="addAppButton">Add</button>
+				<button class="formBtn" type="submit" id="addAppButton">Add</button>
 			</form>
 		</div>
 		<div class="formContact right">
 			<h1 style="color: black; margin-bottom: 20px">Feedback</h1>
 			<form class="Form" id="siteReviewForm">
-				{% csrf_token %}
 				<input type="text" name="user_name" placeholder="Name" />
 				<input type="email" name="email_id" required placeholder="Email Address" />
 				<textarea placeholder="Message" required name="content"></textarea>
@@ -181,8 +185,13 @@
 			time: 1000,
 		});
 
-		$("#addAppForm").submit(() => {
-			formData = $("#addAppForm").serializeArray();
+		$('#topAppsForm').submit(function () {
+			console.log($(this).serialize());
+			return false;
+		});
+
+		$("#addAppForm").submit(function () {
+			formData = $(this).serializeArray();
 			csrfmiddlewaretoken = formData[0]['value'];
 			appLink = formData[1]['value'];
 			appIdIdx = appLink.indexOf("id=");
@@ -190,9 +199,8 @@
 				appId = appLink.slice(appIdIdx + 3);
 				$("#addAppButton").prop('disabled', true);
 				$("#addAppButton").html('Adding...');
-				$.post("{% url 'api_add_new_app' %}", {
+				$.post("api/app/" + appId, {
 					'csrfmiddlewaretoken': csrfmiddlewaretoken,
-					'app_id': appId,
 				}).always((resData) => {
 					alert((typeof resData == 'string') ? resData : resData.responseJSON);
 					$("#addAppButton").html('Add');
@@ -204,10 +212,9 @@
 			return false;
 		});
 
-		$('#siteReviewForm').submit(() => {
-
+		$('#siteReviewForm').submit(function () {
 			postData = {};
-			$("#siteReviewForm").serializeArray().forEach((ele) => {
+			$(this).serializeArray().forEach((ele) => {
 				postData[ele.name] = ele.value;
 			});
 			$("#siteReviewButton").prop('disabled', true);

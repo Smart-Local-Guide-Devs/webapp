@@ -20,15 +20,6 @@ class App(models.Model):
         return self.app_name
 
 
-class SlgSiteReview(models.Model):
-    username = models.CharField(max_length=128, blank=True)
-    email_id = models.EmailField(max_length=256)
-    content = models.TextField()
-
-    def __str__(self) -> str:
-        return self.content
-
-
 class Query(models.Model):
     query = models.CharField(max_length=256, unique=True)
 
@@ -59,10 +50,12 @@ class Review(models.Model):
     content = models.TextField(blank=True)
     rating = models.PositiveSmallIntegerField(choices=[(i, i) for i in range(1, 6)])
     query_choices = models.ManyToManyField(to=QueryChoice, blank=True)
-    country = models.CharField(max_length=128)
     state = models.CharField(max_length=128)
     city = models.CharField(max_length=128)
-    up_votes = models.PositiveIntegerField(blank=True, default=1)
+    up_voters = models.ManyToManyField(to=User, blank=True, related_name="up_voters")
+    down_voters = models.ManyToManyField(
+        to=User, blank=True, related_name="down_voters"
+    )
 
     def __str__(self) -> str:
         return self.content
@@ -74,6 +67,7 @@ class Visitor(models.Model):
     def __str__(self):
         return self.visitor
 
+
 class SlgUser(models.Model):
 	user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
 	name = models.CharField(max_length=200, null=True)
@@ -83,3 +77,6 @@ class SlgUser(models.Model):
 
 	def __str__(self):
 		return self.name
+
+
+

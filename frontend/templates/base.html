@@ -2,133 +2,152 @@
 <!DOCTYPE html>
 <html lang="en">
 
-	<head>
-		<title></title>
-		<link rel="stylesheet" type="text/css" href="{%static 'navbar.css'%}" />
-		<link rel="stylesheet" type="text/css" href="{%static 'footer.css'%}" />
-		<link rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-		<script src="https://kit.fontawesome.com/a076d05399.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-		{%block headtag%} {%endblock%}
-		<link rel="stylesheet" type="text/css" href="{% static 'loader.css' %}" />
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="{%static 'navbar.css'%}" />
+	<link rel="stylesheet" type="text/css" href="{%static 'footer.css'%}" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+	<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="{%static 'stateCityJSON.js'%}"></script>
+	{%block headtag%} {%endblock%}
+	<link rel="stylesheet" type="text/css" href="{% static 'loader.css' %}" />
 
-	</head>
+</head>
 
-	<body>
-		<div class="pre-loader">
-			<div class="pre-loader-dots"></div>
-			<div class="pre-loader-dots"></div>
-			<div class="pre-loader-dots"></div>
-			<div class="pre-loader-dots"></div>
-		</div>
-		<header class="header">
-			<a href="#" class="logo"><img width="40" src="{% static 'logo.png' %}" alt="logo" /></a>
-			<form class="navFormFields " action="{% url 'front_search' %}" method="GET">
-				<input class="navSearch" type="text" placeholder="Search" name="search_query" />
-				<select class="form-select BoxGenre Box" id="genre" name="genre">
-					<!-- genres will get loaded to the select with id genre  -->
-					<option value="">select genre</option>
-				</select>
-				<button class="navButton" type="submit">
-					<em class="fa fa-search"></em>
-				</button>
-			</form>
-			<div class='left'>
-				<div class="slideSearch">
-					<em class="fa fa-search"></em>
-					<form class="navFormFields " action="{% url 'front_search' %}" method="GET">
-						<input class="navSearch" type="text" placeholder="Search" name="search_query" />
-						<select class="form-select BoxGenre Box" name="genre">
-							<option value="">select genre</option>
-						</select>
-					</form>
-				</div>
-				<div class="menuToggle" onclick="toggle()" id="bars">
-					<em class="fa fa-bars"></em>
-				</div>
+<body>
+	<div class="pre-loader">
+		<div class="pre-loader-dots"></div>
+		<div class="pre-loader-dots"></div>
+		<div class="pre-loader-dots"></div>
+		<div class="pre-loader-dots"></div>
+	</div>
+	<header class="header" >
+		<a href="#" class="logo"><img width="40" src="{% static 'logo.png' %}" alt="logo" /></a>
+		<form class="navFormFields " action="{% url 'front_search' %}" method="GET">
+			<input class="navSearch" type="text" placeholder="Search" name="search_query" />
+			<select class=" BoxGenre Box" id="genre" name="genre">
+				<option value="">select genre</option>
+			</select>
+			<button class="navButton" type="submit">
+				<em class="fa fa-search"></em>
+			</button>
+		</form>
+		<div class='left'>
+
+			<div class="menuToggle" onclick="toggle()" id="bars">
+				<em class="fa fa-bars"></em>
 			</div>
+		</div>
 
-			<ul class="menu">
 
-				<li><a href="{% url 'index' %}">Home</a></li>
-				<li><a href="{% url 'index' %}#contact">Contact Us</a></li>
-				{% if user.is_authenticated %}
-				<li style="color: aliceblue;" class="hello-msg">Hello, {{request.user.username}}</li>
-				<li><a class="hello-msg" href="{% url 'user_profile' %}">My Profile</a></li>
-				<li><a class="hello-msg" href="{% url 'logout' %}">Logout</a></li>
-				{% else %}
+		<ul class="menu" style='margin-top:5px '>
 
-				<li><a href="{% url 'signin' %}">Login</a></li>
-				<li><a href="{% url 'signup' %}">Sign Up</a></li>
-				{% endif %}
-			</ul>
-		</header>
+			<li><a href="{% url 'index' %}">Home</a></li>
+			<li><a href="{% url 'index' %}#contact">Contact Us</a></li>
+			{% if user.is_authenticated %}
+			<li class="hello-msg">Hello, {{request.user.username}}</li>
+      <li><a class="hello-msg" href="{% url 'user_profile' %}">My Profile</a></li>
+			<li><a class="hello-msg" href="{% url 'front_signout' %}">Sign out</a></li>
 
-		{%block content%} {%endblock%}
-		<section>
-			<footer id="mu-footer">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-12">
-							<div class="mu-footer-area">
-								<div class="mu-footer-social">
-									<a href="#"><span class="fa fa-facebook"></span></a>
-									<a href="#"><span class="fa fa-twitter"></span></a>
-									<a href="#"><span class="fa fa-google-plus"></span></a>
-									<a href="#"><span class="fa fa-linkedin"></span></a>
-									<a href="#"><span class="fa fa-youtube"></span></a>
-								</div>
-								<div class="mu-footer-copyright">
-									<p>
-										&copy; Copyright
-										<a rel="nofollow" href="#">smartlocalguide.io</a>. All right
-										reserved.
-									</p>
-								</div>
-								<p>Mail issues @ smartlocalguide@gmail.com</p>
+			{% else %}
+
+			<li><a href="{% url 'front_signin' %}">Sign in</a></li>
+			<li><a href="{% url 'front_signup' %}">Sign up</a></li>
+			{% endif %}
+		</ul>
+	</header>
+
+	{%block content%} {%endblock%}
+	<section>
+		<footer id="mu-footer">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="mu-footer-area">
+							<div class="mu-footer-social">
+								<a href="#"><span class="fa fa-facebook"></span></a>
+								<a href="#"><span class="fa fa-twitter"></span></a>
+								<a href="#"><span class="fa fa-google-plus"></span></a>
+								<a href="#"><span class="fa fa-linkedin"></span></a>
+								<a href="#"><span class="fa fa-youtube"></span></a>
+
 							</div>
+							<div class="mu-footer-copyright">
+								<p>
+									&copy; Copyright
+									<a rel="nofollow" href="#">smartlocalguide.io</a>. All right
+									reserved.
+								</p>
+							</div>
+							<p>Mail issues @ smartlocalguide@gmail.com</p>
 						</div>
 					</div>
 				</div>
-			</footer>
-		</section>
-		<script type="text/javascript">
-			$(window).on('load', () => {
-				$(".pre-loader").fadeOut("slow");
-				$("body").css({ 'overflow': 'visible' });
+			</div>
+		</footer>
+	</section>
+	<script type="text/javascript">
+		$(window).on('load', () => {
+			$(".pre-loader").fadeOut("slow");
+			$("body").css({ 'overflow': 'visible' });
+		});
+
+		window.addEventListener("scroll", function () {
+			const header = document.querySelector("header");
+			header.classList.toggle("sticky", window.scrollY > 0);
+		});
+
+		function toggle() {
+			const menuToggle = document.querySelector(".menuToggle");
+			const menu = document.querySelector(".menu");
+			menuToggle.classList.toggle("active");
+			menu.classList.toggle("active");
+		}
+
+		$(document).ready(function () {
+
+			$(".slideSearch .fa").click(function () {
+				console.log("clicked")
+				$(".slideSearch").toggleClass("activeSearch");
 			});
 
-			window.addEventListener("scroll", function () {
-				const header = document.querySelector("header");
-				header.classList.toggle("sticky", window.scrollY > 0);
-			});
-
-			function toggle() {
-				const menuToggle = document.querySelector(".menuToggle");
-				const menu = document.querySelector(".menu");
-				menuToggle.classList.toggle("active");
-				menu.classList.toggle("active");
-			}
-
-			$(document).ready(function () {
-
-				$(".slideSearch .fa").click(function () {
-					console.log("clicked")
-					$(".slideSearch").toggleClass("activeSearch");
+			$.getJSON("{% url 'api_all_genres' %}")
+				.done((data) => {
+					data.forEach(genre => {
+						$('#genre').append(`<option>${genre}</option>`)
+					});
 				});
 
-				$.getJSON("{% url 'api_all_genres' %}")
-					.done((data) => {
-						data.forEach(genre => {
-							$('#genre').append(`<option>${genre}</option>`)
-						});
-					});
+			var userState, userCity;
+			$.getJSON('https://geolocation-db.com/json/')
+				.done((resData) => {
+					userState = resData.state;
+					userCity = resData.city;
+				});
 
+			Object.keys(stateCityJSON).forEach((state) => {
+				$('#stateSelect').append(`<option >${state}</option>`);
 			});
 
-		</script>
-	</body>
+			$('#stateSelect').change(function () {
+				$('#citySelect').empty();
+				$('#citySelect').append('<option value="">Select City</option>');
+				state = $(this).val();
+				if (state != "") {
+					stateCityJSON[state].forEach((city) => {
+						if (userState == state && userCity == city) $('#citySelect').append(`<option selected>${city}</option>`);
+						else $('#citySelect').append(`<option >${city}</option>`);
+					});
+				}
+			});
+
+		});
+
+	</script>
+</body>
 
 </html>

@@ -12,12 +12,6 @@ class AppSerializer(serializers.ModelSerializer):
         fields = ["app_id", "app_name", "app_summary", "icon_link", "genres"]
 
 
-class SlgSiteReviewSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SlgSiteReview
-        fields = "__all__"
-
-
 class QueryChoiceSerializer(serializers.ModelSerializer):
     query = serializers.SlugRelatedField("query", queryset=Query.objects.all())
 
@@ -34,19 +28,22 @@ class ReviewSerializer(serializers.ModelSerializer):
         "username", source="user", queryset=User.objects.all()
     )
     query_choices = QueryChoiceSerializer(many=True)
+    up_votes = serializers.IntegerField(source="up_voters.count", read_only=True)
+    down_votes = serializers.IntegerField(source="down_voters.count", read_only=True)
 
     class Meta:
         model = Review
         fields = [
+            "pk",
             "app_id",
             "username",
             "content",
             "rating",
             "query_choices",
-            "country",
             "state",
             "city",
             "up_votes",
+            "down_votes",
         ]
 
     def create(self, validated_data: dict):

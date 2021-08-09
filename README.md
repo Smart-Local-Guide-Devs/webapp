@@ -1,5 +1,5 @@
 # Smart Local Guide Web App
-Server files for the smart local guide project
+Server files for the smart local guide web app project
 
 ## File structure
 - ### api 
@@ -7,10 +7,10 @@ Accepts http request sends json.
 This is the api for all the back end requests that need to use the database or any extensive calls.
 - ### frontend
 Accepts http requests sends webpage.
-This renders every html view that the user sees
+This renders every html view that the user sees.
 - ### webapp
 Accepts http request sends http request.
-This is the main server
+This is the main server.
 
 ## Request Routes
 - ### Browser Request
