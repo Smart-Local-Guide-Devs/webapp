@@ -75,6 +75,7 @@ def search(request: HttpRequest):
 @api_view(["POST"])
 def signup(request: HttpRequest):
     if request.user.is_authenticated:
+
         return Response(
             data={"message": "Already logged in!"}, status=status.HTTP_200_OK
         )

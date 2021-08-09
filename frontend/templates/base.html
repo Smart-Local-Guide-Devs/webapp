@@ -43,12 +43,14 @@
 			</div>
 		</div>
 
+
 		<ul class="menu" style='margin-top:5px '>
 
 			<li><a href="{% url 'index' %}">Home</a></li>
 			<li><a href="{% url 'index' %}#contact">Contact Us</a></li>
 			{% if user.is_authenticated %}
 			<li class="hello-msg">Hello, {{request.user.username}}</li>
+      <li><a class="hello-msg" href="{% url 'user_profile' %}">My Profile</a></li>
 			<li><a class="hello-msg" href="{% url 'front_signout' %}">Sign out</a></li>
 
 			{% else %}
@@ -72,6 +74,7 @@
 								<a href="#"><span class="fa fa-google-plus"></span></a>
 								<a href="#"><span class="fa fa-linkedin"></span></a>
 								<a href="#"><span class="fa fa-youtube"></span></a>
+
 							</div>
 							<div class="mu-footer-copyright">
 								<p>

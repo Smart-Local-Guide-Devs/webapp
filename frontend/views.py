@@ -19,6 +19,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from urllib.parse import urlencode
 from google_play_scraper import Sort, app, reviews
+from api.models import *
 
 
 # Create your views here.
@@ -26,12 +27,12 @@ from google_play_scraper import Sort, app, reviews
 
 def index(request):
     context = {}
-    top_users = list(fetch_top_users(request).data.items())
+    # top_users = list(fetch_top_users(request).data.items())
     context["counter"] = fetch_counter(request).data
     context["best_apps"] = fetch_best_apps(request).data
-    context["top_3_users"] = top_users[:3]
-    context["mid_7_users"] = top_users[3:10]
-    context["last_15_users"] = top_users[10:]
+    # context["top_3_users"] = top_users[:3]
+    # context["mid_7_users"] = top_users[3:10]
+    # context["last_15_users"] = top_users[10:]
     return render(
         request,
         "home.html",
@@ -118,6 +119,22 @@ def app_review(request: HttpRequest, app_id: str):
     )
 
 
+
+
+
+def user_profile(request):
+    if request.user.is_authenticated:
+        user = request.user
+        slg_user = SlgUser.objects.get(user=user)
+        # reviews = Review.objects.filter(user=user)
+    else :
+        user = None
+        slg_user = None
+        # reviews=None
+
+    context = {'slg_user':slg_user}
+    return render(request,"userProfile.html",context)
+  
 def signin(request: HttpRequest):
     location = request.GET.get("next", request.META["HTTP_REFERER"])
     if request.method == "GET":

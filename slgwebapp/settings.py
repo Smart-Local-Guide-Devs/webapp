@@ -163,6 +163,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATIC_URL = "/static/"
+MEDIA_URL = '/images/'
 
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
@@ -170,3 +171,5 @@ LOGIN_URL = "/auth/login/google-oauth2/"
 LOGIN_REDIRECT_URL = "index"
 LOGOUT_URL = "logout"
 LOGOUT_REDIRECT_URL = "signin"
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
