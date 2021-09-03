@@ -24,7 +24,7 @@ from google_play_scraper import Sort, app, reviews
 # Create your views here.
 
 
-def index(request):
+def index(request: HttpRequest):
     context = {}
     top_users = list(fetch_top_users(request).data.items())
     context["counter"] = fetch_counter(request).data
@@ -37,6 +37,10 @@ def index(request):
         "home.html",
         context,
     )
+
+
+def base(request: HttpRequest):
+    return render(request, "basePage.html")
 
 
 prev_search_query = ""

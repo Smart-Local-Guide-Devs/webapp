@@ -1,7 +1,5 @@
-stateCityJSON = {
-	"Andaman and Nicobar Islands": [
-		"Port Blair"
-	],
+const stateCityJSON = {
+	"Andaman and Nicobar Islands": ["Port Blair"],
 	"Andhra Pradesh": [
 		"Adoni",
 		"Amalapuram",
@@ -85,13 +83,10 @@ stateCityJSON = {
 		"Visakhapatnam",
 		"Vizianagaram",
 		"Yemmiganur",
-		"Yerraguntla"
+		"Yerraguntla",
 	],
-	"Arunachal Pradesh": [
-		"Naharlagun",
-		"Pasighat"
-	],
-	"Assam": [
+	"Arunachal Pradesh": ["Naharlagun", "Pasighat"],
+	Assam: [
 		"Barpeta",
 		"Bongaigaon City",
 		"Dhubri",
@@ -116,9 +111,9 @@ stateCityJSON = {
 		"Silapathar",
 		"Silchar",
 		"Tezpur",
-		"Tinsukia"
+		"Tinsukia",
 	],
-	"Bihar": [
+	Bihar: [
 		"Araria",
 		"Arrah",
 		"Arwal",
@@ -188,12 +183,10 @@ stateCityJSON = {
 		"Sugauli",
 		"Sultanganj",
 		"Supaul",
-		"Warisaliganj"
+		"Warisaliganj",
 	],
-	"Chandigarh": [
-		"Chandigarh"
-	],
-	"Chhattisgarh": [
+	Chandigarh: ["Chandigarh"],
+	Chhattisgarh: [
 		"Ambikapur",
 		"Bhatapara",
 		"Bhilai Nagar",
@@ -212,22 +205,12 @@ stateCityJSON = {
 		"Raipur",
 		"Rajnandgaon",
 		"Sakti",
-		"Tilda Newra"
+		"Tilda Newra",
 	],
-	"Dadra and Nagar Haveli": [
-		"Silvassa"
-	],
-	"Delhi": [
-		"Delhi",
-		"New Delhi"
-	],
-	"Goa": [
-		"Mapusa",
-		"Margao",
-		"Marmagao",
-		"Panaji"
-	],
-	"Gujarat": [
+	"Dadra and Nagar Haveli": ["Silvassa"],
+	Delhi: ["Delhi", "New Delhi"],
+	Goa: ["Mapusa", "Margao", "Marmagao", "Panaji"],
+	Gujarat: [
 		"Adalaj",
 		"Ahmedabad",
 		"Amreli",
@@ -299,9 +282,9 @@ stateCityJSON = {
 		"Visnagar",
 		"Vyara",
 		"Wadhwan",
-		"Wankaner"
+		"Wankaner",
 	],
-	"Haryana": [
+	Haryana: [
 		"Bahadurgarh",
 		"Bhiwani",
 		"Charkhi Dadri",
@@ -338,7 +321,7 @@ stateCityJSON = {
 		"Taraori",
 		"Thanesar",
 		"Tohana",
-		"Yamunanagar"
+		"Yamunanagar",
 	],
 	"Himachal Pradesh": [
 		"Mandi",
@@ -346,7 +329,7 @@ stateCityJSON = {
 		"Palampur",
 		"Shimla",
 		"Solan",
-		"Sundarnagar"
+		"Sundarnagar",
 	],
 	"Jammu and Kashmir": [
 		"Anantnag",
@@ -357,9 +340,9 @@ stateCityJSON = {
 		"Rajauri",
 		"Sopore",
 		"Srinagar",
-		"Udhampur"
+		"Udhampur",
 	],
-	"Jharkhand": [
+	Jharkhand: [
 		"Adityapur",
 		"Bokaro Steel City",
 		"Chaibasa",
@@ -386,9 +369,9 @@ stateCityJSON = {
 		"Sahibganj",
 		"Saunda",
 		"Simdega",
-		"Tenu dam-cum-Kathhara"
+		"Tenu dam-cum-Kathhara",
 	],
-	"Karnataka": [
+	Karnataka: [
 		"Adyar",
 		"Afzalpur",
 		"Arsikere",
@@ -467,12 +450,10 @@ stateCityJSON = {
 		"Udupi",
 		"Vijayapura",
 		"Wadi",
-		"Yadgir"
+		"Yadgir",
 	],
-	"Karnatka": [
-		"Mysore"
-	],
-	"Kerala": [
+	Karnatka: ["Mysore"],
+	Kerala: [
 		"Adoor",
 		"Alappuzha",
 		"Attingal",
@@ -523,7 +504,7 @@ stateCityJSON = {
 		"Tirur",
 		"Vaikom",
 		"Varkala",
-		"Vatakara"
+		"Vatakara",
 	],
 	"Madhya Pradesh": [
 		"Alirajpur",
@@ -607,9 +588,9 @@ stateCityJSON = {
 		"Umaria",
 		"Vidisha",
 		"Vijaypur",
-		"Wara Seoni"
+		"Wara Seoni",
 	],
-	"Maharashtra": [
+	Maharashtra: [
 		"Ahmednagar",
 		"Akola",
 		"Akot",
@@ -730,33 +711,20 @@ stateCityJSON = {
 		"Washim",
 		"Yavatmal",
 		"Yawal",
-		"Yevla"
+		"Yevla",
 	],
-	"Manipur": [
-		"Imphal",
-		"Lilong",
-		"Mayang Imphal",
-		"Thoubal"
-	],
-	"Meghalaya": [
-		"Nongstoin",
-		"Shillong",
-		"Tura"
-	],
-	"Mizoram": [
-		"Aizawl",
-		"Lunglei",
-		"Saiha"
-	],
-	"Nagaland": [
+	Manipur: ["Imphal", "Lilong", "Mayang Imphal", "Thoubal"],
+	Meghalaya: ["Nongstoin", "Shillong", "Tura"],
+	Mizoram: ["Aizawl", "Lunglei", "Saiha"],
+	Nagaland: [
 		"Dimapur",
 		"Kohima",
 		"Mokokchung",
 		"Tuensang",
 		"Wokha",
-		"Zunheboto"
+		"Zunheboto",
 	],
-	"Odisha": [
+	Odisha: [
 		"Balangir",
 		"Baleshwar Town",
 		"Barbil",
@@ -790,15 +758,10 @@ stateCityJSON = {
 		"Sundargarh",
 		"Talcher",
 		"Tarbha",
-		"Titlagarh"
+		"Titlagarh",
 	],
-	"Puducherry": [
-		"Karaikal",
-		"Mahe",
-		"Pondicherry",
-		"Yanam"
-	],
-	"Punjab": [
+	Puducherry: ["Karaikal", "Mahe", "Pondicherry", "Yanam"],
+	Punjab: [
 		"Amritsar",
 		"Barnala",
 		"Batala",
@@ -852,9 +815,9 @@ stateCityJSON = {
 		"Tarn Taran",
 		"Urmar Tanda",
 		"Zira",
-		"Zirakpur"
+		"Zirakpur",
 	],
-	"Rajasthan": [
+	Rajasthan: [
 		"Ajmer",
 		"Alwar",
 		"Bikaner",
@@ -929,7 +892,7 @@ stateCityJSON = {
 		"Tonk",
 		"Udaipur",
 		"Udaipurwati",
-		"Vijainagar, Ajmer"
+		"Vijainagar, Ajmer",
 	],
 	"Tamil Nadu": [
 		"Arakkonam",
@@ -1043,9 +1006,9 @@ stateCityJSON = {
 		"Viluppuram",
 		"Virudhachalam",
 		"Virudhunagar",
-		"Viswanatham"
+		"Viswanatham",
 	],
-	"Telangana": [
+	Telangana: [
 		"Adilabad",
 		"Bellampalle",
 		"Bhadrachalam",
@@ -1085,16 +1048,16 @@ stateCityJSON = {
 		"Vikarabad",
 		"Wanaparthy",
 		"Warangal",
-		"Yellandu"
+		"Yellandu",
 	],
-	"Tripura": [
+	Tripura: [
 		"Agartala",
 		"Belonia",
 		"Dharmanagar",
 		"Kailasahar",
 		"Khowai",
 		"Pratapgarh",
-		"Udaipur"
+		"Udaipur",
 	],
 	"Uttar Pradesh": [
 		"Achhnera",
@@ -1214,9 +1177,9 @@ stateCityJSON = {
 		"Vrindavan",
 		"Warhapur",
 		"Zaidpur",
-		"Zamania"
+		"Zamania",
 	],
-	"Uttarakhand": [
+	Uttarakhand: [
 		"Bageshwar",
 		"Dehradun",
 		"Haldwani-cum-Kathgodam",
@@ -1234,7 +1197,7 @@ stateCityJSON = {
 		"Rudrapur",
 		"Sitarganj",
 		"Srinagar",
-		"Tehri"
+		"Tehri",
 	],
 	"West Bengal": [
 		"Adra",
@@ -1280,6 +1243,6 @@ stateCityJSON = {
 		"Suri",
 		"Taki",
 		"Tamluk",
-		"Tarakeswar"
-	]
-}
+		"Tarakeswar",
+	],
+};

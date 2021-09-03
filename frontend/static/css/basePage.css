@@ -1,0 +1,137 @@
+:root {
+	--clr-black: hsla(180, 10%, 10%, 1);
+	--clr-white: hsla(180, 10%, 90%, 1);
+	--clr-accent: hsla(180, 100%, 50%, 1);
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	border: none;
+	text-decoration: none;
+	margin: 0;
+	padding: 0;
+}
+
+button {
+	background: var(--clr-black);
+	border: none;
+	font-size: large;
+	padding: 0.5em;
+	color: var(--clr-white);
+	border-radius: 0.5em;
+}
+
+button:hover,
+button:focus {
+	box-shadow: 0 0 1em var(--clr-accent);
+	color: var(--clr-accent);
+}
+
+input,
+select {
+	font-size: medium;
+	padding: 0.5em;
+	color: var(--clr-white);
+	background-color: var(--clr-black);
+	border-radius: 0.5em;
+	max-width: 10em;
+}
+
+input::placeholder {
+	color: var(--clr-white);
+}
+
+input:hover,
+input:focus,
+select:hover,
+select:focus {
+	box-shadow: 0 0 1em var(--clr-accent);
+}
+
+nav {
+	position: fixed;
+	display: grid;
+	height: 100vh;
+	max-width: 4em;
+	top: 0;
+	left: 0;
+	grid-template-rows: repeat(7, 1fr);
+	z-index: 999;
+}
+
+nav::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: var(--clr-black);
+	height: 100vh;
+	min-width: 25em;
+	transform: scaleX(15%);
+	transform-origin: left;
+	transition: transform 250ms ease-in;
+	z-index: -1;
+}
+
+nav:hover::before,
+nav:focus-within::before {
+	transform: scaleX(100%);
+}
+
+.nav-link {
+	display: flex;
+	gap: 0.5em;
+	align-items: center;
+	pointer-events: none;
+	max-width: fit-content;
+}
+
+nav:hover > .nav-link {
+	pointer-events: all;
+}
+
+.icon {
+	font-size: x-large;
+	width: 1em;
+	margin: 0.5em;
+	color: var(--clr-white);
+}
+
+.icon:hover {
+	color: var(--clr-accent);
+}
+
+.nav-link > button,
+.nav-link > input,
+.nav-link > select {
+	transform: translateX(-50%);
+	transition: transform 250ms ease-in, opacity 150ms ease-in;
+	opacity: 0;
+}
+
+nav:hover > .nav-link > button,
+nav:focus-within > .nav-link > button,
+nav:hover > .nav-link > input,
+nav:focus-within > .nav-link > input,
+nav:hover > .nav-link > select,
+nav:focus-within > .nav-link > select {
+	transition: transform 250ms ease-out, opacity 250ms ease-out;
+	transform: translateX(0);
+	opacity: 1;
+}
+
+footer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1em;
+	background-color: var(--clr-black);
+	color: var(--clr-white);
+	padding: 1em;
+}
+
+footer > p > a {
+	color: var(--clr-accent);
+}

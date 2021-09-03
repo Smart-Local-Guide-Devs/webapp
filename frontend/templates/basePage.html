@@ -1,0 +1,61 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="{%static 'css/basePage.css'%}" />
+		<title>Smart Local Guide</title>
+		{% block head %} {% endblock %}
+	</head>
+
+	<body>
+		<nav>
+			<form action="#" method="get" class="nav-link">
+				<em class="fa fa-search icon"></em>
+				<input type="text" placeholder="Search" class="input">
+			</form>
+			<form action="#" method="get" class="nav-link">
+				<em class="fa fa-map-pin icon"></em>
+				<select name="state" id="stateSelect">
+					<option value="">Select State</option>
+				</select>
+				<select name="city" id="citySelect">
+					<option value="">Select City</option>
+				</select>
+			</form>
+			<a href="#" class="nav-link"><em class="fa fa-home icon"></em><button>Home</button></a>
+			{% if user.is_authenticated %}
+			<a href="#" class="nav-link"><em class="fa fa-user icon"></em><button>{{request.user.username}}</button></a>
+			<a href="#" class="nav-link"><em class="fa fa-sign-out icon"></em><button>Sign Out</button></a>
+			{% else %}
+			<a href="#" class="nav-link"><em class="fa fa-sign-in icon"></em><button>Sign In</button></a>
+			{% endif %}
+			<a href="#" class="nav-link"><em class="fa fa-paper-plane icon"></em><button>Contact Us</button></a>
+		</nav>
+		{% block body %} {% endblock %}
+		<footer>
+			<div class="social-links">
+				<a href="#"><em class="fa fa-facebook icon"></em></a>
+				<a href="#"><em class="fa fa-twitter icon"></em></a>
+				<a href="#"><em class="fa fa-google-plus icon"></em></a>
+				<a href="#"><em class="fa fa-linkedin icon"></em></a>
+				<a href="#"><em class="fa fa-youtube icon"></em></a>
+			</div>
+			<p>
+				&copy; Copyright
+				<a rel="nofollow" href="#">smartlocalguide.io</a>. All right
+				reserved.
+			</p>
+			<p>Mail issues at <a href="mailto:smartlocalguide@gmail.com" target="_blank"> smartlocalguide@gmail.com</a>
+			</p>
+		</footer>
+		<script src="{%static 'js/stateCityJSON.js'%}"></script>
+		<script src="{%static 'js/basePage.js'%}"></script>
+	</body>
+
+</html>
