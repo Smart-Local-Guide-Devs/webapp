@@ -17,8 +17,18 @@ from django.core.paginator import EmptyPage, Paginator
 from django.http.request import HttpRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from concurrent.futures import ThreadPoolExecutor
 from urllib.parse import urlencode
 from google_play_scraper import Sort, app, reviews
+
+
+def execute_parrallelly(*args) -> tuple:
+    with ThreadPoolExecutor() as executor:
+        return_futures = (
+            executor.submit(args[i], *args[i + 1]) for i in range(0, len(args), 2)
+        )
+        return_futures = (return_future.result() for return_future in return_futures)
+        return tuple(return_futures)
 
 
 # Create your views here.
@@ -26,15 +36,22 @@ from google_play_scraper import Sort, app, reviews
 
 def index(request: HttpRequest):
     context = {}
-    top_users = list(fetch_top_users(request).data.items())
-    context["counter"] = fetch_counter(request).data
-    context["best_apps"] = fetch_best_apps(request).data
+    top_users, context["best_apps"], context["counter"] = execute_parrallelly(
+        fetch_top_users,
+        (request,),
+        fetch_best_apps,
+        (request,),
+        fetch_counter,
+        (request,),
+    )
+    top_users = list(top_users.data.items())
+    context["counter"] = context["counter"].data
+    context["best_apps"] = context["best_apps"].data
     context["top_3_users"] = top_users[:3]
-    context["mid_7_users"] = top_users[3:10]
-    context["last_15_users"] = top_users[10:]
+    context["mid_7_users"] = top_users[3:]
     return render(
         request,
-        "home.html",
+        "homePage.html",
         context,
     )
 

@@ -115,11 +115,12 @@ def signout(request: HttpRequest):
 
 
 @api_view(["GET"])
+@cache_page(60 * 15)
 def best_apps(request: HttpRequest):
     city = request.GET.get("city", "")
     res = {}
     for genre in Genre.objects.prefetch_related("apps").all():
-        apps = genre.apps.order_by("-reviews_count")[:3]
+        apps = genre.apps.order_by("-reviews_count")[:4]
         res[genre.genre] = AppSerializer(apps, many=True).data
     return Response(res)
 
@@ -130,7 +131,7 @@ def top_users(request: HttpRequest):
     reviews = (
         Review.objects.select_related("user")
         .annotate(up_votes=Count("up_voters"))
-        .order_by("-up_votes")[:25]
+        .order_by("-up_votes")[:10]
     )
     users = {}
     for review in reviews:
@@ -152,6 +153,7 @@ def slg_site_review(request: HttpRequest):
 
 
 @api_view(["GET"])
+@cache_page(60 * 15)
 def counter(request: HttpRequest):
     count_apps = App.objects.count()
     count_users = User.objects.count()
@@ -170,6 +172,7 @@ def counter(request: HttpRequest):
 
 
 @api_view(["GET"])
+@cache_page(60 * 15)
 def similar_apps(request: HttpRequest, app_id: str):
     app = App.objects.prefetch_related("similar_apps").get(app_id=app_id)
     similar_apps = app.similar_apps.all()[:6]

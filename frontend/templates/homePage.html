@@ -1,4 +1,3 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,9 +7,9 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet"
 			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-		<link rel="stylesheet" type="text/css" href="{%static 'css/basePage.css'%}" />
+		<link rel="stylesheet" type="text/css" href="../static/css/basePage.css" />
+		<link rel="stylesheet" type="text/css" href="../static/css/homePage.css" />
 		<title>Smart Local Guide</title>
-		{% block head %} {% endblock %}
 	</head>
 
 	<body>
@@ -31,15 +30,38 @@
 				</select>
 			</form>
 			<a href="#" class="nav-link"><em class="fa fa-home icon"></em><button>Home</button></a>
-			{% if user.is_authenticated %}
-			<a href="#" class="nav-link"><em class="fa fa-user icon"></em><button>{{request.user.username}}</button></a>
 			<a href="#" class="nav-link"><em class="fa fa-sign-out icon"></em><button>Sign Out</button></a>
-			{% else %}
 			<a href="#" class="nav-link"><em class="fa fa-sign-in icon"></em><button>Sign In</button></a>
-			{% endif %}
 			<a href="#" class="nav-link"><em class="fa fa-paper-plane icon"></em><button>Contact Us</button></a>
 		</nav>
-		{% block body %} {% endblock %}
+		<header>
+			<h1 class="header-title">Hello, this is your own personal local guide.</h1>
+			<div class="header-content">
+				<div class="counter"><em class="fa fa-play counter-icon"></em><span>Apps</span>800</div>
+				<div class="counter"><em class="fa fa-users counter-icon"></em><span>Users</span>10</div>
+				<div class="counter"><em class="fa fa-eye counter-icon"></em><span>Visits</span>10</div>
+				<div class="counter"><em class="fa fa-star counter-icon"></em><span>Reviews</span>20
+				</div>
+			</div>
+		</header>
+		<section>
+			<h2 class="best-apps-title">Some Of Our Best Apps</h2>
+			<div class="best-apps-content">
+				<div class="best-apps-card">
+					<h3 class="best-apps-card-title">Food</h3>
+					<div class="best-apps-card-content">
+						<a class="best-app" href="#">
+							<img class="best-app-icon"
+								src="https://play-lh.googleusercontent.com/q8hxnbpJCYfHipSOG_5tZe5jK_89T6QIsqrEklvGpMFKH8b98pDHJf2tPcn2bxEN96ON"
+								alt="flipkart">
+							<p>Flipkart</p>
+							<p><em class="fa fa-star"></em>4.5</p>
+							<p><em class="fa fa-pencil"></em>44</p>
+						</a>
+					</div>
+				</div>
+			</div>
+		</section>
 		<footer>
 			<div class="social-links">
 				<a href="#"><em class="fa fa-facebook icon"></em></a>
@@ -55,9 +77,11 @@
 			</p>
 			<p>Mail issues at <a href="mailto:smartlocalguide@gmail.com" target="_blank"> smartlocalguide@gmail.com</a>
 			</p>
+			<a href='https://www.freepik.com/vectors/travel'>Travel vector created by pch.vector - www.freepik.com</a>
 		</footer>
-		<script src="{%static 'js/stateCityJSON.js'%}"></script>
-		<script src="{%static 'js/basePage.js'%}"></script>
+		<script src="../static/js/stateCityJSON.js"></script>
+		<script src="../static/js/basePage.js"></script>
+		<script src="../static/js/homePage.js"></script>
 	</body>
 
 </html>
