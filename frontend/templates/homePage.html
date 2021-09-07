@@ -31,15 +31,17 @@
 			<h3 class="best-apps-card-title">{{ genre }}</h3>
 			<div class="best-apps-card-content">
 				{% for app in apps %}
-				<div class="best-app">
-					<a class="best-app-title" href="{% url 'front_get_app' app.app_id %}">
-						<img class="best-app-icon" src="{{ app.icon_link }}" alt="{{ app.app_name }} icon">
-						<p>{{ app.app_name }}</p>
-					</a>
-					<p class="best-app-content"><em class="fa fa-star"></em>{{ app.avg_rating }}
-					</p>
-					<p class="best-app-content"><em class="fa fa-pencil"></em>{{ app.reviews_count }}</p>
-				</div>
+				<a href="{% url 'front_get_app' app.app_id %}">
+					<button class="best-app">
+						<div class="best-app-title">
+							<img class="best-app-icon" src="{{ app.icon_link }}" alt="{{ app.app_name }} icon">
+							<p>{{ app.app_name }}</p>
+						</div>
+						<p class="best-app-content"><em class="fa fa-star"></em>{{ app.avg_rating }}
+						</p>
+						<p class="best-app-content"><em class="fa fa-pencil"></em>{{ app.reviews_count }}</p>
+					</button>
+				</a>
 				{% endfor %}
 			</div>
 		</div>
@@ -55,12 +57,12 @@
 			{% endfor %}
 		</ol>
 	</div>
-	<div class="feedback">
+	<div class="feedback" id="contact">
 		<h2 class="feedback-title">Any Feedbacks?</h2>
 		<form class="feedback-content" id="feedbackForm" action="" method="post">
 			{% csrf_token %}
 			<input required placeholder="Name" type="text">
-			<input required placeholder="Email" type="text">
+			<input required placeholder="Email" type="email">
 			<textarea required placeholder="Feedback Message" name="" id="" cols="30" rows="10"></textarea>
 			<button type="submit">Send</button>
 		</form>

@@ -24,16 +24,3 @@ stateSelect.addEventListener("change", () => {
 		});
 	}
 });
-
-// $("#stateSelect").change(function () {
-// 	$("#citySelect").empty();
-// 	$("#citySelect").append('<option value="">Select City</option>');
-// 	const state = $(this).val();
-// 	if (state != "") {
-// 		stateCityJSON[state].forEach((city) => {
-// 			if (userState == state && userCity == city)
-// 				$("#citySelect").append(`<option selected>${city}</option>`);
-// 			else $("#citySelect").append(`<option >${city}</option>`);
-// 		});
-// 	}
-// });
