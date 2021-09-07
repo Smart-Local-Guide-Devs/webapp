@@ -15,14 +15,17 @@
 	padding: 0;
 }
 
-section {
-	padding: 4em;
+section,
+header,
+footer {
+	padding: 2em 4em;
 }
 
 h2 {
-	font-size: xx-large;
+	font-size: x-large;
+	margin: 2em;
 	color: var(--clr-black);
-	font-family: Comic Sans MS, Comic Sans, cursive;
+	text-align: center;
 }
 
 button {

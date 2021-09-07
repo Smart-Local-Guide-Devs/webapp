@@ -60,6 +60,7 @@ header::before {
 	border-radius: 0.5em;
 	display: flex;
 	justify-content: center;
+	align-items: center;
 	gap: 0.5em;
 	width: 40%;
 	padding: 0.5em 1em;
@@ -67,18 +68,13 @@ header::before {
 	font-size: large;
 }
 
-.counter span {
+.counter-title {
 	opacity: 0;
 	transition: opacity 250ms ease-in;
 }
 
-.counter:hover > span {
+.counter:hover > .counter-title {
 	opacity: 1;
-}
-
-.best-apps-title {
-	text-align: center;
-	margin-bottom: 2em;
 }
 
 .best-apps-content {
@@ -93,14 +89,15 @@ header::before {
 	border-radius: 0.5em;
 	background-image: linear-gradient(
 		45deg,
-		var(--clr-accent),
-		var(--clr-black)
+		var(--clr-comp),
+		var(--clr-accent)
 	);
 }
 
 .best-apps-card-title {
+	font-size: x-large;
 	text-align: center;
-	padding-bottom: 2em;
+	margin-bottom: 1em;
 	color: var(--clr-white);
 }
 
@@ -111,22 +108,79 @@ header::before {
 }
 
 .best-app {
-	display: flex;
-	flex-direction: column;
-	font-size: large;
-	gap: 1em;
-	align-items: center;
-	justify-content: center;
-	color: var(--clr-white);
+	border-radius: 0.5em;
+	background-color: rgba(0, 0, 0, 0.2);
+}
+
+.best-app:hover {
+	box-shadow: 0 0 1em 0 var(--clr-white);
 }
 
 .best-app-title {
 	display: flex;
+	flex-direction: column;
 	align-items: center;
+	color: var(--clr-white);
 }
 
 .best-app-icon {
 	max-width: 2em;
+	margin: 1em;
+}
+
+.best-app-content {
+	font-size: large;
+	display: flex;
+	gap: 1em;
+	margin: 1em;
+	color: var(--clr-white);
+}
+
+.top-users-content {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+
+.top-users-card {
+	padding: 2em 4em;
+	margin: 1em;
+	border-radius: 0.5em;
+	/* background-image: linear-gradient(
+		45deg,
+		var(--clr-accent),
+		var(--clr-black)
+	); */
+	background-color: var(--clr-black);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+}
+
+.top-user {
+	margin: 0.5em 0;
+	padding: 0.5em 0.5em;
+	border-radius: 0.5em;
+	color: var(--clr-white);
+	background-color: rgba(0, 0, 0, 0.2);
+}
+
+.top-users-card:first-of-type > .top-user:nth-of-type(1) {
+	background-color: hsla(60, 100%, 50%, 0.35);
+	font-size: x-large;
+}
+
+.top-users-card:first-of-type > .top-user:nth-of-type(2) {
+	background-color: hsla(60, 10%, 50%, 0.35);
+	font-size: large;
+}
+
+.top-users-card:first-of-type > .top-user:nth-of-type(3) {
+	background-color: hsla(60, 55%, 50%, 0.35);
+}
+
+.top-user:hover {
+	box-shadow: 0 0 1em 0 var(--clr-white);
 }
 
 @media (min-width: 768px) {
