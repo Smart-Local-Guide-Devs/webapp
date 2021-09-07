@@ -36,7 +36,11 @@ def execute_parrallelly(*args) -> tuple:
 
 def index(request: HttpRequest):
     context = {}
-    top_users, context["best_apps"], context["counter"] = execute_parrallelly(
+    (
+        context["top_users"],
+        context["best_apps"],
+        context["counter"],
+    ) = execute_parrallelly(
         fetch_top_users,
         (request,),
         fetch_best_apps,
@@ -44,11 +48,21 @@ def index(request: HttpRequest):
         fetch_counter,
         (request,),
     )
-    top_users = list(top_users.data.items())
     context["counter"] = context["counter"].data
     context["best_apps"] = context["best_apps"].data
-    context["top_3_users"] = top_users[:3]
-    context["mid_7_users"] = top_users[3:]
+    for genre, apps in context["best_apps"].items():
+        for i, app in enumerate(apps):
+            context["best_apps"][genre][i]["app_name"] = app["app_name"].split()[0]
+            context["best_apps"][genre][i]["avg_rating"] = round(app["avg_rating"], 2)
+            if app["reviews_count"] > 1e6:
+                context["best_apps"][genre][i]["reviews_count"] = (
+                    str(round(app["reviews_count"] / 1e6, 1)) + " M"
+                )
+            elif app["reviews_count"] > 1e3:
+                context["best_apps"][genre][i]["reviews_count"] = (
+                    str(round(app["reviews_count"] / 1e3, 1)) + " K"
+                )
+    context["top_users"] = context["top_users"].data
     return render(
         request,
         "homePage.html",

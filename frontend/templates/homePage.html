@@ -1,297 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'basePage.html' %}
 
-	<head>
-		<meta charset="UTF-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-		<link rel="stylesheet" type="text/css" href="../static/css/basePage.css" />
-		<link rel="stylesheet" type="text/css" href="../static/css/homePage.css" />
-		<title>Smart Local Guide</title>
-	</head>
+{% load static %}
 
-	<body>
-		<input type="checkbox" name="nav-check" id="nav-check">
-		<label for="nav-check"><em class="fa fa-bars nav-icon"></em></label>
-		<nav>
-			<form action="#" method="get" class="nav-link">
-				<em class="fa fa-search icon"></em>
-				<input type="text" placeholder="Search" class="input">
-			</form>
-			<form action="#" method="get" class="nav-link">
-				<em class="fa fa-map-pin icon"></em>
-				<select name="state" id="stateSelect">
-					<option value="">Select State</option>
-				</select>
-				<select name="city" id="citySelect">
-					<option value="">Select City</option>
-				</select>
-			</form>
-			<a href="#" class="nav-link"><em class="fa fa-home icon"></em><button>Home</button></a>
-			<a href="#" class="nav-link"><em class="fa fa-sign-out icon"></em><button>Sign Out</button></a>
-			<a href="#" class="nav-link"><em class="fa fa-sign-in icon"></em><button>Sign In</button></a>
-			<a href="#" class="nav-link"><em class="fa fa-paper-plane icon"></em><button>Contact Us</button></a>
-		</nav>
-		<header>
-			<h1 class="header-title">Hello, this is your own personal local guide.</h1>
-			<div class="header-content">
-				<div class="counter"><em class="fa fa-play counter-icon"></em><span class="counter-title">Apps</span>800
-				</div>
-				<div class="counter"><em class="fa fa-users counter-icon"></em><span
-						class="counter-title">Users</span>10</div>
-				<div class="counter"><em class="fa fa-eye counter-icon"></em><span class="counter-title">Visits</span>10
-				</div>
-				<div class="counter"><em class="fa fa-star counter-icon"></em><span
-						class="counter-title">Reviews</span>20
-				</div>
-			</div>
-		</header>
-		<section>
-			<h2 class="best-apps-title">Some Of Our Best Recommendations</h2>
-			<div class="best-apps-content">
-				<div class="best-apps-card">
-					<h3 class="best-apps-card-title">Food</h3>
-					<div class="best-apps-card-content">
-						<div class="best-app">
-							<a class="best-app-title" href="#">
-								<img class="best-app-icon"
-									src="https://play-lh.googleusercontent.com/q8hxnbpJCYfHipSOG_5tZe5jK_89T6QIsqrEklvGpMFKH8b98pDHJf2tPcn2bxEN96ON"
-									alt="flipkart">
-								<p>Flipkart</p>
-							</a>
-							<p class="best-app-content"><em class="fa fa-star"></em>4.5
-							</p>
-							<p class="best-app-content"><em class="fa fa-pencil"></em>44</p>
-						</div>
-						<div class="best-app">
-							<a class="best-app-title" href="#">
-								<img class="best-app-icon"
-									src="https://play-lh.googleusercontent.com/q8hxnbpJCYfHipSOG_5tZe5jK_89T6QIsqrEklvGpMFKH8b98pDHJf2tPcn2bxEN96ON"
-									alt="flipkart">
-								<p>Flipkart</p>
-							</a>
-							<p class="best-app-content"><em class="fa fa-star"></em>4.5
-							</p>
-							<p class="best-app-content"><em class="fa fa-pencil"></em>44</p>
-						</div>
-						<div class="best-app">
-							<a class="best-app-title" href="#">
-								<img class="best-app-icon"
-									src="https://play-lh.googleusercontent.com/q8hxnbpJCYfHipSOG_5tZe5jK_89T6QIsqrEklvGpMFKH8b98pDHJf2tPcn2bxEN96ON"
-									alt="flipkart">
-								<p>Flipkart</p>
-							</a>
-							<p class="best-app-content"><em class="fa fa-star"></em>4.5
-							</p>
-							<p class="best-app-content"><em class="fa fa-pencil"></em>44</p>
-						</div>
-						<div class="best-app">
-							<a class="best-app-title" href="#">
-								<img class="best-app-icon"
-									src="https://play-lh.googleusercontent.com/q8hxnbpJCYfHipSOG_5tZe5jK_89T6QIsqrEklvGpMFKH8b98pDHJf2tPcn2bxEN96ON"
-									alt="flipkart">
-								<p>Flipkart</p>
-							</a>
-							<p class="best-app-content"><em class="fa fa-star"></em>4.5
-							</p>
-							<p class="best-app-content"><em class="fa fa-pencil"></em>44</p>
-						</div>
-					</div>
-				</div>
-				<div class="best-apps-card">
-					<h3 class="best-apps-card-title">Food</h3>
-					<div class="best-apps-card-content">
-						<div class="best-app">
-							<a class="best-app-title" href="#">
-								<img class="best-app-icon"
-									src="https://play-lh.googleusercontent.com/q8hxnbpJCYfHipSOG_5tZe5jK_89T6QIsqrEklvGpMFKH8b98pDHJf2tPcn2bxEN96ON"
-									alt="flipkart">
-								<p>Flipkart</p>
-							</a>
-							<p class="best-app-content"><em class="fa fa-star"></em>4.5
-							</p>
-							<p class="best-app-content"><em class="fa fa-pencil"></em>44</p>
-						</div>
-						<div class="best-app">
-							<a class="best-app-title" href="#">
-								<img class="best-app-icon"
-									src="https://play-lh.googleusercontent.com/q8hxnbpJCYfHipSOG_5tZe5jK_89T6QIsqrEklvGpMFKH8b98pDHJf2tPcn2bxEN96ON"
-									alt="flipkart">
-								<p>Flipkart</p>
-							</a>
-							<p class="best-app-content"><em class="fa fa-star"></em>4.5
-							</p>
-							<p class="best-app-content"><em class="fa fa-pencil"></em>44</p>
-						</div>
-						<div class="best-app">
-							<a class="best-app-title" href="#">
-								<img class="best-app-icon"
-									src="https://play-lh.googleusercontent.com/q8hxnbpJCYfHipSOG_5tZe5jK_89T6QIsqrEklvGpMFKH8b98pDHJf2tPcn2bxEN96ON"
-									alt="flipkart">
-								<p>Flipkart</p>
-							</a>
-							<p class="best-app-content"><em class="fa fa-star"></em>4.5
-							</p>
-							<p class="best-app-content"><em class="fa fa-pencil"></em>44</p>
-						</div>
-						<div class="best-app">
-							<a class="best-app-title" href="#">
-								<img class="best-app-icon"
-									src="https://play-lh.googleusercontent.com/q8hxnbpJCYfHipSOG_5tZe5jK_89T6QIsqrEklvGpMFKH8b98pDHJf2tPcn2bxEN96ON"
-									alt="flipkart">
-								<p>Flipkart</p>
-							</a>
-							<p class="best-app-content"><em class="fa fa-star"></em>4.5
-							</p>
-							<p class="best-app-content"><em class="fa fa-pencil"></em>44</p>
-						</div>
-					</div>
-				</div>
-				<div class="best-apps-card">
-					<h3 class="best-apps-card-title">Food</h3>
-					<div class="best-apps-card-content">
-						<div class="best-app">
-							<a class="best-app-title" href="#">
-								<img class="best-app-icon"
-									src="https://play-lh.googleusercontent.com/q8hxnbpJCYfHipSOG_5tZe5jK_89T6QIsqrEklvGpMFKH8b98pDHJf2tPcn2bxEN96ON"
-									alt="flipkart">
-								<p>Flipkart</p>
-							</a>
-							<p class="best-app-content"><em class="fa fa-star"></em>4.5
-							</p>
-							<p class="best-app-content"><em class="fa fa-pencil"></em>44</p>
-						</div>
-						<div class="best-app">
-							<a class="best-app-title" href="#">
-								<img class="best-app-icon"
-									src="https://play-lh.googleusercontent.com/q8hxnbpJCYfHipSOG_5tZe5jK_89T6QIsqrEklvGpMFKH8b98pDHJf2tPcn2bxEN96ON"
-									alt="flipkart">
-								<p>Flipkart</p>
-							</a>
-							<p class="best-app-content"><em class="fa fa-star"></em>4.5
-							</p>
-							<p class="best-app-content"><em class="fa fa-pencil"></em>44</p>
-						</div>
-						<div class="best-app">
-							<a class="best-app-title" href="#">
-								<img class="best-app-icon"
-									src="https://play-lh.googleusercontent.com/q8hxnbpJCYfHipSOG_5tZe5jK_89T6QIsqrEklvGpMFKH8b98pDHJf2tPcn2bxEN96ON"
-									alt="flipkart">
-								<p>Flipkart</p>
-							</a>
-							<p class="best-app-content"><em class="fa fa-star"></em>4.5
-							</p>
-							<p class="best-app-content"><em class="fa fa-pencil"></em>44</p>
-						</div>
-						<div class="best-app">
-							<a class="best-app-title" href="#">
-								<img class="best-app-icon"
-									src="https://play-lh.googleusercontent.com/q8hxnbpJCYfHipSOG_5tZe5jK_89T6QIsqrEklvGpMFKH8b98pDHJf2tPcn2bxEN96ON"
-									alt="flipkart">
-								<p>Flipkart</p>
-							</a>
-							<p class="best-app-content"><em class="fa fa-star"></em>4.5
-							</p>
-							<p class="best-app-content"><em class="fa fa-pencil"></em>44</p>
-						</div>
-					</div>
-				</div>
-				<div class="best-apps-card">
-					<h3 class="best-apps-card-title">Food</h3>
-					<div class="best-apps-card-content">
-						<div class="best-app">
-							<a class="best-app-title" href="#">
-								<img class="best-app-icon"
-									src="https://play-lh.googleusercontent.com/q8hxnbpJCYfHipSOG_5tZe5jK_89T6QIsqrEklvGpMFKH8b98pDHJf2tPcn2bxEN96ON"
-									alt="flipkart">
-								<p>Flipkart</p>
-							</a>
-							<p class="best-app-content"><em class="fa fa-star"></em>4.5
-							</p>
-							<p class="best-app-content"><em class="fa fa-pencil"></em>44</p>
-						</div>
-						<div class="best-app">
-							<a class="best-app-title" href="#">
-								<img class="best-app-icon"
-									src="https://play-lh.googleusercontent.com/q8hxnbpJCYfHipSOG_5tZe5jK_89T6QIsqrEklvGpMFKH8b98pDHJf2tPcn2bxEN96ON"
-									alt="flipkart">
-								<p>Flipkart</p>
-							</a>
-							<p class="best-app-content"><em class="fa fa-star"></em>4.5
-							</p>
-							<p class="best-app-content"><em class="fa fa-pencil"></em>44</p>
-						</div>
-						<div class="best-app">
-							<a class="best-app-title" href="#">
-								<img class="best-app-icon"
-									src="https://play-lh.googleusercontent.com/q8hxnbpJCYfHipSOG_5tZe5jK_89T6QIsqrEklvGpMFKH8b98pDHJf2tPcn2bxEN96ON"
-									alt="flipkart">
-								<p>Flipkart</p>
-							</a>
-							<p class="best-app-content"><em class="fa fa-star"></em>4.5
-							</p>
-							<p class="best-app-content"><em class="fa fa-pencil"></em>44</p>
-						</div>
-						<div class="best-app">
-							<a class="best-app-title" href="#">
-								<img class="best-app-icon"
-									src="https://play-lh.googleusercontent.com/q8hxnbpJCYfHipSOG_5tZe5jK_89T6QIsqrEklvGpMFKH8b98pDHJf2tPcn2bxEN96ON"
-									alt="flipkart">
-								<p>Flipkart</p>
-							</a>
-							<p class="best-app-content"><em class="fa fa-star"></em>4.5
-							</p>
-							<p class="best-app-content"><em class="fa fa-pencil"></em>44</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<section>
-			<h2 class="top-users-title">Our Best Contributors</h2>
-			<div class="top-users-content">
-				<ol class="top-users-card">
-					<li class="top-user">Name One: <span>100</span> </li>
-					<li class="top-user">Name Two: <span>100</span> </li>
-					<li class="top-user">Name Three: <span>100</span> </li>
-				</ol>
-				<ol class="top-users-card" start="4">
-					<li class="top-user">Name Four: <span>100</span> </li>
-					<li class="top-user">Name Four: <span>100</span> </li>
-					<li class="top-user">Name Four: <span>100</span> </li>
-					<li class="top-user">Name Four: <span>100</span> </li>
-					<li class="top-user">Name Four: <span>100</span> </li>
-					<li class="top-user">Name Four: <span>100</span> </li>
-					<li class="top-user">Name Four: <span>100</span> </li>
-				</ol>
-			</div>
-		</section>
-		<section>
-			<h2>How To Reach Us</h2>
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{%static 'css/homePage.css'%}" />
+{% endblock %}
 
-		</section>
-		<footer>
-			<div class="social-links">
-				<a href="#"><em class="fa fa-facebook icon"></em></a>
-				<a href="#"><em class="fa fa-twitter icon"></em></a>
-				<a href="#"><em class="fa fa-google-plus icon"></em></a>
-				<a href="#"><em class="fa fa-linkedin icon"></em></a>
-				<a href="#"><em class="fa fa-youtube icon"></em></a>
+{% block body %}
+<header>
+	<h1 class="header-title">Hello, this is your own personal local guide.</h1>
+	<div class="header-content">
+		<div class="counter"><em class="fa fa-play counter-icon"></em><span
+				class="counter-title">Apps</span>{{counter.apps}}
+		</div>
+		<div class="counter"><em class="fa fa-users counter-icon"></em><span
+				class="counter-title">Users</span>{{counter.users}}</div>
+		<div class="counter"><em class="fa fa-eye counter-icon"></em><span
+				class="counter-title">Visits</span>{{counter.views}}
+		</div>
+		<div class="counter"><em class="fa fa-star counter-icon"></em><span
+				class="counter-title">Reviews</span>{{counter.reviews}}
+		</div>
+	</div>
+</header>
+<section>
+	<h2 class="best-apps-title">Some Of Our Best Recommendations</h2>
+	<div class="best-apps-content">
+		{% for genre, apps in best_apps.items %}
+		<div class="best-apps-card">
+			<h3 class="best-apps-card-title">{{ genre }}</h3>
+			<div class="best-apps-card-content">
+				{% for app in apps %}
+				<div class="best-app">
+					<a class="best-app-title" href="{% url 'front_get_app' app.app_id %}">
+						<img class="best-app-icon" src="{{ app.icon_link }}" alt="{{ app.app_name }} icon">
+						<p>{{ app.app_name }}</p>
+					</a>
+					<p class="best-app-content"><em class="fa fa-star"></em>{{ app.avg_rating }}
+					</p>
+					<p class="best-app-content"><em class="fa fa-pencil"></em>{{ app.reviews_count }}</p>
+				</div>
+				{% endfor %}
 			</div>
-			<p>
-				&copy; Copyright
-				<a rel="nofollow" href="#">smartlocalguide.io</a>. All right
-				reserved.
-			</p>
-			<p>Mail issues at <a href="mailto:smartlocalguide@gmail.com" target="_blank"> smartlocalguide@gmail.com</a>
-			</p>
-			<a href='https://www.freepik.com/vectors/travel'>Travel vector created by pch.vector - www.freepik.com</a>
-		</footer>
-		<script src="../static/js/stateCityJSON.js"></script>
-		<script src="../static/js/basePage.js"></script>
-		<script src="../static/js/homePage.js"></script>
-	</body>
-
-</html>
+		</div>
+		{% endfor %}
+	</div>
+</section>
+<section class="top-users-feedback">
+	<div class="top-users">
+		<h2 class="top-users-title">Meet Our Top Contributors</h2>
+		<ol class="top-users-content">
+			{% for username, up_votes in top_users.items %}
+			<li class="top-user">{{ username }}: <span>{{ up_votes }}</span> </li>
+			{% endfor %}
+		</ol>
+	</div>
+	<div class="feedback">
+		<h2 class="feedback-title">Any Feedbacks?</h2>
+		<form class="feedback-content" id="feedbackForm" action="" method="post">
+			{% csrf_token %}
+			<input required placeholder="Name" type="text">
+			<input required placeholder="Email" type="text">
+			<textarea required placeholder="Feedback Message" name="" id="" cols="30" rows="10"></textarea>
+			<button type="submit">Send</button>
+		</form>
+	</div>
+</section>
+<script src="{%static 'js/homePage.js'%}"></script>
+{% endblock %}

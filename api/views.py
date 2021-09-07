@@ -119,7 +119,8 @@ def signout(request: HttpRequest):
 def best_apps(request: HttpRequest):
     city = request.GET.get("city", "")
     res = {}
-    for genre in Genre.objects.prefetch_related("apps").all():
+    genres = {"Rides", "Food", "Hotel", "Delivery"}
+    for genre in Genre.objects.filter(genre__in=genres).prefetch_related("apps").all():
         apps = genre.apps.order_by("-reviews_count")[:4]
         res[genre.genre] = AppSerializer(apps, many=True).data
     return Response(res)
@@ -139,6 +140,8 @@ def top_users(request: HttpRequest):
             users[review.user.username] = (
                 review.up_voters.count() - review.down_voters.count()
             )
+            if len(users) > 2:
+                break
     return Response(users)
 
 

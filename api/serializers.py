@@ -9,7 +9,15 @@ class AppSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = App
-        fields = ["app_id", "app_name", "app_summary", "icon_link", "genres"]
+        fields = [
+            "app_id",
+            "app_name",
+            "app_summary",
+            "icon_link",
+            "genres",
+            "avg_rating",
+            "reviews_count",
+        ]
 
 
 class QueryChoiceSerializer(serializers.ModelSerializer):
