@@ -48,7 +48,7 @@ def send_slack_message(channel_id: str, text: str) -> None:
 @api_view(["GET"])
 def search(request: HttpRequest):
     search_query = request.GET.get("search_query", "")
-    genres = request.GET.getlist("genre", [])
+    search_genres = request.GET.getlist("search_genres", [])
     installs = request.GET.get("installs", 0)
     rating = request.GET.get("rating", 0)
     ratings = request.GET.get("ratings", 0)
@@ -56,8 +56,8 @@ def search(request: HttpRequest):
     order = request.GET.get("orderby", "-reviews_count")
     free = request.GET.get("free", False)
     apps = App.objects.all()
-    for genre in genres:
-        apps = apps.filter(genre__genre__icontains=genre)
+    for search_genre in search_genres:
+        apps = apps.filter(genre__genre__icontains=search_genre)
     apps = apps.filter(
         app_name__icontains=search_query,
         min_installs__gte=installs,

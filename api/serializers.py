@@ -13,10 +13,13 @@ class AppSerializer(serializers.ModelSerializer):
             "app_id",
             "app_name",
             "app_summary",
+            "min_installs",
             "icon_link",
             "genres",
             "avg_rating",
+            "ratings_count",
             "reviews_count",
+            "free",
         ]
 
 

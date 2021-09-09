@@ -68,10 +68,6 @@ header::before {
 }
 
 .best-apps-card {
-	padding: 2em;
-	border-radius: 0.5em;
-	background-color: var(--clr-accent);
-	box-shadow: inset 0 0 0.75em 0 var(--clr-black);
 	display: flex;
 	flex-direction: column;
 	gap: 2em;
@@ -119,11 +115,7 @@ header::before {
 }
 
 .top-users-content {
-	padding: 2em;
 	margin: 1em;
-	border-radius: 0.5em;
-	background: var(--clr-accent);
-	box-shadow: inset 0 0 0.75em 0 var(--clr-black);
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
@@ -143,16 +135,12 @@ header::before {
 }
 
 .feedback-content {
-	padding: 2em 2em;
 	margin: 1em;
 	display: flex;
 	flex-direction: column;
-	border-radius: 0.5em;
-	background: var(--clr-accent);
 	align-items: center;
 	justify-content: space-around;
 	gap: 2em;
-	box-shadow: inset 0 0 0.75em 0 var(--clr-black);
 }
 
 @media (max-width: 768px) {

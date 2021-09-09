@@ -75,7 +75,7 @@ def base(request: HttpRequest):
 
 
 prev_search_query = ""
-prev_search_result = {}
+prev_search_result: Paginator
 
 
 def search(request: HttpRequest):
@@ -102,7 +102,7 @@ def search(request: HttpRequest):
     res["genres"] = fetch_all_genres(request).data
     res["add_app_status"] = "Enter playstore app link"
     res["search_query"] = request.GET.get("search_query", "")
-    res["genre"] = request.GET.getlist("genre", [])
+    res["search_genres"] = request.GET.getlist("search_genres", [])
     res["rating"] = request.GET.get("rating", 0)
     res["installs"] = request.GET.get("installs", 0)
     res["ratings"] = request.GET.get("ratings", 0)
@@ -110,7 +110,7 @@ def search(request: HttpRequest):
     res["free"] = request.GET.get("free", "false")
     return render(
         request,
-        "searchResult.html",
+        "searchPage.html",
         res,
     )
 

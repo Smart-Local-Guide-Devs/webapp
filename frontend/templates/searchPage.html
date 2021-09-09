@@ -1,0 +1,110 @@
+{% extends 'basePage.html' %}
+
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{%static 'css/searchPage.css'%}" />
+{% endblock %}
+
+{% block body %}
+<header>
+	<form action="{% url 'front_search' %}" method="get" class="search card">
+		<div class="search-bar">
+			<input type="text" class="search-input" placeholder="Search" name="search_query" value="{{ search_query }}">
+			<button type="submit" class="search-btn"><em class="fa fa-search"></em></button>
+		</div>
+		<div class="genres">
+			<span>Genres: </span>
+			{% for genre in genres %}
+			{% if genre in search_genre %}
+			<input type="checkbox" class="checkbox" name="search_genre" value="{{ genre }}" checked
+				id="{{ genre }}CheckBox">
+			{% else %}
+			<input type="checkbox" class="checkbox" name="search_genre" value="{{ genre }}" id="{{ genre }}Checkbox">
+			{% endif %}
+			<label class="genre" for="{{ genre }}Checkbox">{{ genre }}</label>
+			{% endfor %}
+		</div>
+		<div class="order-by-free">
+			<select name="orderby">
+				<option selected value=''>Order By</option>
+				<option value="-reviews_count">Reviews</option>
+				<option value="-ratings_count">Ratings</option>
+				<option value="-min_installs">Installs</option>
+				<option value="-avg_rating">Average Rating</option>
+			</select>
+			<div class="free">
+				{% if free == "true" %}
+				<input type="checkbox" class="checkbox" name="free" id="freeCheckbox" value="true" checked>
+				{% else %}
+				<input type="checkbox" class="checkbox" name="free" id="freeCheckbox" value="true">
+				{% endif %}
+				<label for="freeCheckbox" class="genre">Only Free</label>
+			</div>
+		</div>
+
+		<div class="filters">
+			<span>Filters: </span>
+			<div class="filter">
+				<span>Min Average Rating</span>
+				<output id="ratingOutput">{{ rating }}</output>
+				<input type="range" min="0" max="5" step="0.5" name="rating" id="ratingInput" value="{{ rating }}"
+					onchange="ratingOutput.value=value">
+			</div>
+			<div class="filter">
+				<span>Min Installs</span>
+				<output id="installsOutput">{{ installs }}</output>
+				<input type="range" min="0" max="10000000" step="10000" name="installs" id="installsInput"
+					value="{{ installs }}" onchange="installsOutput.value=value">
+			</div>
+			<div class="filter">
+				<span>Min Reviews</span>
+				<output id="reviewsOutput">{{ reviews }}</output>
+				<input type="range" min="0" max="100000" step="1000" name="reviews" id="reviewsInput"
+					value="{{ reviews }}" onchange="reviewsOutput.value=value">
+			</div>
+			<div class="filter">
+				<span>Min Ratings</span>
+				<output id="ratingsOutput">{{ ratings }}</output>
+				<input type="range" min="0" max="100000" step="1000" name="ratings" id="ratingsInput"
+					value="{{ ratings }}" onchange="ratingsOutput.value=value">
+			</div>
+		</div>
+	</form>
+</header>
+<section>
+	<div class="apps">
+		{% for app in search_results %}
+		<div class="app card">
+			<div class="app-title">
+				<img class="app-icon" src="{{app.icon_link}}" alt="{{ app.app_name }}">
+				<div class="app-links">
+					<a href="{% url 'front_get_app' app.app_id %}">
+						<button>Details</button>
+					</a>
+					<a href="{% url 'front_app_review' app.app_id %}">
+						<button>Review</button>
+					</a>
+				</div>
+			</div>
+			<div class="app-content">
+				<h3 class="app-name">{{app.app_name}}</h3>
+				<p class="app-genres">
+					Genres: {% for genre in app.genres %}
+					{{ genre }},
+					{% endfor %}
+				</p>
+				<div class="app-details">
+					<span>Reviews: {{ app.reviews_count }}</span>
+					<span>Ratings: {{ app.ratings_count }}</span>
+					<span>Min Installs: {{ app.min_installs }}</span>
+					<span>Avg Rating: {{ app.avg_rating|floatformat:2 }}</span>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+
+</section>
+<script src="{%static 'js/searchPage.js'%}"></script>
+{% endblock %}

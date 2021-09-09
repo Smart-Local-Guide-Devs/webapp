@@ -27,7 +27,7 @@
 	<h2 class="best-apps-title">Some Of Our Best Recommendations</h2>
 	<div class="best-apps-content">
 		{% for genre, apps in best_apps.items %}
-		<div class="best-apps-card">
+		<div class="best-apps-card card">
 			<h3 class="best-apps-card-title">{{ genre }}</h3>
 			<div class="best-apps-card-content">
 				{% for app in apps %}
@@ -51,7 +51,7 @@
 <section class="top-users-feedback">
 	<div class="top-users">
 		<h2 class="top-users-title">Meet Our Top Contributors</h2>
-		<div class="top-users-content">
+		<div class="top-users-content card">
 			{% for username, up_votes in top_users.items %}
 			<button class="top-user">{{ username }}: <span>{{ up_votes }}</span> </button>
 			{% endfor %}
@@ -59,7 +59,7 @@
 	</div>
 	<div class="feedback" id="contact">
 		<h2 class="feedback-title">Any Feedback?</h2>
-		<form class="feedback-content" id="feedbackForm" action="" method="post">
+		<form class="feedback-content card" id="feedbackForm" action="" method="post">
 			{% csrf_token %}
 			<input required placeholder="Name" type="text">
 			<input required placeholder="Email" type="email">
