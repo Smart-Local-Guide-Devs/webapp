@@ -34,31 +34,26 @@ h2 {
 }
 
 button {
-	background: var(--clr-accent);
-	border: none;
-	font-size: large;
-	padding: 0.5em;
-	color: var(--clr-white);
-	border-radius: 0.5em;
-	box-shadow: inset 0 0 0.5em 0 var(--clr-black);
 	cursor: pointer;
 }
 
 input,
 select,
-textarea {
+textarea,
+button {
+	border: none;
 	font-size: medium;
 	padding: 0.5em;
-	color: var(--clr-white);
-	background-color: var(--clr-accent);
+	color: var(--clr-black);
+	background-color: var(--clr-white);
 	border-radius: 0.5em;
-	box-shadow: inset 0 0 0.75em 0 var(--clr-black);
+	box-shadow: 0 0 0.75em 0 var(--clr-black);
 	transition: background-color 250ms ease-in-out;
 }
 
 input::placeholder,
 textarea::placeholder {
-	color: var(--clr-white);
+	color: var(--clr-black);
 }
 
 input:hover,
@@ -66,13 +61,11 @@ input:focus,
 select:hover,
 select:focus,
 textarea:hover,
-textarea:focus {
-	box-shadow: inset 0 0 0.25em 0 var(--clr-white);
-}
-
+textarea:focus,
 button:hover,
 button:focus {
-	box-shadow: inset 0 0 0.25em 0 var(--clr-white);
+	box-shadow: inset 0 0 0.25em 0 var(--clr-black);
+	outline: none;
 }
 
 #nav-check {
@@ -95,46 +88,47 @@ nav {
 	height: 100vh;
 	top: 0;
 	left: 0;
-	bottom: 0;
 	right: 0;
 	grid-template-rows: repeat(7, 1fr);
-	transition: opacity 250ms ease-in-out;
-	pointer-events: none;
+	transition: opacity 250ms ease-in-out, 250ms width;
+	overflow: hidden;
 	opacity: 0;
 	z-index: 999;
-	padding-top: 3em;
+	padding: 2em 2em 0 0;
+	width: 0;
 }
 
-#nav-check:checked ~ nav {
-	pointer-events: all;
+#nav-check:checked ~ nav,
+nav:hover,
+nav:focus-within {
 	opacity: 1;
+	width: max-content;
 }
 
 nav::before {
 	content: "";
-	position: fixed;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	right: 0;
+	background-color: var(--clr-accent);
+	box-shadow: inset 0 0 0.75em 0 var(--clr-black);
+	position: absolute;
+	inset: 0 0 0 0;
 	transform: scaleX(0);
-	transform-origin: left;
-	/* background-image: linear-gradient(var(--clr-accent), var(--clr-black)); */
-	background-color: var(--clr-black);
 	transition: transform 250ms ease-in-out;
+	transform-origin: left;
 	z-index: -1;
 }
 
-#nav-check:checked ~ nav::before {
+#nav-check:checked ~ nav::before,
+nav:hover::before,
+nav:focus-within::before {
 	transform: scaleX(1);
 }
 
 .nav-link {
 	display: flex;
-	gap: 0.5em;
 	align-items: center;
 	width: max-content;
 	height: max-content;
+	gap: 0.5em;
 }
 
 #stateSelect {
@@ -145,63 +139,7 @@ nav::before {
 	font-size: x-large;
 	width: 1em;
 	margin: 0.5em;
-	color: var(--clr-white);
-}
-
-.icon:hover,
-.icon:focus {
-	color: var(--clr-accent);
-}
-
-@media (min-width: 768px) {
-	.nav-icon {
-		display: none;
-	}
-
-	nav {
-		max-width: 4%;
-		opacity: 1;
-		pointer-events: all;
-	}
-
-	nav::before {
-		transform: scaleX(4%);
-	}
-
-	nav:hover,
-	nav:focus-within {
-		max-width: 25%;
-	}
-
-	nav:hover::before,
-	nav:focus-within::before {
-		transform: scaleX(25%);
-	}
-
-	.nav-link {
-		pointer-events: none;
-	}
-
-	nav:hover > .nav-link,
-	nav:focus-within > .nav-link {
-		pointer-events: all;
-	}
-
-	.nav-link > button,
-	.nav-link > input,
-	.nav-link > select {
-		opacity: 0;
-		transition: opacity 250ms ease-in-out;
-	}
-
-	nav:hover > .nav-link > button,
-	nav:focus-within > .nav-link > button,
-	nav:hover > .nav-link > input,
-	nav:focus-within > .nav-link > input,
-	nav:hover > .nav-link > select,
-	nav:focus-within > .nav-link > select {
-		opacity: 1;
-	}
+	color: var(--clr-black);
 }
 
 footer {
@@ -209,11 +147,22 @@ footer {
 	flex-direction: column;
 	align-items: center;
 	gap: 1em;
-	background-color: var(--clr-black);
-	color: var(--clr-white);
+	background-image: linear-gradient(var(--clr-white), var(--clr-accent));
+	color: var(--clr-black);
 	padding: 1em;
 }
 
 footer > p > a {
-	color: var(--clr-accent);
+	color: var(--clr-white);
+}
+
+@media (min-width: 700px) {
+	.nav-icon {
+		display: none;
+	}
+
+	nav {
+		width: 2.5em;
+		opacity: 1;
+	}
 }

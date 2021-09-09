@@ -31,15 +31,15 @@
 			<h3 class="best-apps-card-title">{{ genre }}</h3>
 			<div class="best-apps-card-content">
 				{% for app in apps %}
-				<a href="{% url 'front_get_app' app.app_id %}">
-					<button class="best-app">
-						<div class="best-app-title">
-							<img class="best-app-icon" src="{{ app.icon_link }}" alt="{{ app.app_name }} icon">
+				<a class="best-app" href="{% url 'front_get_app' app.app_id %}">
+					<button>
+						<img class="best-app-title" src="{{ app.icon_link }}" alt="{{ app.app_name }} icon">
+						<div class="best-app-content">
 							<p>{{ app.app_name }}</p>
+							<p><em class="fa fa-star"></em>{{ app.avg_rating }}
+							</p>
+							<p><em class="fa fa-pencil"></em>{{ app.reviews_count }}</p>
 						</div>
-						<p class="best-app-content"><em class="fa fa-star"></em>{{ app.avg_rating }}
-						</p>
-						<p class="best-app-content"><em class="fa fa-pencil"></em>{{ app.reviews_count }}</p>
 					</button>
 				</a>
 				{% endfor %}
@@ -51,14 +51,14 @@
 <section class="top-users-feedback">
 	<div class="top-users">
 		<h2 class="top-users-title">Meet Our Top Contributors</h2>
-		<ol class="top-users-content">
+		<div class="top-users-content">
 			{% for username, up_votes in top_users.items %}
-			<li class="top-user">{{ username }}: <span>{{ up_votes }}</span> </li>
+			<button class="top-user">{{ username }}: <span>{{ up_votes }}</span> </button>
 			{% endfor %}
-		</ol>
+		</div>
 	</div>
 	<div class="feedback" id="contact">
-		<h2 class="feedback-title">Any Feedbacks?</h2>
+		<h2 class="feedback-title">Any Feedback?</h2>
 		<form class="feedback-content" id="feedbackForm" action="" method="post">
 			{% csrf_token %}
 			<input required placeholder="Name" type="text">
