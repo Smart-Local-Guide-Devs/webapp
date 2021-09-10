@@ -147,12 +147,13 @@ def top_users(request: HttpRequest):
 
 @api_view(["POST"])
 def slg_site_review(request: HttpRequest):
-    user_name = request.POST["user_name"]
-    email_id = request.POST["email_id"]
-    content = request.POST["content"]
+    data = json.load(request)
+    user_name = data["user_name"]
+    email_id = data["email_id"]
+    content = data["content"]
     slack_msg = f"User: {user_name}\nEmail: {email_id}\nContent: {content}"
     send_slack_message(os.environ["SLACK_SITE_REVIEWS_CHANNEL_ID"], slack_msg)
-    return Response("Review Successful")
+    return Response({"message": "Feedback sent successfully"})
 
 
 @api_view(["GET"])
@@ -213,16 +214,15 @@ def app_review(request: HttpRequest, app_id: str, data: dict = None):
 
 @api_view(["GET", "POST"])
 def api_app(request: HttpRequest, app_id: str):
-    # TODO remove post access
     if request.method == "GET":
         app = App.objects.get(app_id=app_id)
         app = AppSerializer(app).data
         return Response(app)
     if App.objects.filter(app_id=app_id).exists():
-        return Response("App Already Exists")
+        return Response({"message": "App Already Exists"})
     slack_msg = f"User: {request.user.username}\nRequested App ID: {app_id}"
     send_slack_message(os.environ["SLACK_NEW_APPS_CHANNEL_ID"], slack_msg)
-    return Response("New App Request Successfully Sent")
+    return Response({"message": "New App Request Successfully Sent"})
 
 
 @api_view(["GET", "POST"])
