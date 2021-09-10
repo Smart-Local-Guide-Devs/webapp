@@ -26,13 +26,16 @@
 			{% endfor %}
 		</div>
 		<div class="order-by-free">
-			<select name="orderby">
-				<option selected value=''>Order By</option>
-				<option value="-reviews_count">Reviews</option>
-				<option value="-ratings_count">Ratings</option>
-				<option value="-min_installs">Installs</option>
-				<option value="-avg_rating">Average Rating</option>
-			</select>
+			<span>Order By: </span>
+			<div>
+				<select name="orderby">
+					<option selected value="-reviews_count">Reviews</option>
+					<option value="-ratings_count">Ratings</option>
+					<option value="-min_installs">Installs</option>
+					<option value="-avg_rating">Average Rating</option>
+				</select>
+			</div>
+			<span>Show Only Free: </span>
 			<div class="free">
 				{% if free == "true" %}
 				<input type="checkbox" class="checkbox" name="free" id="freeCheckbox" value="true" checked>

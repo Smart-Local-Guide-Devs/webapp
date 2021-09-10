@@ -33,7 +33,8 @@ h2 {
 	text-align: center;
 }
 
-button {
+button,
+select {
 	cursor: pointer;
 }
 
@@ -158,11 +159,6 @@ footer > p > a {
 
 .card {
 	background-color: var(--clr-accent);
-	/* background-image: linear-gradient(
-		45deg,
-		var(--clr-) 0 70%,
-		var(--clr-black)
-	); */
 	border-radius: 0.5em;
 	box-shadow: inset 0 0 0.75em 0 var(--clr-black);
 	padding: 2em;

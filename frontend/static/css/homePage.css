@@ -130,10 +130,6 @@ header::before {
 	font-size: 1.25em;
 }
 
-.top-user:hover {
-	box-shadow: inset 0 0 0.25em 0 var(--clr-black);
-}
-
 .feedback-content {
 	margin: 1em;
 	display: flex;
@@ -141,6 +137,11 @@ header::before {
 	align-items: center;
 	justify-content: space-around;
 	gap: 2em;
+}
+
+.feedback-content > button {
+	background-color: var(--clr-comp);
+	color: var(--clr-white);
 }
 
 @media (max-width: 768px) {
