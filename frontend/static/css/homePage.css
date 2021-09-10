@@ -9,17 +9,17 @@ header::before {
 	background-repeat: no-repeat;
 	z-index: 1;
 	position: absolute;
-	top: 0;
+	top: 30vh;
 	right: 0;
-	width: 60vw;
-	height: 40vw;
+	width: 100vw;
+	aspect-ratio: 3 / 2;
 }
 
 .header-title {
 	position: absolute;
 	max-width: 10em;
-	top: 30%;
-	left: 30%;
+	top: 10%;
+	left: 10%;
 	z-index: 2;
 	font-size: 3rem;
 	color: var(--clr-black);
@@ -27,7 +27,7 @@ header::before {
 }
 
 .header-content {
-	padding-top: 80vh;
+	padding-top: calc(30vh + 70vw);
 	display: flex;
 	flex-wrap: wrap;
 	gap: 1em;
@@ -144,39 +144,41 @@ header::before {
 	color: var(--clr-white);
 }
 
-@media (max-width: 768px) {
+@media (min-width: 700px) {
 	header::before {
-		width: 90vw;
-		height: 60vw;
-		top: 50vw;
-	}
-
-	.header-title {
-		top: 15%;
-		left: 10%;
+		width: 700px;
 	}
 
 	.header-content {
-		padding-top: 110vw;
+		padding-top: calc(470px + 30vh);
 	}
-}
 
-@media (min-width: 1200px) {
 	.counter {
 		width: fit-content;
 	}
 
-	.best-apps-card {
-		width: calc(50% - 1em);
-	}
-}
-
-@media (min-width: 700px) {
 	.best-app {
 		width: calc(25% - 1.5em);
 	}
+}
 
-	.best-apps-content {
-		padding: 0 4em;
+@media (min-width: 1200px) {
+	header::before {
+		top: 10vh;
+		width: 60vw;
+	}
+
+	.header-title {
+		top: 30%;
+		left: 30%;
+	}
+
+	.header-content {
+		padding-top: calc(30vh + 300px);
+		justify-content: flex-start;
+	}
+
+	.best-apps-card {
+		width: calc(50% - 1em);
 	}
 }

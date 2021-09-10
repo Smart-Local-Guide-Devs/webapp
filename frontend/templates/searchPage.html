@@ -49,65 +49,102 @@
 		<div class="filters">
 			<span>Filters: </span>
 			<div class="filter">
-				<span>Min Average Rating</span>
-				<output id="ratingOutput">{{ rating }}</output>
+				<div class="filter-title">
+					<span>Min Average Rating</span>
+					<output id="ratingOutput">{{ rating }}</output>
+				</div>
 				<input type="range" min="0" max="5" step="0.5" name="rating" id="ratingInput" value="{{ rating }}"
 					onchange="ratingOutput.value=value">
 			</div>
 			<div class="filter">
-				<span>Min Installs</span>
-				<output id="installsOutput">{{ installs }}</output>
+				<div class="filter-title">
+					<span>Min Installs</span>
+					<output id="installsOutput">{{ installs }}</output>
+				</div>
+
 				<input type="range" min="0" max="10000000" step="10000" name="installs" id="installsInput"
 					value="{{ installs }}" onchange="installsOutput.value=value">
 			</div>
 			<div class="filter">
-				<span>Min Reviews</span>
-				<output id="reviewsOutput">{{ reviews }}</output>
+				<div class="filter-title">
+					<span>Min Reviews</span>
+					<output id="reviewsOutput">{{ reviews }}</output>
+				</div>
 				<input type="range" min="0" max="100000" step="1000" name="reviews" id="reviewsInput"
 					value="{{ reviews }}" onchange="reviewsOutput.value=value">
 			</div>
 			<div class="filter">
-				<span>Min Ratings</span>
-				<output id="ratingsOutput">{{ ratings }}</output>
+				<div class="filter-title">
+					<span>Min Ratings</span>
+					<output id="ratingsOutput">{{ ratings }}</output>
+				</div>
 				<input type="range" min="0" max="100000" step="1000" name="ratings" id="ratingsInput"
 					value="{{ ratings }}" onchange="ratingsOutput.value=value">
 			</div>
 		</div>
 	</form>
 </header>
-<section>
-	<div class="apps">
-		{% for app in search_results %}
-		<div class="app card">
-			<div class="app-title">
-				<img class="app-icon" src="{{app.icon_link}}" alt="{{ app.app_name }}">
-				<div class="app-links">
-					<a href="{% url 'front_get_app' app.app_id %}">
-						<button>Details</button>
-					</a>
-					<a href="{% url 'front_app_review' app.app_id %}">
-						<button>Review</button>
-					</a>
-				</div>
-			</div>
-			<div class="app-content">
-				<h3 class="app-name">{{app.app_name}}</h3>
-				<p class="app-genres">
-					Genres: {% for genre in app.genres %}
-					{{ genre }},
-					{% endfor %}
-				</p>
-				<div class="app-details">
-					<span>Reviews: {{ app.reviews_count }}</span>
-					<span>Ratings: {{ app.ratings_count }}</span>
-					<span>Min Installs: {{ app.min_installs }}</span>
-					<span>Avg Rating: {{ app.avg_rating|floatformat:2 }}</span>
-				</div>
+<section class="apps">
+	{% for app in search_results %}
+	<div class="app card">
+		<div class="app-title">
+			<img class="app-icon" src="{{app.icon_link}}" alt="{{ app.app_name }}">
+			<div class="app-links">
+				<a href="{% url 'front_get_app' app.app_id %}">
+					<button>Details</button>
+				</a>
+				<a href="{% url 'front_app_review' app.app_id %}">
+					<button>Review</button>
+				</a>
 			</div>
 		</div>
-		{% endfor %}
+		<div class="app-content">
+			<h3 class="app-name">{{app.app_name}}</h3>
+			<p class="app-genres">
+				Genres: {% for genre in app.genres %}
+				{{ genre }},
+				{% endfor %}
+			</p>
+			<div class="app-details">
+				<span>Reviews: {{ app.reviews_count }}</span>
+				<span>Ratings: {{ app.ratings_count }}</span>
+				<span>Min Installs: {{ app.min_installs }}</span>
+				<span>Avg Rating: {{ app.avg_rating|floatformat:2 }}</span>
+			</div>
+		</div>
 	</div>
-
+	{% endfor %}
+</section>
+<section>
+	<div class="pages-add-app card">
+		<div class="pages">
+			{% if search_results.has_previous %}
+			<a href="{{sub_url}}{{search_results.previous_page_number}}"><button>Prev</button></a>
+			{% endif %}
+			{% for i in search_results.paginator.page_range %}
+			<a href="{{sub_url}}{{i}}">
+				{% if search_results.number == i %}
+				<button class="current-page">{{ i }}</button>
+				{% else %}
+				<button>{{ i }}</button>
+				{% endif %}
+			</a>
+			{% endfor %}
+			{% if search_results.has_next %}
+			<a href="{{sub_url}}{{search_results.next_page_number}}"><button>Next</button></a>
+			{% endif %}
+		</div>
+		<div class="add-app">
+			<p class="add-app-title">Could not find any apps that met your needs, if you have any suggetions please add
+				them so that others can know.
+			</p>
+			<form class="add-app-content">
+				{% csrf_token %}
+				<input type="url" name="app_playstore_link" placeholder="Enter App Playstore Link" />
+				<button type="submit">Add</button>
+			</form>
+		</div>
+	</div>
 </section>
 <script src="{%static 'js/searchPage.js'%}"></script>
 {% endblock %}

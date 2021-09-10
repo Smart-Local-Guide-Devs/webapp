@@ -173,4 +173,10 @@ footer > p > a {
 		width: 2.5em;
 		opacity: 1;
 	}
+
+	section,
+	header,
+	footer {
+		padding: 4em 6em;
+	}
 }
