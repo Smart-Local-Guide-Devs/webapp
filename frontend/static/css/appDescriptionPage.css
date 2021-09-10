@@ -1,0 +1,199 @@
+h1{
+    font-size: x-large;
+    color: var(--clr-black);
+}
+
+h2{
+    font-size: x-large;
+    color: var(--clr-white);
+    margin: 0;
+}
+
+.app{
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2em;
+    width: 60vw;
+}
+
+.app-info{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    background-color: var(--clr-accent);
+}
+
+.app-icon{
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url(https://www.searchpng.com/wp-content/uploads/2019/01/Flipart-Logo-Icon-PNG-Image.png);
+    background-position: right;
+    width: 50%;
+}
+
+.app-info-text{
+    margin-left: 1vw;
+}
+
+#app-name{
+    margin-bottom: 10px;
+}
+
+.buttons{
+    margin: auto;
+    width: 40vw;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    gap: 2em;
+}
+
+.buttons > *{
+    width: 10vw;
+    min-width: 100px;
+}
+
+.rating{
+    display: flex;
+    margin: auto;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 40vw;
+}
+
+.avg-rating{
+    flex: 1;
+    text-align: center;
+}
+
+#rating-graph{
+    margin-left: 20px;
+    flex: 3;
+    display: grid;
+    grid-template-rows: repeat(5, 1fr);
+    row-gap: 5px;
+}
+
+#avg-rating-value{
+    font-size: 3em;
+}
+
+.rating-row{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.rating-bar{
+    display: inline-block;
+    width: 100px;
+    height: 80%;
+    margin-left: 10px;
+}
+
+.rating-row:nth-of-type(1) > .rating-bar{
+    width: calc(100%);
+    background-color: green;
+}
+
+.rating-row:nth-of-type(2) > .rating-bar{
+    width: calc(50%);
+    background-color: yellowgreen;
+}
+
+.rating-row:nth-of-type(3) > .rating-bar{
+    width: calc(30%);
+    background-color: lightgreen;
+}
+
+.rating-row:nth-of-type(4) > .rating-bar{
+    width: calc(20%);
+    background-color: lightcoral;
+}
+
+.rating-row:nth-of-type(5) > .rating-bar{
+    width: calc(10%);
+    background-color: red;
+}
+
+.rating-value{
+    font-weight: bold;
+}
+
+.fa-star{
+    color: var(--clr-white);
+}
+
+.checked{
+    color: var(--clr-comp);
+}
+
+.user-icon{
+    color: var(--clr-black);
+}
+
+.rating-stats{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    margin: auto;
+}
+
+.review-count{
+    font-weight: lighter;
+}
+
+.user-reviews{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 60vw;
+    margin: auto;
+    gap: 5em;
+}
+
+.playstore-reviews{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2em;
+}
+
+.slg-reviews{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2em;
+}
+
+.review{
+    min-height: 40vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6em;
+}
+
+.user-image{
+    background-image: url(https://i.pinimg.com/originals/45/ab/9c/45ab9cd873dc15150321c79b8a7a9fca.jpg);
+    width: 60px;
+    height: 60px;
+    background-size: cover;
+    border-radius: 50%;
+}
+
+.user-review{
+    margin-top: 2vh;
+    background-color: var(--clr-white);
+    box-shadow: 0 0 0.75em 0 var(--clr-black);
+}

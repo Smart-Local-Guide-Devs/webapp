@@ -1,0 +1,106 @@
+{% extends 'basePage.html' %}
+
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{%static 'css/appDescriptionPage.css'%}" />
+{% endblock %}
+
+{% block body %}
+<section>
+    <div class="app card">
+        <div class="app-info">
+            <div class="app-icon"></div>
+            <div class="app-info-text">
+                <h1 id="app-name">App Name</h1>
+                <p id="app-desc">App description goes here...</p>
+            </div>
+        </div>
+        <div class="buttons">
+            <button>Review</button>
+            <button>Download</button>
+        </div>
+        <div class="rating">
+            <div class="avg-rating">
+                <div>
+                    <h2>Average Rating</h2>
+                    <h1 id="avg-rating-value">4.5</h1>
+                </div>
+                <div class="rating-stars">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star"></span>
+                </div>
+                <div class="rating-stats">
+                    <span class="user-icon fa fa-users"></span>
+                    <h2 class="review-count">1,23,456</h2>
+                </div>
+            </div>
+            <div id="rating-graph">
+                <div class="rating-row">
+                    <span class="rating-value">5</span>
+                    <div class="rating-bar"></div>
+                </div>
+                <div class="rating-row">
+                    <span class="rating-value">4</span>
+                    <div class="rating-bar"></div>
+                </div>
+                <div class="rating-row">
+                    <span class="rating-value">3</span>
+                    <div class="rating-bar"></div>
+                </div>
+                <div class="rating-row">
+                    <span class="rating-value">2</span>
+                    <div class="rating-bar"></div>
+                </div>
+                <div class="rating-row">
+                    <span class="rating-value">1</span>
+                    <div class="rating-bar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="user-reviews">
+        <div class="playstore-reviews">
+            <h1>Curated Playstore Reviews</h1>
+            <div class="review card">
+                <div class="user-image"></div>
+                <div class="user-name">
+                    <h2>WhyBangad</h2>
+                </div>
+                <div class="rating-stars">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star"></span>
+                </div>
+                <div class="user-review card">User's review goes
+                    here... jbfsbjfsbfbdnbjdnf bkdnbkndbfnbnd f;bndbndbn; dbnfbknbbnfn b;dnbfnbk nkndf</div>
+            </div>
+        </div>
+        <div class="slg-reviews">
+            <h1>Curated SLG Reviews</h1>
+            <div class="review card">
+                <div class="user-image"></div>
+                <div class="user-name">
+                    <h2>WhyBangad</h2>
+                </div>
+                <div class="rating-stars">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star"></span>
+                </div>
+                <div class="user-review card">User's review goes
+                    here... jbfsbjfsbfbdnbjdnf bkdnbkndbfnbnd f;bndbndbn; dbnfbknbbnfn b;dnbfnbk nkndf</div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

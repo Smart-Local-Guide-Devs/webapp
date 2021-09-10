@@ -74,6 +74,10 @@ def base(request: HttpRequest):
     return render(request, "basePage.html")
 
 
+def app_description(request: HttpRequest):
+    return render(request, "appDescriptionPage.html")
+
+
 prev_search_query = ""
 prev_search_result: Paginator
 
