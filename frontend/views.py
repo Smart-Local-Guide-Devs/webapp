@@ -13,6 +13,8 @@ from api.views import app_review as fetch_app_reviews
 from api.views import signin as signin_user
 from api.views import signup as signup_user
 from api.views import signout as signout_user
+from api.views import up_vote_app as upvote_review
+from api.views import down_vote_app as downvote_review
 from django.core.paginator import EmptyPage, Paginator
 from django.http.request import HttpRequest
 from django.shortcuts import redirect, render
@@ -70,14 +72,6 @@ def index(request: HttpRequest):
     )
 
 
-def base(request: HttpRequest):
-    return render(request, "basePage.html")
-
-
-def app_description(request: HttpRequest):
-    return render(request, "appDescriptionPage.html")
-
-
 prev_search_query = ""
 prev_search_result: Paginator
 
@@ -121,12 +115,13 @@ def search(request: HttpRequest):
 
 def get_app(request: HttpRequest, app_id: str):
     context = app(app_id, "en", "in")
+    context["score"] = round(context["score"], 2)
     context["similar_apps"] = fetch_similar_apps(request, app_id).data
     context["reviews"] = fetch_app_reviews(request, app_id).data
     context["playstore_reviews"], _ = reviews(app_id, "en", "in", Sort.MOST_RELEVANT, 6)
     return render(
         request,
-        "appPage.html",
+        "appInfoPage.html",
         context,
     )
 
@@ -192,3 +187,19 @@ def signup(request: HttpRequest):
 def signout(request: HttpRequest):
     signout_user(request)
     return redirect(request.META["HTTP_REFERER"])
+
+
+def base(request: HttpRequest):
+    return render(request, "basePage.html")
+
+
+def review_upvote(request: HttpRequest, app_id: str, pk: int):
+    upvote_review(request, app_id, pk)
+    url = request.path[: request.path.find("/review")]
+    return redirect(url)
+
+
+def review_downvote(request: HttpRequest, app_id: str, pk: int):
+    downvote_review(request, app_id, pk)
+    url = request.path[: request.path.find("/review")]
+    return redirect(url)
