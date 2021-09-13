@@ -9,199 +9,219 @@
 {% endblock %}
 
 {% block body %}
-<div class="container">
-    <div class="app card">
-        <div class="app-info">
-            <div class="app-icon">
-                <img src="{{ icon }}">
-            </div>
-            <div class="app-info-text">
-                <h1 id="app-name">{{ title }}</h1>
-                <p id="app-desc">{{ summary }}</p>
-            </div>
-        </div>
-        <div class="buttons">
-            <a><button>Review</button></a>
-            <a href="{{ url }}" target="_blank"><button>Download</button></a>
-        </div>
-        <div class="rating">
-            <div class="avg-rating">
-                <div>
-                    <h2>Average Rating</h2>
-                    <h1 id="avg-rating-value">{{ score }}</h1>
+<section>
+    <div class="container">
+        <div class="app card">
+            <div class="app-info">
+                <div class="app-icon">
+                    <img src="{{ icon }}">
                 </div>
-                <div class="rating-stars">
-                    {% if score >= 1 %}
-                    <span class="fa fa-star checked"></span>
-                    {% else %}
-                    <span class="fa fa-star"></span>
-                    {% endif %}
-                    {% if score >= 2 %}
-                    <span class="fa fa-star checked"></span>
-                    {% else %}
-                    <span class="fa fa-star"></span>
-                    {% endif %}
-                    {% if score >= 3 %}
-                    <span class="fa fa-star checked"></span>
-                    {% else %}
-                    <span class="fa fa-star"></span>
-                    {% endif %}
-                    {% if score >= 4 %}
-                    <span class="fa fa-star checked"></span>
-                    {% else %}
-                    <span class="fa fa-star"></span>
-                    {% endif %}
-                    {% if score == 5 %}
-                    <span class="fa fa-star checked"></span>
-                    {% else %}
-                    <span class="fa fa-star"></span>
-                    {% endif %}
-                </div>
-                <div class="rating-stats">
-                    <span class="user-icon fa fa-users"></span>
-                    <h2 class="review-count">{{ installs }}</h2>
+                <div class="app-info-text">
+                    <h1 class="app-name">{{ title }}</h1>
+                    <p class="app-desc">{{ summary }}</p>
                 </div>
             </div>
-            <div id="rating-graph">
-                <div class="rating-row">
-                    <span class="rating-value">5</span>
-                    <div class="rating-bar" style="width: {% widthratio histogram.4 ratings 100 %}%;"></div>
-                </div>
-                <div class="rating-row">
-                    <span class="rating-value">4</span>
-                    <div class="rating-bar" style="width: {% widthratio histogram.3 ratings 100 %}%;"></div>
-                </div>
-                <div class="rating-row">
-                    <span class="rating-value">3</span>
-                    <div class="rating-bar" style="width: {% widthratio histogram.2 ratings 100 %}%;"></div>
-                </div>
-                <div class="rating-row">
-                    <span class="rating-value">2</span>
-                    <div class="rating-bar" style="width: {% widthratio histogram.1 ratings 100 %}%"></div>
-                </div>
-                <div class="rating-row">
-                    <span class="rating-value">1</span>
-                    <div class="rating-bar" style="width: {% widthratio histogram.0 ratings 100 %}%"></div>
-                </div>
+            <div class="buttons">
+                <a><button>Review</button></a>
+                <a href="{{ url }}" target="_blank"><button>Download</button></a>
             </div>
-        </div>
-    </div>
-    <div class="user-reviews">
-        <div class="review-body">
-            <h1>Curated Playstore Reviews</h1>
-            <div class="main-carousel"
-                data-flickity='{"contain": true, "pageDots": false, "groupCells": false, "wrapAround": true}'>
-                {% for review in playstore_reviews %}
-                <div class="carousel-cell">
-                    <div class="review-content card">
-                        <div class="user-image">
-                            <img src="{{ review.userImage }}" alt="user-image">
-                        </div>
-                        <div class="user-name">
-                            <h2>{{ review.userName }}</h2>
-                        </div>
-                        <div class="rating-stars">
-                            {% if review.score >= 1 %}
-                            <span class="fa fa-star checked"></span>
-                            {% else %}
-                            <span class="fa fa-star"></span>
-                            {% endif %}
-                            {% if review.score >= 2 %}
-                            <span class="fa fa-star checked"></span>
-                            {% else %}
-                            <span class="fa fa-star"></span>
-                            {% endif %}
-                            {% if review.score >= 3 %}
-                            <span class="fa fa-star checked"></span>
-                            {% else %}
-                            <span class="fa fa-star"></span>
-                            {% endif %}
-                            {% if review.score >= 4 %}
-                            <span class="fa fa-star checked"></span>
-                            {% else %}
-                            <span class="fa fa-star"></span>
-                            {% endif %}
-                            {% if review.score == 5 %}
-                            <span class="fa fa-star checked"></span>
-                            {% else %}
-                            <span class="fa fa-star"></span>
-                            {% endif %}
-                        </div>
-                        <div class="review-text card">
-                            <p>{{ review.content }}</p>
-                        </div>
-                        <div class="review-thumbsup card">
-                            <span class="fa fa-thumbs-up" id="playstore-thumbsup"></span>
-                            <h3 class="thumbsup-count">{{ review.thumbsUpCount }}</h3>
-                        </div>
+            <div class="rating">
+                <div class="avg-rating">
+                    <div>
+                        <h2>Average Rating</h2>
+                        <h1 class="avg-rating-value">{{ score }}</h1>
+                    </div>
+                    <div class="rating-stars">
+                        {% if score >= 1 %}
+                        <span class="fa fa-star checked"></span>
+                        {% else %}
+                        <span class="fa fa-star"></span>
+                        {% endif %}
+                        {% if score >= 2 %}
+                        <span class="fa fa-star checked"></span>
+                        {% else %}
+                        <span class="fa fa-star"></span>
+                        {% endif %}
+                        {% if score >= 3 %}
+                        <span class="fa fa-star checked"></span>
+                        {% else %}
+                        <span class="fa fa-star"></span>
+                        {% endif %}
+                        {% if score >= 4 %}
+                        <span class="fa fa-star checked"></span>
+                        {% else %}
+                        <span class="fa fa-star"></span>
+                        {% endif %}
+                        {% if score == 5 %}
+                        <span class="fa fa-star checked"></span>
+                        {% else %}
+                        <span class="fa fa-star"></span>
+                        {% endif %}
+                    </div>
+                    <div class="rating-stats">
+                        <span class="user-icon fa fa-users"></span>
+                        <h2 class="review-count">{{ installs }}</h2>
                     </div>
                 </div>
-                {% endfor %}
-            </div>
-        </div>
-        {% if reviews %}
-        <div class="review-body">
-            <h1>Curated SLG Reviews</h1>
-            <div class="main-carousel"
-                data-flickity='{"contain": true, "pageDots": false, "groupCells": false, "wrapAround": true}'>
-                {% for review in reviews %}
-                <div class="carousel-cell">
-                    <div class="review-content card">
-                        <div class="user-name">
-                            <h2>{{ review.username }} from {{ review.city }}, {{ review.state }}</h2>
-                        </div>
-                        <div class="rating-stars">
-                            {% if review.rating >= 1 %}
-                            <span class="fa fa-star checked"></span>
-                            {% else %}
-                            <span class="fa fa-star"></span>
-                            {% endif %}
-                            {% if review.rating >= 2 %}
-                            <span class="fa fa-star checked"></span>
-                            {% else %}
-                            <span class="fa fa-star"></span>
-                            {% endif %}
-                            {% if review.rating >= 3 %}
-                            <span class="fa fa-star checked"></span>
-                            {% else %}
-                            <span class="fa fa-star"></span>
-                            {% endif %}
-                            {% if review.rating >= 4 %}
-                            <span class="fa fa-star checked"></span>
-                            {% else %}
-                            <span class="fa fa-star"></span>
-                            {% endif %}
-                            {% if review.rating == 5 %}
-                            <span class="fa fa-star checked"></span>
-                            {% else %}
-                            <span class="fa fa-star"></span>
-                            {% endif %}
-                        </div>
-                        <div class="review-text card">
-                            <p>{{ review.content }}</p>
-                        </div>
-                        <div class="review-votes">
-                            <form action="{% url 'review_upvote' appId review.pk %}" method="POST">
-                                {% csrf_token %}
-                                <button>
-                                    <span class="fa fa-thumbs-up"></span>
-                                    <h3 class="thumbsup-count">{{ review.up_votes }}</h3>
-                                </button>
-                            </form>
-                            <form action="{% url 'review_downvote' appId review.pk %}" method="POST">
-                                {% csrf_token %}
-                                <button>
-                                    <span class="fa fa-thumbs-down"></span>
-                                    <h3 class="thumbsup-count">{{ review.down_votes }}</h3>
-                                </button>
-                            </form>
-                        </div>
+                <div class="rating-graph">
+                    <div class="rating-row">
+                        <span class="rating-value">5</span>
+                        <div class="rating-bar" style="width: {% widthratio histogram.4 ratings 100 %}%;"></div>
+                    </div>
+                    <div class="rating-row">
+                        <span class="rating-value">4</span>
+                        <div class="rating-bar" style="width: {% widthratio histogram.3 ratings 100 %}%;"></div>
+                    </div>
+                    <div class="rating-row">
+                        <span class="rating-value">3</span>
+                        <div class="rating-bar" style="width: {% widthratio histogram.2 ratings 100 %}%;"></div>
+                    </div>
+                    <div class="rating-row">
+                        <span class="rating-value">2</span>
+                        <div class="rating-bar" style="width: {% widthratio histogram.1 ratings 100 %}%"></div>
+                    </div>
+                    <div class="rating-row">
+                        <span class="rating-value">1</span>
+                        <div class="rating-bar" style="width: {% widthratio histogram.0 ratings 100 %}%"></div>
                     </div>
                 </div>
-                {% endfor %}
             </div>
         </div>
-        {% endif %}
-    </div>
-</div>
+        <div class="user-reviews">
+            <div class="review-body">
+                <h1>Curated Playstore Reviews</h1>
+                <div class="main-carousel"
+                    data-flickity='{"contain": true, "pageDots": false, "groupCells": false, "wrapAround": true}'>
+                    {% for review in playstore_reviews %}
+                    <div class="carousel-cell">
+                        <div class="review-content card">
+                            <div class="user-image">
+                                <img src="{{ review.userImage }}" alt="user-image">
+                            </div>
+                            <div class="user-name">
+                                <h2>{{ review.userName }}</h2>
+                            </div>
+                            <div class="rating-stars">
+                                {% if review.score >= 1 %}
+                                <span class="fa fa-star checked"></span>
+                                {% else %}
+                                <span class="fa fa-star"></span>
+                                {% endif %}
+                                {% if review.score >= 2 %}
+                                <span class="fa fa-star checked"></span>
+                                {% else %}
+                                <span class="fa fa-star"></span>
+                                {% endif %}
+                                {% if review.score >= 3 %}
+                                <span class="fa fa-star checked"></span>
+                                {% else %}
+                                <span class="fa fa-star"></span>
+                                {% endif %}
+                                {% if review.score >= 4 %}
+                                <span class="fa fa-star checked"></span>
+                                {% else %}
+                                <span class="fa fa-star"></span>
+                                {% endif %}
+                                {% if review.score == 5 %}
+                                <span class="fa fa-star checked"></span>
+                                {% else %}
+                                <span class="fa fa-star"></span>
+                                {% endif %}
+                            </div>
+                            <div class="review-text card">
+                                <p>{{ review.content }}</p>
+                            </div>
+                            <div class="review-thumbsup card">
+                                <span class="fa fa-thumbs-up playstore-thumbsup"></span>
+                                <h3 class="thumbsup-count">{{ review.thumbsUpCount }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% if reviews %}
+            <div class="review-body">
+                <h1>Curated SLG Reviews</h1>
+                <div class="main-carousel"
+                    data-flickity='{"contain": true, "pageDots": false, "groupCells": false, "wrapAround": true}'>
+                    {% for review in reviews %}
+                    <div class="carousel-cell">
+                        <div class="review-content card">
+                            <div class="user-name">
+                                <h2>{{ review.username }} from {{ review.city }}, {{ review.state }}</h2>
+                            </div>
+                            <div class="rating-stars">
+                                {% if review.rating >= 1 %}
+                                <span class="fa fa-star checked"></span>
+                                {% else %}
+                                <span class="fa fa-star"></span>
+                                {% endif %}
+                                {% if review.rating >= 2 %}
+                                <span class="fa fa-star checked"></span>
+                                {% else %}
+                                <span class="fa fa-star"></span>
+                                {% endif %}
+                                {% if review.rating >= 3 %}
+                                <span class="fa fa-star checked"></span>
+                                {% else %}
+                                <span class="fa fa-star"></span>
+                                {% endif %}
+                                {% if review.rating >= 4 %}
+                                <span class="fa fa-star checked"></span>
+                                {% else %}
+                                <span class="fa fa-star"></span>
+                                {% endif %}
+                                {% if review.rating == 5 %}
+                                <span class="fa fa-star checked"></span>
+                                {% else %}
+                                <span class="fa fa-star"></span>
+                                {% endif %}
+                            </div>
+                            <div class="review-text card">
+                                <p>{{ review.content }}</p>
+                            </div>
+                            <div class="review-votes">
+                                <form action="{% url 'review_upvote' appId review.pk %}" method="POST">
+                                    {% csrf_token %}
+                                    <button>
+                                        <span class="fa fa-thumbs-up"></span>
+                                        <h3 class="thumbsup-count">{{ review.up_votes }}</h3>
+                                    </button>
+                                </form>
+                                <form action="{% url 'review_downvote' appId review.pk %}" method="POST">
+                                    {% csrf_token %}
+                                    <button>
+                                        <span class="fa fa-thumbs-down"></span>
+                                        <h3 class="thumbsup-count">{{ review.down_votes }}</h3>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <div class="similar-apps">
+            <h1>Similar Apps</h1>
+            <div class="similar-apps-card card">
+                <div class="main-carousel" data-flickity='{"pageDots": false, "wrapAround": true}'>
+                    {% for app in similar_apps %}
+                    <div class="carousel-cell">
+                        <a href="{% url 'front_get_app' app.app_id %}">
+                            <button class="similar-app-button">
+                                <div class="similar-app-icon">
+                                    <img src="{{ app.icon_link }}">
+                                </div>
+                                <p>{{ app.app_name }}</p>
+                            </button>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+</section>
 {% endblock %}

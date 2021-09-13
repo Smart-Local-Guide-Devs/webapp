@@ -26,8 +26,6 @@ p{
     align-items: center;
     gap: 5em;
     width: 60vw;
-    padding-top: 10vh;
-    padding-bottom: 10vh;
 }
 
 .app{
@@ -60,7 +58,7 @@ p{
     height: 60px;
 }
 
-#app-name{
+.app-name{
     margin-bottom: 10px;
 }
 
@@ -99,15 +97,14 @@ p{
     text-align: center;
 }
 
-#rating-graph{
-    margin-left: 20px;
+.rating-graph{
     flex: 3;
     display: grid;
     grid-template-rows: repeat(5, 1fr);
     row-gap: 5px;
 }
 
-#avg-rating-value{
+.avg-rating-value{
     font-size: 3em;
 }
 
@@ -115,13 +112,13 @@ p{
     display: flex;
     flex-direction: row;
     align-items: center;
+    gap: 0.5em;
 }
 
 .rating-bar{
     display: inline-block;
     width: 100px;
     height: 80%;
-    margin-left: 10px;
     background-color: var(--clr-comp);
 }
 
@@ -187,7 +184,7 @@ p{
 .user-image{
     width: 60px;
     height: 60px;
-    border-radius: 50%;
+    /* border-radius: 50%; */
 }
 
 .review-text{
@@ -205,7 +202,7 @@ p{
     width: 100%;
 }
 
-.carousel-cell{
+.user-reviews .carousel-cell{
     width: 100%;
     margin-right: 30px;
 }
@@ -216,7 +213,7 @@ p{
     padding: 0.5em;
 }
 
-#playstore-thumbsup{
+.playstore-thumbsup{
     color: var(--clr-black);
 }
 
@@ -235,6 +232,60 @@ p{
 
 .review-votes button{
     color: var(--clr-comp);
+}
+
+.similar-apps{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: auto;
+    width: 80%;
+    gap: 2em;
+}
+
+.similar-apps-card{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    min-height: 40vh;
+}
+
+.similar-app-button{
+    width: 100%;
+    min-height: 20vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    gap: 1em;
+}
+
+.similar-app-icon{
+    width: 60px;
+    height: 60px;
+}
+
+.similar-apps-card .carousel-cell{
+    width: 40%;
+    margin-right: 20px;
+    padding: 20px;
+}
+
+@media (max-width: 920px){
+    .similar-apps-card .carousel-cell{
+        width: 80%;
+        margin-right: 30px;
+    }
+
+    .similar-app-button{
+        min-height: 30vh;
+    }
 }
 
 @media (max-width: 520px) {
