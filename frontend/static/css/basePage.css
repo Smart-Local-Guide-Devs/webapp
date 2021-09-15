@@ -43,18 +43,42 @@ select,
 textarea,
 button {
 	border: none;
+	appearance: none;
 	font-size: medium;
 	padding: 0.5em;
 	color: var(--clr-black);
 	background-color: var(--clr-white);
 	border-radius: 0.5em;
 	box-shadow: 0 0 0.75em 0 var(--clr-black);
-	transition: background-color 250ms ease-in-out;
 }
 
 input::placeholder,
 textarea::placeholder {
 	color: var(--clr-black);
+}
+
+input[type="range"] {
+	box-shadow: none;
+	appearance: none;
+	padding: 0;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+	background-color: var(--clr-white);
+	border-radius: 500px;
+	box-shadow: 0 0 0.75em var(--clr-black);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+	appearance: none;
+	background: var(--clr-comp);
+	height: 1em;
+	width: 1em;
+	transform: scale(0.75);
+	transition: transform 250ms ease-in-out, box-shadow 250ms ease-in-out;
+	border-radius: 50%;
+	cursor: pointer;
+	box-shadow: 0 0 0.25em 0 var(--clr-black);
 }
 
 input:hover,
@@ -67,6 +91,12 @@ button:hover,
 button:focus {
 	box-shadow: inset 0 0 0.25em 0 var(--clr-black);
 	outline: none;
+}
+
+input[type="range"]:hover::-webkit-slider-thumb,
+input[type="range"]:focus::-webkit-slider-thumb {
+	transform: scale(1.25);
+	box-shadow: 0 0 0.5em 0 var(--clr-black);
 }
 
 .checkbox {
@@ -162,6 +192,34 @@ footer > p > a {
 	border-radius: 0.5em;
 	box-shadow: inset 0 0 0.75em 0 var(--clr-black);
 	padding: 2em;
+}
+
+.tile {
+	color: var(--clr-black);
+	background-color: var(--clr-white);
+	border-radius: 0.5em;
+	box-shadow: 0 0 0.75em 0 var(--clr-black);
+	padding: 0.5em;
+}
+
+.flex-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 2em;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.flex-col {
+	display: flex;
+	flex-direction: column;
+	gap: 2em;
+	align-items: center;
+}
+
+.card .flex-col,
+.card .flex-row {
+	gap: 1em;
 }
 
 @media (min-width: 700px) {

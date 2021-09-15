@@ -14,7 +14,7 @@ urlpatterns = [
     path("site/review", views.slg_site_review, name="api_slg_site_review"),
     path("counter", views.counter, name="api_counter"),
     path("user/best", views.top_users, name="api_top_users"),
-    path("genre", views.all_genres, name="api_all_genres"),
+    path("app/genre", views.all_genres, name="api_all_genres"),
     path(
         "app/<str:app_id>/review/queries",
         views.app_review_queries,

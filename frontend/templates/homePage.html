@@ -9,7 +9,7 @@
 {% block body %}
 <header>
 	<h1 class="header-title">Hello, this is your own personal local guide.</h1>
-	<div class="header-content">
+	<div class="header-content flex-row">
 		<div class="counter"><em class="fa fa-play counter-icon"></em><span
 				class="counter-title">Apps</span>{{counter.apps}}
 		</div>
@@ -24,17 +24,17 @@
 	</div>
 </header>
 <section>
-	<h2 class="best-apps-title">Some Of Our Best Recommendations</h2>
-	<div class="best-apps-content">
+	<h2>Some Of Our Best Recommendations</h2>
+	<div class="flex-row">
 		{% for genre, apps in best_apps.items %}
-		<div class="best-apps-card card">
+		<div class="flex-col best-apps-card card">
 			<h3 class="best-apps-card-title">{{ genre }}</h3>
-			<div class="best-apps-card-content">
+			<div class="flex-row best-apps-card-content">
 				{% for app in apps %}
 				<a class="best-app" href="{% url 'front_get_app' app.app_id %}">
 					<button>
 						<img class="best-app-title" src="{{ app.icon_link }}" alt="{{ app.app_name }} icon">
-						<div class="best-app-content">
+						<div class="flex-col best-app-content">
 							<p>{{ app.app_name }}</p>
 							<p><em class="fa fa-star"></em>{{ app.avg_rating }}
 							</p>
@@ -48,18 +48,18 @@
 		{% endfor %}
 	</div>
 </section>
-<section class="top-users-feedback">
-	<div class="top-users">
-		<h2 class="top-users-title">Meet Our Top Contributors</h2>
-		<div class="top-users-content card">
+<section class="flex-row top-users-feedback">
+	<div>
+		<h2>Meet Our Top Contributors</h2>
+		<div class="flex-col card">
 			{% for username, up_votes in top_users.items %}
 			<button class="top-user">{{ username }}: <span>{{ up_votes }}</span> </button>
 			{% endfor %}
 		</div>
 	</div>
 	<div class="feedback" id="contact">
-		<h2 class="feedback-title">Any Feedback?</h2>
-		<form class="feedback-content card" name="feedbackForm" action="{% url 'api_slg_site_review' %}" method="post">
+		<h2>Any Feedback?</h2>
+		<form class="flex-col card" name="feedbackForm" action="{% url 'api_slg_site_review' %}" method="post">
 			{% csrf_token %}
 			<input required placeholder="Name" name="user_name" type="text">
 			<input required placeholder="Email" name="email_id" type="email">

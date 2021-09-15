@@ -8,12 +8,12 @@
 
 {% block body %}
 <header>
-	<form action="{% url 'front_search' %}" method="get" class="search card">
+	<form action="{% url 'front_search' %}" method="get" class="flex-col card">
 		<div class="search-bar">
 			<input type="text" class="search-input" placeholder="Search" name="search_query" value="{{ search_query }}">
 			<button type="submit" class="search-btn"><em class="fa fa-search"></em></button>
 		</div>
-		<div class="genres">
+		<div class="flex-row">
 			<span>Genres: </span>
 			{% for genre in genres %}
 			{% if genre in search_genre %}
@@ -22,10 +22,10 @@
 			{% else %}
 			<input type="checkbox" class="checkbox" name="search_genre" value="{{ genre }}" id="{{ genre }}Checkbox">
 			{% endif %}
-			<label class="genre" for="{{ genre }}Checkbox">{{ genre }}</label>
+			<label class="genre tile" for="{{ genre }}Checkbox">{{ genre }}</label>
 			{% endfor %}
 		</div>
-		<div class="order-by-free">
+		<div class="flex-row">
 			<span>Order By: </span>
 			<div>
 				<select name="orderby">
@@ -42,22 +42,22 @@
 				{% else %}
 				<input type="checkbox" class="checkbox" name="free" id="freeCheckbox" value="true">
 				{% endif %}
-				<label for="freeCheckbox" class="genre">Only Free</label>
+				<label for="freeCheckbox" class="genre tile">Only Free</label>
 			</div>
 		</div>
 
-		<div class="filters">
+		<div class="flex-row">
 			<span>Filters: </span>
-			<div class="filter">
-				<div class="filter-title">
-					<span>Min Average Rating</span>
+			<div class="flex-col filter">
+				<div class="filter-title flex-col tile">
+					<span>Min Avg Rating</span>
 					<output id="ratingOutput">{{ rating }}</output>
 				</div>
 				<input type="range" min="0" max="5" step="0.5" name="rating" id="ratingInput" value="{{ rating }}"
 					onchange="ratingOutput.value=value">
 			</div>
-			<div class="filter">
-				<div class="filter-title">
+			<div class="flex-col filter">
+				<div class="filter-title flex-col tile">
 					<span>Min Installs</span>
 					<output id="installsOutput">{{ installs }}</output>
 				</div>
@@ -65,16 +65,16 @@
 				<input type="range" min="0" max="10000000" step="10000" name="installs" id="installsInput"
 					value="{{ installs }}" onchange="installsOutput.value=value">
 			</div>
-			<div class="filter">
-				<div class="filter-title">
+			<div class="flex-col filter">
+				<div class="filter-title flex-col tile">
 					<span>Min Reviews</span>
 					<output id="reviewsOutput">{{ reviews }}</output>
 				</div>
 				<input type="range" min="0" max="100000" step="1000" name="reviews" id="reviewsInput"
 					value="{{ reviews }}" onchange="reviewsOutput.value=value">
 			</div>
-			<div class="filter">
-				<div class="filter-title">
+			<div class="flex-col filter">
+				<div class="filter-title flex-col tile">
 					<span>Min Ratings</span>
 					<output id="ratingsOutput">{{ ratings }}</output>
 				</div>
@@ -84,12 +84,12 @@
 		</div>
 	</form>
 </header>
-<section class="apps">
+<section class="flex-col">
 	{% for app in search_results %}
-	<div class="app card">
-		<div class="app-title">
+	<div class="flex-row card">
+		<div class="flex-col app-title">
 			<img class="app-icon" src="{{app.icon_link}}" alt="{{ app.app_name }}">
-			<div class="app-links">
+			<div class="flex-row">
 				<a href="{% url 'front_get_app' app.app_id %}">
 					<button>Details</button>
 				</a>
@@ -98,14 +98,14 @@
 				</a>
 			</div>
 		</div>
-		<div class="app-content">
+		<div class="tile flex-col">
 			<h3 class="app-name">{{app.app_name}}</h3>
 			<p class="app-genres">
 				Genres: {% for genre in app.genres %}
 				{{ genre }},
 				{% endfor %}
 			</p>
-			<div class="app-details">
+			<div class="app-details flex-row">
 				<span>Reviews: {{ app.reviews_count }}</span>
 				<span>Ratings: {{ app.ratings_count }}</span>
 				<span>Min Installs: {{ app.min_installs }}</span>
@@ -116,8 +116,8 @@
 	{% endfor %}
 </section>
 <section>
-	<div class="pages-add-app card">
-		<div class="pages">
+	<div class="flex-col card">
+		<div class="flex-row">
 			{% if search_results.has_previous %}
 			<a href="{{sub_url}}{{search_results.previous_page_number}}"><button>Prev</button></a>
 			{% endif %}
@@ -134,14 +134,14 @@
 			<a href="{{sub_url}}{{search_results.next_page_number}}"><button>Next</button></a>
 			{% endif %}
 		</div>
-		<div class="add-app">
-			<p class="add-app-title">Could not find any apps that met your needs, if you have any suggetions please add
+		<div class="flex-col">
+			<p>Could not find any apps that met your needs, if you have any suggetions please add
 				them so that others can know.
 			</p>
-			<form class="add-app-content" name="addAppForm" method="POST">
+			<form class="flex-row" name="addAppForm" method="POST">
 				{% csrf_token %}
 				<input type="url" name="app_playstore_link" placeholder="Enter App Playstore Link" />
-				<button type="submit" id="addAppButton">Send</button>
+				<button class="add-app-btn" type="submit" id="addAppButton">Send</button>
 			</form>
 		</div>
 	</div>

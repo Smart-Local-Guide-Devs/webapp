@@ -28,10 +28,6 @@ header::before {
 
 .header-content {
 	padding-top: calc(30vh + 70vw);
-	display: flex;
-	flex-wrap: wrap;
-	gap: 1em;
-	justify-content: center;
 }
 
 .counter-icon {
@@ -61,19 +57,6 @@ header::before {
 	opacity: 1;
 }
 
-.best-apps-content {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 2em;
-}
-
-.best-apps-card {
-	display: flex;
-	flex-direction: column;
-	gap: 2em;
-	width: 100%;
-}
-
 .best-apps-card-title {
 	font-size: x-large;
 	text-align: center;
@@ -81,9 +64,7 @@ header::before {
 }
 
 .best-apps-card-content {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 2em;
+	width: 100%;
 }
 
 .best-app {
@@ -92,7 +73,6 @@ header::before {
 
 .best-app > button {
 	width: 100%;
-	padding: 1em;
 }
 
 .best-app-title {
@@ -100,26 +80,12 @@ header::before {
 	height: 2em;
 }
 
-.best-app-content {
-	display: flex;
-	flex-direction: column;
-	gap: 1em;
-	align-items: center;
-}
-
 .top-users-feedback {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	gap: 4em;
+	align-items: flex-start;
 }
 
-.top-users-content {
-	margin: 1em;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-around;
-	gap: 2em;
+.top-user {
+	width: 100%;
 }
 
 .top-user:nth-of-type(1) {
@@ -128,15 +94,6 @@ header::before {
 
 .top-user:nth-of-type(2) {
 	font-size: 1.25em;
-}
-
-.feedback-content {
-	margin: 1em;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-around;
-	gap: 2em;
 }
 
 .feedback-content > button {
