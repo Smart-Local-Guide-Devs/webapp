@@ -36,7 +36,8 @@
 			<a href="{% url 'front_signout' %}" class="nav-link"><em class="fa fa-sign-out icon"></em><button>Sign
 					Out</button></a>
 			{% else %}
-			<a href="{% url 'front_signin' %}" class="nav-link"><em class="fa fa-sign-in icon"></em><button>Sign
+			<a href="{% url  'social:begin' 'google-oauth2' %}?next={{ request.path }}" class="nav-link"><em
+					class="fa fa-sign-in icon"></em><button>Sign
 					In</button></a>
 			{% endif %}
 			<a href="{% url 'index' %}#contact" class="nav-link"><em class="fa fa-paper-plane icon"></em><button>Contact

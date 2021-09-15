@@ -12,7 +12,6 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .forms import CreateUserForm
 from .models import *
 from .serializers import *
 
@@ -70,42 +69,6 @@ def search(request: HttpRequest):
     apps = apps.distinct(order[1:]).order_by(order)
     apps = AppSerializer(apps[:32], many=True).data
     return Response(apps)
-
-
-@api_view(["POST"])
-def signup(request: HttpRequest):
-    if request.user.is_authenticated:
-        return Response(
-            data={"message": "Already logged in!"}, status=status.HTTP_200_OK
-        )
-    form = CreateUserForm(request.POST)
-    if form.is_valid():
-        form.save()
-        user = form.cleaned_data.get("username")
-        messages.success(request, "Account was created for " + user)
-        return Response(
-            data={"message": "Account created successfully!"}, status=status.HTTP_200_OK
-        )
-    return Response(data={"form": form}, status=status.HTTP_400_BAD_REQUEST)
-
-
-@api_view(["POST"])
-def signin(request: HttpRequest):
-    if request.user.is_authenticated:
-        return Response(
-            data={"message": "Already logged in!"}, status=status.HTTP_200_OK
-        )
-    if request.method == "POST":
-        username = request.POST.get("user")
-        password = request.POST.get("pass")
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return Response(
-                data={"message": "Log in successful"}, status=status.HTTP_200_OK
-            )
-        messages.info(request, "Username or Password is Incorrect")
-    return Response(data={}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["GET", "POST"])

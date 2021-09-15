@@ -43,7 +43,6 @@ select,
 textarea,
 button {
 	border: none;
-	appearance: none;
 	font-size: medium;
 	padding: 0.5em;
 	color: var(--clr-black);

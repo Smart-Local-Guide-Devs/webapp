@@ -1,13 +1,9 @@
 from django.urls import path
 from . import views
-from django.urls import path, include
 
 urlpatterns = [
     path("search", views.search, name="api_search"),
-    path("signin", views.signin, name="api_signin"),
     path("signout", views.signout, name="api_signout"),
-    path("signup", views.signup, name="api_signup"),
-    path("social-auth/", include("social_django.urls", namespace="social")),
     path("app/best", views.best_apps, name="api_best_apps"),
     path("app/<str:app_id>/similar", views.similar_apps, name="api_similar_apps"),
     path("app/<str:app_id>/review", views.app_review, name="api_app_review"),

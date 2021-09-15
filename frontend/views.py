@@ -1,4 +1,3 @@
-from api.forms import CreateUserForm
 from django.contrib import messages
 from api.views import best_apps as fetch_best_apps
 from api.views import counter as fetch_counter
@@ -10,17 +9,13 @@ from api.views import api_app as fetch_app_details
 from api.views import app_review as submit_app_review
 from api.views import all_genres as fetch_all_genres
 from api.views import app_review as fetch_app_reviews
-from api.views import signin as signin_user
-from api.views import signup as signup_user
 from api.views import signout as signout_user
 from api.views import up_vote_app as upvote_review
 from api.views import down_vote_app as downvote_review
 from django.core.paginator import EmptyPage, Paginator
 from django.http.request import HttpRequest
 from django.shortcuts import redirect, render
-from django.urls import reverse
 from concurrent.futures import ThreadPoolExecutor
-from urllib.parse import urlencode
 from google_play_scraper import Sort, app, reviews
 
 
@@ -152,45 +147,9 @@ def app_review(request: HttpRequest, app_id: str):
     )
 
 
-def signin(request: HttpRequest):
-    location = request.GET.get("next", request.META["HTTP_REFERER"])
-    if request.method == "GET":
-        return render(request, "signin.html", {"next": location})
-    res = signin_user(request)
-    if res.status_code == 400:
-        res.data["next"] = location
-        return render(request, "signin.html", res.data)
-    for suffix in ["in", "out", "up"]:
-        if "sign" + suffix in location:
-            return redirect("index")
-    return redirect(location)
-
-
-def signup(request: HttpRequest):
-    location = request.GET.get("next", request.META["HTTP_REFERER"])
-    if request.method == "GET":
-        return render(
-            request,
-            "signup.html",
-            context={"form": CreateUserForm(), "next": location},
-        )
-    res = signup_user(request)
-    if res.status_code == 400:
-        res.data["next"] = location
-        return render(request, "signup.html", res.data)
-    base_url = reverse("front_signin")
-    query_string = urlencode({"next": location})
-    url = "{}?{}".format(base_url, query_string)
-    return redirect(url)
-
-
 def signout(request: HttpRequest):
     signout_user(request)
     return redirect(request.META["HTTP_REFERER"])
-
-
-def base(request: HttpRequest):
-    return render(request, "basePage.html")
 
 
 def review_upvote(request: HttpRequest, app_id: str, pk: int):
