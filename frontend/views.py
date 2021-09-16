@@ -109,16 +109,47 @@ def search(request: HttpRequest):
 
 
 def get_app(request: HttpRequest, app_id: str):
-    context = app(app_id, "en", "in")
-    context["score"] = round(context["score"], 2)
-    context["similar_apps"] = fetch_similar_apps(request, app_id).data
-    context["reviews"] = fetch_app_reviews(request, app_id).data
-    context["playstore_reviews"], _ = reviews(app_id, "en", "in", Sort.MOST_RELEVANT, 6)
-    return render(
-        request,
-        "appInfoPage.html",
-        context,
+    if request.method == "POST":
+        req = request.POST.dict()
+        req["username"] = request.user.username
+        req["query_choices"] = []
+        for key, value in req.items():
+            if key.startswith("query: "):
+                req["query_choices"].append(
+                    {"query": key.removeprefix("query: "), "choice": value}
+                )
+        res = submit_app_review(request, app_id, req)
+        if res.status_code == 200:
+            messages.success(request, "Review Submission Successful")
+        else:
+            messages.error(request, "Review Submission Failed")
+        return redirect("front_get_app", app_id=app_id)
+    context = {}
+    context_app = {}
+    (
+        context_app,
+        context["similar_apps"],
+        context["reviews"],
+        (context["playstore_reviews"], _),
+        context["queries"],
+    ) = execute_parrallelly(
+        app,
+        (app_id, "en", "in"),
+        fetch_similar_apps,
+        (request, app_id),
+        fetch_app_reviews,
+        (request, app_id),
+        reviews,
+        (app_id, "en", "in", Sort.MOST_RELEVANT, 6),
+        fetch_app_review_queries,
+        (request, app_id),
     )
+    context = {**context_app, **context}
+    context["score"] = round(context["score"], 2)
+    context["similar_apps"] = context["similar_apps"].data
+    context["reviews"] = context["reviews"].data
+    context["queries"] = context["queries"].data
+    return render(request, "appInfoPage.html", context)
 
 
 def app_review(request: HttpRequest, app_id: str):

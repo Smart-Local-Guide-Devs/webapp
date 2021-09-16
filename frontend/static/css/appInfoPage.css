@@ -38,13 +38,22 @@ p{
     width: 100%;
 }
 
+.app-header-card{
+    background-color: var(--clr-white);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+    box-shadow: 0 0 0.75em 0 var(--clr-black);
+}
+
 .app-info{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
     align-content: center;
-    background-color: var(--clr-accent);
     gap: 0.5em;
 }
 
@@ -62,7 +71,7 @@ p{
     margin-bottom: 10px;
 }
 
-.buttons{
+.app-info-btns{
     margin: auto;
     width: 40vw;
     display: flex;
@@ -73,13 +82,16 @@ p{
     gap: 2em;
 }
 
-.buttons > a{
+.app-info-btns > a{
     width: 10vw;
     min-width: 100px;
 }
 
-.buttons > a > button{
+.app-info-btns > a > button{
     width: 100%;
+    background-color: var(--clr-comp);
+    box-shadow: 0 0 0.3em 0 var(--clr-black);
+    color: var(--clr-white);
 }
 
 .rating{
@@ -95,6 +107,10 @@ p{
 .avg-rating{
     flex: 1;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
 }
 
 .rating-graph{
@@ -104,8 +120,9 @@ p{
     row-gap: 5px;
 }
 
-.avg-rating-value{
+.avg-rating-value > h1{
     font-size: 3em;
+    color: var(--clr-white);
 }
 
 .rating-row{
@@ -184,7 +201,6 @@ p{
 .user-image{
     width: 60px;
     height: 60px;
-    /* border-radius: 50%; */
 }
 
 .review-text{
@@ -242,7 +258,7 @@ p{
     justify-content: center;
     text-align: center;
     margin: auto;
-    width: 80%;
+    width: 100%;
     gap: 2em;
 }
 
@@ -272,19 +288,138 @@ p{
 }
 
 .similar-apps-card .carousel-cell{
-    width: 40%;
-    margin-right: 20px;
+    width: 30%;
     padding: 20px;
+}
+
+.review-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+    width: 100%;
+}
+
+.review-form-card{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 1em;
+}
+
+.review-form-text{
+    width: 100%;
+    height: 15vh;
+}
+
+.review-form-rating{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+
+.review-state-city{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+
+.state-city-btns{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+
+.review-state-city > select{
+    box-shadow: 0 0 0.3em 0 var(--clr-black);;
+}
+
+.review-form-rating-stars{
+    unicode-bidi: bidi-override;
+    direction: rtl;
+    font-size: x-large;
+}
+
+.review-form-rating-stars > label:hover > span,
+.review-form-rating-stars > label:hover ~ label > span,
+.review-form-rating-stars > input:checked ~ label > span
+{
+    color: var(--clr-comp);
+}
+
+.review-form-rating-btn{
+    display: none;
+}
+
+.review-form-options{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 1em;
+}
+
+.review-form-queries{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1em;
+}
+
+.review-form-query{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1em;
+    width: 100%;
+}
+
+.review-form p{
+    font-size: large;
+}
+
+.review-form-submit-btn{
+    background-color: var(--clr-comp);
+    color: var(--clr-white);
 }
 
 @media (max-width: 920px){
     .similar-apps-card .carousel-cell{
         width: 80%;
-        margin-right: 30px;
+        padding: 5px;
     }
 
     .similar-app-button{
         min-height: 30vh;
+        height: 100%;
+    }
+
+    .review-form-rating{
+        margin: auto;
+    }
+}
+
+@media (max-width: 700px){
+    section{
+        padding: 2em 0;
     }
 }
 
@@ -295,5 +430,9 @@ p{
 
     .app-info-text{
         text-align: center;
+    }
+
+    .review-form-query input{
+        margin: auto;
     }
 }

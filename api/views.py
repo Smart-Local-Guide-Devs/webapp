@@ -164,6 +164,7 @@ def app_review(request: HttpRequest, app_id: str, data: dict = None):
     if data["username"] != request.user.username:
         res["message"] = "Please login to submit a review"
         return Response(res, status.HTTP_400_BAD_REQUEST)
+    data['app_id'] = app_id
     serializer = ReviewSerializer(data=data)
     if serializer.is_valid():
         serializer.save()
@@ -197,9 +198,8 @@ def all_genres(request: HttpRequest):
     return Response(genres)
 
 
-@api_view(["GET", "POST"])
+@api_view(["GET"])
 def app_review_queries(request: HttpRequest, app_id: str):
-    # TODO remove post access
     queries = []
     app = App.objects.prefetch_related("genre_set__queries").get(app_id=app_id)
     for genre in app.genre_set.all():

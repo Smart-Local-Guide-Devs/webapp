@@ -93,7 +93,7 @@
 				<a href="{% url 'front_get_app' app.app_id %}">
 					<button>Details</button>
 				</a>
-				<a href="{% url 'front_app_review' app.app_id %}">
+				<a href="{% url 'front_get_app' app.app_id %}#review-form">
 					<button>Review</button>
 				</a>
 			</div>
@@ -135,9 +135,7 @@
 			{% endif %}
 		</div>
 		<div class="flex-col">
-			<p>Could not find any apps that met your needs, if you have any suggetions please add
-				them so that others can know.
-			</p>
+			<p>Could not find any apps that met your needs?</p>
 			<form class="flex-row" name="addAppForm" method="POST">
 				{% csrf_token %}
 				<input type="url" name="app_playstore_link" placeholder="Enter App Playstore Link" />
