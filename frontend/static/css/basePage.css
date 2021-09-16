@@ -202,6 +202,17 @@ footer > p > a {
 	padding: 0.5em;
 }
 
+.btn {
+	background-color: var(--clr-comp);
+	color: var(--clr-white);
+}
+
+.btn:disabled {
+	background-color: var(--clr-white);
+	color: var(--clr-comp);
+	pointer-events: none;
+}
+
 .flex-row {
 	display: flex;
 	flex-wrap: wrap;
