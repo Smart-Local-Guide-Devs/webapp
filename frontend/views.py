@@ -1,4 +1,3 @@
-from api.forms import CreateUserForm
 from django.contrib import messages
 from api.views import best_apps as fetch_best_apps
 from api.views import counter as fetch_counter
@@ -10,37 +9,66 @@ from api.views import api_app as fetch_app_details
 from api.views import app_review as submit_app_review
 from api.views import all_genres as fetch_all_genres
 from api.views import app_review as fetch_app_reviews
-from api.views import signin as signin_user
-from api.views import signup as signup_user
 from api.views import signout as signout_user
+from api.views import up_vote_app as upvote_review
+from api.views import down_vote_app as downvote_review
 from django.core.paginator import EmptyPage, Paginator
 from django.http.request import HttpRequest
 from django.shortcuts import redirect, render
-from django.urls import reverse
-from urllib.parse import urlencode
+from concurrent.futures import ThreadPoolExecutor
 from google_play_scraper import Sort, app, reviews
+
+
+def execute_parrallelly(*args) -> tuple:
+    with ThreadPoolExecutor() as executor:
+        return_futures = (
+            executor.submit(args[i], *args[i + 1]) for i in range(0, len(args), 2)
+        )
+        return_futures = (return_future.result() for return_future in return_futures)
+        return tuple(return_futures)
 
 
 # Create your views here.
 
 
-def index(request):
+def index(request: HttpRequest):
     context = {}
-    top_users = list(fetch_top_users(request).data.items())
-    context["counter"] = fetch_counter(request).data
-    context["best_apps"] = fetch_best_apps(request).data
-    context["top_3_users"] = top_users[:3]
-    context["mid_7_users"] = top_users[3:10]
-    context["last_15_users"] = top_users[10:]
+    (
+        context["top_users"],
+        context["best_apps"],
+        context["counter"],
+    ) = execute_parrallelly(
+        fetch_top_users,
+        (request,),
+        fetch_best_apps,
+        (request,),
+        fetch_counter,
+        (request,),
+    )
+    context["counter"] = context["counter"].data
+    context["best_apps"] = context["best_apps"].data
+    for genre, apps in context["best_apps"].items():
+        for i, app in enumerate(apps):
+            context["best_apps"][genre][i]["app_name"] = app["app_name"].split()[0]
+            context["best_apps"][genre][i]["avg_rating"] = round(app["avg_rating"], 2)
+            if app["reviews_count"] > 1e6:
+                context["best_apps"][genre][i]["reviews_count"] = (
+                    str(round(app["reviews_count"] / 1e6, 1)) + " M"
+                )
+            elif app["reviews_count"] > 1e3:
+                context["best_apps"][genre][i]["reviews_count"] = (
+                    str(round(app["reviews_count"] / 1e3, 1)) + " K"
+                )
+    context["top_users"] = context["top_users"].data
     return render(
         request,
-        "home.html",
+        "homePage.html",
         context,
     )
 
 
 prev_search_query = ""
-prev_search_result = {}
+prev_search_result: Paginator
 
 
 def search(request: HttpRequest):
@@ -67,7 +95,7 @@ def search(request: HttpRequest):
     res["genres"] = fetch_all_genres(request).data
     res["add_app_status"] = "Enter playstore app link"
     res["search_query"] = request.GET.get("search_query", "")
-    res["genre"] = request.GET.getlist("genre", [])
+    res["search_genres"] = request.GET.getlist("search_genres", [])
     res["rating"] = request.GET.get("rating", 0)
     res["installs"] = request.GET.get("installs", 0)
     res["ratings"] = request.GET.get("ratings", 0)
@@ -75,21 +103,53 @@ def search(request: HttpRequest):
     res["free"] = request.GET.get("free", "false")
     return render(
         request,
-        "searchResult.html",
+        "searchPage.html",
         res,
     )
 
 
 def get_app(request: HttpRequest, app_id: str):
-    context = app(app_id, "en", "in")
-    context["similar_apps"] = fetch_similar_apps(request, app_id).data
-    context["reviews"] = fetch_app_reviews(request, app_id).data
-    context["playstore_reviews"], _ = reviews(app_id, "en", "in", Sort.MOST_RELEVANT, 6)
-    return render(
-        request,
-        "appPage.html",
-        context,
+    if request.method == "POST":
+        req = request.POST.dict()
+        req["username"] = request.user.username
+        req["query_choices"] = []
+        for key, value in req.items():
+            if key.startswith("query: "):
+                req["query_choices"].append(
+                    {"query": key.removeprefix("query: "), "choice": value}
+                )
+        res = submit_app_review(request, app_id, req)
+        if res.status_code == 200:
+            messages.success(request, "Review Submission Successful")
+        else:
+            messages.error(request, "Review Submission Failed")
+        return redirect("front_get_app", app_id=app_id)
+    context = {}
+    context_app = {}
+    (
+        context_app,
+        context["similar_apps"],
+        context["reviews"],
+        (context["playstore_reviews"], _),
+        context["queries"],
+    ) = execute_parrallelly(
+        app,
+        (app_id, "en", "in"),
+        fetch_similar_apps,
+        (request, app_id),
+        fetch_app_reviews,
+        (request, app_id),
+        reviews,
+        (app_id, "en", "in", Sort.MOST_RELEVANT, 6),
+        fetch_app_review_queries,
+        (request, app_id),
     )
+    context = {**context_app, **context}
+    context["score"] = round(context["score"], 2)
+    context["similar_apps"] = context["similar_apps"].data
+    context["reviews"] = context["reviews"].data
+    context["queries"] = context["queries"].data
+    return render(request, "appInfoPage.html", context)
 
 
 def app_review(request: HttpRequest, app_id: str):
@@ -116,38 +176,6 @@ def app_review(request: HttpRequest, app_id: str):
         "writeReview.html",
         context,
     )
-
-
-def signin(request: HttpRequest):
-    location = request.GET.get("next", request.META["HTTP_REFERER"])
-    if request.method == "GET":
-        return render(request, "signin.html", {"next": location})
-    res = signin_user(request)
-    if res.status_code == 400:
-        res.data["next"] = location
-        return render(request, "signin.html", res.data)
-    for suffix in ["in", "out", "up"]:
-        if "sign" + suffix in location:
-            return redirect("index")
-    return redirect(location)
-
-
-def signup(request: HttpRequest):
-    location = request.GET.get("next", request.META["HTTP_REFERER"])
-    if request.method == "GET":
-        return render(
-            request,
-            "signup.html",
-            context={"form": CreateUserForm(), "next": location},
-        )
-    res = signup_user(request)
-    if res.status_code == 400:
-        res.data["next"] = location
-        return render(request, "signup.html", res.data)
-    base_url = reverse("front_signin")
-    query_string = urlencode({"next": location})
-    url = "{}?{}".format(base_url, query_string)
-    return redirect(url)
 
 
 def signout(request: HttpRequest):

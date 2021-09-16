@@ -1,0 +1,251 @@
+:root {
+	--clr-black: hsla(220, 48%, 26%, 1);
+	--clr-accent: hsla(222, 82%, 70%, 1);
+	--clr-white: hsla(206, 62%, 95%, 1);
+	--clr-comp: hsla(24, 91%, 62%, 1);
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	border: none;
+	text-decoration: none;
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+section,
+header,
+footer {
+	padding: 2em 3em;
+	background-color: var(--clr-white);
+}
+
+h2 {
+	font-size: x-large;
+	margin: 2em;
+	color: var(--clr-black);
+	text-align: center;
+}
+
+button,
+select {
+	cursor: pointer;
+}
+
+input,
+select,
+textarea,
+button {
+	border: none;
+	font-size: medium;
+	padding: 0.5em;
+	color: var(--clr-black);
+	background-color: var(--clr-white);
+	border-radius: 0.5em;
+	box-shadow: 0 0 0.75em 0 var(--clr-black);
+}
+
+input::placeholder,
+textarea::placeholder {
+	color: var(--clr-black);
+}
+
+input[type="range"] {
+	box-shadow: none;
+	appearance: none;
+	padding: 0;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+	background-color: var(--clr-white);
+	border-radius: 500px;
+	box-shadow: 0 0 0.75em var(--clr-black);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+	appearance: none;
+	background: var(--clr-comp);
+	height: 1em;
+	width: 1em;
+	transform: scale(0.75);
+	transition: transform 250ms ease-in-out, box-shadow 250ms ease-in-out;
+	border-radius: 50%;
+	cursor: pointer;
+	box-shadow: 0 0 0.25em 0 var(--clr-black);
+}
+
+input:hover,
+input:focus,
+select:hover,
+select:focus,
+textarea:hover,
+textarea:focus,
+button:hover,
+button:focus,
+button:disabled {
+	box-shadow: inset 0 0 0.25em 0 var(--clr-black);
+	outline: none;
+}
+
+input[type="range"]:hover::-webkit-slider-thumb,
+input[type="range"]:focus::-webkit-slider-thumb {
+	transform: scale(1.25);
+	box-shadow: 0 0 0.5em 0 var(--clr-black);
+}
+
+.checkbox {
+	display: none;
+}
+
+.nav-icon {
+	position: fixed;
+	z-index: 1000;
+	color: var(--clr-black);
+	top: 1em;
+	right: 0.5em;
+	font-size: x-large;
+	padding: 0.25em;
+}
+
+nav {
+	position: fixed;
+	display: grid;
+	height: 100vh;
+	top: 0;
+	left: 0;
+	right: 0;
+	grid-template-rows: repeat(7, 1fr);
+	transition: opacity 250ms ease-in-out, 250ms width;
+	overflow: hidden;
+	opacity: 0;
+	z-index: 999;
+	padding: 2em 2em 0 0;
+	width: 0;
+}
+
+#nav-check:checked ~ nav,
+nav:hover,
+nav:focus-within {
+	opacity: 1;
+	width: max-content;
+}
+
+nav::before {
+	content: "";
+	background-color: var(--clr-accent);
+	box-shadow: inset 0 0 0.75em 0 var(--clr-black);
+	position: absolute;
+	inset: 0 0 0 0;
+	transform: scaleX(0);
+	transition: transform 250ms ease-in-out;
+	transform-origin: left;
+	z-index: -1;
+}
+
+#nav-check:checked ~ nav::before,
+nav:hover::before,
+nav:focus-within::before {
+	transform: scaleX(1);
+}
+
+.nav-link {
+	display: flex;
+	align-items: center;
+	width: max-content;
+	height: max-content;
+	gap: 0.5em;
+}
+
+#stateSelect {
+	max-width: 12em;
+}
+
+.icon {
+	font-size: x-large;
+	width: 1em;
+	margin: 0.5em;
+	color: var(--clr-black);
+}
+
+footer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1em;
+	background-image: linear-gradient(var(--clr-white), var(--clr-accent));
+	color: var(--clr-black);
+	padding: 1em;
+}
+
+footer > p > a {
+	color: var(--clr-white);
+}
+
+.card {
+	background-color: var(--clr-accent);
+	border-radius: 0.5em;
+	box-shadow: inset 0 0 0.75em 0 var(--clr-black);
+	padding: 2em;
+}
+
+.tile {
+	color: var(--clr-black);
+	background-color: var(--clr-white);
+	border-radius: 0.5em;
+	box-shadow: 0 0 0.75em 0 var(--clr-black);
+	padding: 0.5em;
+}
+
+.btn {
+	background-color: var(--clr-comp);
+	color: var(--clr-white);
+}
+
+.btn:disabled {
+	background-color: var(--clr-white);
+	color: var(--clr-comp);
+	pointer-events: none;
+}
+
+.flex-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 2em;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.flex-col {
+	display: flex;
+	flex-direction: column;
+	gap: 2em;
+	align-items: center;
+}
+
+.card .flex-col,
+.card .flex-row {
+	gap: 1em;
+}
+
+@media (min-width: 700px) {
+	.nav-icon {
+		display: none;
+	}
+
+	nav {
+		width: 2.5em;
+		opacity: 1;
+	}
+
+	section,
+	header,
+	footer {
+		padding: 4em 6em;
+	}
+}

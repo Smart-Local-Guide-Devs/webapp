@@ -1,0 +1,72 @@
+{% extends 'basePage.html' %}
+
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{%static 'css/homePage.css'%}" />
+{% endblock %}
+
+{% block body %}
+<header>
+	<h1 class="header-title">Hello, this is your own personal local guide.</h1>
+	<div class="header-content flex-row">
+		<div class="counter"><em class="fa fa-play counter-icon"></em><span
+				class="counter-title">Apps</span>{{counter.apps}}
+		</div>
+		<div class="counter"><em class="fa fa-users counter-icon"></em><span
+				class="counter-title">Users</span>{{counter.users}}</div>
+		<div class="counter"><em class="fa fa-eye counter-icon"></em><span
+				class="counter-title">Visits</span>{{counter.views}}
+		</div>
+		<div class="counter"><em class="fa fa-star counter-icon"></em><span
+				class="counter-title">Reviews</span>{{counter.reviews}}
+		</div>
+	</div>
+</header>
+<section>
+	<h2>Some Of Our Best Recommendations</h2>
+	<div class="flex-row">
+		{% for genre, apps in best_apps.items %}
+		<div class="flex-col best-apps-card card">
+			<h3 class="best-apps-card-title">{{ genre }}</h3>
+			<div class="flex-row best-apps-card-content">
+				{% for app in apps %}
+				<a class="best-app" href="{% url 'front_get_app' app.app_id %}">
+					<button>
+						<img class="best-app-title" src="{{ app.icon_link }}" alt="{{ app.app_name }} icon">
+						<div class="flex-col best-app-content">
+							<p>{{ app.app_name }}</p>
+							<p><em class="fa fa-star"></em>{{ app.avg_rating }}
+							</p>
+							<p><em class="fa fa-pencil"></em>{{ app.reviews_count }}</p>
+						</div>
+					</button>
+				</a>
+				{% endfor %}
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+</section>
+<section class="flex-row top-users-feedback">
+	<div>
+		<h2>Meet Our Top Contributors</h2>
+		<div class="flex-col card">
+			{% for username, up_votes in top_users.items %}
+			<button class="top-user">{{ username }}: <span>{{ up_votes }}</span> </button>
+			{% endfor %}
+		</div>
+	</div>
+	<div class="feedback" id="contact">
+		<h2>Any Feedback?</h2>
+		<form class="flex-col card" name="feedbackForm" action="{% url 'api_feedback' %}" method="post">
+			{% csrf_token %}
+			<input required placeholder="Name" name="user_name" type="text">
+			<input required placeholder="Email" name="email_id" type="email">
+			<textarea required placeholder="Feedback Message" name="content" cols="30" rows="10"></textarea>
+			<button id="feedbackBtn" class="btn" type="submit">Send</button>
+		</form>
+	</div>
+</section>
+<script src="{%static 'js/homePage.js'%}"></script>
+{% endblock %}

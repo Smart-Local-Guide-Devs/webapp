@@ -45,8 +45,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "api.apps.ApiConfig",
-    "frontend.apps.FrontendConfig",
+    "api",
+    "frontend",
     "social_django",
     "rest_framework",
 ]
@@ -119,10 +119,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTHENTICATION_BACKENDS = [
-    "social_core.backends.open_id.OpenIdAuth",
     "social_core.backends.google.GoogleOAuth2",
-    "social_core.backends.google.GoogleOAuth",
-    "social_core.backends.twitter.TwitterOAuth",
     "django.contrib.auth.backends.ModelBackend",
 ]
 
@@ -166,7 +163,3 @@ STATIC_URL = "/static/"
 
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
-LOGIN_URL = "/auth/login/google-oauth2/"
-LOGIN_REDIRECT_URL = "index"
-LOGOUT_URL = "logout"
-LOGOUT_REDIRECT_URL = "signin"

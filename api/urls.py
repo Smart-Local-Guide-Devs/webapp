@@ -1,20 +1,16 @@
 from django.urls import path
 from . import views
-from django.urls import path, include
 
 urlpatterns = [
     path("search", views.search, name="api_search"),
-    path("signin", views.signin, name="api_signin"),
     path("signout", views.signout, name="api_signout"),
-    path("signup", views.signup, name="api_signup"),
-    path("social-auth/", include("social_django.urls", namespace="social")),
     path("app/best", views.best_apps, name="api_best_apps"),
     path("app/<str:app_id>/similar", views.similar_apps, name="api_similar_apps"),
     path("app/<str:app_id>/review", views.app_review, name="api_app_review"),
-    path("site/review", views.slg_site_review, name="api_slg_site_review"),
+    path("feedback", views.feedback, name="api_feedback"),
     path("counter", views.counter, name="api_counter"),
     path("user/best", views.top_users, name="api_top_users"),
-    path("genre", views.all_genres, name="api_all_genres"),
+    path("app/genre", views.all_genres, name="api_all_genres"),
     path(
         "app/<str:app_id>/review/queries",
         views.app_review_queries,

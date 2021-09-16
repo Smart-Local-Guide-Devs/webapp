@@ -1,0 +1,149 @@
+header {
+	position: relative;
+}
+
+header::before {
+	content: "";
+	background-image: url(../imgs/imageonline-co-whitebackgroundremoved.png);
+	background-size: contain;
+	background-repeat: no-repeat;
+	z-index: 1;
+	position: absolute;
+	top: 30vh;
+	right: 0;
+	width: 100vw;
+	aspect-ratio: 3 / 2;
+}
+
+.header-title {
+	position: absolute;
+	max-width: 10em;
+	top: 10%;
+	left: 10%;
+	z-index: 2;
+	font-size: 3rem;
+	color: var(--clr-black);
+	font-family: Brush Script MT, Brush Script Std, cursive;
+}
+
+.header-content {
+	padding-top: calc(30vh + 70vw);
+}
+
+.counter-icon {
+	color: var(--clr-white);
+	font-size: x-large;
+}
+
+.counter {
+	background-color: var(--clr-comp);
+	border-radius: 0.5em;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 0.5em;
+	width: 40%;
+	padding: 0.5em;
+	color: var(--clr-white);
+	font-size: large;
+}
+
+.counter-title {
+	opacity: 0;
+	transition: opacity 250ms ease-in;
+}
+
+.counter:hover > .counter-title {
+	opacity: 1;
+}
+
+.best-apps-card {
+	height: 100%;
+}
+
+.best-apps-card-title {
+	font-size: x-large;
+	text-align: center;
+	color: var(--clr-white);
+}
+
+.best-apps-card-content {
+	width: 100%;
+}
+
+.best-app {
+	width: calc(50% - 1em);
+}
+
+.best-app > button {
+	width: 100%;
+}
+
+.best-app-title {
+	width: 2em;
+	height: 2em;
+}
+
+.top-users-feedback {
+	align-items: flex-start;
+}
+
+.top-user {
+	width: 100%;
+}
+
+.top-user:nth-of-type(1) {
+	font-size: 1.5em;
+}
+
+.top-user:nth-of-type(2) {
+	font-size: 1.25em;
+}
+
+.feedback-content > button {
+	background-color: var(--clr-comp);
+	color: var(--clr-white);
+}
+
+@media (min-width: 700px) {
+	header::before {
+		width: 700px;
+	}
+
+	.header-content {
+		padding-top: calc(470px + 30vh);
+	}
+
+	.counter {
+		width: fit-content;
+	}
+
+	.best-app {
+		width: calc(50% - 1em);
+	}
+
+	.best-apps-card {
+		width: calc(50% - 1em);
+	}
+}
+
+@media (min-width: 1200px) {
+	header::before {
+		top: 10vh;
+		width: 60vw;
+	}
+
+	.header-title {
+		top: 30%;
+		left: 30%;
+	}
+
+	.header-content {
+		padding-top: calc(30vh + 300px);
+		justify-content: flex-start;
+	}
+
+	.best-app {
+		width: calc(25% - 1.5em);
+	}
+}

@@ -1,0 +1,438 @@
+h1{
+    font-size: x-large;
+    color: var(--clr-black);
+}
+
+h2{
+    font-size: x-large;
+    color: var(--clr-white);
+    margin: 0;
+}
+
+img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+p{
+    color: var(--clr-black);
+}
+
+.container{
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5em;
+    width: 60vw;
+}
+
+.app{
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2em;
+    width: 100%;
+}
+
+.app-header-card{
+    background-color: var(--clr-white);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+    box-shadow: 0 0 0.75em 0 var(--clr-black);
+}
+
+.app-info{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    gap: 0.5em;
+}
+
+.app-icon{
+    width: 60px;
+    height: 60px;
+}
+
+.user-image{
+    width: 60px;
+    height: 60px;
+}
+
+.app-name{
+    margin-bottom: 10px;
+}
+
+.app-info-btns{
+    margin: auto;
+    width: 40vw;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    gap: 2em;
+}
+
+.app-info-btns > a{
+    width: 10vw;
+    min-width: 100px;
+}
+
+.app-info-btns > a > button{
+    width: 100%;
+    background-color: var(--clr-comp);
+    box-shadow: 0 0 0.3em 0 var(--clr-black);
+    color: var(--clr-white);
+}
+
+.rating{
+    display: flex;
+    margin: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1em;
+    justify-content: space-around;
+    width: 40vw;
+}
+
+.avg-rating{
+    flex: 1;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.rating-graph{
+    flex: 3;
+    display: grid;
+    grid-template-rows: repeat(5, 1fr);
+    row-gap: 5px;
+}
+
+.avg-rating-value > h1{
+    font-size: 3em;
+    color: var(--clr-white);
+}
+
+.rating-row{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.rating-bar{
+    display: inline-block;
+    width: 100px;
+    height: 80%;
+    background-color: var(--clr-comp);
+}
+
+.rating-value{
+    color: var(--clr-white);
+    font-weight: bold;
+}
+
+.fa-star{
+    color: var(--clr-white);
+}
+
+.checked{
+    color: var(--clr-comp);
+}
+
+.user-icon{
+    color: var(--clr-black);
+}
+
+.rating-stats{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    margin: auto;
+}
+
+.review-count{
+    font-weight: lighter;
+}
+
+.user-reviews{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: auto;
+    width: 100%;
+    gap: 5em;
+}
+
+.review-body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2em;
+    width: 100%;
+}
+
+.review-content{
+    min-height: 40vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6em;
+}
+
+.user-image{
+    width: 60px;
+    height: 60px;
+}
+
+.review-text{
+    margin-top: 2vh;
+    background-color: var(--clr-white);
+    box-shadow: 0 0 0.75em 0 var(--clr-black);
+    padding: 0.5em;
+}
+
+.main-carousel{
+    width: 100%;
+}
+
+.flickity-viewport{
+    width: 100%;
+}
+
+.user-reviews .carousel-cell{
+    width: 100%;
+    margin-right: 30px;
+}
+
+.review-thumbsup{
+    background-color: var(--clr-white);
+    box-shadow: 0 0 0.75em 0 var(--clr-black);
+    padding: 0.5em;
+}
+
+.playstore-thumbsup{
+    color: var(--clr-black);
+}
+
+.thumbsup-count{
+    display: inline;
+    color: var(--clr-black);
+}
+
+.review-votes{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5em;
+    justify-content: space-around;
+}
+
+.review-votes button{
+    color: var(--clr-comp);
+}
+
+.similar-apps{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: auto;
+    width: 100%;
+    gap: 2em;
+}
+
+.similar-apps-card{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    min-height: 40vh;
+}
+
+.similar-app-button{
+    width: 100%;
+    min-height: 20vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    gap: 1em;
+}
+
+.similar-app-icon{
+    width: 60px;
+    height: 60px;
+}
+
+.similar-apps-card .carousel-cell{
+    width: 30%;
+    padding: 20px;
+}
+
+.review-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+    width: 100%;
+}
+
+.review-form-card{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 1em;
+}
+
+.review-form-text{
+    width: 100%;
+    height: 15vh;
+}
+
+.review-form-rating{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+
+.review-state-city{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+
+.state-city-btns{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+
+.review-state-city > select{
+    box-shadow: 0 0 0.3em 0 var(--clr-black);;
+}
+
+.review-form-rating-stars{
+    unicode-bidi: bidi-override;
+    direction: rtl;
+    font-size: x-large;
+}
+
+.review-form-rating-stars > label:hover > span,
+.review-form-rating-stars > label:hover ~ label > span,
+.review-form-rating-stars > input:checked ~ label > span
+{
+    color: var(--clr-comp);
+}
+
+.review-form-rating-btn{
+    display: none;
+}
+
+.review-form-options{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 1em;
+}
+
+.review-form-queries{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1em;
+}
+
+.review-form-query{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1em;
+    width: 100%;
+}
+
+.review-form p{
+    font-size: large;
+}
+
+.review-form-submit-btn{
+    background-color: var(--clr-comp);
+    color: var(--clr-white);
+}
+
+@media (max-width: 920px){
+    .similar-apps-card .carousel-cell{
+        width: 80%;
+        padding: 5px;
+    }
+
+    .similar-app-button{
+        min-height: 30vh;
+        height: 100%;
+    }
+
+    .review-form-rating{
+        margin: auto;
+    }
+}
+
+@media (max-width: 700px){
+    section{
+        padding: 2em 0;
+    }
+}
+
+@media (max-width: 520px) {
+    .container{
+        width: 85vw;
+    }
+
+    .app-info-text{
+        text-align: center;
+    }
+
+    .review-form-query input{
+        margin: auto;
+    }
+}
