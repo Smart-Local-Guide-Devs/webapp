@@ -181,15 +181,3 @@ def app_review(request: HttpRequest, app_id: str):
 def signout(request: HttpRequest):
     signout_user(request)
     return redirect(request.META["HTTP_REFERER"])
-
-
-def review_upvote(request: HttpRequest, app_id: str, pk: int):
-    upvote_review(request, app_id, pk)
-    url = request.path[: request.path.find("/review")]
-    return redirect(url)
-
-
-def review_downvote(request: HttpRequest, app_id: str, pk: int):
-    downvote_review(request, app_id, pk)
-    url = request.path[: request.path.find("/review")]
-    return redirect(url)

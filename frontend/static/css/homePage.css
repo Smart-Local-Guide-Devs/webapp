@@ -57,6 +57,10 @@ header::before {
 	opacity: 1;
 }
 
+.best-apps-card {
+	height: 100%;
+}
+
 .best-apps-card-title {
 	font-size: x-large;
 	text-align: center;
@@ -115,7 +119,11 @@ header::before {
 	}
 
 	.best-app {
-		width: calc(25% - 1.5em);
+		width: calc(50% - 1em);
+	}
+
+	.best-apps-card {
+		width: calc(50% - 1em);
 	}
 }
 
@@ -135,7 +143,7 @@ header::before {
 		justify-content: flex-start;
 	}
 
-	.best-apps-card {
-		width: calc(50% - 1em);
+	.best-app {
+		width: calc(25% - 1.5em);
 	}
 }

@@ -59,12 +59,12 @@
 	</div>
 	<div class="feedback" id="contact">
 		<h2>Any Feedback?</h2>
-		<form class="flex-col card" name="feedbackForm" action="{% url 'api_slg_site_review' %}" method="post">
+		<form class="flex-col card" name="feedbackForm" action="{% url 'api_feedback' %}" method="post">
 			{% csrf_token %}
 			<input required placeholder="Name" name="user_name" type="text">
 			<input required placeholder="Email" name="email_id" type="email">
 			<textarea required placeholder="Feedback Message" name="content" cols="30" rows="10"></textarea>
-			<button id="feedbackButton" type="submit">Send</button>
+			<button id="feedbackBtn" class="btn" type="submit">Send</button>
 		</form>
 	</div>
 </section>

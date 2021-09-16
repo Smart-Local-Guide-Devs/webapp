@@ -109,11 +109,10 @@ def top_users(request: HttpRequest):
 
 
 @api_view(["POST"])
-def slg_site_review(request: HttpRequest):
-    data = json.load(request)
-    user_name = data["user_name"]
-    email_id = data["email_id"]
-    content = data["content"]
+def feedback(request: HttpRequest):
+    user_name = request.POST["user_name"]
+    email_id = request.POST["email_id"]
+    content = request.POST["content"]
     slack_msg = f"User: {user_name}\nEmail: {email_id}\nContent: {content}"
     send_slack_message(os.environ["SLACK_SITE_REVIEWS_CHANNEL_ID"], slack_msg)
     return Response({"message": "Feedback sent successfully"})

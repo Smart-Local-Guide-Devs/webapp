@@ -183,16 +183,18 @@
                                 <p>{{ review.content }}</p>
                             </div>
                             <div class="review-votes">
-                                <form action="{% url 'review_upvote' appId review.pk %}" method="POST">
+                                <form action="{% url 'api_up_vote_app' appId review.pk %}" name="upVoteForm"
+                                    method="POST">
                                     {% csrf_token %}
-                                    <button>
+                                    <button id="upVoteBtn">
                                         <span class="fa fa-thumbs-up"></span>
                                         <h3 class="thumbsup-count">{{ review.up_votes }}</h3>
                                     </button>
                                 </form>
-                                <form action="{% url 'review_downvote' appId review.pk %}" method="POST">
+                                <form action="{% url 'api_down_vote_app' appId review.pk %}" name="downVoteForm"
+                                    method="POST">
                                     {% csrf_token %}
-                                    <button>
+                                    <button id="downVoteBtn">
                                         <span class="fa fa-thumbs-down"></span>
                                         <h3 class="thumbsup-count">{{ review.down_votes }}</h3>
                                     </button>
@@ -274,6 +276,7 @@
                 <button type="submit" value="submit" class="review-form-submit-btn">Submit review</button>
             </form>
         </div>
+        <script src="{%static 'js/appInfoPage.js'%}"></script>
     </div>
 </section>
 {% endblock %}
