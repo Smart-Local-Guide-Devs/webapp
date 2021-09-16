@@ -183,7 +183,7 @@ footer {
 	padding: 1em;
 }
 
-footer > p > a {
+footer a {
 	color: var(--clr-white);
 }
 

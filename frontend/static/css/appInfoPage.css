@@ -1,10 +1,4 @@
-h1{
-    font-size: x-large;
-    color: var(--clr-black);
-}
-
 h2{
-    font-size: x-large;
     color: var(--clr-white);
     margin: 0;
 }
@@ -19,50 +13,18 @@ p{
     color: var(--clr-black);
 }
 
-.container{
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5em;
-    width: 60vw;
-}
-
 .app{
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    gap: 2em;
-    width: 100%;
+    width: 60vw;
+    margin: auto;
 }
 
 .app-header-card{
-    background-color: var(--clr-white);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2em;
-    box-shadow: 0 0 0.75em 0 var(--clr-black);
+    padding: 2em;
+    gap: 2em !important;
 }
 
-.app-info{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: center;
-    gap: 0.5em;
-}
-
-.app-icon{
-    width: 60px;
-    height: 60px;
-}
-
-.user-image{
+.icon{
     width: 60px;
     height: 60px;
 }
@@ -72,45 +34,27 @@ p{
 }
 
 .app-info-btns{
-    margin: auto;
     width: 40vw;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: center;
-    gap: 2em;
 }
 
 .app-info-btns > a{
-    width: 10vw;
     min-width: 100px;
 }
 
-.app-info-btns > a > button{
+.app-info-btns .btn{
     width: 100%;
-    background-color: var(--clr-comp);
     box-shadow: 0 0 0.3em 0 var(--clr-black);
-    color: var(--clr-white);
-}
-
-.rating{
-    display: flex;
-    margin: auto;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 1em;
-    justify-content: space-around;
-    width: 40vw;
 }
 
 .avg-rating{
     flex: 1;
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: space-around;
+    gap: 0em !important;
+}
+
+.rating{
+    width: 40vw;
 }
 
 .rating-graph{
@@ -125,11 +69,21 @@ p{
     color: var(--clr-white);
 }
 
+.rating-value{
+    color: var(--clr-white);
+    font-weight: bold;
+}
+
+.rating-stats{
+    gap: 0.5em !important;
+    flex-wrap: nowrap;
+    padding-top: 5px;
+}
+
 .rating-row{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 0.5em;
+    justify-content: normal;
+    gap: 0.5em !important;
+    flex-wrap: nowrap;
 }
 
 .rating-bar{
@@ -139,13 +93,9 @@ p{
     background-color: var(--clr-comp);
 }
 
-.rating-value{
-    color: var(--clr-white);
-    font-weight: bold;
-}
-
 .fa-star{
     color: var(--clr-white);
+    font-size: large;
 }
 
 .checked{
@@ -156,45 +106,25 @@ p{
     color: var(--clr-black);
 }
 
-.rating-stats{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5em;
-    margin: auto;
-}
-
 .review-count{
     font-weight: lighter;
 }
 
 .user-reviews{
-    display: flex;
-    flex-direction: column;
     flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
     text-align: center;
     margin: auto;
-    width: 100%;
+    width: 60vw;
     gap: 5em;
 }
 
 .review-body{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2em;
     width: 100%;
 }
 
 .review-content{
     min-height: 40vh;
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     gap: 0.6em;
 }
 
@@ -205,9 +135,6 @@ p{
 
 .review-text{
     margin-top: 2vh;
-    background-color: var(--clr-white);
-    box-shadow: 0 0 0.75em 0 var(--clr-black);
-    padding: 0.5em;
 }
 
 .main-carousel{
@@ -223,12 +150,6 @@ p{
     margin-right: 30px;
 }
 
-.review-thumbsup{
-    background-color: var(--clr-white);
-    box-shadow: 0 0 0.75em 0 var(--clr-black);
-    padding: 0.5em;
-}
-
 .playstore-thumbsup{
     color: var(--clr-black);
 }
@@ -239,11 +160,7 @@ p{
 }
 
 .review-votes{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 0.5em;
-    justify-content: space-around;
+    gap: 0.5em !important;
 }
 
 .review-votes button{
@@ -251,23 +168,14 @@ p{
 }
 
 .similar-apps{
-    display: flex;
-    flex-direction: column;
     flex-wrap: wrap;
-    align-items: center;
     justify-content: center;
     text-align: center;
     margin: auto;
-    width: 100%;
-    gap: 2em;
+    width: 60vw;
 }
 
 .similar-apps-card{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-around;
     width: 100%;
     min-height: 40vh;
 }
@@ -275,16 +183,8 @@ p{
 .similar-app-button{
     width: 100%;
     min-height: 20vh;
-    display: flex;
-    flex-direction: column;
     justify-content: space-around;
-    align-items: center;
     gap: 1em;
-}
-
-.similar-app-icon{
-    width: 60px;
-    height: 60px;
 }
 
 .similar-apps-card .carousel-cell{
@@ -293,26 +193,28 @@ p{
 }
 
 .review-form{
-    display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    gap: 2em;
-    width: 100%;
+    margin: auto;
+    width: 60vw;
 }
 
 .review-form-card{
-    display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
     width: 100%;
-    gap: 1em;
 }
 
 .review-form-text{
     width: 100%;
     height: 15vh;
+}
+
+.review-form-queries{
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.review-form-options{
+    width: 100%;
 }
 
 .review-form-rating{
@@ -324,26 +226,10 @@ p{
     gap: 1em;
 }
 
-.review-state-city{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
+.review-form-query{
+    justify-content: space-between;
     gap: 1em;
-}
-
-.state-city-btns{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 1em;
-}
-
-.review-state-city > select{
-    box-shadow: 0 0 0.3em 0 var(--clr-black);;
+    width: 100%;
 }
 
 .review-form-rating-stars{
@@ -361,35 +247,6 @@ p{
 
 .review-form-rating-btn{
     display: none;
-}
-
-.review-form-options{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    width: 100%;
-    gap: 1em;
-}
-
-.review-form-queries{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1em;
-}
-
-.review-form-query{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1em;
-    width: 100%;
 }
 
 .review-form p{
@@ -411,28 +268,21 @@ p{
         min-height: 30vh;
         height: 100%;
     }
-
-    .review-form-rating{
-        margin: auto;
-    }
-}
-
-@media (max-width: 700px){
-    section{
-        padding: 2em 0;
-    }
 }
 
 @media (max-width: 520px) {
-    .container{
-        width: 85vw;
-    }
-
     .app-info-text{
         text-align: center;
     }
 
     .review-form-query input{
         margin: auto;
+    }
+
+    .app,
+    .user-reviews,
+    .similar-apps,
+    .review-form{
+        width: 75vw;
     }
 }
