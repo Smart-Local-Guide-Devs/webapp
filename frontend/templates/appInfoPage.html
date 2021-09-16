@@ -14,7 +14,7 @@
         <div class="app-header-card flex-col tile">
             <div class="app-info flex-row">
                 <div class="icon">
-                    <img src="{{ icon }}">
+                    <img src="{{ icon }}" alt="{{ title }}">
                 </div>
                 <div class="app-info-text">
                     <h1 class="app-name">{{ title }}</h1>
@@ -218,7 +218,7 @@
                     <a href="{% url 'front_get_app' app.app_id %}">
                         <button class="similar-app-button flex-col">
                             <div class="icon">
-                                <img src="{{ app.icon_link }}">
+                                <img src="{{ app.icon_link }}" alt="{{ app.app_name }}">
                             </div>
                             <p>{{ app.app_name }}</p>
                         </button>

@@ -88,6 +88,7 @@ WSGI_APPLICATION = "slgwebapp.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -98,6 +99,18 @@ DATABASES = {
         "PORT": "5432",
     }
 }
+
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": os.environ["ELEPHANT_SQL_NAME"],
+#         "USER": os.environ["ELEPHANT_SQL_USER"],
+#         "PASSWORD": os.environ["ELEPHANT_SQL_PWD"],
+#         "HOST": os.environ["ELEPHANT_SQL_HOST"],
+#         "PORT": "5432",
+#     }
+# }
 
 
 # Password validation
