@@ -145,7 +145,8 @@ def get_app(request: HttpRequest, app_id: str):
         (request, app_id),
     )
     context = {**context_app, **context}
-    context["score"] = round(context["score"], 2)
+    if context["score"] is not None:
+        context["score"] = round(context["score"], 2)
     context["similar_apps"] = context["similar_apps"].data
     context["reviews"] = context["reviews"].data
     context["queries"] = context["queries"].data

@@ -14,7 +14,7 @@ django-colorfield==0.4.1
 django-flat-responsive==2.0
 django-flat-theme==1.1.4
 djangorestframework==3.12.2
-google-play-scraper==0.2.1
+google-play-scraper==1.0.2
 gunicorn==20.0.4
 httplib2==0.19.1
 idna==2.10
