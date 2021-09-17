@@ -4,8 +4,8 @@ h2{
 }
 
 img{
-    width: 100%;
-    height: 100%;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
 }
 
@@ -24,11 +24,6 @@ p{
     gap: 2em !important;
 }
 
-.icon{
-    width: 60px;
-    height: 60px;
-}
-
 .app-name{
     margin-bottom: 10px;
 }
@@ -44,6 +39,11 @@ p{
 .app-info-btns .btn{
     width: 100%;
     box-shadow: 0 0 0.3em 0 var(--clr-black);
+}
+
+.app-info-btns .btn:hover{
+    box-shadow: inset 0 0 0.25em 0 var(--clr-black);
+	outline: none;
 }
 
 .avg-rating{
@@ -64,7 +64,7 @@ p{
     row-gap: 5px;
 }
 
-.avg-rating-value > h1{
+.avg-rating-value{
     font-size: 3em;
     color: var(--clr-white);
 }
@@ -103,7 +103,7 @@ p{
 }
 
 .user-icon{
-    color: var(--clr-black);
+    color: var(--clr-white);
 }
 
 .review-count{
@@ -126,11 +126,6 @@ p{
     min-height: 40vh;
     width: 100%;
     gap: 0.6em;
-}
-
-.user-image{
-    width: 60px;
-    height: 60px;
 }
 
 .review-text{
@@ -189,7 +184,7 @@ p{
 
 .similar-apps-card .carousel-cell{
     width: 30%;
-    padding: 20px;
+    padding: 10px;
 }
 
 .review-form{
@@ -251,11 +246,6 @@ p{
 
 .review-form p{
     font-size: large;
-}
-
-.review-form-submit-btn{
-    background-color: var(--clr-comp);
-    color: var(--clr-white);
 }
 
 @media (max-width: 920px){
