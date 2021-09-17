@@ -9,7 +9,7 @@ img{
     border-radius: 50%;
 }
 
-p{
+p, h1{
     color: var(--clr-black);
 }
 
