@@ -22,6 +22,8 @@ The webapp helps users in many ways which includes the following :-
 ## Tech stack / Framework used :
 - Backend : **Django**
 - Frontend : **HTML, CSS & Javascript**
+- Database : **PostgreSql**
+- Notification bot : **Slack**
 
 ## How to use :
 1. Clone the repo to your local system
@@ -45,7 +47,7 @@ The webapp helps users in many ways which includes the following :-
     ```python manage.py runserver```
     
 ## Documents :
-You can find the [api guide](https://github.com/Smart-Local-Guide-Devs/webapp/api/README.md) in the api folder.
+You can find the [api guide](https://github.com/Smart-Local-Guide-Devs/webapp/blob/dev/api/README.md) in the api folder.
 
 ### Contributors :
 <!-- readme: contributors -start -->
