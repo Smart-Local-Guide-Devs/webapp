@@ -1,4 +1,4 @@
-# [Smart Local Guide ✈ ](http://smart-local-guide.herokuapp.com/)
+# [Smart Local Guide](http://smart-local-guide.herokuapp.com/) ✈ 
 
 
 <img src="Pictures\slg.png">
@@ -47,9 +47,7 @@ The webapp helps users in many ways which includes the following :-
 ## Documents :
 You can find the [api guide](https://github.com/Smart-Local-Guide-Devs/webapp/api/README.md) in the api folder.
 
-
----
-## Contributors :
+### Contributors :
 <!-- readme: contributors -start -->
 
 <!-- readme: contributors -end -->
