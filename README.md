@@ -51,5 +51,85 @@ You can find the [api guide](https://github.com/Smart-Local-Guide-Devs/webapp/bl
 
 ## Contributors :
 <!-- readme: contributors -start -->
-
+<table>
+<tr>
+    <td align="center">
+        <a href="https://github.com/Ayush6602">
+            <img src="https://avatars.githubusercontent.com/u/54628493?v=4" width="100;" alt="Ayush6602"/>
+            <br />
+            <sub><b>Ayush Das</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/Priyanka7011">
+            <img src="https://avatars.githubusercontent.com/u/54627940?v=4" width="100;" alt="Priyanka7011"/>
+            <br />
+            <sub><b>Priyanka Kumari</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/ana-pat">
+            <img src="https://avatars.githubusercontent.com/u/54628162?v=4" width="100;" alt="ana-pat"/>
+            <br />
+            <sub><b>Ananya Pathak</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/WhyBangad">
+            <img src="https://avatars.githubusercontent.com/u/53820396?v=4" width="100;" alt="WhyBangad"/>
+            <br />
+            <sub><b>WhyBangad</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/manan2110">
+            <img src="https://avatars.githubusercontent.com/u/55996661?v=4" width="100;" alt="manan2110"/>
+            <br />
+            <sub><b>Manan Gyanchandani</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/Atik07">
+            <img src="https://avatars.githubusercontent.com/u/54628159?v=4" width="100;" alt="Atik07"/>
+            <br />
+            <sub><b>Atik07</b></sub>
+        </a>
+    </td></tr>
+<tr>
+    <td align="center">
+        <a href="https://github.com/harshgaud2918">
+            <img src="https://avatars.githubusercontent.com/u/54628284?v=4" width="100;" alt="harshgaud2918"/>
+            <br />
+            <sub><b>harshgaud2918</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/belikeamitesh24">
+            <img src="https://avatars.githubusercontent.com/u/67407223?v=4" width="100;" alt="belikeamitesh24"/>
+            <br />
+            <sub><b>belikeamitesh24</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/sampritip">
+            <img src="https://avatars.githubusercontent.com/u/58274368?v=4" width="100;" alt="sampritip"/>
+            <br />
+            <sub><b>sampritip</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/belikeamitesh">
+            <img src="https://avatars.githubusercontent.com/u/56907437?v=4" width="100;" alt="belikeamitesh"/>
+            <br />
+            <sub><b>Amitesh Kumar</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/bsssabhisaran">
+            <img src="https://avatars.githubusercontent.com/u/80115195?v=4" width="100;" alt="bsssabhisaran"/>
+            <br />
+            <sub><b>bsssabhisaran</b></sub>
+        </a>
+    </td></tr>
+</table>
 <!-- readme: contributors -end -->
