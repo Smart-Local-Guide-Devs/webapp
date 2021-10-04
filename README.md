@@ -100,21 +100,21 @@ You can find the [api guide](https://github.com/Smart-Local-Guide-Devs/webapp/bl
         <a href="https://github.com/harshgaud2918">
             <img src="https://avatars.githubusercontent.com/u/54628284?v=4" width="100;" alt="harshgaud2918"/>
             <br />
-            <sub><b>harshgaud2918</b></sub>
+            <sub><b>Harshgaud2918</b></sub>
         </a>
     </td>
     <td align="center">
         <a href="https://github.com/belikeamitesh24">
             <img src="https://avatars.githubusercontent.com/u/67407223?v=4" width="100;" alt="belikeamitesh24"/>
             <br />
-            <sub><b>belikeamitesh24</b></sub>
+            <sub><b>Belikeamitesh24</b></sub>
         </a>
     </td>
     <td align="center">
         <a href="https://github.com/sampritip">
             <img src="https://avatars.githubusercontent.com/u/58274368?v=4" width="100;" alt="sampritip"/>
             <br />
-            <sub><b>sampritip</b></sub>
+            <sub><b>Sampritip</b></sub>
         </a>
     </td>
     <td align="center">
@@ -128,7 +128,7 @@ You can find the [api guide](https://github.com/Smart-Local-Guide-Devs/webapp/bl
         <a href="https://github.com/bsssabhisaran">
             <img src="https://avatars.githubusercontent.com/u/80115195?v=4" width="100;" alt="bsssabhisaran"/>
             <br />
-            <sub><b>bsssabhisaran</b></sub>
+            <sub><b>Bsssabhisaran</b></sub>
         </a>
     </td></tr>
 </table>
