@@ -1,21 +1,55 @@
-# Smart Local Guide Web App
-Server files for the smart local guide web app project
+# [Smart Local Guide](http://smart-local-guide.herokuapp.com/) ✈ 
 
-## File structure
-- ### api 
-Accepts http request sends json.
-This is the api for all the back end requests that need to use the database or any extensive calls.
-- ### frontend
-Accepts http requests sends webpage.
-This renders every html view that the user sees.
-- ### webapp
-Accepts http request sends http request.
-This is the main server.
 
-## Request Routes
-- ### Browser Request
-Is first received at the webapp it then sends it to the frontend and frontend renders then sends the page. If any processing needs to be done it is sent to the api, the response is taken and then the page is rendered and sent.
-- ### Api Request
-Api takes the request does the necessary steps including database use if any, send response back.
-- ### App Request
-Is sent to api and the response is used by the app.
+<img src="Pictures\slg.png">
+
+[Smart Local Guide](http://smart-local-guide.herokuapp.com/) is a webapp which suggests/recommends applications in a particular region. 
+
+
+## What it does :
+The webapp helps users in many ways which includes the following :-
+- Suggests application based on the users location
+- Suggests similar apps
+- Allows a user check the ratings and reviews of a app
+- Allows a user review a app 
+
+<p align="center">
+
+<img src="https://cdn.dribbble.com/users/3499482/screenshots/6703456/s04_dock_gif_drbbbl.gif" width="500">
+
+</p>
+
+## Tech stack / Framework used :
+- Backend : **Django**
+- Frontend : **HTML, CSS & Javascript**
+- Database : **PostgreSql**
+- Notification bot : **Slack**
+
+## How to use :
+1. Clone the repo to your local system
+
+    ```git clone https://github.com/Smart-Local-Guide-Devs/webapp.git ```
+2. Create a virtual environment. You can use this [link](https://docs.python.org/3/library/venv.html) for reference.
+
+    ``` python -m venv venv ```
+3. Activate your virtual environment using : 
+    
+    ```venv/Scripts/activate``` 
+    
+    Here venv is the name of virtual environment.
+
+4. Install all the requirements required to run the project : 
+    
+    ```pip install -r requirements.txt```
+
+5. Run the django server : 
+    
+    ```python manage.py runserver```
+    
+## Documents :
+You can find the [api guide](https://github.com/Smart-Local-Guide-Devs/webapp/blob/main/api/README.md) in the api folder.
+
+## Contributors :
+<!-- readme: contributors -start -->
+
+<!-- readme: contributors -end -->
