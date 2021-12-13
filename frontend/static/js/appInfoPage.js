@@ -1,25 +1,16 @@
-try {
-	let upVoteForm = document.forms.namedItem("upVoteForm");
-	let upVoteBtn = document.querySelector("#upVoteBtn");
+for (let votingForm of document.querySelectorAll(".votingForm")) {
+	let upVoteForm = votingForm.querySelector(".upVoteForm");
+	let upVoteBtn = votingForm.querySelector(".upVoteBtn");
+	let downVoteForm = votingForm.querySelector(".downVoteForm");
+	let downVoteBtn = votingForm.querySelector(".downVoteBtn");
 	makeFormAsync(upVoteForm, upVoteBtn, (res) => {
-		upVoteBtn.lastElementChild.innerHTML = res["up_votes"];
-		downVoteBtn.lastElementChild.innerHTML = res["down_votes"];
+		upVoteBtn.lastElementChild.innerText = res["up_votes"];
+		downVoteBtn.lastElementChild.innerText = res["down_votes"];
 	});
-}
-catch (err) {
-	console.log(err)
-}
-
-try {
-	let downVoteForm = document.forms.namedItem("downVoteForm");
-	let downVoteBtn = document.querySelector("#downVoteBtn");
 	makeFormAsync(downVoteForm, downVoteBtn, (res) => {
-		upVoteBtn.lastElementChild.innerHTML = res["up_votes"];
-		downVoteBtn.lastElementChild.innerHTML = res["down_votes"];
+		upVoteBtn.lastElementChild.innerText = res["up_votes"];
+		downVoteBtn.lastElementChild.innerText = res["down_votes"];
 	});
-}
-catch (err) {
-	console.log(err)
 }
 
 const stateSelect = document.querySelector("#stateSelect");

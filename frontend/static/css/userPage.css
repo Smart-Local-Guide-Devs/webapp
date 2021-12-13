@@ -1,0 +1,26 @@
+h2 {
+	margin: 0;
+}
+
+.review {
+	min-width: 80%;
+	margin: 2em;
+}
+
+.tile {
+	width: 100%;
+}
+
+img {
+	width: 2em;
+	height: 2em;
+}
+
+.checked {
+	color: var(--clr-comp);
+}
+
+.thumbsup-count {
+	display: inline;
+	color: var(--clr-black);
+}

@@ -1,0 +1,106 @@
+{% extends 'basePage.html' %}
+
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/userPage.css' %}" />
+{% endblock %}
+
+{% block body %}
+<section class="flex-col">
+	<h2>All Reviews Of {{ username }}</h2>
+	{% for review in reviews %}
+	<div class="flex-col card review">
+		<div class="flex-col tile">
+			<div class="flex-row">
+				<img src="{{ review.app_icon_link }}" alt="{{ review.app_name }}">
+				<h3>{{ review.app_name }}, at {{ review.city }}({{ review.state }})</h3>
+			</div>
+			<p>{{ review.content }}</p>
+			<div class="flex-row">
+				<div class="rating-stars">
+					{% if review.rating >= 1 %}
+					<span class="fa fa-star checked"></span>
+					{% else %}
+					<span class="fa fa-star"></span>
+					{% endif %}
+					{% if review.rating >= 2 %}
+					<span class="fa fa-star checked"></span>
+					{% else %}
+					<span class="fa fa-star"></span>
+					{% endif %}
+					{% if review.rating >= 3 %}
+					<span class="fa fa-star checked"></span>
+					{% else %}
+					<span class="fa fa-star"></span>
+					{% endif %}
+					{% if review.rating >= 4 %}
+					<span class="fa fa-star checked"></span>
+					{% else %}
+					<span class="fa fa-star"></span>
+					{% endif %}
+					{% if review.rating == 5 %}
+					<span class="fa fa-star checked"></span>
+					{% else %}
+					<span class="fa fa-star"></span>
+					{% endif %}
+				</div>
+				<div class="votingForm flex-row">
+					<form action="{% url 'api_up_vote_app' review.app_id review.pk %}" class="upVoteForm" method="POST">
+						{% csrf_token %}
+						<button class="upVoteBtn">
+							<span class="fa fa-thumbs-up"></span>
+							<h3 class="thumbsup-count">{{ review.up_votes }}</h3>
+						</button>
+					</form>
+					<form action="{% url 'api_down_vote_app' review.app_id review.pk %}" class="downVoteForm"
+						method="POST">
+						{% csrf_token %}
+						<button class="downVoteBtn">
+							<span class="fa fa-thumbs-down"></span>
+							<h3 class="thumbsup-count">{{ review.down_votes }}</h3>
+						</button>
+					</form>
+				</div>
+				<a href="{% url 'front_get_app' review.app_id %}"><button class="btn">Go To App</button></a>
+			</div>
+		</div>
+		<div class="flex-col tile">
+			{% for query_choice in review.query_choices %}
+			<div class="flex-row">
+				<p>{{ query_choice.query }}</p>
+				<div class="rating-stars">
+					{% if query_choice.choice >= 1 %}
+					<span class="fa fa-star checked"></span>
+					{% else %}
+					<span class="fa fa-star"></span>
+					{% endif %}
+					{% if query_choice.choice >= 2 %}
+					<span class="fa fa-star checked"></span>
+					{% else %}
+					<span class="fa fa-star"></span>
+					{% endif %}
+					{% if query_choice.choice >= 3 %}
+					<span class="fa fa-star checked"></span>
+					{% else %}
+					<span class="fa fa-star"></span>
+					{% endif %}
+					{% if query_choice.choice >= 4 %}
+					<span class="fa fa-star checked"></span>
+					{% else %}
+					<span class="fa fa-star"></span>
+					{% endif %}
+					{% if query_choice.choice == 5 %}
+					<span class="fa fa-star checked"></span>
+					{% else %}
+					<span class="fa fa-star"></span>
+					{% endif %}
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+	{% endfor %}
+</section>
+<script src="{%static 'js/userPage.js'%}"></script>
+{% endblock %}
