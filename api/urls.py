@@ -27,4 +27,5 @@ urlpatterns = [
         views.down_vote_app,
         name="api_down_vote_app",
     ),
+    path("user/<str:username>", views.user_details, name="api_user_details"),
 ]

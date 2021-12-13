@@ -53,7 +53,8 @@
 		<h2>Meet Our Top Contributors</h2>
 		<div class="flex-col card">
 			{% for username, up_votes in top_users.items %}
-			<button class="top-user">{{ username }}: <span>{{ up_votes }}</span> </button>
+			<a href="{% url 'front_user' username %}"><button class="top-user">{{ username }}:
+					<span>{{ up_votes }}</span> </button></a>
 			{% endfor %}
 		</div>
 	</div>
