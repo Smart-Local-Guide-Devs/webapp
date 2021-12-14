@@ -24,8 +24,18 @@
 				<input type="text" placeholder="Search" class="input" name="search_query">
 			</form>
 			<a href="{% url 'index' %}" class="nav-link"><em class="fa fa-home icon"></em><button>Home</button></a>
+			<div href="{% url 'index' %}" class="nav-link"><em class="fa fa-compass icon"></em>
+				<div class="flex-row">
+					<select name="state" id="stateSelect" required>
+						<option value="">Select State</option>
+					</select>
+					<select name="city" id="citySelect" required>
+						<option value="">Select City</option>
+					</select>
+				</div>
+			</div>
 			{% if user.is_authenticated %}
-			<a href="{% url 'front_user' request.user.username %}" class="nav-link"><em
+			<a href="{% url 'front_user_details' request.user.username %}" class="nav-link"><em
 					class="fa fa-user icon"></em><button>{{request.user.username}}</button></a>
 			<a href="{% url 'front_signout' %}" class="nav-link"><em class="fa fa-sign-out icon"></em><button>Sign
 					Out</button></a>

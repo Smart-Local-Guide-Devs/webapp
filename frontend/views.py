@@ -5,7 +5,6 @@ from api.views import top_users as fetch_top_users
 from api.views import search as fetch_search_results
 from api.views import similar_apps as fetch_similar_apps
 from api.views import app_review_queries as fetch_app_review_queries
-from api.views import api_app as fetch_app_details
 from api.views import app_review as submit_app_review
 from api.views import all_genres as fetch_all_genres
 from api.views import app_review as fetch_app_reviews
@@ -18,7 +17,7 @@ from concurrent.futures import ThreadPoolExecutor
 from google_play_scraper import Sort, app, reviews
 
 
-def execute_parrallelly(*args) -> tuple:
+def execute_parallelly(*args) -> tuple:
     with ThreadPoolExecutor() as executor:
         return_futures = (
             executor.submit(args[i], *args[i + 1]) for i in range(0, len(args), 2)
@@ -36,7 +35,7 @@ def index(request: HttpRequest):
         context["top_users"],
         context["best_apps"],
         context["counter"],
-    ) = execute_parrallelly(
+    ) = execute_parallelly(
         fetch_top_users,
         (request,),
         fetch_best_apps,
@@ -72,11 +71,13 @@ prev_search_result: Paginator
 
 def search(request: HttpRequest):
     res = {}
+    # sub_url has the url with search query params and not page number
     sub_url = request.get_full_path(False)
     idx = sub_url.find("page=")
     if idx >= 0:
         sub_url = sub_url[: idx - 1]
     global prev_search_query, prev_search_result
+    # check if new search query or only page change
     if prev_search_query != sub_url:
         prev_search_query = sub_url
         prev_search_result = fetch_search_results(request).data
@@ -108,21 +109,6 @@ def search(request: HttpRequest):
 
 
 def get_app(request: HttpRequest, app_id: str):
-    if request.method == "POST":
-        req = request.POST.dict()
-        req["username"] = request.user.username
-        req["query_choices"] = []
-        for key, value in req.items():
-            if key.startswith("query: "):
-                req["query_choices"].append(
-                    {"query": key.removeprefix("query: "), "choice": value}
-                )
-        res = submit_app_review(request, app_id, req)
-        if res.status_code == 200:
-            messages.success(request, "Review Submission Successful")
-        else:
-            messages.error(request, "Review Submission Failed")
-        return redirect("front_get_app", app_id=app_id)
     context = {}
     context_app = {}
     (
@@ -131,7 +117,7 @@ def get_app(request: HttpRequest, app_id: str):
         context["reviews"],
         (context["playstore_reviews"], _),
         context["queries"],
-    ) = execute_parrallelly(
+    ) = execute_parallelly(
         app,
         (app_id, "en", "in"),
         fetch_similar_apps,
@@ -150,32 +136,6 @@ def get_app(request: HttpRequest, app_id: str):
     context["reviews"] = context["reviews"].data
     context["queries"] = context["queries"].data
     return render(request, "appInfoPage.html", context)
-
-
-def app_review(request: HttpRequest, app_id: str):
-    context = {}
-    if request.method == "POST":
-        req = request.POST.dict()
-        req["username"] = request.user.username
-        req["query_choices"] = []
-        for key, value in req.items():
-            if key.startswith("query: "):
-                req["query_choices"].append(
-                    {"query": key.removeprefix("query: "), "choice": value}
-                )
-        res = submit_app_review(request, app_id, req)
-        context["review"] = res.data
-        if res.status_code == 200:
-            messages.success(request, "Review Submission Successful")
-        else:
-            messages.error(request, "Review Submission Failed")
-    context["app"] = fetch_app_details(request, app_id).data
-    context["queries"] = fetch_app_review_queries(request, app_id).data
-    return render(
-        request,
-        "writeReview.html",
-        context,
-    )
 
 
 def signout(request: HttpRequest):

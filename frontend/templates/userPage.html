@@ -50,7 +50,7 @@
 			</div>
 			{% endfor %}
 		</div>
-		<div class="flex-row">
+		<div class="flex-row review-footer">
 			<div class="rating-stars">
 				{% if review.rating >= 1 %}
 				<span class="fa fa-star checked"></span>
@@ -81,20 +81,27 @@
 			<div class="votingForm flex-row">
 				<form action="{% url 'api_up_vote_app' review.app_id review.pk %}" class="upVoteForm" method="POST">
 					{% csrf_token %}
-					<button class="upVoteBtn">
+					<button class="upVoteBtn btn">
 						<span class="fa fa-thumbs-up"></span>
 						<h3 class="thumbsup-count">{{ review.up_votes }}</h3>
 					</button>
 				</form>
 				<form action="{% url 'api_down_vote_app' review.app_id review.pk %}" class="downVoteForm" method="POST">
 					{% csrf_token %}
-					<button class="downVoteBtn">
+					<button class="downVoteBtn btn">
 						<span class="fa fa-thumbs-down"></span>
 						<h3 class="thumbsup-count">{{ review.down_votes }}</h3>
 					</button>
 				</form>
 			</div>
 			<a href="{% url 'front_get_app' review.app_id %}"><button class="btn">Go To App</button></a>
+			<a href="{% url 'front_get_app' review.app_id %}#review-form">
+				<button class="btn">Review App</button>
+			</a>
+			<form action="{% url 'api_delete_review' review.pk %}" method="POST" class="deleteReviewForm">
+				{% csrf_token %}
+				<button class="deleteReviewBtn btn" type="submit"><span class="fa fa-trash"></span></button>
+			</form>
 		</div>
 	</div>
 	{% endfor %}

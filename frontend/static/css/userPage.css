@@ -26,5 +26,9 @@ img {
 
 .thumbsup-count {
 	display: inline;
-	color: var(--clr-black);
+}
+
+.review-footer {
+	width: 100%;
+	justify-content: space-around;
 }

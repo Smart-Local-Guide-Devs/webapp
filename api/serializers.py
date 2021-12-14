@@ -35,11 +35,9 @@ class ReviewSerializer(serializers.ModelSerializer):
     app_id = serializers.SlugRelatedField(
         "app_id", source="app", queryset=App.objects.all()
     )
-    app_name = serializers.SlugRelatedField(
-        "app_name", source="app", queryset=App.objects.all()
-    )
+    app_name = serializers.SlugRelatedField("app_name", source="app", read_only=True)
     app_icon_link = serializers.SlugRelatedField(
-        "icon_link", source="app", queryset=App.objects.all()
+        "icon_link", source="app", read_only=True
     )
     username = serializers.SlugRelatedField(
         "username", source="user", queryset=User.objects.all()
