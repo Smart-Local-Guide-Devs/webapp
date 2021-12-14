@@ -2,67 +2,69 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" type="text/css" href="{%static 'css/basePage.css'%}" />
-	<title>Smart Local Guide</title>
-	{% block head %} {% endblock %}
-</head>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="{%static 'css/basePage.css'%}" />
+		<title>Smart Local Guide</title>
+		{% block head %} {% endblock %}
+	</head>
 
-<body>
-	<input type="checkbox" name="nav-check" id="nav-check" class="checkbox">
-	<label for="nav-check"><em class="fa fa-bars nav-icon"></em></label>
-	<nav>
-		<form action="{% url 'front_search' %}" method="get" class="nav-link">
-			<em class="fa fa-search icon"></em>
-			<input type="text" placeholder="Search" class="input" name="search_query">
-		</form>
-		<a href="{% url 'index' %}" class="nav-link"><em class="fa fa-home icon"></em><button>Home</button></a>
-		<div href="{% url 'index' %}" class="nav-link"><em class="fa fa-compass icon"></em>
-			<div class="flex-row">
-				<select name="state" id="stateSelect" required>
-					<option value="">Select State</option>
-				</select>
-				<select name="city" id="citySelect" required>
-					<option value="">Select City</option>
-				</select>
+	<body>
+		<input type="checkbox" name="nav-check" id="nav-check" class="checkbox">
+		<label for="nav-check"><em class="fa fa-bars nav-icon"></em></label>
+		<nav>
+			<form action="{% url 'front_search' %}" method="get" class="nav-link">
+				<em class="fa fa-search icon"></em>
+				<input type="text" placeholder="Search" class="input" name="search_query">
+			</form>
+			<a href="{% url 'index' %}" class="nav-link"><em class="fa fa-home icon"></em><button>Home</button></a>
+			<div href="{% url 'index' %}" class="nav-link"><em class="fa fa-compass icon"></em>
+				<div class="flex-row">
+					<select name="state" id="stateSelect" required>
+						<option value="">Select State</option>
+					</select>
+					<select name="city" id="citySelect" required>
+						<option value="">Select City</option>
+					</select>
+				</div>
 			</div>
-		</div>
-		{% if user.is_authenticated %}
-		<a href="#" class="nav-link"><em class="fa fa-user icon"></em><button>{{request.user.username}}</button></a>
-		<a href="{% url 'front_signout' %}" class="nav-link"><em class="fa fa-sign-out icon"></em><button>Sign
-				Out</button></a>
-		{% else %}
-		<a href="{% url  'social:begin' 'google-oauth2' %}?next={{ request.path }}" class="nav-link"><em
-				class="fa fa-sign-in icon"></em><button>Sign
-				In</button></a>
-		{% endif %}
-		<a href="{% url 'index' %}#contact" class="nav-link"><em class="fa fa-paper-plane icon"></em><button>Contact
-				Us</button></a>
-	</nav>
-	<script src="{%static 'js/stateCityJSON.js'%}"></script>
-	<script src="{%static 'js/basePage.js'%}"></script>
-	{% block body %} {% endblock %}
-	<footer>
-		<div class="social-links">
-			<a href="#"><em class="fa fa-facebook icon"></em></a>
-			<a href="#"><em class="fa fa-twitter icon"></em></a>
-			<a href="#"><em class="fa fa-google-plus icon"></em></a>
-			<a href="#"><em class="fa fa-linkedin icon"></em></a>
-			<a href="#"><em class="fa fa-youtube icon"></em></a>
-		</div>
-		<p>
-			&copy; Copyright
-			<a rel="nofollow" href="#">smartlocalguide.io</a>. All right
-			reserved.
-		</p>
-		<p>Mail issues at <a href="mailto:smartlocalguide@gmail.com" target="_blank"> smartlocalguide@gmail.com</a>
-		</p>
-		<a href='https://www.freepik.com/vectors/travel'>Travel vector created by pch.vector - www.freepik.com</a>
-	</footer>
-</body>
+			{% if user.is_authenticated %}
+			<a href="{% url 'front_user_details' request.user.username %}" class="nav-link"><em
+					class="fa fa-user icon"></em><button>{{request.user.username}}</button></a>
+			<a href="{% url 'front_signout' %}" class="nav-link"><em class="fa fa-sign-out icon"></em><button>Sign
+					Out</button></a>
+			{% else %}
+			<a href="{% url  'social:begin' 'google-oauth2' %}?next={{ request.path }}" class="nav-link"><em
+					class="fa fa-sign-in icon"></em><button>Sign
+					In</button></a>
+			{% endif %}
+			<a href="{% url 'index' %}#contact" class="nav-link"><em class="fa fa-paper-plane icon"></em><button>Contact
+					Us</button></a>
+		</nav>
+		<script src="{%static 'js/stateCityJSON.js'%}"></script>
+		<script src="{%static 'js/basePage.js'%}"></script>
+		{% block body %} {% endblock %}
+		<footer>
+			<div class="social-links">
+				<a href="#"><em class="fa fa-facebook icon"></em></a>
+				<a href="#"><em class="fa fa-twitter icon"></em></a>
+				<a href="#"><em class="fa fa-google-plus icon"></em></a>
+				<a href="#"><em class="fa fa-linkedin icon"></em></a>
+				<a href="#"><em class="fa fa-youtube icon"></em></a>
+			</div>
+			<p>
+				&copy; Copyright
+				<a rel="nofollow" href="#">smartlocalguide.io</a>. All right
+				reserved.
+			</p>
+			<p>Mail issues at <a href="mailto:smartlocalguide@gmail.com" target="_blank"> smartlocalguide@gmail.com</a>
+			</p>
+			<a href='https://www.freepik.com/vectors/travel'>Travel vector created by pch.vector - www.freepik.com</a>
+		</footer>
+	</body>
 
 </html>

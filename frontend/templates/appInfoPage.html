@@ -140,7 +140,7 @@
                 {% for review in reviews %}
                 <div class="carousel-cell">
                     <div class="review-content card flex-col">
-                        <h2>{{ review.username }} from {{ review.city }}, {{ review.state }}</h2>
+                        <h2>{{ review.username }}, at {{ review.city }}({{ review.state }})</h2>
                         <div class="rating-stars">
                             {% if review.rating >= 1 %}
                             <span class="fa fa-star checked"></span>
@@ -172,7 +172,7 @@
                         <div class="review-votes flex-row votingForm">
                             <form action="{% url 'api_up_vote_app' appId review.pk %}" class="upVoteForm" method="POST">
                                 {% csrf_token %}
-                                <button class="upVoteBtn">
+                                <button class="upVoteBtn btn">
                                     <span class="fa fa-thumbs-up"></span>
                                     <h3 class="thumbsup-count">{{ review.up_votes }}</h3>
                                 </button>
@@ -180,12 +180,13 @@
                             <form action="{% url 'api_down_vote_app' appId review.pk %}" class="downVoteForm"
                                 method="POST">
                                 {% csrf_token %}
-                                <button class="downVoteBtn">
+                                <button class="downVoteBtn btn">
                                     <span class="fa fa-thumbs-down"></span>
                                     <h3 class="thumbsup-count">{{ review.down_votes }}</h3>
                                 </button>
                             </form>
-                            <a href="{% url 'front_user' review.username %}"><button>Go To User</button></a>
+                            <a href="{% url 'front_user_details' review.username %}"><button class="btn">Go To
+                                    User</button></a>
                         </div>
                     </div>
                 </div>
@@ -217,8 +218,10 @@
 <section>
     <div class="review-form flex-col" id="review-form">
         <h1>Wish to review this app?</h1>
-        <form action="{% url 'front_get_app' appId %}" method="POST" class="review-form-card flex-col card">
+        <form action="{% url 'api_app_reviews' appId %}" name="appReviewForm" method="POST"
+            class="review-form-card flex-col card">
             {% csrf_token %}
+            <input type="hidden" name="app_id" value="{{ appId }}">
             <textarea class="review-form-text" row="5" placeholder="Your review of this application..."
                 name="content"></textarea>
             <div class="review-form-queries flex-col">
@@ -262,7 +265,7 @@
                 </div>
                 {% endfor %}
             </div>
-            <button type="submit" value="submit" class="btn">Submit review</button>
+            <button type="submit" id="appReviewBtn" value="submit" class="btn">Submit review</button>
         </form>
     </div>
 </section>

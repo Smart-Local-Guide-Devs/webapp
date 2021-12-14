@@ -1,15 +1,15 @@
-for (let votingForm of document.querySelectorAll(".votingForm")) {
-	let upVoteForm = votingForm.querySelector(".upVoteForm");
-	let upVoteBtn = votingForm.querySelector(".upVoteBtn");
-	let downVoteForm = votingForm.querySelector(".downVoteForm");
-	let downVoteBtn = votingForm.querySelector(".downVoteBtn");
+for (const votingForm of document.querySelectorAll(".votingForm")) {
+	const upVoteForm = votingForm.querySelector(".upVoteForm");
+	const upVoteBtn = votingForm.querySelector(".upVoteBtn");
+	const downVoteForm = votingForm.querySelector(".downVoteForm");
+	const downVoteBtn = votingForm.querySelector(".downVoteBtn");
 	makeFormAsync(upVoteForm, upVoteBtn, (res) => {
-		upVoteBtn.lastElementChild.innerText = res["up_votes"];
-		downVoteBtn.lastElementChild.innerText = res["down_votes"];
+		upVoteBtn.lastElementChild.innerText = res.up_votes;
+		downVoteBtn.lastElementChild.innerText = res.down_votes;
 	});
 	makeFormAsync(downVoteForm, downVoteBtn, (res) => {
-		upVoteBtn.lastElementChild.innerText = res["up_votes"];
-		downVoteBtn.lastElementChild.innerText = res["down_votes"];
+		upVoteBtn.lastElementChild.innerText = res.up_votes;
+		downVoteBtn.lastElementChild.innerText = res.down_votes;
 	});
 }
 
@@ -38,4 +38,38 @@ stateSelectAppInfo.addEventListener("change", () => {
 			citySelectAppInfo.append(cityOption);
 		});
 	}
+});
+
+const appReviewForm = document.forms.namedItem("appReviewForm");
+const appReviewBtn = appReviewForm.querySelector("#appReviewBtn");
+appReviewForm.addEventListener("submit", async function (e) {
+	e.preventDefault();
+	let formData = new FormData(appReviewForm);
+	let queryChoices = [];
+	const prefix = "query: ";
+	const keys = Array.from(formData.keys());
+	for (const key of keys) {
+		if (key.startsWith(prefix)) {
+			queryChoices.push({
+				query: key.substring(prefix.length),
+				choice: formData.get(key),
+			});
+			formData.delete(key);
+		}
+	}
+	formData.append("query_choices", JSON.stringify(queryChoices));
+	appReviewBtn.disabled = true;
+	let res = await fetch(appReviewForm.action, {
+		method: "POST",
+		credentials: "same-origin",
+		headers: {
+			"X-CSRFToken": formData["csrfmiddlewaretoken"],
+		},
+		body: formData,
+	});
+	appReviewBtn.disabled = false;
+	res = await res.json();
+	console.log(res);
+	alert(res.message);
+	return false;
 });

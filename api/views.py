@@ -139,30 +139,35 @@ def counter(request: HttpRequest):
 @api_view(["GET"])
 @cache_page(60 * 15)
 def similar_apps(request: HttpRequest, app_id: str):
-    app = App.objects.prefetch_related("similar_apps").get(app_id=app_id)
+    res = {}
+    apps = App.objects.prefetch_related("similar_apps").filter(app_id=app_id)
+    if not apps.exists():
+        res["message"] = "App does not exist"
+        return Response(res, status.HTTP_400_BAD_REQUEST)
+    app = apps.first()
     similar_apps = app.similar_apps.all()[:6]
     res = AppSerializer(similar_apps, many=True).data
     return Response(res)
 
 
 @api_view(["GET", "POST"])
-def app_review(request: HttpRequest, app_id: str, data: dict = None):
-    """
-    param:
-        data: only for when this method is called in the frontend app, to help pass data without altering the original
-    """
+def app_review(request: HttpRequest, app_id: str):
+    res = {}
     if request.method == "GET":
-        app = App.objects.get(app_id=app_id)
+        apps = App.objects.filter(app_id=app_id)
+        if not apps.exists():
+            res["message"] = "App does not exist"
+            return Response(res, status.HTTP_400_BAD_REQUEST)
+        app = apps.first()
         reviews = app.review_set.all()[:6]
         reviews = ReviewSerializer(reviews, many=True).data
         return Response(reviews)
-    res = {}
-    if data is None:
-        data = request.POST.copy()
-    if data["username"] == "":
+    if not request.user.is_authenticated:
         res["message"] = "Please login to submit a review"
-        return Response(res, status.HTTP_400_BAD_REQUEST)
-    data["app_id"] = app_id
+        return Response(res, status.HTTP_401_UNAUTHORIZED)
+    data = request.POST.dict()
+    data["username"] = request.user.username
+    data["query_choices"] = json.loads(data["query_choices"])
     serializer = ReviewSerializer(data=data)
     if serializer.is_valid():
         serializer.save()
@@ -174,20 +179,45 @@ def app_review(request: HttpRequest, app_id: str, data: dict = None):
     return Response(res, status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(["POST"])
+def delete_review(request: HttpRequest, review_pk: int):
+    res = {}
+    if not request.user.is_authenticated:
+        res["message"] = "Please login to delete a review"
+        return Response(res, status.HTTP_401_UNAUTHORIZED)
+    reviews = Review.objects.filter(pk=review_pk)
+    if not reviews.exists():
+        res["message"] = "Review does not exist"
+        return Response(res, status.HTTP_400_BAD_REQUEST)
+    review = reviews.first()
+    if review.user.username != request.user.username:
+        res["message"] = "You can only delete your own reviews"
+        return Response(res, status.HTTP_401_UNAUTHORIZED)
+    review.delete()
+    res["message"] = "Review deleted successfully"
+    return Response(res)
+
+
 @api_view(["GET", "POST"])
 def api_app(request: HttpRequest, app_id: str):
+    res = {}
     if request.method == "GET":
-        app = App.objects.get(app_id=app_id)
+        apps = App.objects.prefetch_related("similar_apps").filter(app_id=app_id)
+        if not apps.exists():
+            res["message"] = "App does not exist"
+            return Response(res, status.HTTP_400_BAD_REQUEST)
+        app = apps.first()
         app = AppSerializer(app).data
         return Response(app)
     if App.objects.filter(app_id=app_id).exists():
         return Response({"message": "App Already Exists"})
     slack_msg = f"User: {request.user.username}\nRequested App ID: {app_id}"
     send_slack_message(os.environ["SLACK_NEW_APPS_CHANNEL_ID"], slack_msg)
-    return Response({"message": "New App Request Successfully Sent"})
+    res["message"] = "New App Request Successfully Sent"
+    return Response(res)
 
 
-@api_view(["GET", "POST"])
+@api_view(["GET"])
 @cache_page(60 * 15)
 def all_genres(request: HttpRequest):
     genres = Genre.objects.all()
@@ -208,51 +238,63 @@ def app_review_queries(request: HttpRequest, app_id: str):
 
 
 @api_view(["POST"])
-def up_vote_app(request: HttpRequest, app_id: str, pk: int):
-    review = Review.objects.get(pk=pk)
-    data = {}
-    data["up_votes"] = review.up_voters.count()
-    data["down_votes"] = review.down_voters.count()
-    if request.user.is_anonymous:
-        data["message"] = "Please login to up vote reviews"
-        return Response(data, status.HTTP_400_BAD_REQUEST)
+def up_vote_app(request: HttpRequest, app_id: str, review_pk: int):
+    res = {}
+    reviews = Review.objects.filter(pk=review_pk)
+    if not reviews.exists():
+        res["message"] = "Review does not exist"
+        return Response(res, status.HTTP_400_BAD_REQUEST)
+    review = reviews.first()
+    res["up_votes"] = review.up_voters.count()
+    res["down_votes"] = review.down_voters.count()
+    if not request.user.is_authenticated:
+        res["message"] = "Please login to up vote reviews"
+        return Response(res, status.HTTP_400_BAD_REQUEST)
     if review.up_voters.filter(username=request.user.username).exists():
-        data["message"] = "Already up voted once"
-        return Response(data, status.HTTP_400_BAD_REQUEST)
+        res["message"] = "Already up voted once"
+        return Response(res, status.HTTP_400_BAD_REQUEST)
     if review.down_voters.filter(username=request.user.username).exists():
         review.down_voters.remove(request.user)
-        data["down_votes"] -= 1
+        res["down_votes"] -= 1
     review.up_voters.add(request.user)
-    data["up_votes"] += 1
-    data["message"] = "Up vote successful"
-    return Response(data)
+    res["up_votes"] += 1
+    res["message"] = "Up vote successful"
+    return Response(res)
 
 
 @api_view(["POST"])
-def down_vote_app(request: HttpRequest, app_id: str, pk: int):
-    review = Review.objects.get(pk=pk)
-    data = {}
-    data["up_votes"] = review.up_voters.count()
-    data["down_votes"] = review.down_voters.count()
-    if request.user.is_anonymous:
-        data["message"] = "Please login to down vote reviews"
-        return Response(data, status.HTTP_400_BAD_REQUEST)
+def down_vote_app(request: HttpRequest, app_id: str, review_pk: int):
+    res = {}
+    reviews = Review.objects.filter(pk=review_pk)
+    if not reviews.exists():
+        res["message"] = "Review does not exist"
+        return Response(res, status.HTTP_400_BAD_REQUEST)
+    review = reviews.first()
+    res["up_votes"] = review.up_voters.count()
+    res["down_votes"] = review.down_voters.count()
+    if not request.user.is_authenticated:
+        res["message"] = "Please login to down vote reviews"
+        return Response(res, status.HTTP_400_BAD_REQUEST)
     if review.down_voters.filter(username=request.user.username).exists():
-        data["message"] = "Already down voted once"
-        return Response(data, status.HTTP_400_BAD_REQUEST)
+        res["message"] = "Already down voted once"
+        return Response(res, status.HTTP_400_BAD_REQUEST)
     if review.up_voters.filter(username=request.user.username).exists():
         review.up_voters.remove(request.user)
-        data["up_votes"] -= 1
+        res["up_votes"] -= 1
     review.down_voters.add(request.user)
-    data["down_votes"] += 1
-    data["message"] = "Down vote successful"
-    return Response(data)
+    res["down_votes"] += 1
+    res["message"] = "Down vote successful"
+    return Response(res)
 
 
 @api_view(["GET"])
 def user_details(request: HttpRequest, username: str):
-    user = User.objects.get(username=username)
+    res = {}
+    users = User.objects.filter(username=username)
+    if not users.exists():
+        res["message"] = "User does not exist"
+        return Response(res, status.HTTP_400_BAD_REQUEST)
+    user = users.first()
     reviews = user.review_set.all()
-    data = {}
-    data["reviews"] = ReviewSerializer(reviews, many=True).data
-    return Response(data)
+    res["reviews"] = ReviewSerializer(reviews, many=True).data
+    return Response(res)
