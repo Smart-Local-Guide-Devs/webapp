@@ -9,9 +9,8 @@ from api.views import api_app as fetch_app_details
 from api.views import app_review as submit_app_review
 from api.views import all_genres as fetch_all_genres
 from api.views import app_review as fetch_app_reviews
+from api.views import user_details as fetch_user_details
 from api.views import signout as signout_user
-from api.views import up_vote_app as upvote_review
-from api.views import down_vote_app as downvote_review
 from django.core.paginator import EmptyPage, Paginator
 from django.http.request import HttpRequest
 from django.shortcuts import redirect, render
@@ -158,3 +157,9 @@ def get_app(request: HttpRequest, app_id: str):
 def signout(request: HttpRequest):
     signout_user(request)
     return redirect(request.META["HTTP_REFERER"])
+
+
+def user_details(request: HttpRequest, username: str):
+    context = fetch_user_details(request, username).data
+    context["username"] = username
+    return render(request, "userPage.html", context)

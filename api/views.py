@@ -3,7 +3,6 @@ import random
 import requests
 import os
 
-from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.http.request import HttpRequest
 from django.views.decorators.cache import cache_page
@@ -247,4 +246,13 @@ def down_vote_app(request: HttpRequest, app_id: str, pk: int):
     review.down_voters.add(request.user)
     data["down_votes"] += 1
     data["message"] = "Down vote successful"
+    return Response(data)
+
+
+@api_view(["GET"])
+def user_details(request: HttpRequest, username: str):
+    user = User.objects.get(username=username)
+    reviews = user.review_set.all()
+    data = {}
+    data["reviews"] = ReviewSerializer(reviews, many=True).data
     return Response(data)
