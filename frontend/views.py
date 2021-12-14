@@ -108,6 +108,8 @@ def search(request: HttpRequest):
     )
 
 
+# caching here?
+# display messages in the review page
 def get_app(request: HttpRequest, app_id: str):
     if request.method == "POST":
         req = request.POST.dict()
@@ -120,9 +122,9 @@ def get_app(request: HttpRequest, app_id: str):
                 )
         res = submit_app_review(request, app_id, req)
         if res.status_code == 200:
-            messages.success(request, "Review Submission Successful")
+            messages.success(request, res.data["message"])
         else:
-            messages.error(request, "Review Submission Failed")
+            messages.error(request, res.data["message"])
         return redirect("front_get_app", app_id=app_id)
     context = {}
     context_app = {}
@@ -151,32 +153,6 @@ def get_app(request: HttpRequest, app_id: str):
     context["reviews"] = context["reviews"].data
     context["queries"] = context["queries"].data
     return render(request, "appInfoPage.html", context)
-
-
-def app_review(request: HttpRequest, app_id: str):
-    context = {}
-    if request.method == "POST":
-        req = request.POST.dict()
-        req["username"] = request.user.username
-        req["query_choices"] = []
-        for key, value in req.items():
-            if key.startswith("query: "):
-                req["query_choices"].append(
-                    {"query": key.removeprefix("query: "), "choice": value}
-                )
-        res = submit_app_review(request, app_id, req)
-        context["review"] = res.data
-        if res.status_code == 200:
-            messages.success(request, "Review Submission Successful")
-        else:
-            messages.error(request, "Review Submission Failed")
-    context["app"] = fetch_app_details(request, app_id).data
-    context["queries"] = fetch_app_review_queries(request, app_id).data
-    return render(
-        request,
-        "writeReview.html",
-        context,
-    )
 
 
 def signout(request: HttpRequest):

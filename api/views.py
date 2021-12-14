@@ -160,10 +160,10 @@ def app_review(request: HttpRequest, app_id: str, data: dict = None):
     res = {}
     if data is None:
         data = request.POST.copy()
-    if data["username"] != request.user.username:
+    if data["username"] == "":
         res["message"] = "Please login to submit a review"
         return Response(res, status.HTTP_400_BAD_REQUEST)
-    data['app_id'] = app_id
+    data["app_id"] = app_id
     serializer = ReviewSerializer(data=data)
     if serializer.is_valid():
         serializer.save()
