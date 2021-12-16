@@ -13,11 +13,14 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 import os
 import dotenv
+import sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 # load file with environment varibles
 dotenv_file = os.path.join(BASE_DIR, ".env")
+
 if os.path.isfile(dotenv_file):
     dotenv.load_dotenv(dotenv_file)
     # SECURITY WARNING: don't run with debug turned on in production!
@@ -33,9 +36,7 @@ SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 
 ALLOWED_HOSTS = ["smart-local-guide.herokuapp.com", "127.0.0.1", "localhost"]
 
-
 # Application definition
-
 INSTALLED_APPS = [
     "admin_interface",
     "colorfield",
@@ -87,18 +88,24 @@ WSGI_APPLICATION = "slgwebapp.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ["HEROKU_POSTGRES_DB_NAME"],
-        "USER": os.environ["HEROKU_POSTGRES_DB_USER"],
-        "PASSWORD": os.environ["HEROKU_POSTGRES_DB_PWD"],
-        "HOST": os.environ["HEROKU_POSTGRES_DB_HOST"],
-        "PORT": "5432",
+if "test" in sys.argv:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        },
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": os.environ["HEROKU_POSTGRES_DB_NAME"],
+            "USER": os.environ["HEROKU_POSTGRES_DB_USER"],
+            "PASSWORD": os.environ["HEROKU_POSTGRES_DB_PWD"],
+            "HOST": os.environ["HEROKU_POSTGRES_DB_HOST"],
+            "PORT": "5432",
+        },
+    }
 
 
 # Password validation
@@ -159,8 +166,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATIC_URL = "/static/"
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

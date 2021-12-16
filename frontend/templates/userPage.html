@@ -79,14 +79,14 @@
 				{% endif %}
 			</div>
 			<div class="votingForm flex-row">
-				<form action="{% url 'api_up_vote_app' review.app_id review.pk %}" class="upVoteForm" method="POST">
+				<form action="{% url 'api_up_vote_review' review.pk %}" class="upVoteForm" method="POST">
 					{% csrf_token %}
 					<button class="upVoteBtn btn">
 						<span class="fa fa-thumbs-up"></span>
 						<h3 class="thumbsup-count">{{ review.up_votes }}</h3>
 					</button>
 				</form>
-				<form action="{% url 'api_down_vote_app' review.app_id review.pk %}" class="downVoteForm" method="POST">
+				<form action="{% url 'api_down_vote_review' review.pk %}" class="downVoteForm" method="POST">
 					{% csrf_token %}
 					<button class="downVoteBtn btn">
 						<span class="fa fa-thumbs-down"></span>

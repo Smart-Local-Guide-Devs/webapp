@@ -5,7 +5,7 @@ header {
 
 header::before {
 	content: "";
-	background-image: url(../imgs/imageonline-co-whitebackgroundremoved.png);
+	background-image: url(../imgs/bg.png);
 	background-size: contain;
 	background-repeat: no-repeat;
 	z-index: -1;
