@@ -9,6 +9,8 @@ on:
 jobs:
     build:
         runs-on: ${{ matrix.os }}
+        env:
+            DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
         strategy:
             max-parallel: 4
             matrix:
