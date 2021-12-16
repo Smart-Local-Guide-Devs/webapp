@@ -8,7 +8,7 @@ urlpatterns = [
     path("app/<str:app_id>/similar", views.similar_apps, name="api_similar_apps"),
     path("app/<str:app_id>/review", views.app_review, name="api_app_reviews"),
     path(
-        "review/<int:review_pk>",
+        "review/<int:review_pk>/delete",
         views.delete_review,
         name="api_delete_review",
     ),
@@ -23,14 +23,14 @@ urlpatterns = [
     ),
     path("app/<str:app_id>", views.api_app, name="api_app"),
     path(
-        "app/<str:app_id>/review/<int:review_pk>/up_vote",
-        views.up_vote_app,
-        name="api_up_vote_app",
+        "review/<int:review_pk>/up",
+        views.up_vote_review,
+        name="api_up_vote_review",
     ),
     path(
-        "app/<str:app_id>/review/<int:review_pk>/down_vote",
-        views.down_vote_app,
-        name="api_down_vote_app",
+        "review/<int:review_pk>/down",
+        views.down_vote_review,
+        name="api_down_vote_review",
     ),
     path("user/<str:username>", views.user_details, name="api_user_details"),
 ]
