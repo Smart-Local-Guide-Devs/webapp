@@ -47,3 +47,36 @@ stateSelect.addEventListener("change", () => {
 		});
 	}
 });
+
+citySelect.addEventListener("change", () => {
+	sessionStorage.setItem("locationState", stateSelect.value)
+	sessionStorage.setItem("locationCity", citySelect.value)
+	let appInfoPage = document.querySelector("#stateSelectAppInfo")
+	if (appInfoPage != null) {
+		stateSelectAppInfo.value = stateSelect.value
+		let changeEvent = new Event("change")
+		stateSelectAppInfo.dispatchEvent(changeEvent)
+		citySelectAppInfo.value = citySelect.value
+	}
+})
+
+// geoplugin functions
+function setLocation() {
+	if (geoplugin_status() != '200') {
+		return "Unable to set location"
+	}
+	stateSelect.value = geoplugin_region()
+	let changeEvent = new Event("change")
+	stateSelect.dispatchEvent(changeEvent)
+	citySelect.value = geoplugin_city()
+}
+
+if (sessionStorage.getItem("locationState") != null) {
+	stateSelect.value = sessionStorage.getItem("locationState")
+	let changeEvent = new Event("change")
+	stateSelect.dispatchEvent(changeEvent)
+	citySelect.value = sessionStorage.getItem("locationCity")
+}
+else {
+	setLocation()
+}

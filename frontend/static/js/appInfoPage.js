@@ -40,6 +40,18 @@ stateSelectAppInfo.addEventListener("change", () => {
 	}
 });
 
+if (sessionStorage.getItem("locationState") != null) {
+	stateSelectAppInfo.value = sessionStorage.getItem("locationState")
+	let changeEvent = new Event("change")
+	stateSelectAppInfo.dispatchEvent(changeEvent)
+	citySelectAppInfo.value = sessionStorage.getItem("locationCity")
+}
+
+citySelectAppInfo.addEventListener("change", () => {
+	sessionStorage.setItem("locationState", stateSelectAppInfo.value)
+	sessionStorage.setItem("locationCity", citySelectAppInfo.value)
+})
+
 const appReviewForm = document.forms.namedItem("appReviewForm");
 const appReviewBtn = appReviewForm.querySelector("#appReviewBtn");
 appReviewForm.addEventListener("submit", async function (e) {
