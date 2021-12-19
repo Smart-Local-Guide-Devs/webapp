@@ -69,6 +69,7 @@ function setLocation() {
 	let changeEvent = new Event("change")
 	stateSelect.dispatchEvent(changeEvent)
 	citySelect.value = geoplugin_city()
+	citySelect.dispatchEvent(changeEvent)
 }
 
 if (sessionStorage.getItem("locationState") != null) {
