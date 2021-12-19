@@ -76,17 +76,17 @@ You can find the [api guide](https://github.com/Smart-Local-Guide-Devs/webapp/bl
         </a>
     </td>
     <td align="center">
-        <a href="https://github.com/manan2110">
-            <img src="https://avatars.githubusercontent.com/u/55996661?v=4" width="100;" alt="manan2110"/>
-            <br />
-            <sub><b>Manan Gyanchandani</b></sub>
-        </a>
-    </td>
-    <td align="center">
         <a href="https://github.com/WhyBangad">
             <img src="https://avatars.githubusercontent.com/u/53820396?v=4" width="100;" alt="WhyBangad"/>
             <br />
             <sub><b>WhyBangad</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/manan2110">
+            <img src="https://avatars.githubusercontent.com/u/55996661?v=4" width="100;" alt="manan2110"/>
+            <br />
+            <sub><b>Manan Gyanchandani</b></sub>
         </a>
     </td>
     <td align="center">
