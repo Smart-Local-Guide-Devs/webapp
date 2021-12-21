@@ -60,15 +60,16 @@ citySelect.addEventListener("change", () => {
 	}
 })
 
-// geoplugin functions
-function setLocation() {
-	if (geoplugin_status() != '200') {
-		return "Unable to set location"
-	}
-	stateSelect.value = geoplugin_region()
+async function getLocation() {
+	const res = await fetch("https://geolocation-db.com/json/")
+	return res.json()
+}
+
+function setLocation(dict) {
+	stateSelect.value = dict['state']
 	let changeEvent = new Event("change")
 	stateSelect.dispatchEvent(changeEvent)
-	citySelect.value = geoplugin_city()
+	citySelect.value = dict['city']
 	citySelect.dispatchEvent(changeEvent)
 }
 
@@ -79,5 +80,9 @@ if (sessionStorage.getItem("locationState") != null) {
 	citySelect.value = sessionStorage.getItem("locationCity")
 }
 else {
-	setLocation()
+	getLocation().then(dict => {
+		setLocation(dict)
+	}).catch(err => {
+		console.log(err)
+	})
 }
