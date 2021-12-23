@@ -4,7 +4,7 @@ h2 {
 
 .review {
 	min-width: 80%;
-	margin: 2em;
+	margin-block: 2em;
 }
 
 .tile {

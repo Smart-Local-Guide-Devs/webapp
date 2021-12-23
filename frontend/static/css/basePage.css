@@ -1,8 +1,13 @@
 :root {
-	--clr-black: hsla(220, 48%, 26%, 1);
-	--clr-accent: hsla(222, 82%, 70%, 1);
-	--clr-white: hsla(206, 62%, 95%, 1);
-	--clr-comp: hsla(24, 91%, 62%, 1);
+	--clr-black: hsla(220, 48%, 10%, 1);
+	--clr-accent: hsla(222, 82%, 60%, 1);
+	--clr-white: hsla(206, 62%, 90%, 1);
+	--clr-comp: hsla(24, 91%, 55%, 1);
+}
+
+.dark-mode {
+	--clr-black: hsla(206, 62%, 90%, 1);
+	--clr-white: hsla(220, 48%, 10%, 1);
 }
 
 *,
@@ -22,7 +27,7 @@ html {
 section,
 header,
 footer {
-	padding: 2em 3em;
+	padding: 2em;
 	background-color: var(--clr-white);
 }
 
@@ -108,7 +113,7 @@ input[type="range"]:focus::-webkit-slider-thumb {
 	z-index: 1000;
 	color: var(--clr-black);
 	top: 1em;
-	right: 0.5em;
+	right: 0;
 	font-size: x-large;
 	padding: 0.25em;
 }
@@ -191,7 +196,7 @@ footer a {
 	background-color: var(--clr-accent);
 	border-radius: 0.5em;
 	box-shadow: inset 0 0 0.75em 0 var(--clr-black);
-	padding: 2em;
+	padding: min(2em, 5vw);
 }
 
 .tile {
