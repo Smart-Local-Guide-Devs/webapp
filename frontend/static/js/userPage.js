@@ -14,8 +14,8 @@ for (const votingForm of document.querySelectorAll(".votingForm")) {
 }
 
 for (let deleteReviewForm of document.querySelectorAll(".deleteReviewForm")) {
-	let downVoteBtn = deleteReviewForm.querySelector(".deleteReviewBtn");
-	makeFormAsync(deleteReviewForm, downVoteBtn, (res) => {
+	let deleteReviewBtn = deleteReviewForm.querySelector(".deleteReviewBtn");
+	makeFormAsync(deleteReviewForm, deleteReviewBtn, (res) => {
 		if (res.status == 200) {
 			deleteReviewForm.parentElement.parentElement.remove();
 		}
