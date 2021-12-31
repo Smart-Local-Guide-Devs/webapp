@@ -35,3 +35,21 @@ addAppForm.addEventListener("submit", async function (e) {
 	}
 	return false;
 });
+
+let options = {
+	threshold: 0.2,
+	root: null,
+}
+
+let observer = new IntersectionObserver((entries, observer) => {
+	entries.forEach(entry => {
+		entry.target.classList.toggle('visible', entry.isIntersecting);
+		if (entry.target.classList.contains('visible')) {
+			observer.unobserve(entry.target);
+		}
+	});
+}, options);
+
+document.querySelectorAll(".app-card").forEach(card => {
+	observer.observe(card)
+})

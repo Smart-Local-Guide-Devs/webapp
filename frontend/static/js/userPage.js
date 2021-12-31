@@ -21,3 +21,21 @@ for (let deleteReviewForm of document.querySelectorAll(".deleteReviewForm")) {
 		}
 	});
 }
+
+let options = {
+	threshold: 0.2,
+	root: null,
+}
+
+let observer = new IntersectionObserver((entries, observer) => {
+	entries.forEach(entry => {
+		entry.target.classList.toggle('visible', entry.isIntersecting);
+		if (entry.target.classList.contains('visible')) {
+			observer.unobserve(entry.target);
+		}
+	});
+}, options);
+
+document.querySelectorAll(".review").forEach(review => {
+	observer.observe(review)
+})

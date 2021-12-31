@@ -5,6 +5,14 @@ h2 {
 .review {
 	min-width: 80%;
 	margin-block: 2em;
+	transform: translateX(100px);
+	opacity: 0;
+	transition: 150ms;
+}
+
+.review.visible {
+	transform: translateX(0);
+	opacity: 1;
 }
 
 .tile {

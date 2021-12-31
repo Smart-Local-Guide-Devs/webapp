@@ -10,6 +10,17 @@
 	margin: 0 auto;
 }
 
+.app-card{
+	transform: translateX(100px);
+	opacity: 0;
+	transition: 150ms;
+}
+
+.app-card.visible{
+	opacity: 1;
+	transform: translateX(0);
+}
+
 .search-input {
 	box-shadow: none;
 	border: none;
